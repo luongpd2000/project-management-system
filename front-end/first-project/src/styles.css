@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 /* this is main.css */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-body{
-    font-family: 'Raleway', sans-serif;
-    background: #f9f9f9;
+body{    font-family: 'Raleway', sans-serif;    background: #f9f9f9;}
+
+button{
+    margin-right: 5px;
 }
 
 .p-30{
@@ -268,8 +268,7 @@ body{
 
 }
 
-button{
-    margin-right: 5px;
-}
+
+
 
 

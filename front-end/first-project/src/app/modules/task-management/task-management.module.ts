@@ -6,11 +6,11 @@ import { TaskManagementComponent } from './task-management.component';
 import { AddUserToProjectComponent } from './add-user-to-project/add-user-to-project.component';
 
 
+
 @NgModule({
   declarations: [
     TaskManagementComponent,
-    AddUserToProjectComponent
-  ],
+    AddUserToProjectComponent  ],
   imports: [
     CommonModule,
     TaskManagementRoutingModule

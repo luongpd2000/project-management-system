@@ -1,0 +1,302 @@
+    
+    <main class="content-wrapper">
+        <div class="container p-30">
+            <div class="section-body">
+                <div class="container " style="padding-bottom: 30px">
+                  <h1>Task Name</h1>
+                  <div class="group-btn" style="margin-top: 30px;">
+                    <button type="button" class="btn btn-primary "data-toggle="modal" data-target="#new-task">Edit</button>
+                    <button type="button" class="btn btn-danger ">Delete</button>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="col-6 py-1"><strong>Created:</strong></div>
+                      <div class="col-6 py-1">09 Jun 2019 11:32AM</div>
+                      <div class="col-6 py-1"><strong>Creator:</strong></div>
+                      <div class="col-6 py-1">Nathan Guerrero</div>
+                      <div class="col-6 py-1"><strong>Todo:</strong></div>
+                      <div class="col-6 py-1"><strong>32</strong></div>
+                      <div class="col-6 py-1"><strong>Bug:</strong></div>
+                      <div class="col-6 py-1"><strong>5</strong></div>
+                      <div class="col-6 py-1"><strong>Team size:</strong></div>
+                      <div class="col-6 py-1">
+                        <span class="avatar avatar-sm">+8</span>
+                      </div>
+                      <div class="col-6 py-1"><strong>Members:</strong></div>
+                      <div class="col-6 py-1"><strong>Lương, Tuyên</strong></div>
+                      <div class="col-6 py-1"><strong>Status</strong></div>
+                      <div class="col-6 py-1"><strong><span class="badge badge-success">Done</span></strong></div>
+                    </div>
+                  </div>
+    
+          
+                </div>
+            <div class="row">
+                
+                <div class="col-md-12 main-datatable">
+                    <div class="card_body">
+                        <div class="task-list">Todo List</div>
+                        <div class="row d-flex">
+                            <div class=" col-sm-4 group-btn ">
+                                                            
+                                <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">New Todo</button>
+                                <button class="btn btn-secondary" >Task List</button>
+                                
+                            </div>
+                            
+                            <div class="col-sm-8 add_flex">
+                                <div class="form-group searchInput">
+                                    <label for="email">Search:</label>
+                                    <input type="search" class="form-control" id="filterbox" placeholder=" ">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="overflow-x">
+
+                            <table style="width:100%; " id="filtertable"
+                                class="table cust-datatable dataTable no-footer">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width:20px; max-width: 50;">ID</th>
+                                        <th style="min-width:150px;">Name</th>
+                                        <th style="min-width:150px;">Priority</th>
+                                        <th style="min-width:100px;">Manager</th>
+                                        <th style="min-width:100px;">Due to</th>
+                                        <th style="min-width:150px;">Status</th>
+                                        <th style="min-width:150px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Task1</td>
+                                        <td><span class="mode mode_high">High</span></td>
+                                        <td>Vũ Đức Tuyên</td>
+                                        <td>17-Apr-2020</td>
+                                        <td><span class="mode mode_working">Working</span></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+                                                Details
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Task2</td>
+                                        <td><span class="mode mode_normal">Normal</span></td>
+                                        <td>Vũ Đức Tuyên</td>
+                                        <td>17-Apr-2020</td>
+                                        <td><span class="mode mode_done">Done</span></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+                                                Details
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Task1</td>
+                                        <td><span class="mode mode_low">Low</span></td>
+                                        <td>Vũ Đức Tuyên</td>
+                                        <td>17-Apr-2020</td>
+                                        <td><span class="mode mode_working">Working</span></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+                                                Details
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Task5</td>
+                                        <td><span class="mode mode_high">High</span></td>
+                                        <td>Vũ Đức Tuyên</td>
+                                        <td>17-Apr-2020</td>
+                                        <td><span class="mode mode_reviewing">Reviewing</span></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+                                                Details
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+    <main class="content-wrapper"> 
+          <!--to do Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Todo Details</h5>
+                  <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+              
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-3 col-form-label">Todo Name<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="Text" class="form-control" id="inputName" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
+                        <div class="col-md-9" style="display: flex;">
+                            <input type="text" class="form-control datepicker" name="date" value="" >
+                            
+                            <span style="padding: 10px;">To</span>
+                            <input type="text" class="form-control datepicker" name="date" value="" >
+                           
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>High</option>
+                                <option>Normal</option>
+                                <option>Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
+                        <div class="col-md-9">
+                            <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">
+                            Assign for<span class="text-danger">*</span></label>
+             
+                        <div class="col-md-9">
+                            <select class="selectpicker" data-live-search="true" title="Select User">
+                                
+                                <option data-tokens="">User1</option>
+                                <option data-tokens="">User2</option>
+                                <option data-tokens="">User3</option>
+                              </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">
+                            Status<span class="text-danger">*</span></label>
+            
+                        <div class="col-md-7">
+                            <select class="custom-select mr-sm-2" id="">
+                                <option selected>Status</option>
+                                <option value="1">Draft</option>
+                                <option value="2">Pending</option>
+                                <option value="3">Working</option>
+                                <option value="4">Reviewing</option>
+                                <option value="5">Done</option>
+                              </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Modal End -->
+                 <!-- modal new task -->
+                 <!-- Modal -->
+
+                 <div class="modal fade" id="new-task" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Task Details</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label for="inputName" class="col-sm-3 col-form-label">Task Name<span
+                                        class="text-danger">*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="Text" class="form-control" id="inputName" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
+                                <div class="col-md-9" style="display: flex;">
+                                    <input type="text" class="form-control datepicker" name="date" value="" >
+                                    
+                                    <span style="padding: 10px;">To</span>
+                                    <input type="text" class="form-control datepicker" name="date" value="" >
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
+                                        class="text-danger">*</span></label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                        <option>High</option>
+                                        <option>Normal</option>
+                                        <option>Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
+                                <div class="col-md-9">
+                                    <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">
+                                    Assign for<span class="text-danger">*</span></label>
+                   
+                                <div class="col-md-9">
+                                    <select class="selectpicker" data-live-search="true" title="Select User">
+                                        
+                                        <option data-tokens="">User1</option>
+                                        <option data-tokens="">User2</option>
+                                        <option data-tokens="">User3</option>
+                                      </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">
+                                    Status<span class="text-danger">*</span></label>
+               
+                                <div class="col-md-7">
+                                    <select class="custom-select mr-sm-2" id="">
+                                        <option selected>Status</option>
+                                        <option value="1">Draft</option>
+                                        <option value="2">Pending</option>
+                                        <option value="3">Working</option>
+                                        <option value="4">Reviewing</option>
+                                        <option value="5">Done</option>
+                                      </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+         <!-- modal new task END -->
+
+    </main>

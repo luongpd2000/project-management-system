@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 /* this is main.css */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-body{
-    font-family: 'Raleway', sans-serif;
-    background: #f9f9f9;
+body{    font-family: 'Raleway', sans-serif;    background: #343a40;}
+
+button{
+    margin-right: 5px;
 }
 
 .p-30{
@@ -201,30 +201,30 @@ body{
     font-size:11px;
     letter-spacing: 0.4px;
 }
-.mode_on, .mode_done{
+ .mode_done{
     background-color: #09922d;
 }
-.mode_off{
-    background-color: #8b9096;
-}
+
  .mode_reviewing{
     background-color: #ff8000;
 }
 .mode_high, .mode_working{
-    background-color: rgb(233, 30, 30)
+    background-color: #e52000;
 }
 .mode_normal{
-    background-color: rgb(73, 73, 199)
+    background-color: #1e6793;
 }
 .mode_low{
     background-color:rgb(90, 87, 87)
 }
 .mode_draft{
-
+    background-color: #8b9096;
 }
 .mode_pending{
-
+    background-color: #ed6476
 }
+
+
 
 /* .mode_done{
     background-color: #03a9f3;
@@ -250,6 +250,15 @@ body{
     font-weight: 600;
     
 }
+
+.footer {
+    width: calc(100% - 230px);
+    margin-left: 230px;
+    background: #343a40;
+    padding: 50px;
+    font-size: 30px;
+    color: white;
+  }
 /* END Plus */
 @media only screen and (max-width:1200px){
     .overflow-x{
@@ -268,8 +277,7 @@ body{
 
 }
 
-button{
-    margin-right: 5px;
-}
+
+
 
 

@@ -4,8 +4,11 @@ package com.projectmanager.service.service_impl;
 import com.projectmanager.common.CustomUserDetails;
 import com.projectmanager.entity.User;
 import com.projectmanager.repository.UserRepository;
+import com.projectmanager.service.GeneralService;
 import com.projectmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,8 +56,42 @@ public class UserServiceImpl implements UserService {
                 u.getEncryptedPassword(), authorities);
     }
 
+//    @Override
+//    public User createUser(User u) {
+//        u.setEncryptedPassword(bCryptPasswordEncoder.encode(u.getPassword()));
+//        u.setAdmin(false);
+//        u.setDelete(false);
+//        u.setCreateDate(Date.valueOf(LocalDate.now()));
+//        return userRepository.save(u);
+//    }
+
     @Override
-    public User createUser(User u) {
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Page findByCreateUser(Long id, Pageable pageable) {
+        return null;
+    }
+
+//    @Override
+//    public List<User> findAll() {
+//        return userRepository.findAll();
+//    }
+
+    @Override
+    public Page<User> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public User create(User u) {
         u.setEncryptedPassword(bCryptPasswordEncoder.encode(u.getPassword()));
         u.setAdmin(false);
         u.setDelete(false);
@@ -63,12 +100,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public boolean update(User user) {
+        return false;
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public boolean delete(User user) {
+        return false;
     }
 }

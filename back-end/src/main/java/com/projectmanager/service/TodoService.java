@@ -1,4 +1,6 @@
 package com.projectmanager.service;
 
-public interface TodoService {
+import com.projectmanager.entity.Todo;
+
+public interface TodoService extends GeneralService<Todo> {
 }

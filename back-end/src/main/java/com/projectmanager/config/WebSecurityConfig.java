@@ -40,9 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/login").permitAll()
                 //.antMatchers(HttpMethod.POST, "/api/v1/project/createUser").permitAll()
                 //.antMatchers(HttpMethod.GET, "/api/v1/project/projectList").permitAll()
-                //.antMatchers(HttpMethod.GET, "/api/v1/project/userList").permitAll()
-                .antMatchers("/admin").hasAnyAuthority("ROLE")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
+                //.anyRequest().authenticated()
+                //.antMatchers("/admin").hasAnyAuthority("ROLE")
                 .and().addFilter(getAuthenticationFilter())
                 .addFilter(new AuthorizationFilter(authenticationManager(), getApplicationContext()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-@Data
 public class CustomUserDetails implements UserDetails {
 
     private User user;
@@ -27,7 +26,6 @@ public class CustomUserDetails implements UserDetails {
             System.out.println("user");
             authorities.add(new SimpleGrantedAuthority("USER"));
         }
-        //if (authorities.isEmpty()) authorities.add(new SimpleGrantedAuthority("USER"));
         return authorities;
     }
 
@@ -61,10 +59,5 @@ public class CustomUserDetails implements UserDetails {
         return user.getDelete();
     }
 
-    @Override
-    public String toString() {
-        return "CustomUserDetails{" +
-                "user=" + user +
-                '}';
-    }
+
 }

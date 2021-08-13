@@ -1,5 +1,6 @@
 package com.projectmanager.service.service_impl;
 
+//import com.projectmanager.common.CustomUserDetails;
 import com.projectmanager.common.CustomUserDetails;
 import com.projectmanager.entity.User;
 import com.projectmanager.repository.UserRepository;
@@ -36,7 +37,20 @@ public class UserServiceImpl implements UserService {
         if(u == null) {
             throw new UsernameNotFoundException("User not found for username: " + username);
         }
-        return new CustomUserDetails(u);
+        //return new CustomUserDetails(u);
+
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+        if(u.getAdmin()){
+            System.out.println("admin");
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }else {
+            System.out.println("user");
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+
+       return new org.springframework.security.core.userdetails.User(u.getUsername(),
+                u.getEncryptedPassword(), authorities);
     }
 
     @Override

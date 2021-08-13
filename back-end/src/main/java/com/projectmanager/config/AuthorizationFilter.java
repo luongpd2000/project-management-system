@@ -1,10 +1,11 @@
 package com.projectmanager.config;
 
-import com.projectmanager.common.CustomUserDetails;
+//import com.projectmanager.common.CustomUserDetails;
 import com.projectmanager.service.UserService;
 import com.projectmanager.service.service_impl.UserServiceImpl;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,9 +20,11 @@ import java.util.ArrayList;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
+    private final ApplicationContext ctx;
 
-    public AuthorizationFilter(AuthenticationManager authenticationManager) {
+    public AuthorizationFilter(AuthenticationManager authenticationManager, ApplicationContext ctx) {
         super(authenticationManager);
+        this.ctx = ctx;
     }
 
     @Override
@@ -47,19 +50,12 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
             token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
 
-            String user = Jwts.parser().setSigningKey(SecurityConstants.TOKEN_SECRET).parseClaimsJws(token).getBody()
-                    .getSubject();
+            String user = Jwts.parser().setSigningKey(SecurityConstants.TOKEN_SECRET).parseClaimsJws(token).getBody().getSubject();
+            UserService userService = ctx.getBean(UserService.class);
 
             if (user != null) {
                 System.out.println(user);
-                UserServiceImpl userService = new UserServiceImpl();
-                CustomUserDetails userDetails = new CustomUserDetails(userService.findByUsername(user));
-//                try {
-//                    userDetails = (CustomUserDetails) userService.loadUserByUsername(user);
-//                }catch (Exception exception){
-//                    exception.printStackTrace();
-//                }
-                return new UsernamePasswordAuthenticationToken(user, null, userDetails.getAuthorities());
+                return new UsernamePasswordAuthenticationToken(user, null,userService.loadUserByUsername(user).getAuthorities());
             }
 
             return null;

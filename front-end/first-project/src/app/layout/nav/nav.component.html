@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Project Manager</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarCollapse"
+      aria-controls="navbarCollapse"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+        <li class="nav-item active sidebar-item">
+          <a class="nav-link " routerLink="project-manager">My Project<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item sidebar-item">
+          <a class="nav-link" routerLink="project-manager">Project Manager</a>
+        </li>
+        <li class="nav-item sidebar-item">
+          <a class="nav-link" routerLink="user-manager">User Manager</a>
+        </li>
+        <li class="nav-item sidebar-item">
+          <a class="nav-link" routerLink="my-task">My Task</a>
+        </li>
+
+        <li class="nav-item sidebar-item">
+          <a class="nav-link" routerLink="my-todo">My Todo</a>
+        </li>
+      </ul>
+      <div class="btn-group" style="margin-left: auto;">
+
+        <button type="button" class="btn btn-primary" routerLink="myaccount">Account</button>
+        <button type="button" class="btn btn-primary">Logout</button>
+    </div>
+    </div>
+  </nav>
+  <script>
+      $(document).ready(function() {
+  $('.nav-link-collapse').on('click', function() {
+    $('.nav-link-collapse').not(this).removeClass('nav-link-show');
+    $(this).toggleClass('nav-link-show');
+  });
+});
+  </script>

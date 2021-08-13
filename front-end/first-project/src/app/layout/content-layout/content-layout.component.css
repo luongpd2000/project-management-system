@@ -1,0 +1,124 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+a,a:hover{
+  text-decoration: none;
+}
+body {
+  padding-top: 4.5rem;
+  margin-bottom: 4.5rem;
+  background: #f9f9f9;
+}
+
+button{
+  margin-right: 5px;
+}
+
+.form-group{
+  margin-bottom: 20px;
+} 
+.group-btn{
+  margin-left: auto;
+}
+
+.collapse button{
+  margin-right: 10px;
+}
+
+
+.nav-link:hover {
+transition: all 0.4s;
+}
+
+.nav-link-collapse:after {
+float: right;
+font-family: "fontawesome"; 
+    font-weight: 400;
+    content: "\f107";
+}
+
+.nav-link-show:after {
+float: right;
+font-family: "fontawesome"; 
+    font-weight: 400;
+    content: "\f106";
+}
+
+.nav-item ul.nav-second-level {
+padding-left: 0;
+}
+
+.nav-item ul.nav-second-level > .nav-item {
+padding-left: 20px;
+}
+.sidebar-item{
+  padding-left:25px
+}
+.sidebar-item:hover{
+  background-color: #ccc;
+  
+}
+
+.sidebar-item:hover  .nav-link{
+  color: #131414!important;
+}
+
+.form-check{
+  position: relative;
+}
+.form-check input{
+  position:absolute;top: 50% ; transform: translateY(-50%)
+}
+
+
+@media (min-width: 992px) {
+.sidenav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 230px;
+  height: calc(100vh - 3.5rem);
+  margin-top: 3.5rem;
+  background: #343a40;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.navbar-expand-lg .sidenav {
+  flex-direction: column;
+}
+
+.content-wrapper {
+  margin-left: 230px;
+  margin-top: 60px;
+  background-color: #f9f9f9;
+}
+}
+/* project-manager.css */
+a{
+  text-decoration: none!important;
+ 
+}
+a.link-detail {
+  text-decoration: none;
+  color: black;
+}
+
+.group-btn-1{
+  display: flex;
+}
+
+.group-btn-1 button{
+  margin-right: 20px;
+}
+.content-layout{
+margin-top: 60px;
+}
+/*this is task-list.css */
+
+
+
+
+
+

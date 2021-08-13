@@ -1,0 +1,61 @@
+<main class="content-wrapper">
+  <div class="container p-30">
+    <div class="row">
+      <div class="col-md-12 main-datatable">
+        <div class="card_body">
+          <div class="task-list" >User List</div>
+          <div class="row d-flex">
+            <div class="col-sm-4 createSegment">
+              <a class="btn dim_button create_new"  data-toggle="modal" data-target="#new-user"> <span class="glyphicon glyphicon-plus"></span>New User</a>
+            </div>
+            <div class="col-sm-8 add_flex">
+              <!-- <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search this blog">
+                  <div class="input-group-append">
+                    <button class="btn btn-secondary" type="button">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>
+                </div> -->
+                <div class="form-group searchInput">
+                  <label for="email">Search:</label>
+                  <input type="search" class="form-control" id="filterbox" placeholder=" ">
+                </div>
+            </div>
+          </div>
+          <div class="overflow-x">
+            <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
+              <thead>
+                <tr>
+                  <th style="min-width:20px; max-width: 50;">ID</th>
+                  <th style="min-width:150px;">Name</th>
+                  <th style="min-width:150px;">Email</th>
+                  <th style="min-width:100px;">Phone</th>
+                  <th style="min-width:100px;">Create date</th>
+                  <th style="min-width:150px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Vũ Đức Tuyên</td>
+                  <td>vutuyenkt2000@gmail.com</td>
+                  <td>0987676575</td>
+                  <td>17-Apr-2020</td>
+                  <td>
+                      <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#new-user">
+                        Details
+                      </button>
+                    
+                  </td>
+                </tr>
+  
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+

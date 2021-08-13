@@ -94,11 +94,6 @@ padding-left: 20px;
   margin-top: 60px;
   background-color: #f9f9f9;
 }
-
-.footer {
-  width: calc(100% - 230px);
-  margin-left: 230px;
-}
 }
 /* project-manager.css */
 a{

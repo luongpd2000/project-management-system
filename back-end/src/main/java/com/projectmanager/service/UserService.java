@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService, GeneralService<User> {
-    //User createUser(User u);
-    Optional<User> findByUsername(String username);
-    Page<User> findByCreateUser(Long id, Pageable pageable);
 
-    //boolean delete(User user);
-    //List<User> findAll();
+    Optional<User> findByUsername(String username);
+
+    Page<User> findByCreateUser(Long id, Pageable pageable);
 }

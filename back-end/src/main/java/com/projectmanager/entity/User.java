@@ -7,6 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.*;
@@ -51,7 +53,8 @@ public class User implements Serializable {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @Column(name = "create_user", nullable = false)
+    @NotNull
+    @Column(name = "create_user")
     private Integer createUser;
 
     @Column(name = "encrypted_password")

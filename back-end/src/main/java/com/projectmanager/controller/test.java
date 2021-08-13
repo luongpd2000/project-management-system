@@ -1,6 +1,7 @@
 package com.projectmanager.controller;
 
 import com.projectmanager.entity.User;
+import com.projectmanager.service.ProjectService;
 import com.projectmanager.service.UserService;
 import com.projectmanager.service.service_impl.ProjectServiceImpl;
 import com.projectmanager.service.service_impl.TestService;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/project")
 public class test {
 
-    @Autowired
-    ProjectServiceImpl projectService;
+//    @Autowired
+//    ProjectService projectService;
 
     @Autowired
     TestService testService;
@@ -25,7 +26,7 @@ public class test {
 
     @GetMapping("/user/projectList")
     public ResponseEntity<?> projectList(){
-        return ResponseEntity.ok(projectService.findAll());
+        return ResponseEntity.ok("sa");
     }
 
     @GetMapping("/admin/taskList")

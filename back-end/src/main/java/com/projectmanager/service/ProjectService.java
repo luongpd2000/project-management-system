@@ -1,4 +1,6 @@
 package com.projectmanager.service;
 
-public interface ProjectService {
+import com.projectmanager.entity.Project;
+
+public interface ProjectService extends GeneralService<Project> {
 }

@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> u = userRepository.findByUsername(username);
-        if(u.isPresent()) {
+        Optional<User> u = userRepository.findByUsernameAndDeleteIsFalse(username);
+        if(!u.isPresent()) {
             throw new UsernameNotFoundException("User not found for username: " + username);
         }
         //return new CustomUserDetails(u);
@@ -52,31 +52,34 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+
     @Override
     public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsernameAndDeleteIsFalse(username);
     }
 
     @Override
     public Page<User> findByCreateUser(Long id, Pageable pageable) {
-        return userRepository.findByCreateUser(id,pageable);
+        return userRepository.findByCreateUserAndDeleteIsFalse(id,pageable);
     }
 
 
     @Override
     public Page<User> getAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return userRepository.findAllByDeleteIsFalse(pageable);
     }
 
     @Override
     public Optional<User> findById(Long id) {
-        return userRepository.findById(Math.toIntExact(id));
+        return userRepository.findByIdAndDeleteIsFalse(id);
     }
 
     @Override
     public User create(User u) {
-        Optional<User> user = userRepository.findByUsername(u.getUsername());
-        if(user.isPresent()) {
+        Optional<User> user = userRepository.findByUsernameAndDeleteIsFalse(u.getUsername());
+        //System.out.println(user);
+        if(!user.isPresent()) {
             u.setEncryptedPassword(bCryptPasswordEncoder.encode(u.getPassword()));
             u.setAdmin(false);
             u.setDelete(false);
@@ -88,8 +91,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(User u) {
-        Optional<User> user = userRepository.findByUsername(u.getUsername());
-        if(user.isPresent()) {
+        Optional<User> user = userRepository.findByUsernameAndDeleteIsFalse(u.getUsername());
+        if(!user.isPresent()) {
             return false;
         }else {
             user.get().setAddress(u.getAddress());
@@ -103,10 +106,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean delete(Long id) {
         Optional<User> user = userRepository.findById(Math.toIntExact(id));
-        if(user.isPresent()) {
+        if(!user.isPresent()) {
             return false;
         }else {
-            userRepository.deleteById(Math.toIntExact(id));
+            user.get().setDelete(true);
+            userRepository.save(user.get());
         }
         return true;
     }

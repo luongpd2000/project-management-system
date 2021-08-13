@@ -22,10 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -68,15 +65,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                         .compact();
 
 
-        User user = userService.findByUsername(username);
+        Optional<User> user = userService.findByUsername(username);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"" + SecurityConstants.HEADER_STRING + "\":\""
                 + SecurityConstants.TOKEN_PREFIX + token + "\","
                 + "\"username\":\"" + username + "\","
-                + "\"id\":" + String.valueOf(user.getId() + ",")
-                +"\"admin\": " + user.getAdmin()
+                + "\"id\":" + String.valueOf(user.get().getId() + ",")
+                +"\"admin\": " + user.get().getAdmin()
                 + "}");
     }
 

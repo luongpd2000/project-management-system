@@ -12,5 +12,5 @@ public interface UserService extends UserDetailsService, GeneralService<User> {
 
     Optional<User> findByUsername(String username);
 
-    Page<User> findByCreateUser(Long id, Pageable pageable);
+    Page<User> findByCreateUser(Integer id, Pageable pageable);
 }

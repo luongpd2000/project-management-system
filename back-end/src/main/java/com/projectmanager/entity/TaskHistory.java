@@ -32,16 +32,22 @@ public class TaskHistory implements Serializable {
     @Column(name = "update_date", nullable = false)
     private Timestamp updateDate;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "update_user",referencedColumnName = "id")
-    @Nullable
-    private User updateUser;
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "update_user",referencedColumnName = "id")
+//    @Nullable
+//    private User updateUser;
+//
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "task_id",referencedColumnName = "id")
+//    @Nullable
+//    private Task task;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "task_id",referencedColumnName = "id")
-    @Nullable
-    private Task task;
+    @Column(name = "update_user", nullable = false)
+    private Integer updateUser;
+
+    @Column(name = "task_id", nullable = false)
+    private Integer taskId;
 
 }

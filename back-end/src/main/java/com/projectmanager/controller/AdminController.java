@@ -31,12 +31,12 @@ public class AdminController {
     }
 
     @GetMapping("/findUserById/{id}")
-    public ResponseEntity<?> findUserById(@PathVariable Long id){
+    public ResponseEntity<?> findUserById(@PathVariable Integer id){
         return ResponseEntity.ok(userService.findById(id));
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+    public ResponseEntity<?> deleteUser(@PathVariable Integer id){
         return ResponseEntity.ok(userService.delete(id));
     }
 }

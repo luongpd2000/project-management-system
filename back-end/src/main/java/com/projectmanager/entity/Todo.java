@@ -43,11 +43,14 @@ public class Todo implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "task_id",referencedColumnName = "id")
-    @Nullable
-    private Task task;
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "task_id",referencedColumnName = "id")
+//    @Nullable
+//    private Task task;
+
+    @Column(name = "task_id", nullable = false)
+    private Integer taskId;
 
     @Column(name = "create_date", nullable = false)
     private Timestamp createDate;
@@ -55,18 +58,24 @@ public class Todo implements Serializable {
     @Column(name = "update_date")
     private Timestamp updateDate;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "create_user",referencedColumnName = "id")
-    @Nullable
-    private User createUser;
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "create_user",referencedColumnName = "id")
+//    @Nullable
+//    private User createUser;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "assigned_user",referencedColumnName = "id")
-    private User assignedUser;
+    @Column(name = "create_user", nullable = false)
+    private Integer createUser;
 
-    @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "assigned_user",referencedColumnName = "id")
+//    private User assignedUser;
+
+    @Column(name = "assigned_user")
+    private Integer assignedUser;
+
+    @OneToMany(mappedBy = "todoId", fetch = FetchType.LAZY)
     private List<TodoHistory> todoHistoryList;
 
 }

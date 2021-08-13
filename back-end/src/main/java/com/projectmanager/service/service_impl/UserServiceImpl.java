@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findByCreateUser(Long id, Pageable pageable) {
+    public Page<User> findByCreateUser(Integer id, Pageable pageable) {
         return userRepository.findByCreateUserAndDeleteIsFalse(id,pageable);
     }
 
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(Integer id) {
         return userRepository.findByIdAndDeleteIsFalse(id);
     }
 
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(Integer id) {
         Optional<User> user = userRepository.findById(Math.toIntExact(id));
         if(!user.isPresent()) {
             return false;

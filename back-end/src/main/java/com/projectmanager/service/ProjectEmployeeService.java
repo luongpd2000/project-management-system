@@ -1,4 +1,6 @@
 package com.projectmanager.service;
 
-public interface ProjectEmployeeService {
+import com.projectmanager.entity.ProjectEmployee;
+
+public interface ProjectEmployeeService extends GeneralService<ProjectEmployee>{
 }

@@ -46,20 +46,27 @@ public class Project implements Serializable {
     @Column(name = "update_date")
     private Timestamp updateDate;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "create_user",referencedColumnName = "id")
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "create_user",referencedColumnName = "id")
+//    @Nullable
+//    private User createUser;
+
     @Nullable
-    private User createUser;
+    @Column(name = "create_user")
+    private Integer createUser;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "update_user",referencedColumnName = "id")
-    private User updateUser;
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "update_user",referencedColumnName = "id")
+//    private User updateUser;
 
-    @OneToMany(mappedBy = "project_employee", fetch = FetchType.LAZY)
+    @Column(name = "update_user")
+    private Integer updateUser;
+
+    @OneToMany(mappedBy = "projectId", fetch = FetchType.LAZY)
     private List<ProjectEmployee> projectEmployeeList;
 
-    @OneToMany(mappedBy = "project_task", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "projectId", fetch = FetchType.LAZY)
     private List<Task> taskList;
 }

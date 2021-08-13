@@ -31,16 +31,21 @@ public class TodoHistory implements Serializable {
     @Column(name = "update_date", nullable = false)
     private String updateDate;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "update_user",referencedColumnName = "id")
-    @Nullable
-    private User updateUser;
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "update_user",referencedColumnName = "id")
+//    @Nullable
+//    private User updateUser;
+//
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "todo_id",referencedColumnName = "id")
+//    @Nullable
+//    private Todo todo;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "todo_id",referencedColumnName = "id")
-    @Nullable
-    private Todo todo;
+    @Column(name = "update_user", nullable = false)
+    private Integer updateUser;
 
+    @Column(name = "todo_id", nullable = false)
+    private Integer todoId;
 }

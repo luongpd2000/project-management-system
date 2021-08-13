@@ -11,12 +11,12 @@ public interface GeneralService<T>  {
 
     Page<T> getAll(Pageable pageable);
 
-    Optional<User> findById(Long id);
+    Optional<T> findById(Integer id);
 
     T create(T t);
 
     boolean update(T t);
 
-    boolean delete(Long id);
+    boolean delete(Integer id);
 
 }

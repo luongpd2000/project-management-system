@@ -31,7 +31,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<Project> findById(Integer id) {
         return Optional.empty();
     }
 
@@ -46,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(Integer id) {
         return false;
     }
 }

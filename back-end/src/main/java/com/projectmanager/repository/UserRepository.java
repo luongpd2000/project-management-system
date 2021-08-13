@@ -13,9 +13,9 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
     Optional<User> findByUsernameAndDeleteIsFalse(String username);
 
-    Page<User> findByCreateUserAndDeleteIsFalse(Long idCreateUser, Pageable pageable);
+    Page<User> findByCreateUserAndDeleteIsFalse(Integer idCreateUser, Pageable pageable);
 
     Page<User> findAllByDeleteIsFalse(Pageable pageable);
 
-    Optional<User> findByIdAndDeleteIsFalse(Long id);
+    Optional<User> findByIdAndDeleteIsFalse(Integer id);
 }

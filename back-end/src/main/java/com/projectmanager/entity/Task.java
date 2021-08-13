@@ -40,11 +40,15 @@ public class Task implements Serializable {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id",referencedColumnName = "id")
-    @Nullable
-    private Project project_task;
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "project_id",referencedColumnName = "id")
+//    @Nullable
+//    private Project project_task;
+
+    @Column(name = "project_id", nullable = false)
+    private Integer projectId;
+
 
     @Column(name = "create_date", nullable = false)
     private Timestamp createDate;
@@ -52,23 +56,29 @@ public class Task implements Serializable {
     @Column(name = "update_date")
     private Timestamp updateDate;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "create_user",referencedColumnName = "id")
-    @Nullable
-    private User createUser;
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "create_user",referencedColumnName = "id")
+//    @Nullable
+//    private User createUser;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "task_manager_id",referencedColumnName = "id")
-    private User taskManager;
+    @Column(name = "create_user", nullable = false)
+    private Integer createUser;
+
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "task_manager_id",referencedColumnName = "id")
+//    private User taskManager;
+
+    @Column(name = "task_manager_id", nullable = false)
+    private Integer taskManagerId;
 
     @Column(name = "is_deleted", nullable = false)
     private Boolean deleted;
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "taskId", fetch = FetchType.LAZY)
     private List<Todo> todoList;
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "taskId", fetch = FetchType.LAZY)
     private List<TaskHistory> taskHistoryList;
 }

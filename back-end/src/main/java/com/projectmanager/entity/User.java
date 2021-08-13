@@ -66,13 +66,13 @@ public class User implements Serializable {
 //    @OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 //    private List<Task> taskCreatedList;
 
-    @OneToMany(mappedBy = "taskManager", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "taskManagerId", fetch = FetchType.LAZY)
     private List<Task> taskManagementList;
 
     @OneToMany(mappedBy = "assignedUser", fetch = FetchType.LAZY)
     private List<Todo> todoList;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
     private List<ProjectEmployee> projectList;
 
 

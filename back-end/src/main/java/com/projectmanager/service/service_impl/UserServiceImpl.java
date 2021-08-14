@@ -35,8 +35,7 @@ public class UserServiceImpl implements UserService {
         if(!u.isPresent()) {
             throw new UsernameNotFoundException("User not found for username: " + username);
         }
-        //return new CustomUserDetails(u);
-
+        
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         if(u.get().getAdmin()){
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
-       return new org.springframework.security.core.userdetails.User(u.get().getUsername(),
+        return new org.springframework.security.core.userdetails.User(u.get().getUsername(),
                 u.get().getEncryptedPassword(), authorities);
     }
 

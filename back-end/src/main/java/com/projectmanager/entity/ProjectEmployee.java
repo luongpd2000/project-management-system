@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -44,7 +45,7 @@ public class ProjectEmployee implements Serializable {
     private String des;
 
 
-    @Column(name = "is_delete")
+    @Column(name = "is_deleted")
     private Boolean delete;
 
 }

@@ -7,6 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.*;
@@ -33,7 +35,8 @@ public class User implements Serializable {
     @Column(name = "is_admin")
     private Boolean admin;
 
-    @Column(name = "is_delete")
+    //@NotNull
+    @Column(name = "is_deleted")
     private Boolean delete;
 
     @Column(name = "email")
@@ -51,7 +54,8 @@ public class User implements Serializable {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @Column(name = "create_user", nullable = false)
+//    @NotNull
+    @Column(name = "create_user")
     private Integer createUser;
 
     @Column(name = "encrypted_password")
@@ -63,14 +67,16 @@ public class User implements Serializable {
 //    @OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 //    private List<Task> taskCreatedList;
 
-    @OneToMany(mappedBy = "taskManager", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "taskManagerId", fetch = FetchType.LAZY)
     private List<Task> taskManagementList;
 
     @OneToMany(mappedBy = "assignedUser", fetch = FetchType.LAZY)
     private List<Todo> todoList;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
     private List<ProjectEmployee> projectList;
+
+    //private Set<>
 
 
 }

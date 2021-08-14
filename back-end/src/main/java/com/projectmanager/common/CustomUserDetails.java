@@ -12,19 +12,22 @@ public class CustomUserDetails implements UserDetails {
 
     private User user;
 
-    public CustomUserDetails(User user) {
+    private Collection<? extends GrantedAuthority> authorities;
+
+    public CustomUserDetails(User user,Collection<? extends GrantedAuthority> authorities) {
         this.user = user;
+        this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
         if(user.getAdmin()){
             System.out.println("admin");
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }else {
             System.out.println("user");
-            authorities.add(new SimpleGrantedAuthority("USER"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
         return authorities;
     }

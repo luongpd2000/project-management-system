@@ -35,6 +35,7 @@ public class User implements Serializable {
     @Column(name = "is_admin")
     private Boolean admin;
 
+    @NotNull
     @Column(name = "is_delete")
     private Boolean delete;
 
@@ -53,7 +54,7 @@ public class User implements Serializable {
     @Column(name = "update_date")
     private Date updateDate;
 
-    @NotNull
+//    @NotNull
     @Column(name = "create_user")
     private Integer createUser;
 
@@ -74,6 +75,8 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
     private List<ProjectEmployee> projectList;
+
+    //private Set<>
 
 
 }

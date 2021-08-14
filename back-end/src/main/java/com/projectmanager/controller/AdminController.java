@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController("/api/v1/project_management/admin")
+@RestController
+@RequestMapping("/api/v1/project_management/admin")
+//@PreAuthorize("hasRole('ADMIN')")
 // api mà chỉ admin dùng được
 public class AdminController {
 
@@ -29,6 +32,7 @@ public class AdminController {
     public ResponseEntity<?> createUser(@Valid @RequestBody User user){
         return ResponseEntity.ok(userService.create(user));
     }
+
 
     @GetMapping("/findUserById/{id}")
     public ResponseEntity<?> findUserById(@PathVariable Integer id){

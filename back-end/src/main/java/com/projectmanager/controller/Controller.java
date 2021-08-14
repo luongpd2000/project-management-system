@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/v1/project_management/")
+@RestController
+@RequestMapping("/api/v1/project_management/")
 // api chung mà cả admin lần user đều dùng được
 public class Controller {
 

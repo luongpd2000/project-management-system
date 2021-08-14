@@ -70,4 +70,9 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
     public Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId) {
         return projectEmployeeRepository.findByProjectIdAndUserIdAndDeleteIsFalse(projectId, userId);
     }
+
+    @Override
+    public Page<ProjectEmployee> findByUserIdAndDeleteIsFalse(Integer userId, Pageable pageable) {
+        return projectEmployeeRepository.findByUserIdAndDeleteIsFalse(userId,pageable);
+    }
 }

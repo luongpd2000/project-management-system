@@ -51,9 +51,6 @@ public class UserServiceImpl implements UserService {
                 u.get().getEncryptedPassword(), authorities);
     }
 
-
-
-
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsernameAndDeleteIsFalse(username);

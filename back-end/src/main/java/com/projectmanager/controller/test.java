@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/project")
 public class test {
 
-//    @Autowired
-//    ProjectService projectService;
+    @Autowired
+    ProjectService projectService;
 
     @Autowired
     TestService testService;
@@ -25,8 +25,10 @@ public class test {
     UserService userService;
 
     @GetMapping("/user/projectList")
-    public ResponseEntity<?> projectList(){
-        return ResponseEntity.ok("sa");
+    public ResponseEntity<?> projectList(@RequestParam(name = "page") Integer page,
+                                         @RequestParam(name = "size")Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(projectService.getAll(pageable));
     }
 
     @GetMapping("/admin/taskList")

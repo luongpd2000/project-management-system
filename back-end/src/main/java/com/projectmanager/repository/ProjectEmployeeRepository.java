@@ -11,8 +11,7 @@ import java.util.Optional;
 
 public interface ProjectEmployeeRepository extends JpaRepository<ProjectEmployee, Integer>, JpaSpecificationExecutor<ProjectEmployee> {
 
-    // tìm để xem quyền của 1 người
+    // tìm để xem quyền của 1 người trong 1 project cụ thể
     Optional<ProjectEmployee> findByProjectIdAndUserIdAndDeleteIsFalse (Integer projectId, Integer userId);
-
     Page<ProjectEmployee> findByProjectIdAndDeleteIsFalse(Integer projectId,Pageable pageable);
 }

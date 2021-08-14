@@ -1,6 +1,8 @@
 package com.projectmanager.controller;
 
+import com.projectmanager.entity.Project;
 import com.projectmanager.entity.User;
+import com.projectmanager.service.ProjectService;
 import com.projectmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,9 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProjectService projectService;
 
     @GetMapping("/userList")
     public ResponseEntity<?> userList(@RequestParam(name = "page") Integer page,
@@ -42,5 +47,20 @@ public class AdminController {
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer id){
         return ResponseEntity.ok(userService.delete(id));
+    }
+
+    @PostMapping("/insertProject")
+    public ResponseEntity<?> insertProject( @RequestBody Project project){
+        return ResponseEntity.ok(projectService.create(project));
+    }
+
+    @PutMapping("updateProject")
+    public ResponseEntity<?> updateProject(@RequestBody Project project){
+        return ResponseEntity.ok(projectService.update(project));
+    }
+
+    @DeleteMapping("deleteProject/{id}")
+    public ResponseEntity<?> deleteProject(@PathVariable Integer id){
+        return ResponseEntity.ok(projectService.delete(id));
     }
 }

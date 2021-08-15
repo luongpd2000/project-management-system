@@ -12,4 +12,6 @@ public interface ProjectEmployeeService extends GeneralService<ProjectEmployee>{
 
     Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId);
 
+    Page<ProjectEmployee> findByUserIdAndDeleteIsFalse(Integer userId,Pageable pageable);
+
 }

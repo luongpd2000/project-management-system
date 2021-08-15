@@ -19,6 +19,7 @@ import java.util.Scanner;
 
 @RestController
 @RequestMapping("/api/v1/project_management/admin")
+@CrossOrigin(origins = "http://localhost:4200")
 //@PreAuthorize("hasRole('ADMIN')")
 // api mà chỉ admin dùng được
 public class AdminController {
@@ -92,6 +93,12 @@ public class AdminController {
 
 
     //project api
+    @GetMapping("/getAllProject")
+    public ResponseEntity<?> getAllProject(  @RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                         @RequestParam(name = "size",defaultValue = "100")Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(projectService.getAll(pageable));
+    }
     @PostMapping("/insertProject")
     public ResponseEntity<?> insertProject( @RequestBody Project project){
         return ResponseEntity.ok(projectService.create(project));

@@ -19,6 +19,8 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaS
 
     Page<Project> findAllByIdAndAndDeletedIsFalse(Integer idCreateUser, Pageable pageable);
 
+    Page<Project> getAllByDeletedIsFalse(Pageable pageable);
+
     @Query( value = "SELECT p.* FROM project AS p, project_employee AS pe " +
             "WHERE p.id = pe.project_id AND pe.user_id = ?1 AND pe.is_delete = 0 ",nativeQuery = true)
     List<Project> findProjectByUserId(Integer userId);

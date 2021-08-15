@@ -53,10 +53,10 @@ public class Todo implements Serializable {
     private Integer taskId;
 
     @Column(name = "create_date", nullable = false)
-    private Timestamp createDate;
+    private Date createDate;
 
     @Column(name = "update_date")
-    private Timestamp updateDate;
+    private Date updateDate;
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.EAGER)

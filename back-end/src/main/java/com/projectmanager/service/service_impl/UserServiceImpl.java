@@ -50,9 +50,6 @@ public class UserServiceImpl implements UserService {
                 u.get().getEncryptedPassword(), authorities);
     }
 
-
-
-
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsernameAndDeleteIsFalse(username);
@@ -60,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findByCreateUser(Integer id, Pageable pageable) {
-        return userRepository.findByCreateUserAndDeleteIsFalse(id,pageable);
+        return userRepository.findByCreateUserAndDeleteIsFalse(id, pageable);
     }
 
 

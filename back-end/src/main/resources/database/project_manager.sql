@@ -11,7 +11,7 @@
  Target Server Version : 100603
  File Encoding         : 65001
 
- Date: 12/08/2021 21:44:51
+ Date: 14/08/2021 17:30:38
 */
 
 SET NAMES utf8mb4;
@@ -55,17 +55,21 @@ CREATE TABLE `project_employee`  (
   `user_id` int(11) NOT NULL,
   `role` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `des` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
+  `is_deleted` binary(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_USER_ID_idx`(`user_id`) USING BTREE,
   INDEX `FK_PROJECT_ID_idx`(`project_id`) USING BTREE,
   CONSTRAINT `FK_PROJECT_ID` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of project_employee
 -- ----------------------------
-INSERT INTO `project_employee` VALUES (1, 1, 2, 'dev', NULL);
+INSERT INTO `project_employee` VALUES (1, 1, 2, 'dev', '', 0x30);
+INSERT INTO `project_employee` VALUES (2, 1, 1, 'admin', '', 0x30);
+INSERT INTO `project_employee` VALUES (3, 1, 3, 'dev', '', 0x30);
+INSERT INTO `project_employee` VALUES (4, 1, 4, 'dev', '', 0x30);
 
 -- ----------------------------
 -- Table structure for task
@@ -84,7 +88,7 @@ CREATE TABLE `task`  (
   `update_date` timestamp(0) NULL DEFAULT NULL,
   `create_user` int(11) NOT NULL,
   `task_manager_id` int(11) NULL DEFAULT NULL,
-  `is_deleted` binary(50) NOT NULL,
+  `is_deleted` binary(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_PROJECT_ID_idx`(`project_id`) USING BTREE,
   INDEX `FK_CREATE_USER_ID_idx`(`create_user`) USING BTREE,
@@ -97,7 +101,7 @@ CREATE TABLE `task`  (
 -- ----------------------------
 -- Records of task
 -- ----------------------------
-INSERT INTO `task` VALUES (1, 'task test', '2021-08-10', NULL, 'feature', 'low', 'done', 1, '2021-08-10 15:25:45', NULL, 1, NULL, 0x3000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
+INSERT INTO `task` VALUES (1, 'task test', '2021-08-10', NULL, 'feature', 'low', 'done', 1, '2021-08-14 17:10:09', NULL, 1, NULL, 0x30);
 
 -- ----------------------------
 -- Table structure for task_history
@@ -178,7 +182,7 @@ CREATE TABLE `user`  (
   `user_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `password` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `is_admin` binary(1) NULL DEFAULT NULL,
-  `is_delete` binary(1) NULL DEFAULT NULL,
+  `is_deleted` binary(1) NULL DEFAULT NULL,
   `email` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
   `phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
   `address` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
@@ -187,7 +191,7 @@ CREATE TABLE `user`  (
   `create_user` int(11) NULL DEFAULT NULL,
   `encrypted_password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -196,9 +200,10 @@ INSERT INTO `user` VALUES (1, 'admin', 'admin', 0x31, 0x30, NULL, NULL, NULL, '2
 INSERT INTO `user` VALUES (2, 'luongpd', 'luongpd', 0x30, 0x30, NULL, NULL, NULL, '2021-08-10', NULL, NULL, '$2a$12$EanFnyZqB7mxyypViyvG1eFc1KS8VaOY5hL6mwVW3Qh2yz71mcoI2');
 INSERT INTO `user` VALUES (3, 'test1', 'test', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$KlTviw.quIgm3lkF/l.H0.H3GiaJiuiwPIUkMCe9.3oihPhRj7f2S');
 INSERT INTO `user` VALUES (4, 'test2', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$rsIF6DkanYPjjdtNiwX4BOM70nlILmpvjHgZex9vlO0pS0lT.7UN.');
-INSERT INTO `user` VALUES (5, 'test3', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$.h63nGvrBrCF.QLbiwGr2.cdfNl6d3lL4Hkhqr7hMJrF8ucnM09AW');
-INSERT INTO `user` VALUES (6, 'test3', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$P913qsr3/cZqqjuSdTVZyONiQn6QNF8rze3DDrSY0Gu64vaXiulfa');
+INSERT INTO `user` VALUES (5, 'test6', 'test1', 0x30, 0x31, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$.h63nGvrBrCF.QLbiwGr2.cdfNl6d3lL4Hkhqr7hMJrF8ucnM09AW');
+INSERT INTO `user` VALUES (6, 'test4', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$P913qsr3/cZqqjuSdTVZyONiQn6QNF8rze3DDrSY0Gu64vaXiulfa');
 INSERT INTO `user` VALUES (7, 'test3', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$VK/46DIZnsSm/4uC5RbDrO2Jw8qBLxjRciOLHG7rsBi26R063njXK');
-INSERT INTO `user` VALUES (8, 'test3', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$BlMDd3S1DklRE.Uybzt8PemKQD8iQ9uCsKCIwISb7gNR.jzlRomyi');
+INSERT INTO `user` VALUES (8, 'test5', 'test1', 0x30, 0x31, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$BlMDd3S1DklRE.Uybzt8PemKQD8iQ9uCsKCIwISb7gNR.jzlRomyi');
+INSERT INTO `user` VALUES (12, 'luong1', 'string', 0x30, 0x30, NULL, NULL, NULL, '2021-08-13', NULL, 1, '$2a$10$g4amftiHFsGNP1MhZ9MLmOzJpmEjChG.rwx.9e4jPpwaY6nd/n.wC');
 
 SET FOREIGN_KEY_CHECKS = 1;

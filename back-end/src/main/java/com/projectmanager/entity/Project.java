@@ -34,17 +34,17 @@ public class Project implements Serializable {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "is_deleted", nullable = false)
+    @Column(name = "is_deleted")
     private Boolean deleted;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "create_date", nullable = false)
-    private Timestamp createDate;
+    @Column(name = "create_date")
+    private Date createDate;
 
     @Column(name = "update_date")
-    private Timestamp updateDate;
+    private Date updateDate;
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.EAGER)

@@ -35,8 +35,8 @@ public class User implements Serializable {
     @Column(name = "is_admin")
     private Boolean admin;
 
-    @NotNull
-    @Column(name = "is_delete")
+    //@NotNull
+    @Column(name = "is_deleted")
     private Boolean delete;
 
     @Column(name = "email")

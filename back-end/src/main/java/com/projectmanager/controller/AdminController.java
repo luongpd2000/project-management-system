@@ -19,6 +19,7 @@ import java.util.Scanner;
 
 @RestController
 @RequestMapping("/api/v1/project_management/admin")
+@CrossOrigin(origins = "http://localhost:4200")
 //@PreAuthorize("hasRole('ADMIN')")
 // api mà chỉ admin dùng được
 public class AdminController {
@@ -46,11 +47,6 @@ public class AdminController {
         return ResponseEntity.ok(userService.create(user));
     }
 
-
-    @GetMapping("/findUserById/{id}")
-    public ResponseEntity<?> findUserById(@PathVariable Integer id){
-        return ResponseEntity.ok(userService.findById(id));
-    }
 
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer id){

@@ -87,21 +87,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(User u) {
-        Optional<User> user = userRepository.findByUsernameAndDeleteIsFalse(u.getUsername());
-        if(!user.isPresent()) {
+//        Optional<User> user = userRepository.findByUsernameAndDeleteIsFalse(u.getUsername());
+//        if(!user.isPresent()) {
+//            return false;
+//        }
+//        else {
+//            user.get().setAddress(u.getAddress());
+//            user.get().setEmail(u.getEmail());
+//            user.get().setPhone(u.getPhone());
+//        }
+        try {
+            userRepository.save(u);
+            return true;
+        }catch (Exception exception){
+            exception.printStackTrace();
             return false;
-        }else {
-            user.get().setAddress(u.getAddress());
-            user.get().setEmail(u.getEmail());
-            user.get().setPhone(u.getPhone());
         }
-        userRepository.save(user.get());
-        return true;
+
     }
 
     @Override
     public boolean delete(Integer id) {
-        Optional<User> user = userRepository.findById(Math.toIntExact(id));
+        Optional<User> user = userRepository.findById(id);
         if(!user.isPresent()) {
             return false;
         }else {

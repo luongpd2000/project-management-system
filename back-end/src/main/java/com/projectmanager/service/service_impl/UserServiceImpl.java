@@ -35,8 +35,7 @@ public class UserServiceImpl implements UserService {
         if(!u.isPresent()) {
             throw new UsernameNotFoundException("User not found for username: " + username);
         }
-        //return new CustomUserDetails(u);
-
+        
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         if(u.get().getAdmin()){
@@ -47,12 +46,9 @@ public class UserServiceImpl implements UserService {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
-       return new org.springframework.security.core.userdetails.User(u.get().getUsername(),
+        return new org.springframework.security.core.userdetails.User(u.get().getUsername(),
                 u.get().getEncryptedPassword(), authorities);
     }
-
-
-
 
     @Override
     public Optional<User> findByUsername(String username) {
@@ -61,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findByCreateUser(Integer id, Pageable pageable) {
-        return userRepository.findByCreateUserAndDeleteIsFalse(id,pageable);
+        return userRepository.findByCreateUserAndDeleteIsFalse(id, pageable);
     }
 
 
@@ -91,21 +87,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(User u) {
-        Optional<User> user = userRepository.findByUsernameAndDeleteIsFalse(u.getUsername());
-        if(!user.isPresent()) {
+//        Optional<User> user = userRepository.findByUsernameAndDeleteIsFalse(u.getUsername());
+//        if(!user.isPresent()) {
+//            return false;
+//        }
+//        else {
+//            user.get().setAddress(u.getAddress());
+//            user.get().setEmail(u.getEmail());
+//            user.get().setPhone(u.getPhone());
+//        }
+        try {
+            userRepository.save(u);
+            return true;
+        }catch (Exception exception){
+            exception.printStackTrace();
             return false;
-        }else {
-            user.get().setAddress(u.getAddress());
-            user.get().setEmail(u.getEmail());
-            user.get().setPhone(u.getPhone());
         }
-        userRepository.save(user.get());
-        return true;
+
     }
 
     @Override
     public boolean delete(Integer id) {
-        Optional<User> user = userRepository.findById(Math.toIntExact(id));
+        Optional<User> user = userRepository.findById(id);
         if(!user.isPresent()) {
             return false;
         }else {

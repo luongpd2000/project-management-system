@@ -28,15 +28,18 @@ public class User implements Serializable {
     @Column(name = "user_name", nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
-    //@Transient
+    @Column(name = "full_name")
+    private String fullName;
+
+    //@JsonIgnore
+    @Transient
     private String password;
 
     @Column(name = "is_admin")
     private Boolean admin;
 
-    @NotNull
-    @Column(name = "is_delete")
+    //@NotNull
+    @Column(name = "is_deleted")
     private Boolean delete;
 
     @Column(name = "email")
@@ -58,23 +61,24 @@ public class User implements Serializable {
     @Column(name = "create_user")
     private Integer createUser;
 
+    @JsonIgnore
     @Column(name = "encrypted_password")
     private String encryptedPassword;
 
-    @OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
-    private List<Project> projectCreatedList;
+//    @OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+//    private List<Project> projectCreatedList;
 
 //    @OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 //    private List<Task> taskCreatedList;
 
-    @OneToMany(mappedBy = "taskManagerId", fetch = FetchType.LAZY)
-    private List<Task> taskManagementList;
-
-    @OneToMany(mappedBy = "assignedUser", fetch = FetchType.LAZY)
-    private List<Todo> todoList;
-
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
-    private List<ProjectEmployee> projectList;
+//    @OneToMany(mappedBy = "taskManagerId", fetch = FetchType.LAZY)
+//    private List<Task> taskManagementList;
+//
+//    @OneToMany(mappedBy = "assignedUser", fetch = FetchType.LAZY)
+//    private List<Todo> todoList;
+//
+//    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+//    private List<ProjectEmployee> projectList;
 
     //private Set<>
 

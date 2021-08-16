@@ -11,6 +11,14 @@ import { NavComponent } from './layout/nav/nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProjectService } from './service/project.service';
 import { HttpClientModule } from '@angular/common/http';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ProjectComponent } from './dialog/project/project.component';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
+// import {MatDatepickerModule} from '@angular/material/datepicker';
+// import {MaterialModule} from './shared/material.module';
+
+ 
+
 
 @NgModule({
   declarations: [
@@ -19,13 +27,17 @@ import { HttpClientModule } from '@angular/common/http';
     NavComponent,
     FooterComponent,
     AuthLayoutComponent,
+    ProjectComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     BrowserAnimationsModule  ,
-    HttpClientModule 
+    HttpClientModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [ProjectService],
   bootstrap: [AppComponent]

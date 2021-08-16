@@ -1,12 +1,10 @@
 export class Project {
-    constructor(
-      public id: number,
-      public name: string,
-      public des: string,
-      public startDate: Date,
-      public endDate: Date,
-      public status: string,
-      public creater: string
-    ) {
-    }
+      public id!: number;
+      public name: string='';
+      public des: string='';
+      public startDate!: String;
+      public endDate!: String;
+      public status: string='';
+      public creater: number=1
+   
   }

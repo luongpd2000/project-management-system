@@ -101,7 +101,9 @@ public class AdminController {
     }
     @PostMapping("/insertProject")
     public ResponseEntity<?> insertProject( @RequestBody Project project){
+
         return ResponseEntity.ok(projectService.create(project));
+
     }
 
     @PutMapping("updateProject")

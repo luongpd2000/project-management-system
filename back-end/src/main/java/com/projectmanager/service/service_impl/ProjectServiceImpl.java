@@ -42,7 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Optional<Project> findById(Integer id) {
-        return Optional.empty();
+        return projectRepository.getProjectByIdAndDeletedIsFalse(id);
     }
 
     @Override

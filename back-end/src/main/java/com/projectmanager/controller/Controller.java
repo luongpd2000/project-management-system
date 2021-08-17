@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/project_management/")
+@CrossOrigin(origins = "http://localhost:4200")
 // api chung mà cả admin lần user đều dùng được
 public class Controller {
 
@@ -59,4 +60,8 @@ public class Controller {
         return ResponseEntity.ok(projectEmployeeService.findByUserIdAndDeleteIsFalse(id,pageable));
     }
 
+    @GetMapping("/getProjectById/{id}")
+    public ResponseEntity<?> getProjectById(@PathVariable Integer id){
+        return ResponseEntity.ok(projectService.findById(id));
+    }
 }

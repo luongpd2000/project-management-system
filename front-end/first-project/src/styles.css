@@ -276,6 +276,10 @@ button{
     }
 
 }
+.invalid-text{
+    color: rgb(224, 66, 66);
+    font-size: 12px;
+}
 
 
 

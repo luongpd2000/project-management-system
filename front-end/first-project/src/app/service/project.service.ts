@@ -21,4 +21,17 @@ export class ProjectService {
     return this.http.post('http://localhost:8080/api/v1/project_management/admin/insertProject',p);
   }
 
+  putProject(p:Project){
+    console.log(p);
+    return this.http.put(this.bareUrl+'project_management/admin/updateProject',p);
+    
+  }
+
+  getProjectById(id:number){
+    console.log("find project by id:"+id);
+    return this.http.get<any>(this.bareUrl+'project_management/getProjectById/'+id);
+  }
+
+  
+
 }

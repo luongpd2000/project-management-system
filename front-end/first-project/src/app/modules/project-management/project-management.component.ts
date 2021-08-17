@@ -25,22 +25,16 @@ export class ProjectManagementComponent implements OnInit {
     private modalService: NgbModal) {}
 
   ngOnInit(): void {
-    // this.formProject = this.formBuilder.group({
-    //   name:[''],
-    //   des:[''],
-    //   startDate:[''],
-    //   endDate:[''],
-    //   status:['draft']
-    // })
     this.makeForm();
     this.projectService.getAllProjects().subscribe(data=>{
       this.projectList=data['content'];
       console.log(this.projectList);
     },error=>{console.log(error.error.message)});
   }
+  date = new Date();
   makeForm(){
     this.formProject = new FormGroup({
-      "name":new FormControl(null,[Validators.required]),
+      "name":new FormControl('',[Validators.required]),
       "des":new FormControl(null,[Validators.required]),
       "startDate":new FormControl(null,[Validators.required]),
       "endDate":new FormControl(null,[Validators.required]),
@@ -49,6 +43,7 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   open(content: any){
+    this.makeForm();
     this.modalService.open(content, {
       centered: true,
       size: 'lg'
@@ -67,11 +62,10 @@ export class ProjectManagementComponent implements OnInit {
     let day:String = new String(date.day);
     if(day.length==1) day = '0'+day;
     return year+'-'+month+'-'+day;
-    
   }
   saveProject(){
-    console.log(this.projectList.length);
-    console.log("click save!!!");
+    if(this.formProject.valid){
+      console.log("click save!!!");
       this.newProject.name=this.formProject.value.name;
       this.newProject.des=this.formProject.value.des;   
       this.newProject.startDate =this.fomatDate(this.formProject.value.startDate);
@@ -84,19 +78,30 @@ export class ProjectManagementComponent implements OnInit {
           console.log(this.projectList.length);
         },error=>{console.log(error.error.message)});
       });
-    
-      
-
       this.modalService.dismissAll();
-      // this.ngOnInit();
+      this.makeForm();
+    }else{
+      alert("DATA INVALID")
+    }
   }
-  // showNewProject(){
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.disableClose = true;
-  //   dialogConfig.autoFocus = true;
-  //   dialogConfig.width="60%";
-  //   this.dialog.open(ProjectComponent);
-  // }
+  get name(){
+    return this.formProject.get('name');
+  }
+  get des(){
+    return this.formProject.get('des');
+  }
+  get startDate(){
+    return this.formProject.get('startDate');
+  }
+  get endDate(){
+    return this.formProject.get('endDate');
+  }
+  get status(){
+    return this.formProject.get('status');
+  }
+
+
+
   }
 
 

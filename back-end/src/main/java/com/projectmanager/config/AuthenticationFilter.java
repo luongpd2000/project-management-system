@@ -74,7 +74,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.getWriter().write("{\"" + SecurityConstants.HEADER_STRING + "\":\""
                 + SecurityConstants.TOKEN_PREFIX + token + "\","
                 + "\"username\":\"" + username + "\","
-                + "\"id\":" + String.valueOf(user.get().getId() + ",")
+                //+ "\"id\":" + String.valueOf(user.get().getId() + ",")
                 +"\"admin\": " + user.get().getAdmin()
                 + "}");
     }

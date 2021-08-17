@@ -90,4 +90,10 @@ public class Controller {
         return ResponseEntity.ok(projectEmployeeService.findByUserIdAndDeleteIsFalse(id,pageable));
     }
 
+    @GetMapping("/checkLogin")
+//    @ResponseBody
+    public ResponseEntity<?> checkLogin(){
+        return ResponseEntity.ok("LoggedIn");
+    }
+
 }

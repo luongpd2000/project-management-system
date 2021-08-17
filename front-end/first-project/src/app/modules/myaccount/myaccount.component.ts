@@ -4,6 +4,7 @@ import { User } from 'src/app/data/schema/user';
 import { UserService } from 'src/app/service/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProjectManagementSystemValidators } from 'src/app/validators/project-management-system-validators';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-myaccount',
@@ -15,6 +16,8 @@ export class MyaccountComponent implements OnInit {
   user: User = new User();
 
   userId: number = 1;
+
+  username: String = "luongpd";
 
   check: boolean = false;
 
@@ -38,8 +41,8 @@ export class MyaccountComponent implements OnInit {
       fullName: new FormControl('',[
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(50),
-        ProjectManagementSystemValidators.notOnlyWhitespace
+        Validators.maxLength(50)
+        // ProjectManagementSystemValidators.notOnlyWhitespace
       ]),
       email: new FormControl('',[
         Validators.required,
@@ -74,7 +77,7 @@ export class MyaccountComponent implements OnInit {
 
 
   handleGetUser() {
-    this.userService.getUser(this.userId).subscribe(
+    this.userService.getUser(this.username).subscribe(
       data => {
         this.user = data;
         console.log(data);
@@ -103,7 +106,7 @@ export class MyaccountComponent implements OnInit {
 
     // if (this.acountForm.invalid) {
     //   //this.acountForm.markAllAsTouched();
-    //   console.log("false" + this.acountForm.status)
+    //   console.log("false " + this.acountForm.status)
     //   return;
     // }
 
@@ -114,7 +117,7 @@ export class MyaccountComponent implements OnInit {
     userUpdate.password = this.acountForm.controls['currentPassword'].value;
     userUpdate.newPassword = this.acountForm.controls['newPassword'].value;
 
-
+    console.log("true " + this.acountForm.status)
 
     console.log( userUpdate.newPassword +" " + this.acountForm.controls['confirmPassword'].value);
 
@@ -128,9 +131,9 @@ export class MyaccountComponent implements OnInit {
     this.userService.updateUser(userUpdate).subscribe(
       data => {
         console.log(data);
-    })
-
-
+    }, error =>{
+        console.log(error);
+    });
 
   }
 

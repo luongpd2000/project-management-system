@@ -1,28 +1,55 @@
+
+
+
 <div class="wrapper">
     <div class="container">
-        <form action="#">
+        <form [formGroup]="logIn" (ngSubmit)="login()">
             <div class="title">Login</div>
             <div class="input-box">
-                <input type="text" placeholder="Enter Your Email" required>
+                <input type="text" placeholder="Enter Your Username" formControlName="username" required>
                 <div class="underline"></div>
+                <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="mt-1">
+
+
+                  <div *ngIf="(username?.errors?.required) ">
+                    Username is required
+                  </div>
+
+                  <div *ngIf="username?.errors?.maxlength">
+                    Username must be at small 50 characters long
+                  </div>
+              </div>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Enter Your Password" required>
+                <input type="password" placeholder="Enter Your Password" formControlName="password" required>
                 <div class="underline"></div>
+
+                <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="mt-1">
+
+
+                  <div *ngIf="(password?.errors?.required) ">
+                    Password is required
+                  </div>
+
+                  <div *ngIf="password?.errors?.maxlength">
+                    Username must be at small 50 characters long
+                  </div>
+              </div>
+
             </div>
             <div class="input-box button">
                 <input type="submit" value="Continue">
             </div>
         </form>
-        <div class="option">OR</div>
-        <div class="google"> 
+        <!-- <div class="option">OR</div>
+        <div class="google">
             <a href="project-manager.html">Back to Home</a>
-        </div>
-        <!-- <div class="facebook"> 
+        </div> -->
+        <!-- <div class="facebook">
             <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</a>
         </div>
         <a href="register.html" class="register">You don't have a account? Register here!!</a> -->
     </div>
-    
+
 </div>
 

@@ -71,6 +71,10 @@ export class LoginComponent implements OnInit {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 0c012824 (fix angular)
 =======
 
 >>>>>>> parent of 0c012824 (fix angular)

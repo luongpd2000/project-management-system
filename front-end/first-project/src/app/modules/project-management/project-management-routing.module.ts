@@ -8,9 +8,9 @@ import { AddUsersComponent } from './add-users/add-users.component';
 
 const routes: Routes = [
   {
-  path:'',component: ProjectManagementComponent,pathMatch:"full",
+  path:'',component: ProjectManagementComponent
   },
-  {path:'p-details/:id',component: ProjectDetailsComponent},
+  {path:'details',component: ProjectDetailsComponent},
   {path:'task-details', component:TaskDetailsComponent},
   {path:'add-user', component:AddUsersComponent}
   

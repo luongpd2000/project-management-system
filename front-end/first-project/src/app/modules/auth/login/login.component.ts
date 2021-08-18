@@ -26,9 +26,12 @@ export class LoginComponent implements OnInit {
         console.log(data.text + " được");
         this.router.navigate(['']);
       },error => {
-        console.log("có lỗi")
-        console.log(error.text)
-        console.log(error)
+        console.log("có lỗi check isLogIn " + error.status)
+        console.log(error.status);
+
+        if(error.status === 200){
+          this.router.navigate(['']);
+        }
       }
     )
 
@@ -50,7 +53,6 @@ export class LoginComponent implements OnInit {
   login(){
     console.log("login");
 
-
     if (this.logIn.invalid) {
       this.logIn.markAllAsTouched();
       console.log("false " + this.logIn.status)
@@ -62,16 +64,15 @@ export class LoginComponent implements OnInit {
 
     console.log("ok " + u +" "+ p)
 
-
-
     this.loginService.login(u,p).subscribe(
       data =>{
-        console.log(data);
+        console.log(data.status);
         this._cookieService.set("Authorization",data.Authorization)
-
         this.router.navigate(['']);
       }, error =>{
-        console.log(error + " có lỗi ");
+        console.log(error + " có lỗi login");
+
+
     })
 
 

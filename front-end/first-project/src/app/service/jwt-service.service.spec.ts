@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FomatInputService } from './fomat-input.service';
+import { JwtServiceService } from './jwt-service.service';
 
-describe('FomatInputService', () => {
-  let service: FomatInputService;
+describe('JwtServiceService', () => {
+  let service: JwtServiceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FomatInputService);
+    service = TestBed.inject(JwtServiceService);
   });
 
   it('should be created', () => {

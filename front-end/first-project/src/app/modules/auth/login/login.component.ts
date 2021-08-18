@@ -17,8 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
               private route: ActivatedRoute,
               private router : Router,
-              private _cookieService: CookieService,
-              private jwt: JwtServiceService) { }
+              private _cookieService: CookieService) { }
 
   ngOnInit(): void {
 
@@ -27,9 +26,12 @@ export class LoginComponent implements OnInit {
         console.log(data.text + " được");
         this.router.navigate(['']);
       },error => {
-        console.log("có lỗi")
-        console.log(error.text)
-        console.log(error)
+        console.log("có lỗi check isLogIn " + error.status)
+        console.log(error.status);
+
+        if(error.status === 200){
+          this.router.navigate(['']);
+        }
       }
     )
 
@@ -51,7 +53,6 @@ export class LoginComponent implements OnInit {
   login(){
     console.log("login");
 
-
     if (this.logIn.invalid) {
       this.logIn.markAllAsTouched();
       console.log("false " + this.logIn.status)
@@ -63,35 +64,15 @@ export class LoginComponent implements OnInit {
 
     console.log("ok " + u +" "+ p)
 
-
-
     this.loginService.login(u,p).subscribe(
       data =>{
-        console.log(data);
+        console.log(data.status);
         this._cookieService.set("Authorization",data.Authorization)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 0c012824 (fix angular)
-=======
-
->>>>>>> parent of 0c012824 (fix angular)
-=======
-
->>>>>>> parent of 0c012824 (fix angular)
-=======
-
->>>>>>> parent of 0c012824 (fix angular)
-=======
-        this.jwt.getUsername();
->>>>>>> parent of 5423951f (update)
         this.router.navigate(['']);
       }, error =>{
-        console.log(error + " có lỗi ");
+        console.log(error + " có lỗi login");
+
+
     })
 
 

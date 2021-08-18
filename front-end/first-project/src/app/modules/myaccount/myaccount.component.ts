@@ -49,8 +49,8 @@ export class MyaccountComponent implements OnInit {
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
       ]),
       phone: new FormControl('',[
-        Validators.maxLength(11),
-        Validators.minLength(11),
+        // Validators.maxLength(11),
+        // Validators.minLength(11),
         Validators.pattern('^(84|0[3|5|7|8|9])+([0-9]{8})$')]),
 
       address: new FormControl('',[

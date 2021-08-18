@@ -44,8 +44,8 @@ import { ProjectComponent } from './dialog/project/project.component';
     HttpClientModule,
     MatDialogModule,
     ReactiveFormsModule,
-    FormsModule,
-    MatDialogRef
+    FormsModule
+    // MatDialogRef
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

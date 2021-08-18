@@ -38,7 +38,7 @@ export class LoginService {
   {
     // Remove the token from the localStorage.
     this._cookieService.delete('Authorization');
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/login']);
   }
 
 
@@ -56,11 +56,11 @@ export class LoginService {
       responseType: 'text'
     }
 
-    console.log(this._cookieService.get('Authorization'));
+    console.log("token request "+this._cookieService.get('Authorization'));
 
 
     const url = `${this.serverUrl}/checkLogin`;
 
-    return this.httpClient.get(url, requestOptions);
+    return this.httpClient.get(url, headers);
   }
 }

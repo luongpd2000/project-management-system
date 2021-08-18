@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
       data =>{
         console.log(data);
         this._cookieService.set("Authorization",data.Authorization)
-        
+
         this.router.navigate(['']);
       }, error =>{
         console.log(error + " có lỗi ");

@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/project_management/")
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class TaskController {
 
     @Autowired

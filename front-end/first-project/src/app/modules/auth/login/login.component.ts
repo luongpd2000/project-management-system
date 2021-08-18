@@ -70,6 +70,10 @@ export class LoginComponent implements OnInit {
         this._cookieService.set("Authorization",data.Authorization)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 0c012824 (fix angular)
 =======
 
 >>>>>>> parent of 0c012824 (fix angular)

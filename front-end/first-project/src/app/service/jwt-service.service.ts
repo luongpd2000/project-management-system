@@ -10,18 +10,10 @@ export class JwtServiceService {
   constructor(
     private _cookieService: CookieService) { }
 
-  getUsername(): any{
+  getUsername(){
     const jwtHelper = new JwtHelperService();
     const token = this._cookieService.get('Authorization');
+    jwtHelper.decodeToken(token);
     console.log(jwtHelper.decodeToken(token).sub);
-    return jwtHelper.decodeToken(token).sub;
   }
-
-  getRole(): any{
-    const jwtHelper = new JwtHelperService();
-    const token = this._cookieService.get('Authorization');
-    console.log(jwtHelper.decodeToken(token).role);
-    return jwtHelper.decodeToken(token).role;
-  }
-
 }

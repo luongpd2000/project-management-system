@@ -5,7 +5,6 @@ import { UserService } from 'src/app/service/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProjectManagementSystemValidators } from 'src/app/validators/project-management-system-validators';
 import { error } from '@angular/compiler/src/util';
-import { JwtServiceService } from 'src/app/service/jwt-service.service';
 
 @Component({
   selector: 'app-myaccount',
@@ -33,8 +32,7 @@ export class MyaccountComponent implements OnInit {
 
 
   constructor(private userService: UserService,
-              private route: ActivatedRoute,
-              private jwt: JwtServiceService) { }
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.handleGetUser();
@@ -79,7 +77,11 @@ export class MyaccountComponent implements OnInit {
 
 
   handleGetUser() {
+<<<<<<< HEAD
     this.userService.getUser(this.jwt.getUsername()).subscribe(   //this.jwt.getUsername()    this.username
+=======
+    this.userService.getUser(this.username).subscribe(
+>>>>>>> parent of 5423951f (update)
       data => {
         this.user = data;
         console.log(data);

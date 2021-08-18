@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
               private route: ActivatedRoute,
               private router : Router,
-              private _cookieService: CookieService) { }
+              private _cookieService: CookieService,
+              private jwt: JwtServiceService) { }
 
   ngOnInit(): void {
 
@@ -72,6 +73,7 @@ export class LoginComponent implements OnInit {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> parent of 0c012824 (fix angular)
@@ -84,6 +86,9 @@ export class LoginComponent implements OnInit {
 =======
 
 >>>>>>> parent of 0c012824 (fix angular)
+=======
+        this.jwt.getUsername();
+>>>>>>> parent of 5423951f (update)
         this.router.navigate(['']);
       }, error =>{
         console.log(error + " có lỗi ");

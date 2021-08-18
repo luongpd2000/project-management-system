@@ -43,17 +43,22 @@ export class LoginService {
 
 
   isLoggedIn(): Observable<any> {
+
     const headers = {
       headers: new HttpHeaders(
         { 'Content-Type': 'application/json',
           'Authorization': this._cookieService.get('Authorization')
         })
     };
+
     const requestOptions: Object = {
       headers: headers,
       responseType: 'text'
     }
+
     console.log("token request "+this._cookieService.get('Authorization'));
+
+
     const url = `${this.serverUrl}/checkLogin`;
 
     return this.httpClient.get(url, headers);

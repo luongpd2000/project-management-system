@@ -79,7 +79,7 @@ export class MyaccountComponent implements OnInit {
 
 
   handleGetUser() {
-    this.userService.getUser(this.jwt.getUsername()).subscribe(
+    this.userService.getUser(this.jwt.getUsername()).subscribe(   //this.jwt.getUsername()    this.username
       data => {
         this.user = data;
         console.log(data);

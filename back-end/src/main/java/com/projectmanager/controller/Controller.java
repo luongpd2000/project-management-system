@@ -38,6 +38,7 @@ public class Controller {
     }
 
     @PutMapping("/updateUser")
+
     public ResponseEntity<?> updateUser(@RequestBody UserDto user){
         User user2 = userService.findById(user.getId()).get();
         System.out.println(user);
@@ -63,6 +64,7 @@ public class Controller {
     @GetMapping("/findUserById/{id}")
     public ResponseEntity<?> findUserById(@PathVariable Integer id){
         return ResponseEntity.ok(userService.findById(id));
+
     }
 
 
@@ -95,10 +97,10 @@ public class Controller {
         return ResponseEntity.ok(projectService.findById(id));
     }
 
+
     @GetMapping("/checkLogin")
 //    @ResponseBody
     public ResponseEntity<?> checkLogin(){
         return ResponseEntity.ok("LoggedIn");
     }
-
 }

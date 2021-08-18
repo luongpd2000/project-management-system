@@ -9,6 +9,7 @@ import { ContentLayoutComponent } from './layout/content-layout/content-layout.c
 import { FooterComponent } from './layout/footer/footer.component';
 import { NavComponent } from './layout/nav/nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,11 +28,13 @@ import {CookieService} from 'ngx-cookie-service';
     NavComponent,
     FooterComponent,
     AuthLayoutComponent,
+    ProjectComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule

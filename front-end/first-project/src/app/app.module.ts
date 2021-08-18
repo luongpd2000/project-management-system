@@ -14,9 +14,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+// import { HttpClientModule } from '@angular/common/http';
+// import { ReactiveFormsModule } from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
+// import { ProjectService } from './service/project.service';
+import { HttpClientModule } from '@angular/common/http';
+import {MatDialogModule} from '@angular/material/dialog';
+// import { ProjectComponent } from './dialog/project/project.component';
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -31,9 +36,12 @@ import {CookieService} from 'ngx-cookie-service';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule  ,
     HttpClientModule,
-    ReactiveFormsModule
+    MatDialogModule,
+    ReactiveFormsModule,
+    FormsModule,
+
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

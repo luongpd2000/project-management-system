@@ -28,8 +28,11 @@ public class User implements Serializable {
     @Column(name = "user_name", nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
-    //@Transient
+    @Column(name = "full_name")
+    private String fullName;
+
+    //@JsonIgnore
+    @Transient
     private String password;
 
     @Column(name = "is_admin")
@@ -58,6 +61,7 @@ public class User implements Serializable {
     @Column(name = "create_user")
     private Integer createUser;
 
+    @JsonIgnore
     @Column(name = "encrypted_password")
     private String encryptedPassword;
 

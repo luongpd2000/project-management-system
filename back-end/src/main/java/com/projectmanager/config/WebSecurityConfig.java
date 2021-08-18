@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -35,18 +39,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
-                .authorizeRequests()
-                .anyRequest().permitAll()
-                //.anyRequest().authenticated()
+        //http.csrf().disable()
+        http.csrf().disable().cors().and()
+            .authorizeRequests()
+                .antMatchers("/auth/login").permitAll()
+                //.antMatchers("/checkLogin").permitAll()
+//                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and().addFilter(getAuthenticationFilter())
                 .addFilter(new AuthorizationFilter(authenticationManager(), getApplicationContext()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
+//    @CrossOrigin(origins = "http://localhost:4200")
     protected AuthenticationFilter getAuthenticationFilter() throws Exception {
         AuthenticationFilter filter = new AuthenticationFilter(authenticationManager(), getApplicationContext());
         filter.setFilterProcessesUrl("/auth/login");
         return filter;
     }
+
+
 }

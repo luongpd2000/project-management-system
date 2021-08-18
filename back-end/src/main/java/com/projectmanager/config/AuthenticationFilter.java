@@ -1,7 +1,6 @@
 package com.projectmanager.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.projectmanager.common.CustomUserDetails;
 import com.projectmanager.entity.User;
 import com.projectmanager.service.UserService;
 import com.projectmanager.service.service_impl.UserServiceImpl;
@@ -39,8 +38,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             throws AuthenticationException {
         try {
             User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-            System.out.println(user.getUsername() + " attemptAuthentication");
+//            UserLogin user = new ObjectMapper().readValue(request.getInputStream(), UserLogin.class);
+
+            System.out.println(user.getUsername() + " " + user.getPassword() + " attemptAuthentication");
             UserService userService = ctx.getBean(UserService.class);
+
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(),
                             user.getPassword(), userService.loadUserByUsername(user.getUsername()).getAuthorities()));
@@ -72,7 +74,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.getWriter().write("{\"" + SecurityConstants.HEADER_STRING + "\":\""
                 + SecurityConstants.TOKEN_PREFIX + token + "\","
                 + "\"username\":\"" + username + "\","
-                + "\"id\":" + String.valueOf(user.get().getId() + ",")
+                //+ "\"id\":" + String.valueOf(user.get().getId() + ",")
                 +"\"admin\": " + user.get().getAdmin()
                 + "}");
     }

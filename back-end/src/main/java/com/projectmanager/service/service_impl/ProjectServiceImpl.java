@@ -37,12 +37,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Page<Project> getAll(Pageable pageable) {
-        return projectRepository.findAll(pageable);
+        return projectRepository.getAllByDeletedIsFalse(pageable);
     }
 
     @Override
     public Optional<Project> findById(Integer id) {
-        return Optional.empty();
+        return projectRepository.getProjectByIdAndDeletedIsFalse(id);
     }
 
     @Override

@@ -90,6 +90,11 @@ public class Controller {
         return ResponseEntity.ok(projectEmployeeService.findByUserIdAndDeleteIsFalse(id,pageable));
     }
 
+    @GetMapping("/getProjectById/{id}")
+    public ResponseEntity<?> getProjectById(@PathVariable Integer id){
+        return ResponseEntity.ok(projectService.findById(id));
+    }
+
     @GetMapping("/checkLogin")
 //    @ResponseBody
     public ResponseEntity<?> checkLogin(){

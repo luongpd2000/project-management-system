@@ -20,9 +20,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import {CookieService} from 'ngx-cookie-service';
 // import { ProjectService } from './service/project.service';
 import { HttpClientModule } from '@angular/common/http';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MatDialogModule,MatDialogRef} from '@angular/material/dialog';
 // import { ProjectComponent } from './dialog/project/project.component';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProjectComponent } from './dialog/project/project.component';
 
 
 
@@ -44,7 +45,7 @@ import {FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatDialogModule,
     ReactiveFormsModule,
     FormsModule,
-
+    MatDialogRef
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

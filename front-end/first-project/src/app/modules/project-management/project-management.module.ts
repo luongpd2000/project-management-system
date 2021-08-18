@@ -9,7 +9,7 @@ import { AddUsersComponent } from './add-users/add-users.component';
 import { ProjectComponent } from 'src/app/dialog/project/project.component';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import {MatDatepickerModule} from '@angular/material/datepicker';
-// import {MaterialModule} from '../../shared/material.module';
+import {MaterialModule} from '../../shared/material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -27,7 +27,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
-    // MaterialModule
+    MaterialModule
    
   ],
   entryComponents:[ProjectComponent]

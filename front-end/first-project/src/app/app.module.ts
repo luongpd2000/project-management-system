@@ -14,10 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ProjectComponent } from './dialog/project/project.component';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import {MatDatepickerModule} from '@angular/material/datepicker';
-// import {MaterialModule} from './shared/material.module';
 
- 
 
 
 @NgModule({
@@ -37,7 +34,9 @@ import {FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     MatDialogModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+
+  
   ],
   providers: [ProjectService],
   bootstrap: [AppComponent]

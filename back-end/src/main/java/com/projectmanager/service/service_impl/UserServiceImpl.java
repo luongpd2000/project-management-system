@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> getAll(Pageable pageable) {
+        System.out.println("find all project ");
         return userRepository.findAllByDeleteIsFalse(pageable);
     }
 

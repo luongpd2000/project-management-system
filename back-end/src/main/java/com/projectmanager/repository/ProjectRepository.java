@@ -22,6 +22,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaS
 
     Page<Project> getAllByDeletedIsFalse(Pageable pageable);
 
+
     Optional<Project> getProjectByIdAndDeletedIsFalse(Integer pId);
 
     @Query( value = "SELECT p.* FROM project AS p, project_employee AS pe " +

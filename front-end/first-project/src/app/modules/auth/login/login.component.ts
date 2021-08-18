@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/service/login.service';
 import { CookieService } from 'ngx-cookie-service';
 import { error } from '@angular/compiler/src/util';
+import { JwtServiceService } from 'src/app/service/jwt-service.service';
+
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
               private route: ActivatedRoute,
               private router : Router,
-              private _cookieService: CookieService) { }
+              private _cookieService: CookieService,
+              private jwt: JwtServiceService) { }
 
   ngOnInit(): void {
 
@@ -26,9 +29,11 @@ export class LoginComponent implements OnInit {
         console.log(data.text + " được");
         this.router.navigate(['']);
       },error => {
-        console.log("có lỗi")
-        console.log(error.text)
         console.log(error)
+        console.log(error.status)
+        if(error.status === 200){
+          this.router.navigate(['']);
+        }
       }
     )
 
@@ -68,7 +73,7 @@ export class LoginComponent implements OnInit {
       data =>{
         console.log(data);
         this._cookieService.set("Authorization",data.Authorization)
-
+        this.jwt.getUsername();
         this.router.navigate(['']);
       }, error =>{
         console.log(error + " có lỗi ");

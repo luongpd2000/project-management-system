@@ -19,8 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
               private route: ActivatedRoute,
               private router : Router,
-              private _cookieService: CookieService,
-              private jwt: JwtServiceService) { }
+              private _cookieService: CookieService) { }
 
   ngOnInit(): void {
 
@@ -73,7 +72,6 @@ export class LoginComponent implements OnInit {
       data =>{
         console.log(data);
         this._cookieService.set("Authorization",data.Authorization)
-        this.jwt.getUsername();
         this.router.navigate(['']);
       }, error =>{
         console.log(error + " có lỗi ");

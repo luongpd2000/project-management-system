@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/project")
 public class test {
 
-//    @Autowired
-//    ProjectService projectService;
+    @Autowired
+    ProjectService projectService;
 
     @Autowired
     TestService testService;
@@ -26,7 +26,7 @@ public class test {
 
     @GetMapping("/user/projectList")
     public ResponseEntity<?> projectList(){
-        return ResponseEntity.ok("sa");
+        return ResponseEntity.ok("ok");
     }
 
     @GetMapping("/admin/taskList")

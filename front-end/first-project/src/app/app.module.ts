@@ -9,11 +9,15 @@ import { ContentLayoutComponent } from './layout/content-layout/content-layout.c
 import { FooterComponent } from './layout/footer/footer.component';
 import { NavComponent } from './layout/nav/nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ProjectService } from './service/project.service';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
-import {MatDialogModule} from '@angular/material/dialog';
-import { ProjectComponent } from './dialog/project/project.component';
-import {FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import {CookieService} from 'ngx-cookie-service';
 
 
 
@@ -30,15 +34,12 @@ import {FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    BrowserAnimationsModule  ,
-    HttpClientModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    FormsModule,
 
-  
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [ProjectService],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -48,11 +48,6 @@ public class AdminController {
     }
 
 
-    @GetMapping("/findUserById/{id}")
-    public ResponseEntity<?> findUserById(@PathVariable Integer id){
-        return ResponseEntity.ok(userService.findById(id));
-    }
-
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer id){
 

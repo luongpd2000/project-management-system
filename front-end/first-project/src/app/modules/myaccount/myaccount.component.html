@@ -85,9 +85,9 @@
                   <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)" class="mt-1">
 
                     <!-- && phone?.errors?.minlength -->
-                    <!-- <div *ngIf="phone?.errors?.maxlength ">
+                    <div *ngIf="phone?.errors?.maxlength ">
                       Phone must be 11 number
-                    </div> -->
+                    </div>
 
                   <div *ngIf="phone?.errors?.pattern">
                     Phone must be a valid phone format
@@ -115,10 +115,9 @@
             </div>
             <div class="row gutters">
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <h6 class="mt-3 mb-2 text-primary" *ngIf="check==false" >Click button if you want change password</h6>
+                <!-- <h6 class="mt-3 mb-2 text-primary">Account Detail</h6> -->
                 <button type="button" class="btn btn-primary mt-3 mb-2" *ngIf="check==false" (click)="checkEdit()">Change Password</button>
                 <button type="button" class="btn btn-primary mt-3 mb-2" *ngIf="check==true" (click)="checkEdit()">Hide change Password</button>
-                <h6 class="mt-3 mb-2 text-primary" *ngIf="check==true">Click button if you don't want change password</h6>
               </div>
 
               <div *ngIf="check==true">

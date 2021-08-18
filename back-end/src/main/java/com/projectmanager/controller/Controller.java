@@ -92,12 +92,15 @@ public class Controller {
         return ResponseEntity.ok(projectEmployeeService.findByUserIdAndDeleteIsFalse(id,pageable));
     }
 
+<<<<<<< HEAD
     @GetMapping("/getProjectById/{id}")
     public ResponseEntity<?> getProjectById(@PathVariable Integer id){
         return ResponseEntity.ok(projectService.findById(id));
     }
 
 
+=======
+>>>>>>> parent of 6e271d08 (update)
     @GetMapping("/checkLogin")
 //    @ResponseBody
     public ResponseEntity<?> checkLogin(){

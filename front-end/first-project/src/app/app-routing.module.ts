@@ -47,13 +47,13 @@ const routes: Routes = [
         loadChildren:()=>
           import('./modules/project-management/project-management.module').then(m=>m.ProjectManagementModule)
       },
-
+  
 
     ]
   },
   // Auth Routers
   {
-    path: 'login',
+    path: 'auth',
     component: AuthLayoutComponent,
     loadChildren: () =>
       import('./modules/auth/auth.module').then(m => m.AuthModule)

@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
   login(){
     console.log("login");
 
-    console.log( this._cookieService.get("Authorization"));
+
     if (this.logIn.invalid) {
       this.logIn.markAllAsTouched();
       console.log("false " + this.logIn.status)
@@ -67,10 +67,9 @@ export class LoginComponent implements OnInit {
     this.loginService.login(u,p).subscribe(
       data =>{
         console.log(data);
-        // this._cookieService.deleteAll();
-        this._cookieService.set("Authorization",data.Authorization,{ expires: 1, sameSite: 'Lax', path:"/"})
-
-        this.router.navigate(['/project-manager']);
+        this._cookieService.set("Authorization",data.Authorization)
+        
+        this.router.navigate(['']);
       }, error =>{
         console.log(error + " có lỗi ");
     })

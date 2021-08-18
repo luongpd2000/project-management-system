@@ -27,7 +27,6 @@ export class LoginService {
     private _cookieService: CookieService) { }
 
   login(u: any, p: any): Observable<any>{
-
     return this.httpClient.post(this.baseUrl,{
       username: u,
       password: p
@@ -37,10 +36,9 @@ export class LoginService {
 
   logout()
   {
-    // Remove the token.
-    this._cookieService.deleteAll;
-    console.log( this._cookieService.get("Authorization"));
-    this.router.navigate(['/login']);
+    // Remove the token from the localStorage.
+    this._cookieService.delete('Authorization');
+    this.router.navigate(['/auth/login']);
   }
 
 

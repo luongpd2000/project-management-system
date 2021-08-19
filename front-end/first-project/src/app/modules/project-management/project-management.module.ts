@@ -6,6 +6,9 @@ import { ProjectManagementComponent } from './project-management.component';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
 import { AddUsersComponent } from './add-users/add-users.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialModule } from 'src/app/shared/material.module';
 
 
 @NgModule({
@@ -17,7 +20,11 @@ import { AddUsersComponent } from './add-users/add-users.component';
   ],
   imports: [
     CommonModule,
-    ProjectManagementRoutingModule
+    ProjectManagementRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgbModule,
+    MaterialModule
   ]
 })
 export class ProjectManagementModule { }

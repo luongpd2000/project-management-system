@@ -1,285 +1,335 @@
 <!-- detail project -->
 <main class="content-wrapper">
-    <div class="section-body">
-      <div class="container p-30">
-        <h1>Project Name</h1>
-        <div class="group-btn-1" style="margin-top: 30px;">
-          <button class="btn btn-success " routerLink='/project-manager/add-user'>Add user</button>
-          <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#new-project">Edit</button>
-          <button type="button" class="btn btn-danger ">Delete</button>
-  
-        </div>
-        <div class="col-6">
-          <div class="row">
-            <div class="col-6 py-1"><strong>Created:</strong></div>
-            <div class="col-6 py-1">09 Jun 2019 11:32AM</div>
-            <div class="col-6 py-1"><strong>Creator:</strong></div>
-            <div class="col-6 py-1">Nathan Guerrero</div>
-            <div class="col-6 py-1"><strong>Task:</strong></div>
-            <div class="col-6 py-1"><strong>23</strong></div>
-            <div class="col-6 py-1"><strong>Todo:</strong></div>
-            <div class="col-6 py-1"><strong>32</strong></div>
-            <div class="col-6 py-1"><strong>Bug:</strong></div>
-            <div class="col-6 py-1"><strong>5</strong></div>
-            <div class="col-6 py-1"><strong>Team size:</strong></div>
-            <div class="col-6 py-1">
-              <span class="avatar avatar-sm">+8</span>
-            </div>
-            <div class="col-6 py-1"><strong>Members:</strong></div>
-            <div class="col-6 py-1"><strong>Lương, Tuyên</strong></div>
-            <div class="col-6 py-1"><strong>Status</strong></div>
-            <div class="col-6 py-1"><strong><span class="badge badge-success">Done</span></strong></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-  <!-- detail project end -->
-  
-  <!-- ListTask -->
-  <main class="content-wrapper">
+  <div class="section-body">
     <div class="container p-30">
-      <div class="row">
-        <div class="col-md-12 main-datatable">
-          <div class="card_body">
-            <div class="task-list">Task List</div>
-            <div class="row d-flex">
-              <div class="col-sm-4 createSegment">
-                <a class="btn dim_button create_new" data-toggle="modal" data-target="#new-task"> <span
-                    class="glyphicon glyphicon-plus"></span>New Task</a>
-              </div>
-              <div class="col-sm-8 add_flex">
-                <div class="form-group searchInput">
-                  <label for="email">Search:</label>
-                  <input type="search" class="form-control" id="filterbox" placeholder=" ">
-                </div>
-              </div>
-            </div>
-            <div class="overflow-x">
-  
-              <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
-                <thead>
-                  <tr>
-                    <th style="min-width:20px; max-width: 50;">ID</th>
-                    <th style="min-width:150px;">Name</th>
-                    <th style="min-width:150px;">Priority</th>
-                    <th style="min-width:100px;">Manager</th>
-                    <th style="min-width:100px;">Due to</th>
-                    <th style="min-width:150px;">Status</th>
-                    <th style="min-width:150px;">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Task1</td>
-                    <td><span class="mode mode_high">High</span></td>
-                    <td>Vũ Đức Tuyên</td>
-                    <td>17-Apr-2020</td>
-                    <td><span class="mode mode_working">Working</span></td>
-                    <td>
-                      
-                        <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                          Details
-                        </button>
-                    
-  
-  
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Task2</td>
-                    <td><span class="mode mode_normal">Normal</span></td>
-                    <td>Vũ Đức Tuyên</td>
-                    <td>17-Apr-2020</td>
-                    <td><span class="mode mode_done">Done</span></td>
-                    <td>
-                      <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                        Details
-                      </button>
-  
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Task1</td>
-                    <td><span class="mode mode_low">Low</span></td>
-                    <td>Vũ Đức Tuyên</td>
-                    <td>17-Apr-2020</td>
-                    <td><span class="mode mode_working">Working</span></td>
-                    <td>
-                      <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                        Details
-                      </button>
-  
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Task5</td>
-                    <td><span class="mode mode_high">High</span></td>
-                    <td>Vũ Đức Tuyên</td>
-                    <td>17-Apr-2020</td>
-                    <td><span class="mode mode_reviewing">Reviewing</span></td>
-                    <td>
-                      <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                        Details
-                      </button>
-  
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+      <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Update Success!!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>
-  </main>
-  <!-- ListTask End -->
-  
-  <!-- modal project-->
-  <div class="modal fade" id="new-project" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Details project</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group row">
-            <label for="inputName" class="col-sm-3 col-form-label">Project Name<span class="text-danger">*</span></label>
-            <div class="col-sm-9">
-              <input type="Text" class="form-control" id="inputName" placeholder="Name">
-            </div>
+      <h1>{{currentProject?.name}}</h1>
+      <div class="group-btn-1" style="margin-top: 30px;">
+        <button class="btn btn-success " routerLink='/project-manager/add-user/{{currentProject?.id}}'>Add user</button>
+        <button type="button" class="btn btn-primary " (click)="openProjectForm(P_edit)">Edit</button>
+        <button type="button" class="btn btn-danger " (click)="openDelete(confirmDelete)">Delete</button>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6 py-1"><strong>Created:</strong></div>
+          <div class="col-6 py-1">{{currentProject?.createDate}}</div>
+          <div class="col-6 py-1"><strong>Start Date:</strong></div>
+          <div class="col-6 py-1">{{currentProject?.startDate}}</div>
+          <div class="col-6 py-1"><strong>End Date:</strong></div>
+          <div class="col-6 py-1">{{currentProject?.endDate}}</div>
+          <div class="col-6 py-1"><strong>Creator:</strong></div>
+          <div class="col-6 py-1">Nathan Guerrero</div>
+          <div class="col-6 py-1"><strong>Task:</strong></div>
+          <div class="col-6 py-1"><strong>{{taskList?.length}}</strong></div>
+          <div class="col-6 py-1"><strong>Todo:</strong></div>
+          <div class="col-6 py-1"><strong>{{todoNum}}</strong></div>
+          <div class="col-6 py-1"><strong>Team size:</strong></div>
+          <div class="col-6 py-1">
+            <span class="avatar avatar-sm">+8</span>
           </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
-            <div class="col-md-9" style="display: flex;">
-              <input type="text" class="form-control datepicker" name="date" value="">
-  
-              <span style="padding: 10px;">To</span>
-              <input type="text" class="form-control datepicker" name="date" value="">
-  
-            </div>
+          <div class="col-6 py-1"><strong>Members:</strong></div>
+          <div class="col-6 py-1"><strong>Lương, Tuyên</strong></div>
+          <div class="col-6 py-1"><strong>Status</strong></div>
+          <div class="col-6 py-1"><strong><span class="badge badge-success">{{currentProject?.status}}</span></strong>
           </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
-            <div class="col-md-9">
-              <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">
-              Status<span class="text-danger">*</span></label>
-  
-            <div class="col-md-7">
-              <select class="custom-select mr-sm-2" id="">
-                <option selected>Status</option>
-                <option value="1">Draft</option>
-                <option value="2">Pending</option>
-                <option value="3">Working</option>
-                <option value="4">Reviewing</option>
-                <option value="5">Done</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Add</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- modal project END
-     -->
-  <!-- modal new task -->
-  <!-- Modal -->
-  
-  <div class="modal fade" id="new-task" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Task Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group row">
-            <label for="inputName" class="col-sm-3 col-form-label">Task Name<span class="text-danger">*</span></label>
-            <div class="col-sm-9">
-              <input type="Text" class="form-control" id="inputName" placeholder="Name">
+</main>
+<!-- detail project end -->
+
+<!-- ListTask -->
+<main class="content-wrapper">
+  <div class="container p-30">
+    <div class="row">
+      <div class="col-md-12 main-datatable">
+        <div class="card_body">
+          <div class="task-list">Task List</div>
+          <div class="row d-flex">
+            <div class="col-sm-4 createSegment">
+              <a class="btn dim_button create_new" data-toggle="modal" data-target="#new-task"> <span
+                  class="glyphicon glyphicon-plus"></span>New Task</a>
+            </div>
+            <div class="col-sm-8 add_flex">
+              <div class="form-group searchInput">
+                <label for="email">Search:</label>
+                <input type="search" class="form-control" id="filterbox" placeholder=" ">
+              </div>
             </div>
           </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
-            <div class="col-md-9" style="display: flex;">
-              <input type="text" class="form-control datepicker" name="date" value="">
-  
-              <span style="padding: 10px;">To</span>
-              <input type="text" class="form-control datepicker" name="date" value="">
-  
-            </div>
+          <div class="overflow-x">
+
+            <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
+              <thead>
+                <tr>
+                  <th style="min-width:20px; max-width: 50;">ID</th>
+                  <th style="min-width:150px;">Name</th>
+                  <th style="min-width:150px;">Priority</th>
+                  <th style="min-width:100px;">Manager</th>
+                  <th style="min-width:100px;">Due to</th>
+                  <th style="min-width:150px;">Status</th>
+                  <th style="min-width:150px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Task1</td>
+                  <td><span class="mode mode_high">High</span></td>
+                  <td>Vũ Đức Tuyên</td>
+                  <td>17-Apr-2020</td>
+                  <td><span class="mode mode_working">Working</span></td>
+                  <td>
+
+                    <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
+                      Details
+                    </button>
+
+
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>Task2</td>
+                  <td><span class="mode mode_normal">Normal</span></td>
+                  <td>Vũ Đức Tuyên</td>
+                  <td>17-Apr-2020</td>
+                  <td><span class="mode mode_done">Done</span></td>
+                  <td>
+                    <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
+                      Details
+                    </button>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>Task1</td>
+                  <td><span class="mode mode_low">Low</span></td>
+                  <td>Vũ Đức Tuyên</td>
+                  <td>17-Apr-2020</td>
+                  <td><span class="mode mode_working">Working</span></td>
+                  <td>
+                    <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
+                      Details
+                    </button>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>Task5</td>
+                  <td><span class="mode mode_high">High</span></td>
+                  <td>Vũ Đức Tuyên</td>
+                  <td>17-Apr-2020</td>
+                  <td><span class="mode mode_reviewing">Reviewing</span></td>
+                  <td>
+                    <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
+                      Details
+                    </button>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="form-group row">
-            <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
-                class="text-danger">*</span></label>
-            <div class="col-sm-9">
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>High</option>
-                <option>Normal</option>
-                <option>Low</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
-            <div class="col-md-9">
-              <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">
-              Assign for<span class="text-danger">*</span></label>
-  
-            <div class="col-md-9">
-              <select class="selectpicker" data-live-search="true" title="Select User">
-  
-                <option data-tokens="">User1</option>
-                <option data-tokens="">User2</option>
-                <option data-tokens="">User3</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">
-              Status<span class="text-danger">*</span></label>
-            <div class="col-md-7">
-              <select class="custom-select mr-sm-2" id="">
-                <option selected>Status</option>
-                <option value="1">Draft</option>
-                <option value="2">Pending</option>
-                <option value="3">Working</option>
-                <option value="4">Reviewing</option>
-                <option value="5">Done</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- modal new task END -->
-  <!-- ENd Main -->
-  <!-- Footter -->
+</main>
+
+<!-- modal project-->
+<ng-template #P_edit let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Add project</h5>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formProject">
+      <div class="form-group row">
+        <label for="inputName" class="col-sm-3 col-form-label">Project Name<span class="text-danger">*</span></label>
+        <div class="col-sm-9">
+          <input type="Text" class="form-control" id="inputName" placeholder="Name" formControlName="name">
+          <div *ngIf="name&&name.invalid&&(name?.dirty||name?.touched)">
+            <span class="invalid-text">*Requierd</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
+        <div class="col-md-9" style="display: flex;">
+
+          <!-- <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
+              #d1="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button"></button>
+            </div>
+          </div>
+          <span> To </span>
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
+              #d2="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+            </div>
+          </div> -->
+
+          <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
+            #d="ngbDatepicker" type="date">
+          <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
+            <span class="invalid-text">*Requierd</span>
+          </div>
+          <span>To</span>
+          <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
+            #d2="ngbDatepicker" type="date">
+          <div *ngIf="endDate&&endDate.invalid&&(endDate?.dirty||endDate?.touched)">
+            <span class="invalid-text">*Requierd</span>
+          </div>
+        </div>
+        <!-- <pre>model: {{model | json}}</pre> -->
+      </div>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+          <textarea rows="4" class="form-control no-resize" placeholder="Descriptions" formControlName='des'></textarea>
+          <div *ngIf="des&&des.invalid&&(des?.dirty||des?.touched)">
+            <span class="invalid-text">*Requierd</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">
+          Status<span class="text-danger">*</span></label>
+        <div class="col-md-7">
+          <select class="custom-select mr-sm-2" id="" formControlName='status'>
+            <option value="draft" selected>Draft</option>
+            <option value="pending">Pending</option>
+            <option value="working">Working</option>
+            <option value="reviewing">Reviewing</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div *ngIf="status&&status.invalid&&(status?.dirty||status?.touched)">
+          <span class="invalid-text">*Requierd</span>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="saveProject()">Save changes</button>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+</ng-template>
+
+<!-- modal new task -->
+<div class="modal fade" id="new-task" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Task Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Task Name<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="Text" class="form-control" id="inputName" placeholder="Name">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
+          <div class="col-md-9" style="display: flex;">
+            <input type="text" class="form-control datepicker" name="date" value="">
+
+            <span style="padding: 10px;">To</span>
+            <input type="text" class="form-control datepicker" name="date" value="">
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
+              class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <select class="form-control" id="exampleFormControlSelect1">
+              <option>High</option>
+              <option>Normal</option>
+              <option>Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
+          <div class="col-md-9">
+            <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">
+            Assign for<span class="text-danger">*</span></label>
+
+          <div class="col-md-9">
+            <select class="selectpicker" data-live-search="true" title="Select User">
+
+              <option data-tokens="">User1</option>
+              <option data-tokens="">User2</option>
+              <option data-tokens="">User3</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">
+            Status<span class="text-danger">*</span></label>
+          <div class="col-md-7">
+            <select class="custom-select mr-sm-2" id="">
+              <option selected>Status</option>
+              <option value="1">Draft</option>
+              <option value="2">Pending</option>
+              <option value="3">Working</option>
+              <option value="4">Reviewing</option>
+              <option value="5">Done</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- confirm delete Project Model -->
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Delete</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5>Are you sure you want to delete this Project.</h5>
+    <div class=" text-center">
+      <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Yes, Delete!</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>
+
+<router-outlet></router-outlet>

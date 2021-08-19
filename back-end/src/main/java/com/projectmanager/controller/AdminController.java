@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 @RestController
@@ -40,6 +41,11 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(userService.getAll(pageable));
 
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<?> userList(@RequestBody ArrayList<ProjectEmployee> listRole){
+        return ResponseEntity.ok(projectEmployeeService.addPartner(listRole));
     }
 
     @PostMapping("/createUser")

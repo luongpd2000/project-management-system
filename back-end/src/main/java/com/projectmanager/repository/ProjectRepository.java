@@ -44,4 +44,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaS
     @Query(value = "UPDATE todo  SET is_deleted = 1 WHERE task_id = ?1",nativeQuery = true)
     Integer deleteTaskInTodo(Integer tId);
 
+
+
 }

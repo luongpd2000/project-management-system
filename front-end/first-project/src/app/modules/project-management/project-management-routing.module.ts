@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProjectManagementComponent } from './project-management.component';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
-import { UserManagementComponent } from '../user-management/user-management.component';
 import { AddUsersComponent } from './add-users/add-users.component';
 
 const routes: Routes = [
@@ -12,7 +11,8 @@ const routes: Routes = [
     },
     {path:'p-details/:id',component: ProjectDetailsComponent},
     {path:'task-details', component:TaskDetailsComponent},
-    {path:'add-user', component:AddUsersComponent}
+    {path:'add-user/:id', loadChildren:()=>
+    import('./add-users/add-users.module').then(m=>m.AddUsersModule)}
   
 ];
 

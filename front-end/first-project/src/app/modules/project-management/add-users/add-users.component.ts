@@ -1,24 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 
 import { MatTableDataSource } from '@angular/material/table';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+import { User } from 'src/app/data/schema/user';
+import { UserService } from 'src/app/service/user.service';
+import { ProjectService } from '../../../service/project.service';
+export interface idRole{
+  userId: number;
+  role:String;
+  projectId:number;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
 
 @Component({
   selector: 'app-add-users',
@@ -27,13 +20,79 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class AddUsersComponent implements OnInit {
 
-  listData:MatTableDataSource<PeriodicElement>=new MatTableDataSource(ELEMENT_DATA);
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  
+  arr2: idRole[] = new Array();
+  listUsers:User[]= [];
+  projectId!:number;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor() { }
+  dataSource!:MatTableDataSource<User>;
+  displayedColumns: string[] = ['id', 'userName', 'fullName', 'email', 'phone', 'role', 'action'];
+  selection = new SelectionModel<User>(true, []);
 
-  ngOnInit(): void {
+
+  constructor(private userService: UserService, private projectService:ProjectService) { 
   }
+
+  ngOnInit(): void {   
+    this.getData();
+  }
+
+  getData(){
+    this.userService.getAllUsers().subscribe(data=>{
+      this.listUsers = data;
+      console.log('list users', this.listUsers);
+      this.dataSource = new MatTableDataSource<User>(this.listUsers);
+      console.log("datasouce",this.dataSource.data);
+
+    })
+  }
+
+  ngAfterViewInit() {
+    // this.dataSource.paginator = this.paginator
+
+}
+
+isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+
+/** Selects all rows if they are not all selected; otherwise clear selection. */
+masterToggle() {
+  this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+}
+
+logSelection() {
+  this.selection.selected.forEach(s => {
+    console.log(s.id, s.role);
+    this.arr2.push({userId:s.id, role:s.role,projectId:this.projectId});
+    
+  });
+  this.saveRole(this.arr2);
+  this.arr2=[];
+}
+
+saveRole( list:Array<any>){
+  this.projectService.postRole(list).subscribe(data=>{
+    console.log('ADD User seccess');
+
+  });
+
+  }
+
+
+applyFilter(filterValue: string) {
+  // this.dataSource.filter = filterValue.trim().toLowerCase();
+}
+
+openDetails(element:any){
+  console.log(element);
+  
+}
+
+
 
 }

@@ -40,20 +40,16 @@ export class UserService {
 
   }
 
-  getAllUser(): Observable<any>{
-
-    const userUrl = `${this.baseUrl}/admin/userList`;
-
-    return this.httpClient.get<any>(userUrl,this.httpOptions);
-
-  }
-
-
   updateUser(user : User): Observable<any> {
 
     const updateUserUrl = `${this.baseUrl}/updateUser`;
 
     return this.httpClient.put<User>(updateUserUrl,user,this.httpOptions);
+  }
+
+  getAllUsers(){
+    const userUrl = `${this.baseUrl}/admin/userList`;
+    return this.httpClient.get<User[]>(userUrl,this.httpOptions);
   }
 
 }

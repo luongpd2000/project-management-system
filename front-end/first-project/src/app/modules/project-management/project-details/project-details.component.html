@@ -10,7 +10,7 @@
       </div>
       <h1>{{currentProject?.name}}</h1>
       <div class="group-btn-1" style="margin-top: 30px;">
-        <button class="btn btn-success " routerLink='/project-manager/add-user'>Add user</button>
+        <button class="btn btn-success " routerLink='/project-manager/add-user/{{currentProject?.id}}'>Add user</button>
         <button type="button" class="btn btn-primary " (click)="openProjectForm(P_edit)">Edit</button>
         <button type="button" class="btn btn-danger " (click)="openDelete(confirmDelete)">Delete</button>
       </div>

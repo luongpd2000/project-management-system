@@ -1,0 +1,10 @@
+table {
+    width: 100%;
+  }
+.search-input{
+  margin:20px 0;
+}
+.search-input button{
+  margin-right: 10px;
+}
+  

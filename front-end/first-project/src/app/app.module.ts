@@ -9,18 +9,11 @@ import { ContentLayoutComponent } from './layout/content-layout/content-layout.c
 import { FooterComponent } from './layout/footer/footer.component';
 import { NavComponent } from './layout/nav/nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
 import { GuardGuard } from './guard/guard.guard';
-import { Location } from '@angular/common';
-import { LoginService } from './service/login.service';
-import { Router } from '@angular/router';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -29,7 +22,7 @@ import { Router } from '@angular/router';
     ContentLayoutComponent,
     NavComponent,
     FooterComponent,
-    AuthLayoutComponent,
+    AuthLayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +33,8 @@ import { Router } from '@angular/router';
     ReactiveFormsModule
   ],
   providers: [CookieService,
-              GuardGuard],
+              GuardGuard,
+            ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

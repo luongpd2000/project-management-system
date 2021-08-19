@@ -3,53 +3,48 @@
     <div class="row">
       <div class="col-md-12 main-datatable">
         <div class="card_body">
-          <div class="task-list" >User List</div>
+          <div class="task-list">User List</div>
           <div class="row d-flex">
             <div class="col-sm-4 createSegment">
-              <a class="btn dim_button create_new"  data-toggle="modal" data-target="#new-user"> <span class="glyphicon glyphicon-plus"></span>New User</a>
+              <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#new-user" (click)="addUser()">New User</button>
             </div>
-            <div class="col-sm-8 add_flex">
-              <!-- <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search this blog">
-                  <div class="input-group-append">
-                    <button class="btn btn-secondary" type="button">
-                      <i class="fa fa-search"></i>
-                    </button>
-                  </div>
-                </div> -->
-                <div class="form-group searchInput">
-                  <label for="email">Search:</label>
-                  <input type="search" class="form-control" id="filterbox" placeholder=" ">
-                </div>
+              <div class="col-sm-8 add_flex">
+              <div class="form-group searchInput">
+                <label for="email">Search:</label>
+                <input type="search" class="form-control" id="filterbox" placeholder=" ">
+              </div>
             </div>
           </div>
           <div class="overflow-x">
             <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
               <thead>
                 <tr>
+                  <th style="min-width:20px; max-width: 50;">STT</th>
                   <th style="min-width:20px; max-width: 50;">ID</th>
-                  <th style="min-width:150px;">Name</th>
+                  <th style="min-width:150px;">Full Name</th>
                   <th style="min-width:150px;">Email</th>
                   <th style="min-width:100px;">Phone</th>
+                  <th style="min-width:150px;">Address</th>
                   <th style="min-width:100px;">Create date</th>
-                  <th style="min-width:150px;">Action</th>
+                  <th style="min-width:100px;">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngFor="let user of userList; index as i">
                 <tr>
-                  <td>1</td>
-                  <td>Vũ Đức Tuyên</td>
-                  <td>vutuyenkt2000@gmail.com</td>
-                  <td>0987676575</td>
-                  <td>17-Apr-2020</td>
+                  <td >{{i + 1}}</td>
+                  <td>{{user.id}}</td>
+                  <td>{{user.fullName}}</td>
+                  <td>{{user.email}}</td>
+                  <td>{{user.phone}}</td>
+                  <td>{{user.address}}</td>
+                  <td>{{user.createDate}}</td>
                   <td>
-                      <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#new-user">
-                        Details
-                      </button>
-                    
+                    <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#new-user" (click)="details()">Details</button>
+                    <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#delete">Delete</button>
+                    <br>
+                    <button type="button" class="btn btn-warning mt-2 " data-toggle="modal" data-target="#password-recover">Password Recover</button>
                   </td>
                 </tr>
-  
               </tbody>
             </table>
           </div>
@@ -58,72 +53,106 @@
     </div>
   </div>
 </main>
-<div class="modal fade" id="new-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+
+
+<div class="modal fade" id="new-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">User Details</h5>
+        <h5 class="modal-title" id="exampleModalLabel" *ngIf="checkAdd">New User</h5>
+        <h5 class="modal-title" id="exampleModalLabel" *ngIf="!checkAdd">User Details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">User Name<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="Text" class="form-control" id="inputName" placeholder="Name">
-              </div>
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">User Name<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="inputName" placeholder="Name" [disabled]="!checkAdd">
           </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Phone Number<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="Text" class="form-control" id="inputName" placeholder="Phone Number">
-              </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Full Name<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Address" [disabled]="!checkAdd">
           </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Email<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="email" class="form-control" id="" placeholder="Email">
-              </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Phone Number<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="inputName" placeholder="Phone Number" [disabled]="!checkAdd">
           </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label"> Password<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="password" class="form-control" id="" placeholder="Password">
-              </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Email<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="" placeholder="Email" [disabled]="!checkAdd">
           </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Confirm Password<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="password" class="form-control" id="" placeholder="Confirm Password">
-              </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Address<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Address" [disabled]="!checkAdd">
           </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Date Of Birth<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="Date" name="dob" class="form-control" id="Date" placeholder="" required>
-              </div>
+        </div>
+        <div class="form-group row" *ngIf="checkAdd">
+          <label for="inputName" class="col-sm-3 col-form-label"> Password<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="" placeholder="Password" >
           </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Address<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="Text" class="form-control" id="" placeholder="Address">
-              </div>
+        </div>
+        <div class="form-group row" *ngIf="checkAdd">
+          <label for="inputName" class="col-sm-3 col-form-label">Confirm Password<span
+              class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="" placeholder="Confirm Password">
           </div>
-          
+        </div>
+        <!-- <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Date Of Birth<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="Date" name="dob" class="form-control" id="Date" placeholder="" required>
+          </div>
+        </div> -->
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" *ngIf="checkAdd">Save</button>
       </div>
     </div>
   </div>
 </div>
 
+
+
+<!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef> Weight </th>
+      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table> -->

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { UserManagementRoutingModule } from './user-management-routing.module';
 import { UserManagementComponent } from './user-management.component';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MaterialModule } from 'src/app/shared/material.module';
+
 
 
 @NgModule({
@@ -11,7 +14,8 @@ import { UserManagementComponent } from './user-management.component';
   ],
   imports: [
     CommonModule,
-    UserManagementRoutingModule
+    UserManagementRoutingModule,
+    MaterialModule
   ]
 })
 export class UserManagementModule { }

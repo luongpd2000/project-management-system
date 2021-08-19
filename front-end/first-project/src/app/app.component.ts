@@ -40,7 +40,7 @@ export class AppComponent {
           console.log(data.status);
           // this.loginService.logIn2.next(true);
           this.loginService.logIn = true;
-          this.router.navigate([this.loginService.path]);
+          this.router.navigate([this.loginService.path==="/login"? "" : this.loginService.path]);
         },error => {
           console.log("có lỗi check isLogIn " + error.status)
           console.log(error);

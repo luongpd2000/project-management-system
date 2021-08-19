@@ -35,20 +35,23 @@ export class AddUsersComponent implements OnInit {
 
   ngOnInit(): void {   
     this.getData();
+    this.dataSource.paginator = this.paginator;
   }
 
   getData(){
     this.userService.getAllUsers().subscribe(data=>{
-      this.listUsers = data;
+      
+      this.listUsers =data['content'];
       console.log('list users', this.listUsers);
       this.dataSource = new MatTableDataSource<User>(this.listUsers);
       console.log("datasouce",this.dataSource.data);
+      this.dataSource.paginator = this.paginator;
 
     })
   }
 
   ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator
+    this.dataSource.paginator = this.paginator
 
 }
 
@@ -85,7 +88,7 @@ saveRole( list:Array<any>){
 
 
 applyFilter(filterValue: string) {
-  // this.dataSource.filter = filterValue.trim().toLowerCase();
+  this.dataSource.filter = filterValue.trim().toLowerCase();
 }
 
 openDetails(element:any){

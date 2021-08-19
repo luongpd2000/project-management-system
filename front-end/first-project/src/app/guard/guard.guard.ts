@@ -31,7 +31,7 @@ export class GuardGuard implements CanActivate {
     //     console.log(error);
     //   }
     // )
-
+      console.log(this.login.logIn)
       if(this.login.logIn){
         return true;
       }else{

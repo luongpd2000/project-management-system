@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     // )
 
     if(this.loginService.logIn){
-      this.router.navigate(['']);
+      this.router.navigate([this.loginService.path]);
     }
 
     this.logIn = new FormGroup({
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
         console.log(data.status);
         this._cookieService.set("Authorization",data.Authorization)
         this.loginService.logIn = true;
-        this.router.navigate(['']);
+        this.router.navigate([this.loginService.path==="/login"? "" : this.loginService.path]);
       }, error =>{
         console.log(error + " có lỗi login");
     })

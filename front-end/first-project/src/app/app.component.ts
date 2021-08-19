@@ -26,22 +26,21 @@ export class AppComponent {
   }
 
   ngOnInit(): void{
-    this.path = this.location.path();
+
+    this.loginService.path = this.location.path();
     console.log('appComponent: pathString...');
-    console.log(this.path);
+    console.log(this.loginService.path);
 
-    
     if(this.loginService.logIn === true){
-      this.router.navigate([this.path]);
+      this.router.navigate([this.loginService.path]);
     }else{
-
       this.loginService.isLoggedIn().subscribe(
         data =>{
           console.log(data);
           console.log(data.status);
           // this.loginService.logIn2.next(true);
           this.loginService.logIn = true;
-          this.router.navigate([this.path]);
+          this.router.navigate([this.loginService.path==="/login"? "" : this.loginService.path]);
         },error => {
           console.log("có lỗi check isLogIn " + error.status)
           console.log(error);

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-// import {  Observable } from 'rxjs';
+import {  Observable } from 'rxjs';
 import { Project } from '../data/schema/project';
 import { CookieService } from 'ngx-cookie-service';
+import { idRole } from '../data/schema/id-role';
+import { ProjectDetails } from '../data/schema/project-details';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +45,13 @@ export class ProjectService {
     console.log("delete this project:"+id);
     return this.http.delete(this.bareUrl+'project_management/admin/deleteProject/'+id,this.httpOptions);
   }
+
+  postRole(listRole:Array<idRole>):Observable<any>{
+    console.log('addUser to project');
+    
+    return this.http.post(this.bareUrl+"project_management/admin//addUser",listRole,this.httpOptions);
+  }
+
 
   
 

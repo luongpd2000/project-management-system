@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import{Project} from '../../data/schema/project';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 // import {MatDatepickerModule} from '@angular/material/datepicker';
+import { ProjectDetails } from '../../data/schema/project-details';
+
 
 
 
@@ -15,8 +17,8 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ProjectManagementComponent implements OnInit {
  
-  projectList:Project[]=[];
-  newProject:Project=new Project();
+  projectList:ProjectDetails[]=[];
+  newProject:Project=new Project();//
   formProject!:FormGroup;
   constructor(
     private projectService:ProjectService,
@@ -26,7 +28,19 @@ export class ProjectManagementComponent implements OnInit {
   ngOnInit(): void {
     this.makeForm();
     this.projectService.getAllProjects().subscribe(data=>{
+
       this.projectList=data['content'];
+
+      this.projectList.forEach(data=>{
+        let tasks:Array<any> = <Array<any>>data.taskList;
+        let todo=0;
+        data.taskNum=tasks.length;
+        tasks.forEach(element => {
+          todo+=(element['todoList']).length;
+        });
+        data.todoNum=todo;
+        
+      });
       console.log(this.projectList);
     },error=>{console.log(error.error.message)});
   }

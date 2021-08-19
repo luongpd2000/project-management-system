@@ -11,6 +11,8 @@ export class NavComponent implements OnInit {
 
   constructor(private loginService: LoginService,
               private route: ActivatedRoute) { }
+  
+  
 
   ngOnInit(): void {
   }

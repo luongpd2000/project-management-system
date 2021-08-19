@@ -45,7 +45,7 @@ export class UserService {
 
     const updateUserUrl = `${this.baseUrl}/updateUser`;
 
-    return this.httpClient.put<User>(updateUserUrl,user);
+    return this.httpClient.put<User>(updateUserUrl,user,this.httpOptions);
   }
 
 }

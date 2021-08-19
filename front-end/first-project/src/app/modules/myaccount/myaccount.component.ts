@@ -20,7 +20,9 @@ export class MyaccountComponent implements OnInit {
 
   username: String = "luongpd";
 
-  check: boolean = false;
+  check: boolean = false;// check change pass
+
+  checkEditInfor: boolean = false;// check change Infor
 
   acountForm!: FormGroup;
 
@@ -99,18 +101,19 @@ export class MyaccountComponent implements OnInit {
     console.log(this.check);
   }
 
+  checkEditAccount(){
+    this.checkEditInfor = true;
+  }
+
 
   update(){
     console.log("update");
-
     const userUpdate = this.user;
-
-
-    // if (this.acountForm.invalid) {
-    //   //this.acountForm.markAllAsTouched();
-    //   console.log("false " + this.acountForm.status)
-    //   return;
-    // }
+    if (this.acountForm.invalid) {
+      this.acountForm.markAllAsTouched();
+      console.log("false " + this.acountForm.status)
+      return;
+    }
 
     userUpdate.fullName = this.acountForm.controls['fullName'].value;
     userUpdate.email = this.acountForm.controls['email'].value;

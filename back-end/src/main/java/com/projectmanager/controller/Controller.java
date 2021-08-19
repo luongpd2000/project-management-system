@@ -1,5 +1,6 @@
 package com.projectmanager.controller;
 
+import com.projectmanager.dto.Status;
 import com.projectmanager.dto.UserDto;
 import com.projectmanager.entity.User;
 import com.projectmanager.service.ProjectEmployeeService;
@@ -101,6 +102,6 @@ public class Controller {
     @GetMapping("/checkLogin")
 //    @ResponseBody
     public ResponseEntity<?> checkLogin(){
-        return ResponseEntity.ok("LoggedIn");
+        return ResponseEntity.ok(new Status("LoggedIn"));
     }
 }

@@ -6,6 +6,7 @@ import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component'
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 // import { NoAuthGuard } from '@core/guard/no-auth.guard';
 import { MyTaskModule } from './modules/my-task/my-task.module';
+import { GuardGuard } from './guard/guard.guard';
 
 const routes: Routes = [
 
@@ -19,7 +20,7 @@ const routes: Routes = [
   {
     path: '',
     component: ContentLayoutComponent,
-    // canActivate: [NoAuthGuard],
+    canActivate: [GuardGuard],
     children:[
       {
         path:'myaccount',

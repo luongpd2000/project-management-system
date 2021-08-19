@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
+import { GuardGuard } from './guard/guard.guard';
+import { Location } from '@angular/common';
+import { LoginService } from './service/login.service';
+import { Router } from '@angular/router';
 
 
 @NgModule({
@@ -35,7 +39,10 @@ import {CookieService} from 'ngx-cookie-service';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [CookieService],
+  providers: [CookieService,
+              GuardGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

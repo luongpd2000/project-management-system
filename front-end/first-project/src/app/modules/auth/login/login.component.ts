@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   logIn!: FormGroup;
 
+
   constructor(private loginService: LoginService,
               private route: ActivatedRoute,
               private router : Router,
@@ -21,19 +22,22 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.loginService.isLoggedIn().subscribe(
-      data =>{
-        console.log(data.text + " được");
-        this.router.navigate(['']);
-      },error => {
-        console.log("có lỗi check isLogIn " + error.status)
-        console.log(error.status);
+    // this.loginService.isLoggedIn().subscribe(
+    //   data =>{
+    //     console.log(data);
+    //     console.log(data.status);
+    //     // this.loginService.logIn2.next(true);
+    //     this.loginService.logIn = true;
+    //     this.router.navigate(['']);
+    //   },error => {
+    //     console.log("có lỗi check isLogIn " + error.status)
+    //     console.log(error);
+    //   }
+    // )
 
-        if(error.status === 200){
-          this.router.navigate(['']);
-        }
-      }
-    )
+    if(this.loginService.logIn){
+      this.router.navigate(['']);
+    }
 
     this.logIn = new FormGroup({
       username: new FormControl('',[
@@ -46,7 +50,6 @@ export class LoginComponent implements OnInit {
         //Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
       ])
     })
-
   }
 
 
@@ -68,11 +71,10 @@ export class LoginComponent implements OnInit {
       data =>{
         console.log(data.status);
         this._cookieService.set("Authorization",data.Authorization)
+        this.loginService.logIn = true;
         this.router.navigate(['']);
       }, error =>{
         console.log(error + " có lỗi login");
-
-
     })
 
 

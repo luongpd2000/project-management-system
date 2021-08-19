@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { UserManagementRoutingModule } from './user-management-routing.module';
 import { UserManagementComponent } from './user-management.component';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MaterialModule } from 'src/app/material/material/material.module';
+import { MaterialModule } from 'src/app/shared/material.module';
+
 
 
 @NgModule({
@@ -14,9 +15,6 @@ import { MaterialModule } from 'src/app/material/material/material.module';
   imports: [
     CommonModule,
     UserManagementRoutingModule,
-    MaterialModule
-  ],
-  exports:[
     MaterialModule
   ]
 })

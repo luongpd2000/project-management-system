@@ -6,9 +6,11 @@ import com.projectmanager.service.ProjectEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -74,5 +76,19 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
     @Override
     public Page<ProjectEmployee> findByUserIdAndDeleteIsFalse(Integer userId, Pageable pageable) {
         return projectEmployeeRepository.findByUserIdAndDeleteIsFalse(userId,pageable);
+    }
+
+    @Override
+    public Boolean addPartner(ArrayList<ProjectEmployee> list) {
+        try{
+            for ( ProjectEmployee pe : list)
+            {   pe.setDelete(false);
+                projectEmployeeRepository.save(pe);
+            };
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

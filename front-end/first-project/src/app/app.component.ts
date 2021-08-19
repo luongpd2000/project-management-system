@@ -26,6 +26,7 @@ export class AppComponent {
   }
 
   ngOnInit(): void{
+
     this.loginService.path = this.location.path();
     console.log('appComponent: pathString...');
     console.log(this.loginService.path);
@@ -46,7 +47,6 @@ export class AppComponent {
         }
       )
     }
-
   }
 
 

@@ -75,8 +75,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.loginService.path]);
       }, error =>{
         console.log(error + " có lỗi login");
-
-
     })
 
 

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../data/schema/user';
 import { CookieService } from 'ngx-cookie-service';
+import { PasswordRecover } from '../data/schema/password-recover';
 
 @Injectable({
   providedIn: 'root'
@@ -39,12 +40,21 @@ export class UserService {
     return this.httpClient.get<User>(userUrl,this.httpOptions);
 
   }
-  
-  getAllUser(): Observable<any>{
+
+  getAllUsersPageable(thePage: number,
+    thePageSize: number): Observable<any>{
+
+    const userUrl = `${this.baseUrl}/admin/userList?page=${thePage}&size=${thePageSize}`;
+
+    return this.httpClient.get<any>(userUrl,this.httpOptions);
+
+  }
+
+  getAllUsers(){
 
     const userUrl = `${this.baseUrl}/admin/userList`;
 
-    return this.httpClient.get<any>(userUrl,this.httpOptions);
+    return this.httpClient.get<User[]>(userUrl,this.httpOptions);
 
   }
   updateUser(user : User): Observable<any> {
@@ -54,9 +64,40 @@ export class UserService {
     return this.httpClient.put<User>(updateUserUrl,user,this.httpOptions);
   }
 
-  getAllUsers(){
-    const userUrl = `${this.baseUrl}/admin/userList`;
-    return this.httpClient.get<User[]>(userUrl,this.httpOptions);
+  deleteUser(userId : number): Observable<any> {
+
+    const deleteUserUrl = `${this.baseUrl}/admin/deleteUser/${userId}`;
+
+    return this.httpClient.delete<any>(deleteUserUrl,this.httpOptions);
   }
 
+  createUser(user: User): Observable<User> {
+
+    const createUserUrl = `${this.baseUrl}/admin/createUser`;
+
+    return this.httpClient.post<User>(createUserUrl,user,this.httpOptions);
+  }
+
+
+  passwordRecover(pr: PasswordRecover): Observable<any> {
+
+    const createUserUrl = `${this.baseUrl}/admin/passwordRecover`;
+
+    return this.httpClient.post<any>(createUserUrl,pr,this.httpOptions);
+  }
+
+
+
+}
+
+interface GetResponseUsers {
+  _embedded: {
+    users: User[];
+  },
+  page: {
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number
+  }
 }

@@ -30,17 +30,17 @@ export class AddUsersComponent implements OnInit {
   selection = new SelectionModel<User>(true, []);
 
 
-  constructor(private userService: UserService, private projectService:ProjectService) { 
+  constructor(private userService: UserService, private projectService:ProjectService) {
   }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.getData();
     this.dataSource.paginator = this.paginator;
   }
 
   getData(){
     this.userService.getAllUsers().subscribe(data=>{
-      
+
       this.listUsers =data['content'];
       console.log('list users', this.listUsers);
       this.dataSource = new MatTableDataSource<User>(this.listUsers);
@@ -72,7 +72,7 @@ logSelection() {
   this.selection.selected.forEach(s => {
     console.log(s.id, s.role);
     this.arr2.push({userId:s.id, role:s.role,projectId:this.projectId});
-    
+
   });
   this.saveRole(this.arr2);
   this.arr2=[];
@@ -93,7 +93,7 @@ applyFilter(filterValue: string) {
 
 openDetails(element:any){
   console.log(element);
-  
+
 }
 
 

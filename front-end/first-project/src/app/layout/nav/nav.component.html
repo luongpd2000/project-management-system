@@ -13,21 +13,21 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
-        <li class="nav-item active sidebar-item">
-          <a class="nav-link " routerLink="project-manager" routerLinkActive="active">My Project<span class="sr-only">(current)</span></a>
+        <li class="nav-item active sidebar-item" *ngIf="!isAdmin">
+          <a class="nav-link " routerLink="project-manager" routerLinkActive="active" >My Project<span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item sidebar-item">
-          <a class="nav-link" routerLink="project-manager" routerLinkActive="active">Project Manager</a>
+        <li class="nav-item sidebar-item" *ngIf="isAdmin">
+          <a class="nav-link" routerLink="project-manager" routerLinkActive="active" >Project Manager</a>
         </li>
-        <li class="nav-item sidebar-item">
-          <a class="nav-link" routerLink="user-manager" routerLinkActive="active">User Manager</a>
+        <li class="nav-item sidebar-item" *ngIf="isAdmin">
+          <a class="nav-link" routerLink="user-manager" routerLinkActive="active" >User Manager</a>
         </li>
-        <li class="nav-item sidebar-item">
-          <a class="nav-link" routerLink="my-task" routerLinkActive="active">My Task</a>
+        <li class="nav-item sidebar-item" *ngIf="!isAdmin">
+          <a class="nav-link" routerLink="my-task" routerLinkActive="active" >My Task</a>
         </li>
 
-        <li class="nav-item sidebar-item">
-          <a class="nav-link" routerLink="my-todo" routerLinkActive="active">My Todo</a>
+        <li class="nav-item sidebar-item" *ngIf="!isAdmin">
+          <a class="nav-link" routerLink="my-todo" routerLinkActive="active" >My Todo</a>
         </li>
       </ul>
       <div class="btn-group" style="margin-left: auto;">

@@ -23,6 +23,8 @@ export class MembersInProjectComponent implements OnInit {
   // listUsers: User[] = [];
   listUsers: ProjectEmployee[] = [];
   projectId: number = this.route.snapshot.params['id'];
+  pe: ProjectEmployee;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource!: MatTableDataSource<ProjectEmployee>;
@@ -107,6 +109,16 @@ export class MembersInProjectComponent implements OnInit {
 
 
   deleteMember(){
+      this.projectService.deleteUserInProject(this.pe.id).subscribe(
+        data=>{
+          console.log(data);
+          this.getData();
+          this.modalService.dismissAll();
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
       console.log('delete');
 
   }
@@ -121,7 +133,8 @@ export class MembersInProjectComponent implements OnInit {
         this.dialog.open(DetailsUserComponent, dialogConfig);
 
 }
-openCofirm(content: any) {
+openCofirm(content: any,element) {
+  this.pe = element;
   console.log('confirm');
   this.modalService.open(content, {
     centered: true,

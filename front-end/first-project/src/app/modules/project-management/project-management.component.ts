@@ -27,18 +27,20 @@ export class ProjectManagementComponent implements OnInit {
   ngOnInit(): void {
     this.makeForm();
     this.projectService.getAllProjects().subscribe(data=>{
-
       this.projectList=data['content'];
-
       this.projectList.forEach(data=>{
         let tasks:Array<any> = <Array<any>>data.taskList;
+        let partners:Array<any> = <Array<any>>data.projectEmployeeList;
         let todo=0;
         data.taskNum=tasks.length;
         tasks.forEach(element => {
           todo+=(element['todoList']).length;
         });
+        data.partnerNum = partners.filter(function(item){
+          return !item.delete;
+        }).length;
+        console.log(data.partnerNum);
         data.todoNum=todo;
-
       });
       console.log(this.projectList);
     },error=>{console.log(error.error.message)});

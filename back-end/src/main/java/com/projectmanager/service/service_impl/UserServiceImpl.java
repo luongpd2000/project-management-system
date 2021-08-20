@@ -60,6 +60,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByCreateUserAndDeleteIsFalse(id, pageable);
     }
 
+    @Override
+    public Optional<List<User>> findAllUsersNotInProject(Integer id) {
+        return userRepository.findAllUsersNotInProject(id);
+    }
+
+    @Override
+    public Optional<List<User>> findAllUsersInProject(Integer id) {
+        return userRepository.findAllUsersInProject(id);
+    }
+
 
     @Override
     public Page<User> getAll(Pageable pageable) {

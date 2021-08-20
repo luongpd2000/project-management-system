@@ -11,6 +11,7 @@
       <h1>{{currentProject?.name}}</h1>
       <div class="group-btn-1" style="margin-top: 30px;">
         <button class="btn btn-success " routerLink='/project-manager/add-user/{{currentProject?.id}}'>Add user</button>
+        <button class="btn btn-info " routerLink='/project-manager/members/{{currentProject?.id}}'>Members</button>
         <button type="button" class="btn btn-primary " (click)="openProjectForm(P_edit)">Edit</button>
         <button type="button" class="btn btn-danger " (click)="openDelete(confirmDelete)">Delete</button>
       </div>
@@ -30,10 +31,8 @@
           <div class="col-6 py-1"><strong>{{todoNum}}</strong></div>
           <div class="col-6 py-1"><strong>Team size:</strong></div>
           <div class="col-6 py-1">
-            <span class="avatar avatar-sm">+8</span>
+            <span class="avatar avatar-sm">{{currentProject?.partnerNum}}</span>
           </div>
-          <div class="col-6 py-1"><strong>Members:</strong></div>
-          <div class="col-6 py-1"><strong>Lương, Tuyên</strong></div>
           <div class="col-6 py-1"><strong>Status</strong></div>
           <div class="col-6 py-1"><strong><span class="badge badge-success">{{currentProject?.status}}</span></strong>
           </div>
@@ -45,106 +44,6 @@
 <!-- detail project end -->
 
 <!-- ListTask -->
-<main class="content-wrapper">
-  <div class="container p-30">
-    <div class="row">
-      <div class="col-md-12 main-datatable">
-        <div class="card_body">
-          <div class="task-list">Task List</div>
-          <div class="row d-flex">
-            <div class="col-sm-4 createSegment">
-              <a class="btn dim_button create_new" data-toggle="modal" data-target="#new-task"> <span
-                  class="glyphicon glyphicon-plus"></span>New Task</a>
-            </div>
-            <div class="col-sm-8 add_flex">
-              <div class="form-group searchInput">
-                <label for="email">Search:</label>
-                <input type="search" class="form-control" id="filterbox" placeholder=" ">
-              </div>
-            </div>
-          </div>
-          <div class="overflow-x">
-
-            <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
-              <thead>
-                <tr>
-                  <th style="min-width:20px; max-width: 50;">ID</th>
-                  <th style="min-width:150px;">Name</th>
-                  <th style="min-width:150px;">Priority</th>
-                  <th style="min-width:100px;">Manager</th>
-                  <th style="min-width:100px;">Due to</th>
-                  <th style="min-width:150px;">Status</th>
-                  <th style="min-width:150px;">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Task1</td>
-                  <td><span class="mode mode_high">High</span></td>
-                  <td>Vũ Đức Tuyên</td>
-                  <td>17-Apr-2020</td>
-                  <td><span class="mode mode_working">Working</span></td>
-                  <td>
-
-                    <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                      Details
-                    </button>
-
-
-
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>Task2</td>
-                  <td><span class="mode mode_normal">Normal</span></td>
-                  <td>Vũ Đức Tuyên</td>
-                  <td>17-Apr-2020</td>
-                  <td><span class="mode mode_done">Done</span></td>
-                  <td>
-                    <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                      Details
-                    </button>
-
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>Task1</td>
-                  <td><span class="mode mode_low">Low</span></td>
-                  <td>Vũ Đức Tuyên</td>
-                  <td>17-Apr-2020</td>
-                  <td><span class="mode mode_working">Working</span></td>
-                  <td>
-                    <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                      Details
-                    </button>
-
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>Task5</td>
-                  <td><span class="mode mode_high">High</span></td>
-                  <td>Vũ Đức Tuyên</td>
-                  <td>17-Apr-2020</td>
-                  <td><span class="mode mode_reviewing">Reviewing</span></td>
-                  <td>
-                    <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                      Details
-                    </button>
-
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
 
 <!-- modal project-->
 <ng-template #P_edit let-modal>
@@ -169,21 +68,6 @@
         <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
         <div class="col-md-9" style="display: flex;">
 
-          <!-- <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
-              #d1="ngbDatepicker">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button"></button>
-            </div>
-          </div>
-          <span> To </span>
-          <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
-              #d2="ngbDatepicker">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
-            </div>
-          </div> -->
 
           <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
             #d="ngbDatepicker" type="date">

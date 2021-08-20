@@ -64,6 +64,20 @@ export class UserService {
     return this.httpClient.put<User>(updateUserUrl,user,this.httpOptions);
   }
 
+
+  getNonPartner(pId:number){
+    const userUrl = `${this.baseUrl}/admin/userNotInProject/${pId}`;
+    console.log(userUrl);
+    
+    return this.httpClient.get<User[]>(userUrl,this.httpOptions);
+  }
+  getPartner(pId:number){
+    const userUrl = `${this.baseUrl}/admin/userInProject/${pId}`;
+    console.log(userUrl);
+    return this.httpClient.get<User[]>(userUrl,this.httpOptions);
+  }
+
+
   deleteUser(userId : number): Observable<any> {
 
     const deleteUserUrl = `${this.baseUrl}/admin/deleteUser/${userId}`;
@@ -90,14 +104,4 @@ export class UserService {
 
 }
 
-interface GetResponseUsers {
-  _embedded: {
-    users: User[];
-  },
-  page: {
-    size: number,
-    totalElements: number,
-    totalPages: number,
-    number: number
-  }
 }

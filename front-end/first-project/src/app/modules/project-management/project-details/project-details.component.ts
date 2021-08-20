@@ -43,20 +43,19 @@ export class ProjectDetailsComponent implements OnInit {
     console.log("You clicked: " + this.id);
     this.projectService.getProjectById(this.id).subscribe(data => {
       this.currentProject = data;
+
       this.taskList = this.currentProject.taskList;
       console.log('todo');
       this.todoNum = 0;
       this.taskList.forEach(task => {
         this.todoNum += (<Array<any>>task['todoList']).length;
-        // let todoList=new Array();
-        //  todoList=task['todoList'];
-        // console.log(todoList.length);
-
       })
       console.log(this.todoNum);
-      //  console.log(data);
-      //  console.log(this.toDatePicker(this.currentProject.startDate));
-      // console.log(this.currentProject.taskList.length);
+      this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item=>{
+        return !item.delete;
+      }).length;
+
+      
     })
   }
   // open project Form

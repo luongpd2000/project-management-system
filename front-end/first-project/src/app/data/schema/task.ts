@@ -12,5 +12,4 @@ export class Task{
   createUser!: number;
   taskManagerId!: Number;
   delete!: boolean;
-
 }

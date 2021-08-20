@@ -5,6 +5,9 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import{Project} from '../../data/schema/project';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { ProjectDetails } from '../../data/schema/project-details';
+import { StatusService } from '../../data/service/status.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtServiceService } from '../../service/jwt-service.service';
 
 
 
@@ -16,13 +19,20 @@ import { ProjectDetails } from '../../data/schema/project-details';
 })
 export class ProjectManagementComponent implements OnInit {
 
+
+
   projectList:ProjectDetails[]=[];
   newProject:Project=new Project();//
   formProject!:FormGroup;
   constructor(
     private projectService:ProjectService,
     private formBuilder: FormBuilder,
-    private modalService: NgbModal) {}
+    private modalService: NgbModal,
+    private jwt:JwtServiceService,
+    public getStatus:StatusService) {
+      console.log('user la: ', jwt.getUsername());
+      
+    }
 
   ngOnInit(): void {
     this.makeForm();

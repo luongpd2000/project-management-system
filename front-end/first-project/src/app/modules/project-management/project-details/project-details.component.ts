@@ -7,6 +7,7 @@ import { ProjectDetails } from 'src/app/data/schema/project-details';
 import { ProjectService } from '../../../service/project.service';
 import { DatePicker } from 'src/app/data/schema/date-picker';
 import { FomatInputService } from 'src/app/data/service/fomat-input.service';
+import { StatusService } from 'src/app/data/service/status.service';
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
@@ -21,6 +22,7 @@ export class ProjectDetailsComponent implements OnInit {
   currentProject!: ProjectDetails;
   taskList = [];
   todoNum = 0;
+  currentProjectId:number;
 
   alert: boolean = false;
   closeAlert() {
@@ -31,7 +33,8 @@ export class ProjectDetailsComponent implements OnInit {
     private projectService: ProjectService,
     private modalService: NgbModal,
     private fomat: FomatInputService,
-    private router: Router
+    private router: Router,
+    public getStatus:StatusService
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +57,7 @@ export class ProjectDetailsComponent implements OnInit {
       this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item=>{
         return !item.delete;
       }).length;
+      this.currentProjectId=this.currentProject.id;
 
       
     })

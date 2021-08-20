@@ -20,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatInputModule,
+    MatIconModule,
     MatButtonModule,
   ]
 })

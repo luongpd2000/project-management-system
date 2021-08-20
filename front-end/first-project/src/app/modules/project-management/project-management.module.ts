@@ -9,6 +9,7 @@ import { AddUsersComponent } from './add-users/add-users.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { ListTaskComponent } from './project-details/list-task/list-task.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { MaterialModule } from 'src/app/shared/material.module';
     ProjectManagementComponent,
     ProjectDetailsComponent,
     TaskDetailsComponent,
-    AddUsersComponent
+    AddUsersComponent,
+    ListTaskComponent
   ],
   imports: [
     CommonModule,

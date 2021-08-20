@@ -214,10 +214,8 @@ button{
 .mode_normal{
     background-color: #1e6793;
 }
-.mode_low{
-    background-color:rgb(90, 87, 87)
-}
-.mode_draft{
+
+.mode_draft, .mode_low{
     background-color: #8b9096;
 }
 .mode_pending{

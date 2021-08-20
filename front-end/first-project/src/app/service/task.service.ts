@@ -24,14 +24,18 @@ export class TaskService {
   }
 
   getTask(id: number): Observable<Task>{
-    const taskUrl = `${this.baseUrl}/findTaskById/${id}`;
+    const taskUrl = `${this.baseUrl}/findTaskById/${id}`; 
     return this.httpClient.get<Task>(taskUrl, this.httpOptions);
   }
+
+
 
   getTaskList(page: number, size: number): Observable<any> {
     const taskUrl = `${this.baseUrl}/taskList/?page=${page}&size=${size}`;
     return this.httpClient.get<any>(taskUrl, this.httpOptions);
   }
+
+  
 
   // createTask(task: Task){
 
@@ -45,4 +49,9 @@ export class TaskService {
   //   const updateTaskUrl = `${this.baseUrl}/updateTask`;
   //   return this.httpClient.put<Task>(updateTaskUrl, task);
   // }
+
+  getListProject(pId:number): Observable<any>{
+    const taskUrl = `${this.baseUrl}/projectTaskList/?projectId=${pId}`;
+    return this.httpClient.get<any>(taskUrl, this.httpOptions);
+  }
 }

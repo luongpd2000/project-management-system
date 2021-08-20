@@ -34,6 +34,7 @@ export class UserManagementComponent implements OnInit {
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
+  allUsers: User[]=[];
 
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -98,6 +99,8 @@ export class UserManagementComponent implements OnInit {
         ),
       ]),
     });
+
+    this.getAllData();
   }
 
   getData() {
@@ -117,6 +120,18 @@ export class UserManagementComponent implements OnInit {
         console.log(error.error.message);
       }
     );
+  }
+
+  getAllData(){
+    this.userService.getAllUsers().subscribe(
+      data=> {
+        this.allUsers = data['content'];
+        console.log(data);
+        console.log(this.allUsers)
+      },(error) => {
+        console.log(error.error.message);
+      }
+    )
   }
 
 
@@ -184,6 +199,7 @@ export class UserManagementComponent implements OnInit {
           this.modalService.dismissAll();
           window.alert('Update sucess');
           this.getData();
+          this.getAllData();
         } else {
           window.alert('Update failure: username already exist');
         }
@@ -208,6 +224,7 @@ export class UserManagementComponent implements OnInit {
       (data) => {
         console.log(data);
         this.getData();
+        this.getAllData();
         this.modalService.dismissAll();
         this.statusDelete = true;
       },
@@ -257,15 +274,11 @@ export class UserManagementComponent implements OnInit {
 
 
   applyFilter(filterValue: string) {
-    // if(filterValue.trim()!==""){
-    //   this.userService.getAllUsers().subscribe(
-    //     data=>{
-    //       this.userList = data['content'];
-    //       this.dataSource = new MatTableDataSource<User>(this.userList);
-    //     })
-    // }else{
-    //   this.getData();
-    // }
+    if(filterValue.trim()!==""){
+      this.dataSource = new MatTableDataSource<User>(this.allUsers);
+    }else{
+      this.dataSource = new MatTableDataSource<User>(this.userList);
+    }
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 

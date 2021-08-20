@@ -12,7 +12,5 @@ export class User {
     createDate!: Date;
     updateDate!: Date;
     createUser!: number;
-
     pRole!:String;
-
 }

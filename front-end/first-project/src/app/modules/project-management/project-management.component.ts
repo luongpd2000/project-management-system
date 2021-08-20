@@ -4,7 +4,6 @@ import { ProjectService } from '../../service/project.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import{Project} from '../../data/schema/project';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-// import {MatDatepickerModule} from '@angular/material/datepicker';
 import { ProjectDetails } from '../../data/schema/project-details';
 
 
@@ -16,7 +15,7 @@ import { ProjectDetails } from '../../data/schema/project-details';
   styleUrls: ['./project-management.component.css']
 })
 export class ProjectManagementComponent implements OnInit {
- 
+
   projectList:ProjectDetails[]=[];
   newProject:Project=new Project();//
   formProject!:FormGroup;
@@ -39,7 +38,7 @@ export class ProjectManagementComponent implements OnInit {
           todo+=(element['todoList']).length;
         });
         data.todoNum=todo;
-        
+
       });
       console.log(this.projectList);
     },error=>{console.log(error.error.message)});
@@ -80,7 +79,7 @@ export class ProjectManagementComponent implements OnInit {
     if(this.formProject.valid){
       console.log("click save!!!");
       this.newProject.name=this.formProject.value.name;
-      this.newProject.des=this.formProject.value.des;   
+      this.newProject.des=this.formProject.value.des;
       this.newProject.startDate =this.fomatDate(this.formProject.value.startDate);
       this.newProject.endDate = this.fomatDate(this.formProject.value.endDate);
       this.newProject.status=this.formProject.value.status;

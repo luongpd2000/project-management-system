@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/service/login.service';
 import { CookieService } from 'ngx-cookie-service';
-import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-login',

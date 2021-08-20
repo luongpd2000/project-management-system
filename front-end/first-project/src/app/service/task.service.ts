@@ -28,7 +28,7 @@ export class TaskService {
     return this.httpClient.get<Task>(taskUrl, this.httpOptions);
   }
 
-  getTaskList(page: 0, size: 5): Observable<any> {
+  getTaskList(page: number, size: number): Observable<any> {
     const taskUrl = `${this.baseUrl}/taskList/?page=${page}&size=${size}`;
     return this.httpClient.get<any>(taskUrl, this.httpOptions);
   }

@@ -11,17 +11,19 @@ export class MyTaskComponent implements OnInit {
 
   page: Number = 0;
   size: Number = 5;
-  tasks: Task[] = new Array<Task>();
+  tasks: Task[] = [];
   test: Task = new Task();
   constructor(private taskService: TaskService) {
 
   }
-  arrays= [1, 2, 3, 4, 5];
+
   ngOnInit(): void {
 
-    this.taskService.getTaskList(0, 5).subscribe(data =>{
-      this.tasks = data;
-      alert(data);
+    this.taskService.getTaskList(0,5).subscribe(
+      data =>{
+      this.tasks = data['content'];
+      console.log(data);
+      // alert(data);
     });
 
     // this.taskService.getTask(1).subscribe(data =>{

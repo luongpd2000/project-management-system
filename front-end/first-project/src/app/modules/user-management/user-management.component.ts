@@ -257,12 +257,15 @@ export class UserManagementComponent implements OnInit {
 
 
   applyFilter(filterValue: string) {
-    if(filterValue.trim()!==""){
-      this.userService.getAllUsers().subscribe(
-        data=>{
-
-        })
-    }
+    // if(filterValue.trim()!==""){
+    //   this.userService.getAllUsers().subscribe(
+    //     data=>{
+    //       this.userList = data['content'];
+    //       this.dataSource = new MatTableDataSource<User>(this.userList);
+    //     })
+    // }else{
+    //   this.getData();
+    // }
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 

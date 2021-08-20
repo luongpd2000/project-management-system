@@ -78,6 +78,12 @@ export class UserService {
   }
 
 
+  getUsersInProject(id: number): Observable<any>{
+    const url = `${this.baseUrl}/admin/findListEmployeeByProjectId/${id}`;
+    return this.httpClient.get<any>(url,this.httpOptions);
+  }
+
+
   deleteUser(userId : number): Observable<any> {
 
     const deleteUserUrl = `${this.baseUrl}/admin/deleteUser/${userId}`;

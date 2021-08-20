@@ -83,6 +83,7 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
         try{
             for ( ProjectEmployee pe : list)
             {   pe.setDelete(false);
+
                 projectEmployeeRepository.save(pe);
             };
             return true;

@@ -17,7 +17,7 @@ public class ProjectEmployee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
 //    @JsonIgnore
@@ -32,7 +32,7 @@ public class ProjectEmployee implements Serializable {
 //    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",referencedColumnName = "id")
-    @Nullable
+//    @Nullable
     private User user;
 
 //    @Column(name = "user_id", nullable = false)

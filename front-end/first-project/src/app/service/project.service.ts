@@ -21,7 +21,7 @@ export class ProjectService {
       })
   };
 
-   getAllProjects(){
+   getAllProjects(){ 
     return this.http.get<any>(this.bareUrl+'project_management/admin/getAllProject', this.httpOptions);
   }
 
@@ -47,9 +47,8 @@ export class ProjectService {
   }
 
   postRole(listRole:Array<idRole>):Observable<any>{
-    console.log('addUser to project');
-    
-    return this.http.post(this.bareUrl+"project_management/admin//addUser",listRole,this.httpOptions);
+    console.log('addUser to project'); 
+    return this.http.post(this.bareUrl+"project_management/admin/addUser",listRole,this.httpOptions);
   }
 
 

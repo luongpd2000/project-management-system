@@ -1,7 +1,7 @@
 <!-- detail project -->
 
   <!-- detail project end -->
-  
+
   <!-- ListTask -->
   <main class="content-wrapper">
     <div class="container p-30">
@@ -21,7 +21,7 @@
               </div>
             </div>
             <div class="overflow-x">
-  
+
               <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
                 <thead>
                   <tr>
@@ -36,75 +36,25 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Project1</td>
+                  <tr *ngFor ="let task of tasks" >
+                    <td>{{task.id}}</td>
+                    <td>{{task.name}}</td>
                     <td>Task1</td>
                     <td><span class="mode mode_high">High</span></td>
                     <td>Vũ Đức Tuyên</td>
                     <td>17-Apr-2020</td>
                     <td><span class="mode mode_working">Working</span></td>
                     <td>
-                      
+
                         <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
                           Details
                         </button>
-                    
-  
-  
+
+
+
                     </td>
                   </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Project1</td>
-                    <td>Task2</td>
-                    <td><span class="mode mode_normal">Normal</span></td>
-                    <td>Vũ Đức Tuyên</td>
-                    <td>17-Apr-2020</td>
-                    <td><span class="mode mode_done">Done</span></td>
-                    <td>
-                     
-                        <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                          Details
-                        </button>
-                     
-  
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Project1</td>
-                    <td>Task1</td>
-                    <td><span class="mode mode_low">Low</span></td>
-                    <td>Vũ Đức Tuyên</td>
-                    <td>17-Apr-2020</td>
-                    <td><span class="mode mode_working">Working</span></td>
-                    <td>
-                      
-                        <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                          Details
-                        </button>
-                    
-  
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Project1</td>
-                    <td>Task5</td>
-                    <td><span class="mode mode_high">High</span></td>
-                    <td>Vũ Đức Tuyên</td>
-                    <td>17-Apr-2020</td>
-                    <td><span class="mode mode_reviewing">Reviewing</span></td>
-                    <td>
-                      
-                        <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                          Details
-                        </button>
-                      
-  
-                    </td>
-                  </tr>
+
                 </tbody>
               </table>
             </div>
@@ -114,7 +64,7 @@
     </div>
   </main>
   <!-- ListTask End -->
-  
+
   <!-- modal project-->
   <div class="modal fade" id="new-project" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -137,10 +87,10 @@
             <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
             <div class="col-md-9" style="display: flex;">
               <input type="text" class="form-control datepicker" name="date" value="">
-  
+
               <span style="padding: 10px;">To</span>
               <input type="text" class="form-control datepicker" name="date" value="">
-  
+
             </div>
           </div>
           <div class="form-group row">
@@ -152,7 +102,7 @@
           <div class="form-group row">
             <label class="col-md-3 col-form-label">
               Status<span class="text-danger">*</span></label>
-  
+
             <div class="col-md-7">
               <select class="custom-select mr-sm-2" id="">
                 <option selected>Status</option>
@@ -176,7 +126,7 @@
      -->
   <!-- modal new task -->
   <!-- Modal -->
-  
+
   <div class="modal fade" id="new-task" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -198,10 +148,10 @@
             <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
             <div class="col-md-9" style="display: flex;">
               <input type="text" class="form-control datepicker" name="date" value="">
-  
+
               <span style="padding: 10px;">To</span>
               <input type="text" class="form-control datepicker" name="date" value="">
-  
+
             </div>
           </div>
           <div class="form-group row">
@@ -224,10 +174,10 @@
           <div class="form-group row">
             <label class="col-md-3 col-form-label">
               Assign for<span class="text-danger">*</span></label>
-  
+
             <div class="col-md-9">
               <select class="selectpicker" data-live-search="true" title="Select User">
-  
+
                 <option data-tokens="">User1</option>
                 <option data-tokens="">User2</option>
                 <option data-tokens="">User3</option>

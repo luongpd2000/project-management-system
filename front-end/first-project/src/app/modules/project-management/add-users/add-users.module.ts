@@ -6,6 +6,7 @@ import { MaterialModule } from '../../../shared/material.module';
 import { DetailsUserComponent } from './details-user/details-user.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
 })
 export class AddUsersModule { }

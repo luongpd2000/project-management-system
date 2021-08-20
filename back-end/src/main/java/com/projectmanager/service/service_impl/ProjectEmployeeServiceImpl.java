@@ -41,7 +41,7 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
     @Override
     public boolean update(ProjectEmployee projectEmployee) {
         Optional<ProjectEmployee> employee = projectEmployeeRepository.findByProjectIdAndUserIdAndDeleteIsFalse
-                (projectEmployee.getProjectId(), projectEmployee.getUserId());
+                (projectEmployee.getProjectId(), projectEmployee.getUser().getId());
         if(!employee.isPresent()){
             return false;
         }else {
@@ -83,6 +83,7 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
         try{
             for ( ProjectEmployee pe : list)
             {   pe.setDelete(false);
+
                 projectEmployeeRepository.save(pe);
             };
             return true;

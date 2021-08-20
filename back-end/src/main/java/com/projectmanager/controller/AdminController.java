@@ -1,5 +1,7 @@
 package com.projectmanager.controller;
 
+import com.projectmanager.dto.PasswordRecover;
+import com.projectmanager.dto.Status;
 import com.projectmanager.entity.Project;
 import com.projectmanager.entity.ProjectEmployee;
 import com.projectmanager.entity.User;
@@ -43,6 +45,11 @@ public class AdminController {
 
     }
 
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(userService.findAllByDeleteIsFalse());
+    }
+
     @PostMapping("/addUser")
     public ResponseEntity<?> userList(@RequestBody ArrayList<ProjectEmployee> listRole){
         return ResponseEntity.ok(projectEmployeeService.addPartner(listRole));
@@ -81,8 +88,8 @@ public class AdminController {
 
     @GetMapping("/findListEmployeeByProjectId/{id}")
     public ResponseEntity<?> findListEmployeeByProjectId(@PathVariable Integer id,
-                                                         @RequestParam(name = "page") Integer page,
-                                                         @RequestParam(name = "size")Integer size){
+                                                         @RequestParam(name = "page",defaultValue = "0") Integer page,
+                                                         @RequestParam(name = "size",defaultValue = "100")Integer size){
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(projectEmployeeService.findByProjectId(id,pageable));
     }
@@ -127,5 +134,9 @@ public class AdminController {
         return ResponseEntity.ok(projectService.delete(id));
     }
 
+    @PostMapping("/passwordRecover")
+    public ResponseEntity<?> passwordRecover(@RequestBody PasswordRecover pr){
+        return ResponseEntity.ok(new Status(userService.passwordRecover(pr)));
+    }
 
 }

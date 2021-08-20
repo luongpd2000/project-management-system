@@ -10,6 +10,7 @@ import { ProjectService } from '../../../service/project.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { idRole } from 'src/app/data/schema/id-role';
 import { DetailsUserComponent } from '../add-users/details-user/details-user.component';
+import { ProjectEmployee } from 'src/app/data/schema/project-employee';
 
 @Component({
   selector: 'app-members-in-project',
@@ -19,14 +20,17 @@ import { DetailsUserComponent } from '../add-users/details-user/details-user.com
 export class MembersInProjectComponent implements OnInit {
 
   arr2: idRole[] = new Array();
-  listUsers: User[] = [];
+  // listUsers: User[] = [];
+  listUsers: ProjectEmployee[] = [];
   projectId: number = this.route.snapshot.params['id'];
+  pe: ProjectEmployee;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataSource!: MatTableDataSource<User>;
-  
-  displayedColumns: string[] = ['select', 'id', 'fullName', 'email', 'role', 'action'];
-  selection = new SelectionModel<User>(true, []);
+  dataSource!: MatTableDataSource<ProjectEmployee>;
+
+  displayedColumns: string[] = ['stt' ,'id', 'fullName', 'email', 'role', 'action'];
+  selection = new SelectionModel<ProjectEmployee>(true, []);
   alert: boolean = false;
   closeAlert() {
     this.alert = false;
@@ -44,16 +48,24 @@ export class MembersInProjectComponent implements OnInit {
   }
 
   getData() {
-    this.userService.getPartner(this.projectId).subscribe(data => {
-      console.log('run again');
+    // this.userService.getPartner(this.projectId).subscribe(data => {
+    //   console.log('run again');
+    //   this.listUsers = data;
+    //   this.listUsers.forEach(data => { data.pRole = 'dev' })
+    //   console.log('list users', this.listUsers);
+    //   this.dataSource = new MatTableDataSource<User>(this.listUsers);
+    //   console.log("datasouce", this.dataSource.data.length);
+    //   this.dataSource.paginator = this.paginator;
+    // })
 
-      this.listUsers = data;
-      this.listUsers.forEach(data => { data.pRole = 'dev' })
-      console.log('list users', this.listUsers);
-      this.dataSource = new MatTableDataSource<User>(this.listUsers);
-      console.log("datasouce", this.dataSource.data.length);
-      this.dataSource.paginator = this.paginator;
-    })
+    this.userService.getUsersInProject(this.projectId).subscribe(
+      data=>{
+        console.log(data);
+        this.listUsers = data['content']
+        this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
+        this.dataSource.paginator = this.paginator;
+      }
+    )
   }
 
   ngAfterViewInit() {
@@ -97,8 +109,18 @@ export class MembersInProjectComponent implements OnInit {
 
 
   deleteMember(){
+      this.projectService.deleteUserInProject(this.pe.id).subscribe(
+        data=>{
+          console.log(data);
+          this.getData();
+          this.modalService.dismissAll();
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
       console.log('delete');
-      
+
   }
 
   openDialog(element: any): void {
@@ -106,12 +128,13 @@ export class MembersInProjectComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        dialogConfig.data = element;
+        dialogConfig.data = element.user;
        dialogConfig.width='60%'
         this.dialog.open(DetailsUserComponent, dialogConfig);
 
 }
-openCofirm(content: any) {
+openCofirm(content: any,element) {
+  this.pe = element;
   console.log('confirm');
   this.modalService.open(content, {
     centered: true,

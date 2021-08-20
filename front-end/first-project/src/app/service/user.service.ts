@@ -68,13 +68,19 @@ export class UserService {
   getNonPartner(pId:number){
     const userUrl = `${this.baseUrl}/admin/userNotInProject/${pId}`;
     console.log(userUrl);
-    
+
     return this.httpClient.get<User[]>(userUrl,this.httpOptions);
   }
   getPartner(pId:number){
     const userUrl = `${this.baseUrl}/admin/userInProject/${pId}`;
     console.log(userUrl);
     return this.httpClient.get<User[]>(userUrl,this.httpOptions);
+  }
+
+
+  getUsersInProject(id: number): Observable<any>{
+    const url = `${this.baseUrl}/admin/findListEmployeeByProjectId/${id}`;
+    return this.httpClient.get<any>(url,this.httpOptions);
   }
 
 
@@ -103,4 +109,3 @@ export class UserService {
 
 
 }
-

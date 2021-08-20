@@ -1,6 +1,7 @@
 package com.projectmanager.service.service_impl;
 
 //import com.projectmanager.common.CustomUserDetails;
+import com.projectmanager.dto.PasswordRecover;
 import com.projectmanager.entity.User;
 import com.projectmanager.repository.UserRepository;
 import com.projectmanager.service.UserService;
@@ -70,6 +71,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllUsersInProject(id);
     }
 
+    @Override
+    public List<User> findAllByDeleteIsFalse() {
+        return userRepository.findAllByDeleteIsFalse();
+    }
+
+
 
     @Override
     public Page<User> getAll(Pageable pageable) {
@@ -127,6 +134,20 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user.get());
         }
         return true;
+    }
+
+
+    @Override
+    public String passwordRecover(PasswordRecover pr){
+        User admin = userRepository.findById(1).get();
+        User user = userRepository.findById(pr.getId()).get();
+        String password = UUID.randomUUID().toString();
+        if(pr.getEmail().equals(admin.getEmail())){
+            user.setEncryptedPassword(bCryptPasswordEncoder.encode(password));
+            userRepository.save(user);
+            return password;
+        }
+        return "Password Recover failure";
     }
 
 }

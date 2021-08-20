@@ -22,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     MatIconModule,
     MatButtonModule,
+    MatIconModule
   ]
 })
 export class MaterialModule {}

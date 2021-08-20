@@ -7,17 +7,16 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { User } from 'src/app/data/schema/user';
 import { UserService } from 'src/app/service/user.service';
 import { ProjectService } from '../../../service/project.service';
-import { DetailsUserComponent } from './details-user/details-user.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { idRole } from 'src/app/data/schema/id-role';
-
+import { DetailsUserComponent } from '../add-users/details-user/details-user.component';
 
 @Component({
-  selector: 'app-add-users',
-  templateUrl: './add-users.component.html',
-  styleUrls: ['./add-users.component.css']
+  selector: 'app-members-in-project',
+  templateUrl: './members-in-project.component.html',
+  styleUrls: ['./members-in-project.component.css']
 })
-export class AddUsersComponent implements OnInit {
+export class MembersInProjectComponent implements OnInit {
 
   arr2: idRole[] = new Array();
   listUsers: User[] = [];
@@ -33,7 +32,6 @@ export class AddUsersComponent implements OnInit {
     this.alert = false;
   }
 
-
   constructor(private userService: UserService,
      private projectService: ProjectService,
       private route: ActivatedRoute,
@@ -46,16 +44,13 @@ export class AddUsersComponent implements OnInit {
   }
 
   getData() {
-    this.userService.getNonPartner(this.projectId).subscribe(data => {
+    this.userService.getPartner(this.projectId).subscribe(data => {
       console.log('run again');
 
       this.listUsers = data;
-
       this.listUsers.forEach(data => { data.pRole = 'dev' })
-
       console.log('list users', this.listUsers);
       this.dataSource = new MatTableDataSource<User>(this.listUsers);
-  
       console.log("datasouce", this.dataSource.data.length);
       this.dataSource.paginator = this.paginator;
     })
@@ -65,7 +60,6 @@ export class AddUsersComponent implements OnInit {
     this.dataSource.paginator = this.paginator
 
   }
-
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -78,33 +72,33 @@ export class AddUsersComponent implements OnInit {
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
-
-  logSelection() {
-    this.selection.selected.forEach(s => {
-      console.log(s.id, s.pRole);
-      this.arr2.push({ userId: s.id, role: s.pRole, projectId: this.projectId });
-    });
-    this.saveRole(this.arr2);
-    this.modalService.dismissAll();
-  }
-
-  saveRole(list: Array<any>) {
-    this.projectService.postRole(list).subscribe(data => {
-      console.log('ADD User seccess');
-      this.alert = true;
-      this.arr2 = [];
-      this.ngOnInit()
-    });
-
-  }
-
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openDetails(element: any) {
-    console.log(element);
+  // logSelection() {
+  //   this.selection.selected.forEach(s => {
+  //     console.log(s.id, s.pRole);
+  //     this.arr2.push({ userId: s.id, role: s.pRole, projectId: this.projectId });
+  //   });
+  //   this.saveRole(this.arr2);
+  //   this.modalService.dismissAll();
+  // }
 
+  // saveRole(list: Array<any>) {
+  //   this.projectService.postRole(list).subscribe(data => {
+  //     console.log('ADD User seccess');
+  //     this.alert = true;
+  //     this.arr2 = [];
+  //     this.ngOnInit()
+  //   });
+
+  // }
+
+
+  deleteMember(){
+      console.log('delete');
+      
   }
 
   openDialog(element: any): void {
@@ -123,5 +117,4 @@ openCofirm(content: any) {
     centered: true,
   });
 }
-
 }

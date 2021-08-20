@@ -60,6 +60,16 @@ public class AdminController {
         return ResponseEntity.ok(userService.delete(id));
     }
 
+    @GetMapping("/userNotInProject/{id}")
+    public ResponseEntity<?> findUserNotInProject(@PathVariable Integer id){
+        return ResponseEntity.ok(userService.findAllUsersNotInProject(id));
+    }
+
+    @GetMapping("/userInProject/{id}")
+    public ResponseEntity<?> findUserInProject(@PathVariable Integer id){
+        return ResponseEntity.ok(userService.findAllUsersInProject(id));
+    }
+
 
     // api ProjectEmployee management
 

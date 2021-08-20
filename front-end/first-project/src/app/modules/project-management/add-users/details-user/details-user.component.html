@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>User Details</h2>
+
+<mat-dialog-content [formGroup]="form">
+    <mat-form-field>
+        <input matInput
+        placeholder="id"
+    
+               formControlName="id" readonly>
+    </mat-form-field>
+  
+    <mat-form-field>
+        <input matInput
+        placeholder="username"
+               formControlName="username" readonly>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput
+        placeholder="fullName"
+               formControlName="fullName" readonly>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput
+        placeholder="email"
+               formControlName="email" readonly>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput
+        placeholder="phone"
+               formControlName="phone" readonly>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput
+        placeholder="address"
+               formControlName="address" readonly>
+    </mat-form-field>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+</mat-dialog-actions>
+

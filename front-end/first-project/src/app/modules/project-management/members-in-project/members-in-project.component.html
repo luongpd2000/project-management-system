@@ -1,0 +1,128 @@
+<main class="content-wrapper">
+    <div class="container p-30">
+        <h3>Members Of This Project</h3>
+        <div class="row">
+            <div class="container">
+                <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> Update Success!!
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="search-input">
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-success " routerLink='/project-manager/add-user/{{projectId}}'>
+                                    Add Members
+                                </button>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control input-text" autocomplete="noac"
+                                        placeholder="Search..." (keyup)="applyFilter($any($event.target).value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSource">
+                            <!-- Checkbox Column -->
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+
+                            <!-- Id Column -->
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef> Id </th>
+                                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                            </ng-container>
+
+                            <!-- Full Column -->
+                            <ng-container matColumnDef="fullName">
+                                <th mat-header-cell *matHeaderCellDef> Full Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+                            </ng-container>
+
+                            <!-- Symbol Column -->
+                            <ng-container matColumnDef="email">
+                                <th mat-header-cell *matHeaderCellDef> Email </th>
+                                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="role">
+                                <th mat-header-cell *matHeaderCellDef> Role</th>
+                                <td mat-cell *matCellDef="let element" style="max-width:50px">
+                                    <mat-form-field>
+                                        <mat-select matInput placeholder="Role" required [(value)]="element.pRole">
+                                            <mat-option value="leader">Leader</mat-option>
+                                            <mat-option value="dev">Developer</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef> Action </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    <button mat-icon-button (click)="openDialog(element)"><mat-icon>launch</mat-icon></button>
+                                    <button mat-icon-button color="warn" (click)=openCofirm(confirmDelete)><mat-icon>delete_outline</mat-icon></button>
+                                    <!-- <button mat-raised-button
+                                        class="btn btn-primary" (click)="openDialog(element)"> Details </button> -->
+                                     </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                (click)="selection.toggle(row)">
+                            </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    </div>
+                    <br><br>
+                    <div>
+                        <button class="btn btn-primary" (click)="openCofirm(confirmDelete)" style="margin: 20px;">
+                            Delete selected
+                        </button>
+                        <button class="btn btn-secondary" routerLink='/project-manager/p-details/{{projectId}}'>
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<ng-template #confirmDelete let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Delete</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h5>Are you sure to delete selected Partner.</h5>
+        <div class=" text-center">
+            <button data-dismiss="modal" class="btn btn-warning" (click)="deleteMember()">Yes, Delete!</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+</ng-template>

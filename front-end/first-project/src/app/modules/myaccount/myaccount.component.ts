@@ -31,6 +31,7 @@ export class MyaccountComponent implements OnInit {
   editConfirmPassword: String ="";
 
   checkPass: boolean = true;
+  // checkUpdate: boolean = false;
 
 
 
@@ -136,8 +137,10 @@ export class MyaccountComponent implements OnInit {
     this.userService.updateUser(userUpdate).subscribe(
       data => {
         console.log(data);
+        // window.alert("Update sucess")
     }, error =>{
         console.log(error);
+        // window.alert("Update failure")
     });
 
   }

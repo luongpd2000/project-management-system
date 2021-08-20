@@ -11,7 +11,7 @@
  Target Server Version : 100603
  File Encoding         : 65001
 
- Date: 14/08/2021 17:30:38
+ Date: 19/08/2021 22:08:44
 */
 
 SET NAMES utf8mb4;
@@ -180,7 +180,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `full_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
   `is_admin` binary(1) NULL DEFAULT NULL,
   `is_deleted` binary(1) NULL DEFAULT NULL,
   `email` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
@@ -196,14 +196,14 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', 'admin', 0x31, 0x30, NULL, NULL, NULL, '2021-08-10', '2021-08-10', NULL, '$2a$12$UzlgaUuqN9U5ZWeYu7IMR.GJMpKfAYaw6NBp5pwH7R9JAaeJqQKMC');
-INSERT INTO `user` VALUES (2, 'luongpd', 'luongpd', 0x30, 0x30, NULL, NULL, NULL, '2021-08-10', NULL, NULL, '$2a$12$EanFnyZqB7mxyypViyvG1eFc1KS8VaOY5hL6mwVW3Qh2yz71mcoI2');
-INSERT INTO `user` VALUES (3, 'test1', 'test', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$KlTviw.quIgm3lkF/l.H0.H3GiaJiuiwPIUkMCe9.3oihPhRj7f2S');
-INSERT INTO `user` VALUES (4, 'test2', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$rsIF6DkanYPjjdtNiwX4BOM70nlILmpvjHgZex9vlO0pS0lT.7UN.');
-INSERT INTO `user` VALUES (5, 'test6', 'test1', 0x30, 0x31, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$.h63nGvrBrCF.QLbiwGr2.cdfNl6d3lL4Hkhqr7hMJrF8ucnM09AW');
-INSERT INTO `user` VALUES (6, 'test4', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$P913qsr3/cZqqjuSdTVZyONiQn6QNF8rze3DDrSY0Gu64vaXiulfa');
-INSERT INTO `user` VALUES (7, 'test3', 'test1', 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$VK/46DIZnsSm/4uC5RbDrO2Jw8qBLxjRciOLHG7rsBi26R063njXK');
-INSERT INTO `user` VALUES (8, 'test5', 'test1', 0x30, 0x31, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$BlMDd3S1DklRE.Uybzt8PemKQD8iQ9uCsKCIwISb7gNR.jzlRomyi');
-INSERT INTO `user` VALUES (12, 'luong1', 'string', 0x30, 0x30, NULL, NULL, NULL, '2021-08-13', NULL, 1, '$2a$10$g4amftiHFsGNP1MhZ9MLmOzJpmEjChG.rwx.9e4jPpwaY6nd/n.wC');
+INSERT INTO `user` VALUES (1, 'admin', 'Phạm Đức Lương', 0x31, 0x30, 'luongpd@gmail.com', '0362538276', 'ngõ 8 số nhà 26', '2021-08-10', '2021-08-10', NULL, '$2a$12$UzlgaUuqN9U5ZWeYu7IMR.GJMpKfAYaw6NBp5pwH7R9JAaeJqQKMC');
+INSERT INTO `user` VALUES (2, 'luongpd', 'Phạm Đức Lương', 0x30, 0x30, 'luongpham@gmail.com', '0362538276', 'ngõ 8 số nhà 26', '2021-08-10', NULL, NULL, '$2a$12$EanFnyZqB7mxyypViyvG1eFc1KS8VaOY5hL6mwVW3Qh2yz71mcoI2');
+INSERT INTO `user` VALUES (3, 'test1', NULL, 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$KlTviw.quIgm3lkF/l.H0.H3GiaJiuiwPIUkMCe9.3oihPhRj7f2S');
+INSERT INTO `user` VALUES (4, 'test2', NULL, 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$rsIF6DkanYPjjdtNiwX4BOM70nlILmpvjHgZex9vlO0pS0lT.7UN.');
+INSERT INTO `user` VALUES (5, 'test6', NULL, 0x30, 0x31, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$.h63nGvrBrCF.QLbiwGr2.cdfNl6d3lL4Hkhqr7hMJrF8ucnM09AW');
+INSERT INTO `user` VALUES (6, 'test4', NULL, 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$P913qsr3/cZqqjuSdTVZyONiQn6QNF8rze3DDrSY0Gu64vaXiulfa');
+INSERT INTO `user` VALUES (7, 'test3', NULL, 0x30, 0x30, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$VK/46DIZnsSm/4uC5RbDrO2Jw8qBLxjRciOLHG7rsBi26R063njXK');
+INSERT INTO `user` VALUES (8, 'test5', NULL, 0x30, 0x31, NULL, NULL, NULL, '2021-08-12', NULL, NULL, '$2a$10$BlMDd3S1DklRE.Uybzt8PemKQD8iQ9uCsKCIwISb7gNR.jzlRomyi');
+INSERT INTO `user` VALUES (12, 'luong1', NULL, 0x30, 0x30, NULL, NULL, NULL, '2021-08-13', NULL, 1, '$2a$10$g4amftiHFsGNP1MhZ9MLmOzJpmEjChG.rwx.9e4jPpwaY6nd/n.wC');
 
 SET FOREIGN_KEY_CHECKS = 1;

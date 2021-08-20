@@ -82,11 +82,6 @@
 
                   <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)" class="mt-1">
 
-                    <!-- && phone?.errors?.minlength -->
-                    <!-- <div *ngIf="phone?.errors?.maxlength ">
-                      Phone must be 11 number
-                    </div> -->
-
                   <div *ngIf="phone?.errors?.pattern">
                     Phone must be a valid phone format
                   </div>
@@ -99,12 +94,9 @@
                   <input type="text" class="form-control" id="address" [(ngModel)]="user.address" formControlName="address">
 
                   <div *ngIf="address?.invalid && (address?.dirty || address?.touched)" class="mt-1">
-
-
                     <div *ngIf="address?.errors?.maxlength">
                       Address must be at small 200 characters long
                     </div>
-
                 </div>
 
                 </div>
@@ -126,9 +118,6 @@
                     <input type="password" class="form-control" id="old-password" formControlName="currentPassword" [(ngModel)]="editOldPassword" >
                     <div *ngIf="currentPassword?.invalid && (currentPassword?.dirty || currentPassword?.touched)" class="mt-1">
 
-                      <!-- <div *ngIf="currentPassword?.errors?.minlength">
-                        Old Password must be at least 8 characters long
-                      </div> -->
 
                       <div *ngIf="currentPassword?.errors?.maxlength">
                         Current Password must be at small 50 characters long
@@ -147,10 +136,6 @@
                     <label for="new-password">New Password</label>
                     <input type="password" class="form-control" id="new-password" formControlName="newPassword" [(ngModel)]="editNewPassword">
                     <div *ngIf="newPassword?.invalid && (newPassword?.dirty || newPassword?.touched)" class="mt-1">
-
-                      <!-- <div *ngIf="newPassword?.errors?.minlength">
-                        New Password must be at least 8 characters long
-                      </div> -->
 
                       <div *ngIf="newPassword?.errors?.maxlength">
                         New Password must be at small 50 characters long

@@ -34,6 +34,7 @@ export class AddUsersComponent implements OnInit {
   }
 
 
+
   constructor(private userService: UserService,
      private projectService: ProjectService,
       private route: ActivatedRoute,
@@ -44,6 +45,7 @@ export class AddUsersComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
   }
+
 
   getData() {
     this.userService.getNonPartner(this.projectId).subscribe(data => {
@@ -109,6 +111,7 @@ export class AddUsersComponent implements OnInit {
 
   openDialog(element: any): void {
     const dialogConfig = new MatDialogConfig();
+
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;

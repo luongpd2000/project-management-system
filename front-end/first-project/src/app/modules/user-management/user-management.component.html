@@ -1,129 +1,446 @@
 <main class="content-wrapper">
+
   <div class="container p-30">
+
+    <div class="task-list mb-3">User List
+    </div>
+
     <div class="row">
-      <div class="col-md-12 main-datatable">
-        <div class="card_body">
-          <div class="task-list" >User List</div>
-          <div class="row d-flex">
-            <div class="col-sm-4 createSegment">
-              <a class="btn dim_button create_new"  data-toggle="modal" data-target="#new-user"> <span class="glyphicon glyphicon-plus"></span>New User</a>
-            </div>
-            <div class="col-sm-8 add_flex">
-              <!-- <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search this blog">
-                  <div class="input-group-append">
-                    <button class="btn btn-secondary" type="button">
-                      <i class="fa fa-search"></i>
-                    </button>
-                  </div>
-                </div> -->
-                <div class="form-group searchInput">
-                  <label for="email">Search:</label>
-                  <input type="search" class="form-control" id="filterbox" placeholder=" ">
-                </div>
+      <div class="search-input">
+        <div class="row">
+          <div class="col-6">
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#new-user"
+              (click)="openAddUser(newuser)">New User</button>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group searchInput">
+              <label for="email">Search:</label>
+              <input type="search" class="form-control" id="filterbox" placeholder="Search..."
+                aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
             </div>
           </div>
+        </div>
+      </div>
+      <div class="col-md-12 main-datatable">
+        <div class="card_body">
+
+
           <div class="overflow-x">
-            <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
-              <thead>
-                <tr>
-                  <th style="min-width:20px; max-width: 50;">ID</th>
-                  <th style="min-width:150px;">Name</th>
-                  <th style="min-width:150px;">Email</th>
-                  <th style="min-width:100px;">Phone</th>
-                  <th style="min-width:100px;">Create date</th>
-                  <th style="min-width:150px;">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Vũ Đức Tuyên</td>
-                  <td>vutuyenkt2000@gmail.com</td>
-                  <td>0987676575</td>
-                  <td>17-Apr-2020</td>
-                  <td>
-                      <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#new-user">
-                        Details
-                      </button>
-                    
-                  </td>
-                </tr>
-  
-              </tbody>
+
+            <table mat-table [dataSource]="dataSource">
+
+              <ng-container matColumnDef="select">
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="STT">
+                <th mat-header-cell *matHeaderCellDef> STT </th>
+                <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ID">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="UserName">
+                <th mat-header-cell *matHeaderCellDef> UserName </th>
+                <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Full Name">
+                <th mat-header-cell *matHeaderCellDef> Full Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Phone">
+                <th mat-header-cell *matHeaderCellDef> Phone </th>
+                <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Address">
+                <th mat-header-cell *matHeaderCellDef> Address </th>
+                <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element, index as i">
+                  <!-- <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#new-user"
+                    (click)="openDetails(detail,element)">Details</button>
+                  <button type="button" class="btn btn-danger mt-2" data-toggle="modal"
+                    (click)="openDelete(delete,element)">Delete</button> -->
+
+                  <button mat-icon-button (click)="openDetails(detail,element)">
+                    <mat-icon>launch</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="openDelete(delete,element)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                  <br>
+                  <button type="button" class="btn btn-warning mt-2 mb-3"
+                    (click)="openpasswordRecover(passwordrecover,element)">Password Recover</button>
+                </td>
+              </ng-container>
+
+              <!-- <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button><mat-icon>launch</mat-icon></button>
+                    <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
+                     </td>
+            </ng-container> -->
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+              </tr>
             </table>
+
+            <div class="footer-pagination mt-3">
+              <div class="row">
+                <div class="col-md-6"></div>
+
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-9" style="padding-left: 30%">
+                      <ngb-pagination [(page)]="thePageNumber"
+                                      [pageSize]="thePageSize"
+                                      [collectionSize]="theTotalElements"
+                                      [maxSize]="5"
+                                      [boundaryLinks]="true"
+                                      (pageChange)="getData()">
+                      </ngb-pagination>
+
+                      <!-- <span>{{thePageNumber}}</span>
+                      <span>{{thePageSize}}</span>
+                      <span>{{theTotalElements}}</span> -->
+                    </div>
+
+                    <div class="col-md-3 mt-2" style="text-align: right;">
+                      <span class="mr-2">Page Size</span>
+                      <select (change)="updatePageSize($event)">
+                        <option selected="true">5</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </main>
-<div class="modal fade" id="new-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">User Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+
+
+<ng-template #newuser let-modal>
+  <div class="modal-content modal-lg">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel" *ngIf="checkAdd">New User</h5>
+      <h5 class="modal-title" id="exampleModalLabel" *ngIf="!checkAdd">User Details</h5>
+      <button type="button" class="close" (click)="modal.close('Save click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+
+    <form [formGroup]="userForm" (ngSubmit)="createUser()">
       <div class="modal-body">
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">User Name<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="Text" class="form-control" id="inputName" placeholder="Name">
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">User Name<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Name" formControlName="username">
+            <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="mt-1">
+
+
+              <div *ngIf="(username?.errors?.required) ">
+                Username is required
               </div>
-          </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Phone Number<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="Text" class="form-control" id="inputName" placeholder="Phone Number">
+
+              <div *ngIf="username?.errors?.pattern">
+                Username must be a valid username format
               </div>
-          </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Email<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="email" class="form-control" id="" placeholder="Email">
+
+              <div *ngIf="username?.errors?.maxlength">
+                Username must be at small 50 characters long
               </div>
+            </div>
           </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label"> Password<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="password" class="form-control" id="" placeholder="Password">
+        </div>
+
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Full Name<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Full Name" formControlName="fullName">
+            <div *ngIf="fullName?.invalid && (fullName?.dirty || fullName?.touched)" class="mt-1">
+
+
+              <div *ngIf="(fullName?.errors?.required) ">
+                Full Name is required
               </div>
-          </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Confirm Password<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="password" class="form-control" id="" placeholder="Confirm Password">
+
+              <div *ngIf="fullName?.errors?.minlength">
+                Full Name must be at least 8 characters long
               </div>
-          </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Date Of Birth<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="Date" name="dob" class="form-control" id="Date" placeholder="" required>
+
+              <div *ngIf="fullName?.errors?.maxlength">
+                Full Name must be at small 50 characters long
               </div>
+            </div>
           </div>
-          <div class="form-group row">
-              <label for="inputName" class="col-sm-3 col-form-label">Address<span
-                      class="text-danger">*</span></label>
-              <div class="col-sm-9">
-                  <input type="Text" class="form-control" id="" placeholder="Address">
+        </div>
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Phone Number<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Phone Number" formControlName="phone">
+            <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)" class="mt-1">
+
+              <div *ngIf="phone?.errors?.pattern">
+                Phone must be a valid phone format
               </div>
+            </div>
           </div>
-          
+        </div>
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Email<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="" placeholder="Email" formControlName="email">
+            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="mt-1">
+              <div *ngIf="email?.errors?.required ">
+                Email is required
+              </div>
+              <div *ngIf="email?.errors?.pattern">
+                Email must be a valid email address format
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Address<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Address" formControlName="address">
+            <div *ngIf="address?.invalid && (address?.dirty || address?.touched)" class="mt-1">
+              <div *ngIf="address?.errors?.maxlength">
+                Address must be at small 200 characters long
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label"> Password<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="" placeholder="Password" formControlName="password">
+            <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="mt-1">
+              <div *ngIf="(password?.errors?.required) ">
+                Password is required
+              </div>
+              <div *ngIf="password?.errors?.maxlength">
+                Password must be at small 50 characters long
+              </div>
+
+              <div *ngIf="password?.errors?.pattern">
+                Password must be a valid password format
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Confirm Password<span
+              class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="" placeholder="Confirm Password"
+              formControlName="confirmPassword">
+            <div *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)" class="mt-1">
+              <div *ngIf="(confirmPassword?.errors?.required) ">
+                Confirm Password is required
+              </div>
+              <div *ngIf="confirmPassword?.errors?.maxlength">
+                Confirm Password must be at small 50 characters long
+              </div>
+
+              <div *ngIf="confirmPassword?.errors?.pattern">
+                Confirm Password must be a valid password format
+              </div>
+            </div>
+            <div *ngIf="!checkPass" class="mt-1">
+              Confirm Password and New Password must be same
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<ng-template #detail let-modal>
+  <div class="modal-content modal-lg">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel" *ngIf="!checkAdd">User Details</h5>
+      <button type="button" class="close" (click)="modal.close('Save click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+
+    <form [formGroup]="userForm" (ngSubmit)="createUser()">
+      <div class="modal-body">
+        <div class="form-group row" *ngIf="!checkAdd">
+          <label for="inputName" class="col-sm-3 col-form-label">Id<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" placeholder="Id" disabled [value]="!checkAdd ? userDetails.id:'' ">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">User Name<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Name" [value]="userDetails.username" disabled>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Full Name<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Full Name" [value]="userDetails.fullName"
+              disabled>
+
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Phone Number<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Phone Number" [value]="userDetails.phone"
+              disabled>
+
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Email<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="" placeholder="Email" [value]="userDetails.email" disabled>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Address<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Address" [value]="userDetails.address" disabled>
+
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="!checkAdd">
+          <label for="inputName" class="col-sm-3 col-form-label">Created Date<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="createDate" [value]="userDetails.createDate"
+              disabled>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="!checkAdd">
+          <label for="inputName" class="col-sm-3 col-form-label">Update Date<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="updateDate" [value]="userDetails.updateDate"
+              disabled>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<ng-template #delete let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+      <button type="button" class="close" (click)="modal.close('Save click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Are you sure you want to delete this User
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Close</button>
+      <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
     </div>
   </div>
-</div>
+</ng-template>
 
+<ng-template #passwordrecover let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Password Recover</h5>
+      <button type="button" class="close" (click)="modal.close('Save click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <form [formGroup]="userForm">
+      <div class="modal-body">
+        <div>Enter your email</div>
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Email<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="" placeholder="Email" formControlName="email">
+            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="mt-1">
+              <div *ngIf="email?.errors?.required ">
+                Email is required
+              </div>
+              <div *ngIf="email?.errors?.pattern">
+                Email must be a valid email address format
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span>{{passwordReset}}</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Close</button>
+        <button type="submit" class="btn btn-primary" *ngIf="!isPasswordReset" (click)="passwordRecover()">Password
+          Recover</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

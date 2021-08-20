@@ -21,7 +21,7 @@ import java.util.Scanner;
 @RestController
 @RequestMapping("/api/v1/project_management/admin")
 @CrossOrigin(origins = "http://localhost:4200")
-//@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 // api mà chỉ admin dùng được
 public class AdminController {
 

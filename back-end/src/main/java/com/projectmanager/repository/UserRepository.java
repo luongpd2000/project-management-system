@@ -21,6 +21,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
     Optional<User> findByIdAndDeleteIsFalse(Integer id);
 
+    List<User> findAllByDeleteIsFalse( );
+
     @Query(value = "SELECT u.* FROM user u WHERE u.id NOT IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 ) ", nativeQuery = true)
     Optional<List<User>> findAllUsersNotInProject(Integer id);
 

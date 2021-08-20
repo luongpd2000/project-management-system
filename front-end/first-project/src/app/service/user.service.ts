@@ -68,7 +68,7 @@ export class UserService {
   getNonPartner(pId:number){
     const userUrl = `${this.baseUrl}/admin/userNotInProject/${pId}`;
     console.log(userUrl);
-    
+
     return this.httpClient.get<User[]>(userUrl,this.httpOptions);
   }
   getPartner(pId:number){
@@ -101,7 +101,5 @@ export class UserService {
   }
 
 
-
-}
 
 }

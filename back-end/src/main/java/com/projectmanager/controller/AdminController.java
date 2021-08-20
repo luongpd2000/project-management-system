@@ -1,5 +1,7 @@
 package com.projectmanager.controller;
 
+import com.projectmanager.dto.PasswordRecover;
+import com.projectmanager.dto.Status;
 import com.projectmanager.entity.Project;
 import com.projectmanager.entity.ProjectEmployee;
 import com.projectmanager.entity.User;
@@ -41,6 +43,11 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(userService.getAll(pageable));
 
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(userService.findAllByDeleteIsFalse());
     }
 
     @PostMapping("/addUser")
@@ -127,5 +134,9 @@ public class AdminController {
         return ResponseEntity.ok(projectService.delete(id));
     }
 
+    @PostMapping("/passwordRecover")
+    public ResponseEntity<?> passwordRecover(@RequestBody PasswordRecover pr){
+        return ResponseEntity.ok(new Status(userService.passwordRecover(pr)));
+    }
 
 }

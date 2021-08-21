@@ -2,9 +2,11 @@ package com.projectmanager.controller;
 
 import com.projectmanager.dto.Status;
 import com.projectmanager.dto.UserDto;
+import com.projectmanager.entity.Todo;
 import com.projectmanager.entity.User;
 import com.projectmanager.service.ProjectEmployeeService;
 import com.projectmanager.service.ProjectService;
+import com.projectmanager.service.TodoService;
 import com.projectmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -33,13 +35,15 @@ public class Controller {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    TodoService todoService;
+
     @GetMapping("/findUserByUsername/{username}")
     public ResponseEntity<?> findUserByUsername(@PathVariable String username){
         return ResponseEntity.ok(userService.findByUsername(username));
     }
 
     @PutMapping("/updateUser")
-
     public ResponseEntity<?> updateUser(@RequestBody UserDto user){
         User user2 = userService.findById(user.getId()).get();
         System.out.println(user);
@@ -122,5 +126,25 @@ public class Controller {
     public ResponseEntity<?> getListProjectOfUser(@PathVariable Integer id){
         return ResponseEntity.ok(projectService.getListProjectOfUser(id));
     }
+
+    @GetMapping("/findByAssignedUser/{id}")
+    public ResponseEntity<?> findByAssignedUser(@PathVariable Integer id,
+                                                         @RequestParam(name = "page",defaultValue = "0") Integer page,
+                                                         @RequestParam(name = "size",defaultValue = "100")Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(todoService.findByAssignedUser(id,pageable));
+    }
+
+    @GetMapping("/findByAssignedUserNoPageable/{id}")
+    public ResponseEntity<?> findByAssignedUserNoPageable(@PathVariable Integer id){
+        return ResponseEntity.ok(todoService.findByAssignedUser(id));
+    }
+
+    @PutMapping("/updateTodo")
+    public ResponseEntity<?> updateTodo(@RequestBody Todo todo){
+        return ResponseEntity.ok(todoService.update(todo));
+    }
+
+
 
 }

@@ -23,7 +23,6 @@ export class ListTaskComponent implements OnInit {
   updateParent(){
     this.updateDetails.emit();
     console.log('update parents');
-    
   }
 
   myUserName!:String;
@@ -60,7 +59,6 @@ export class ListTaskComponent implements OnInit {
         this.myUserId=data.id;
       })
     }
-    
   }
 
   getData(){
@@ -88,6 +86,8 @@ export class ListTaskComponent implements OnInit {
       "manager":new FormControl(this.myUserId,[Validators.required])
     })
   }
+
+
 
   saveNewTask(){
     if(this.formTask.valid){

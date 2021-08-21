@@ -23,6 +23,7 @@ export class ProjectDetailsComponent implements OnInit {
   taskList = [];
   todoNum = 0;
   currentProjectId:number;
+  memberList:any[]=[];
 
   alert: boolean = false;
   closeAlert() {
@@ -46,7 +47,6 @@ export class ProjectDetailsComponent implements OnInit {
     console.log("You clicked: " + this.id);
     this.projectService.getProjectById(this.id).subscribe(data => {
       this.currentProject = data;
-
       this.taskList = this.currentProject.taskList;
       console.log('todo');
       this.todoNum = 0;
@@ -57,9 +57,8 @@ export class ProjectDetailsComponent implements OnInit {
       this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item=>{
         return !item.delete;
       }).length;
-      this.currentProjectId=this.currentProject.id;
-
-      
+      this.currentProjectId=this.currentProject.id;     
+      this.memberList= this.currentProject.projectEmployeeList;
     })
   }
   // open project Form

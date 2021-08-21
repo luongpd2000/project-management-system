@@ -10,7 +10,8 @@ const routes: Routes = [
     path:'',component: ProjectManagementComponent,pathMatch:"full",
     },
 
-    {path:'p-details/:id',component: ProjectDetailsComponent},
+    {path:'p-details/:id',loadChildren:()=>
+    import('./project-details/project-details.module').then(m=>m.ProjectDetailsModule)},
 
     {path:'task-details', component:TaskDetailsComponent},
 

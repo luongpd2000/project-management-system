@@ -42,7 +42,7 @@
     </div>
   </div>
 </main>
-<app-list-task [currentProjectId]="currentProjectId"> </app-list-task>
+<app-list-task [currentProjectId]="currentProjectId" [memberList]="memberList"> </app-list-task>
 <!-- detail project end -->
 
 <!-- ListTask -->
@@ -217,5 +217,6 @@
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
   </div>
 </ng-template>
+
 
 <router-outlet></router-outlet>

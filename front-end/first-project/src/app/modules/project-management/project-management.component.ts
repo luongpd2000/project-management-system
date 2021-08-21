@@ -28,10 +28,7 @@ export class ProjectManagementComponent implements OnInit {
     private projectService:ProjectService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private jwt:JwtServiceService,
     public getStatus:StatusService) {
-      console.log('user la: ', jwt.getUsername());
-      
     }
 
   ngOnInit(): void {

@@ -14,6 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
 import { GuardGuard } from './guard/guard.guard';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/
     NgbModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgSelectModule, 
+    FormsModule
   ],
   providers: [CookieService,
               GuardGuard,

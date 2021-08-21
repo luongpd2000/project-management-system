@@ -32,13 +32,11 @@ export class UserService {
   //   return this.httpClient.get<User>(userUrl);
 
   // }
-
   getUser(username : String): Observable<User>{
 
     const userUrl = `${this.baseUrl}/findUserByUsername/${username}`;
 
     return this.httpClient.get<User>(userUrl,this.httpOptions);
-
   }
 
   getAllUsersPageable(thePage: number,

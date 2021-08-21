@@ -72,10 +72,7 @@ public class AdminController {
         return ResponseEntity.ok(userService.findAllUsersNotInProject(id));
     }
 
-    @GetMapping("/userInProject/{id}")
-    public ResponseEntity<?> findUserInProject(@PathVariable Integer id){
-        return ResponseEntity.ok(userService.findAllUsersInProject(id));
-    }
+
 
 
     // api ProjectEmployee management
@@ -86,13 +83,6 @@ public class AdminController {
     }
 
 
-    @GetMapping("/findListEmployeeByProjectId/{id}")
-    public ResponseEntity<?> findListEmployeeByProjectId(@PathVariable Integer id,
-                                                         @RequestParam(name = "page",defaultValue = "0") Integer page,
-                                                         @RequestParam(name = "size",defaultValue = "100")Integer size){
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(projectEmployeeService.findByProjectId(id,pageable));
-    }
 
     @DeleteMapping("/deleteProjectEmployee/{id}")
     public ResponseEntity<?> deleteProjectEmployee(@PathVariable Integer id){

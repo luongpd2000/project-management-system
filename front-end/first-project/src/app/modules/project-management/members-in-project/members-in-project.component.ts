@@ -11,6 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { idRole } from 'src/app/data/schema/id-role';
 import { DetailsUserComponent } from '../add-users/details-user/details-user.component';
 import { ProjectEmployee } from 'src/app/data/schema/project-employee';
+import { JwtServiceService } from 'src/app/service/jwt-service.service';
 
 @Component({
   selector: 'app-members-in-project',
@@ -24,6 +25,8 @@ export class MembersInProjectComponent implements OnInit {
   listUsers: ProjectEmployee[] = [];
   projectId: number = this.route.snapshot.params['id'];
   pe: ProjectEmployee;
+  isAdmin: boolean = true;
+  role!: String;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -40,10 +43,17 @@ export class MembersInProjectComponent implements OnInit {
      private projectService: ProjectService,
       private route: ActivatedRoute,
       public dialog: MatDialog,
-      private modalService: NgbModal,) {
+      private modalService: NgbModal,
+      private jwtService: JwtServiceService) {
   }
 
   ngOnInit(): void {
+
+    this.role = this.jwtService.getRole();
+    if(this.role === '[ROLE_USER]'){
+      this.isAdmin = false;
+    }
+
     this.getData();
   }
 

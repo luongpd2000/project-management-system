@@ -6,8 +6,10 @@ import{Project} from '../../data/schema/project';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { ProjectDetails } from '../../data/schema/project-details';
 import { StatusService } from '../../data/service/status.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { JwtServiceService } from '../../service/jwt-service.service';
+import { JwtServiceService } from 'src/app/service/jwt-service.service';
+import { UserService } from 'src/app/service/user.service';
+import { User } from 'src/app/data/schema/user';
+
 
 
 
@@ -24,34 +26,84 @@ export class ProjectManagementComponent implements OnInit {
   projectList:ProjectDetails[]=[];
   newProject:Project=new Project();//
   formProject!:FormGroup;
+  username!: String;
+  userId!: number;
+  user!: User;
+  role!: String;
+  isAdmin: boolean = true;
+
   constructor(
     private projectService:ProjectService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     public getStatus:StatusService) {
     }
+    private jwtService: JwtServiceService,
+    private userService: UserService) {}
+
 
   ngOnInit(): void {
     this.makeForm();
-    this.projectService.getAllProjects().subscribe(data=>{
-      this.projectList=data['content'];
-      this.projectList.forEach(data=>{
-        let tasks:Array<any> = <Array<any>>data.taskList;
-        let partners:Array<any> = <Array<any>>data.projectEmployeeList;
-        let todo=0;
-        data.taskNum=tasks.length;
-        tasks.forEach(element => {
-          todo+=(element['todoList']).length;
+
+    this.role = this.jwtService.getRole();
+
+    if(this.role ==='[ROLE_ADMIN]'){
+      this.projectService.getAllProjects().subscribe(data=>{
+        this.projectList=data['content'];
+        this.projectList.forEach(data=>{
+          let tasks:Array<any> = <Array<any>>data.taskList;
+          let partners:Array<any> = <Array<any>>data.projectEmployeeList;
+          let todo=0;
+          data.taskNum=tasks.length;
+          tasks.forEach(element => {
+            todo+=(element['todoList']).length;
+          });
+          data.partnerNum = partners.filter(function(item){
+            return !item.delete;
+          }).length;
+          console.log(data.partnerNum);
+          data.todoNum=todo;
         });
-        data.partnerNum = partners.filter(function(item){
-          return !item.delete;
-        }).length;
-        console.log(data.partnerNum);
-        data.todoNum=todo;
-      });
-      console.log(this.projectList);
-    },error=>{console.log(error.error.message)});
+        console.log(this.projectList);
+      },error=>{console.log(error.error.message)});
+    }else{
+      this.isAdmin = false;
+      this.username = this.jwtService.getUsername();
+
+      this.userService.getUser(this.username).subscribe(
+        data=>{
+          this.user = data;
+          console.log(data);
+          this.userId = this.user.id;
+
+          this.projectService.getListProjectOfUser(this.userId).subscribe(
+            data=>{
+              this.projectList=data;
+              console.log(this.projectList)
+              this.projectList.forEach(data=>{
+                let tasks:Array<any> = <Array<any>>data.taskList;
+                let partners:Array<any> = <Array<any>>data.projectEmployeeList;
+                let todo=0;
+                data.taskNum=tasks.length;
+                tasks.forEach(element => {
+                  todo+=(element['todoList']).length;
+                });
+                data.partnerNum = partners.filter(function(item){
+                  return !item.delete;
+                }).length;
+                console.log(data.partnerNum);
+                data.todoNum=todo;
+              });
+              console.log(this.projectList);
+            },error=>{console.log(error.error.message)}
+          );
+        }
+      )
+    }
+
   }
+
+
   date = new Date();
   makeForm(){
     this.formProject = new FormGroup({

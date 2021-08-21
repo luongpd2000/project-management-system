@@ -10,10 +10,10 @@
       </div>
       <h1>{{currentProject?.name}}</h1>
       <div class="group-btn-1" style="margin-top: 30px;">
-        <button class="btn btn-success " routerLink='/project-manager/add-user/{{currentProject?.id}}'>Add user</button>
-        <button class="btn btn-info " routerLink='/project-manager/members/{{currentProject?.id}}'>Members</button>
-        <button type="button" class="btn btn-primary " (click)="openProjectForm(P_edit)">Edit</button>
-        <button type="button" class="btn btn-danger " (click)="openDelete(confirmDelete)">Delete</button>
+        <button class="btn btn-success " *ngIf="isAdmin" routerLink='/project-manager/add-user/{{currentProject?.id}}'>Add user</button>
+        <button class="btn btn-info "routerLink='/project-manager/members/{{currentProject?.id}}'>Members</button>
+        <button type="button" class="btn btn-primary " *ngIf="isAdmin" (click)="openProjectForm(P_edit)">Edit</button>
+        <button type="button" class="btn btn-danger " *ngIf="isAdmin" (click)="openDelete(confirmDelete)">Delete</button>
       </div>
       <div class="col-6">
         <div class="row">
@@ -217,6 +217,5 @@
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
   </div>
 </ng-template>
-
-
 <router-outlet></router-outlet>
+

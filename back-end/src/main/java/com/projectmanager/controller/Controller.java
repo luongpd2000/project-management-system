@@ -87,8 +87,8 @@ public class Controller {
     //api projectEmployee
     @GetMapping("/findProjectListByUserId/{id}")
     public ResponseEntity<?> findProjectListByUserId(@PathVariable Integer id,
-                                                          @RequestParam(name = "page") Integer page,
-                                                          @RequestParam(name = "size")Integer size){
+                                                          @RequestParam(name = "page",defaultValue = "0") Integer page,
+                                                          @RequestParam(name = "size",defaultValue = "100")Integer size){
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(projectEmployeeService.findByUserIdAndDeleteIsFalse(id,pageable));
     }
@@ -104,4 +104,23 @@ public class Controller {
     public ResponseEntity<?> checkLogin(){
         return ResponseEntity.ok(new Status("LoggedIn"));
     }
+
+    @GetMapping("/userInProject/{id}")
+    public ResponseEntity<?> findUserInProject(@PathVariable Integer id){
+        return ResponseEntity.ok(userService.findAllUsersInProject(id));
+    }
+
+    @GetMapping("/findListEmployeeByProjectId/{id}")
+    public ResponseEntity<?> findListEmployeeByProjectId(@PathVariable Integer id,
+                                                         @RequestParam(name = "page",defaultValue = "0") Integer page,
+                                                         @RequestParam(name = "size",defaultValue = "100")Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(projectEmployeeService.findByProjectId(id,pageable));
+    }
+
+    @GetMapping("/getListProjectOfUser/{id}")
+    public ResponseEntity<?> getListProjectOfUser(@PathVariable Integer id){
+        return ResponseEntity.ok(projectService.getListProjectOfUser(id));
+    }
+
 }

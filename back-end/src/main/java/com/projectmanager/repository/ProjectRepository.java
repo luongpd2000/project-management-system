@@ -46,5 +46,10 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaS
 
 
 
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT p.* FROM project p, project_employee pe WHERE pe.user_id = ?1 AND p.id= pe.project_id",nativeQuery = true)
+    List<Project> getListProjectOfUser(Integer uId);
+
 
 }

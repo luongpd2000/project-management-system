@@ -13,7 +13,7 @@
                     <div class="search-input">
                         <div class="row">
                             <div class="col-6">
-                                <button class="btn btn-success " routerLink='/project-manager/add-user/{{projectId}}'>
+                                <button class="btn btn-success " *ngIf="isAdmin" routerLink='/project-manager/add-user/{{projectId}}'>
                                     Add Members
                                 </button>
                             </div>
@@ -85,8 +85,8 @@
                             <ng-container matColumnDef="action">
                                 <th mat-header-cell *matHeaderCellDef> Action </th>
                                 <td mat-cell *matCellDef="let element">
-                                    <button mat-icon-button (click)="openDialog(element)"><mat-icon>launch</mat-icon></button>
-                                    <button mat-icon-button color="warn" (click)="openCofirm(confirmDelete,element)"><mat-icon>delete_outline</mat-icon></button>
+                                    <button mat-icon-button *ngIf="isAdmin" (click)="openDialog(element)"><mat-icon>launch</mat-icon></button>
+                                    <button mat-icon-button color="warn" *ngIf="isAdmin" (click)="openCofirm(confirmDelete,element)"><mat-icon>delete_outline</mat-icon></button>
                                     <!-- <button mat-raised-button
                                         class="btn btn-primary" (click)="openDialog(element)"> Details </button> -->
                                      </td>

@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="child-header" style=" display: flex;">
                     <div class="group-button" style="    margin-right: auto;">
-                        <button type="button" class="btn btn-success" (click)="open(content)">Add
+                        <button type="button" class="btn btn-success" *ngIf="isAdmin" (click)="open(content)">Add
                             Project</button>
                     </div>
                     <div class="header-action col-md-4">
@@ -102,13 +102,13 @@
                                 ngbDatepicker #d="ngbDatepicker" type="date">
                                 <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
                                     <span class="invalid-text" >*Requierd</span>
-                                </div>    
+                                </div>
                             <span>To</span>
                             <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate'
                                 ngbDatepicker #d2="ngbDatepicker" type="date">
                                 <div *ngIf="endDate&&endDate.invalid&&(endDate?.dirty||endDate?.touched)">
                                     <span class="invalid-text" >*Requierd</span>
-                                </div>  
+                                </div>
                         </div>
                     </div>
                     <div class="form-group row">

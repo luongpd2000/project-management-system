@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 /* this is main.css */
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -214,10 +215,8 @@ button{
 .mode_normal{
     background-color: #1e6793;
 }
-.mode_low{
-    background-color:rgb(90, 87, 87)
-}
-.mode_draft{
+
+.mode_draft, .mode_low{
     background-color: #8b9096;
 }
 .mode_pending{
@@ -275,6 +274,10 @@ button{
          background-color: #f1f1f1;
     }
 
+}
+.invalid-text{
+    font-size: 14px;
+    color: #ff0000;
 }
 
 

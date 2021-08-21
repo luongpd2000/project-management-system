@@ -1,10 +1,10 @@
 export class Project {
     public id!: number;
-    public name: string='';
-    public des: string='';
-    public createDate:string='';
-    public startDate!: string;
-    public endDate!: string;
-    public status: string='';
+    public name: String='';
+    public des: String='';
+    public createDate:String='';
+    public startDate!: String;
+    public endDate!: String;
+    public status: String='';
     public creater: number=1
 }

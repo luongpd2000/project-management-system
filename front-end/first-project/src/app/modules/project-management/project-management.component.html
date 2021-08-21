@@ -36,10 +36,10 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">{{p.name}}</h3>
-                                    <span class="badge badge-success">{{p.status}}</span>
+                                    <span class="badge" [ngStyle]="{'background':getStatus.getTheColor(p.status)}">{{p.status}}</span>
                                 </div>
                                 <div class="card-body">
-                                    <p>{{p.des}}</p>
+                                    <p class="description">{{p.des}}</p>
                                     <div class="row">
                                         <div class="col-5 py-1"><strong>Start:</strong></div>
                                         <div class="col-7 py-1">{{p.startDate}}</div>
@@ -69,13 +69,8 @@
                             </div>
                         </a>
                     </div>
-
-
-
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -148,6 +143,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
                   </div>
             </div>
+            
 
 </ng-template>
 

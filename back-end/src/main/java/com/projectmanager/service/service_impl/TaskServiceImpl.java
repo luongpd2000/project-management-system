@@ -11,11 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class TaskServiceImpl implements TaskService {
+
 
     @Autowired
     TaskRepository taskRepository;
@@ -75,4 +77,15 @@ public class TaskServiceImpl implements TaskService {
     public Optional<Task> findByName(String name) {
         return taskRepository.findByNameAndDeletedIsFalse(name);
     }
+
+    @Override
+    public Optional<Task> findByUser(Integer id){
+        return taskRepository.findByCreateUserAndDeletedIsFalse(id);
+    }
+
+    @Override
+    public Page<Task> findByProject(Integer id, Pageable pageable){
+        return taskRepository.findByProjectIdAndDeletedIsFalse(id, pageable);
+    }
+
 }

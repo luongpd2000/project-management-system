@@ -5,9 +5,11 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import{Project} from '../../data/schema/project';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { ProjectDetails } from '../../data/schema/project-details';
+import { StatusService } from '../../data/service/status.service';
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/data/schema/user';
+
 
 
 
@@ -32,8 +34,12 @@ export class ProjectManagementComponent implements OnInit {
     private projectService:ProjectService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
+    public getStatus:StatusService,
     private jwtService: JwtServiceService,
-    private userService: UserService) {}
+    private userService: UserService) {
+    }
+  
+
 
   ngOnInit(): void {
     this.makeForm();
@@ -169,5 +175,6 @@ export class ProjectManagementComponent implements OnInit {
 
 
   }
+
 
 

@@ -64,7 +64,6 @@ public class Project implements Serializable {
     @Column(name = "update_user")
     private Integer updateUser;
 
-
     @OneToMany(mappedBy = "projectId", fetch = FetchType.LAZY)
     private List<ProjectEmployee> projectEmployeeList;
 

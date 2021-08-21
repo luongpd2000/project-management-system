@@ -34,13 +34,15 @@
             <span class="avatar avatar-sm">{{currentProject?.partnerNum}}</span>
           </div>
           <div class="col-6 py-1"><strong>Status</strong></div>
-          <div class="col-6 py-1"><strong><span class="badge badge-success">{{currentProject?.status}}</span></strong>
+          <div class="col-6 py-1">
+            <strong><span class="badge" [ngStyle]="{'background':getStatus.getTheColor(currentProject?.status)}">{{currentProject?.status}}</span></strong>
           </div>
         </div>
       </div>
     </div>
   </div>
 </main>
+<app-list-task [currentProjectId]="currentProjectId" [memberList]="memberList"> </app-list-task>
 <!-- detail project end -->
 
 <!-- ListTask -->
@@ -216,3 +218,4 @@
   </div>
 </ng-template>
 <router-outlet></router-outlet>
+

@@ -111,8 +111,6 @@ export class AddUsersComponent implements OnInit {
 
   openDialog(element: any): void {
     const dialogConfig = new MatDialogConfig();
-
-
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.data = element;

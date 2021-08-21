@@ -28,21 +28,33 @@ export class TaskService {
     return this.httpClient.get<Task>(taskUrl, this.httpOptions);
   }
 
-  getTaskList(page: number, size: number): Observable<any> {
+  getTaskList(page: 0, size: 5): Observable<any> {
     const taskUrl = `${this.baseUrl}/taskList/?page=${page}&size=${size}`;
     return this.httpClient.get<any>(taskUrl, this.httpOptions);
   }
 
-  // createTask(task: Task){
+  getTaskByUser(id: number): Observable<any>{
+    const url = `${this.baseUrl}/userTaskList/?userId=${id}`;
+    return this.httpClient.get<any>(url, this.httpOptions);
+  }
 
-  // }
+  createTask(task: Task){
+    const createTaskUrl = `${this.baseUrl}/createTask`;
+    return this.httpClient.post(createTaskUrl,task,this.httpOptions);
+  }
 
-  // deleteTask(task: Task){
+  deleteTask(task: Task){
+    const deleteTaskUrl =`${this.baseUrl}/deleteTask/${task.id}`;
+    return this.httpClient.delete<any>(deleteTaskUrl, this.httpOptions);
+  }
 
-  // }
+  updateTask(task: Task){
+    const updateTaskUrl = `${this.baseUrl}/updateTask/${task.id}`;
+    return this.httpClient.put<Task>(updateTaskUrl, this.httpOptions);
+  }
 
-  // updateTask(task: Task): Observable<any>{
-  //   const updateTaskUrl = `${this.baseUrl}/updateTask`;
-  //   return this.httpClient.put<Task>(updateTaskUrl, task);
-  // }
+  getListTaskByProjectId(pId:number): Observable<any>{
+    const taskUrl = `${this.baseUrl}/projectTaskList/?projectId=${pId}`;
+    return this.httpClient.get<any>(taskUrl, this.httpOptions);
+  }
 }

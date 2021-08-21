@@ -9,6 +9,7 @@ export class Todo{
   todoType!: String;
   status!: String;
   taskId!: Number;
+  projectId!: number;
   createDate!: Date;
   updateDate!: Date;
   createUser!: number;

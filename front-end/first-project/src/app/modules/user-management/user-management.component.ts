@@ -60,6 +60,7 @@ export class UserManagementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.getData();
 
     this.userForm = new FormGroup({
@@ -149,6 +150,7 @@ export class UserManagementComponent implements OnInit {
     console.log(this.userDetails);
     this.modalService.open(content, {
       centered: true,
+      size: 'lg',
     });
   }
 
@@ -157,6 +159,7 @@ export class UserManagementComponent implements OnInit {
     console.log(this.checkAdd);
     this.modalService.open(content, {
       centered: true,
+      size: 'lg',
     });
   }
 
@@ -216,6 +219,7 @@ export class UserManagementComponent implements OnInit {
     this.userDetails = element;
     this.modalService.open(content, {
       centered: true,
+      size: 'lg',
     });
   }
 

@@ -20,6 +20,7 @@ export class MyTodoComponent implements OnInit {
   todoList: Todo[]=[];
   todoListAll: Todo[]=[];
   userId: number;
+  todoDetail: Todo;
 
   thePageNumber: number = 1;
   thePageSize: number = 5;
@@ -88,7 +89,13 @@ export class MyTodoComponent implements OnInit {
     );
   }
 
-
+  openDetails(content: any, element){
+    this.todoDetail = element;
+    this.modalService.open(content, {
+      centered: true,
+      size: 'lg',
+    });
+  }
 
 
   updatePageSize(event) {

@@ -30,10 +30,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgSelectModule,
     ProjectManagementRoutingModule,
     ReactiveFormsModule,
-  
     NgbModule,
     MaterialModule,
-    
+
   ]
 })
 

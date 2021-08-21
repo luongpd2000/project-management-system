@@ -194,6 +194,16 @@
                     <th mat-header-cell *matHeaderCellDef> Action </th>
                     <td mat-cell *matCellDef="let element, index as i">
 
+                      <button mat-icon-button (click)="openDetails(detail,element)">
+                        <mat-icon>launch</mat-icon>
+                      </button>
+                      <button mat-icon-button>
+                        <mat-icon>update</mat-icon>
+                      </button>
+                      <button mat-icon-button>
+                        <mat-icon>more_horiz</mat-icon>
+                      </button>
+
                       <!-- <button mat-icon-button (click)="openDetails(detail,element)">
                         <mat-icon>launch</mat-icon>
                       </button>
@@ -234,9 +244,6 @@
                                           (pageChange)="getData()">
                           </ngb-pagination>
 
-                          <!-- <span>{{thePageNumber}}</span>
-                          <span>{{thePageSize}}</span>
-                          <span>{{theTotalElements}}</span> -->
                         </div>
 
                         <div class="col-md-3 mt-2" style="text-align: right;">
@@ -268,187 +275,115 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- <main class="content-wrapper">
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+    <ng-template #detail let-modal >
+            <!-- <div class="modal-dialog modal-lg" role="document"> -->
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Todo Details</h5>
-                  <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                  <button type="button" class="btn-close" (click)="modal.close('Save click')" aria-label="Close"></button>
 
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label for="inputName" class="col-sm-3 col-form-label">Todo Name<span
+                        <label for="inputName" class="col-sm-2 col-form-label">Id<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10" style="display: flex;">
+                            <input type="Text" class="form-control col-sm-4" id="inputName"  readonly [value]="todoDetail.id">
+                            <span style="padding: 10px;margin-left: auto" class="col-sm-2">Todo Type</span>
+                            <input type="Text" style="margin-left: auto" class="form-control col-sm-4" id="inputName" readonly [value]="todoDetail.todoType">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Todo Name<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="Text" class="form-control" id="inputName" readonly [value]="todoDetail.name">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Task Id<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10" style="display: flex;">
+                          <input type="text" class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.taskId">
+
+                          <span style="padding: 10px; margin-left: auto" class="col-sm-2">Project Id</span>
+                          <input type="text" style="margin-left: auto" class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.projectId">
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group row">
+                        <label for="inputName" class="col-sm-3 col-form-label">Todo Type<span
                                 class="text-danger">*</span></label>
                         <div class="col-sm-9">
                             <input type="Text" class="form-control" id="inputName" placeholder="Name">
                         </div>
-                    </div>
+                    </div> -->
+
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
-                        <div class="col-md-9" style="display: flex;">
-                            <input type="text" class="form-control datepicker" name="date" value="" >
+                        <label class="col-sm-2 col-form-label">Start Date <span class="text-danger">*</span></label>
+                        <div class="col-sm-10" style="display: flex;">
+                            <input type="text" class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.startDate">
 
-                            <span style="padding: 10px;">To</span>
-                            <input type="text" class="form-control datepicker" name="date" value="" >
-
+                            <span style="padding:10px;margin-left: auto" class="col-sm-2">End Date<span class="text-danger">*</span></span>
+                            <input type="text" style="margin-left: auto;" class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.endDate">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
-                                class="text-danger">*</span></label>
-                        <div class="col-sm-9">
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>High</option>
-                                <option>Normal</option>
-                                <option>Low</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
-                        <div class="col-md-9">
-                            <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 col-form-label">
-                            Assign for<span class="text-danger">*</span></label>
 
-                        <div class="col-md-9">
-                            <select class="selectpicker" data-live-search="true" title="Select User">
-
-                                <option data-tokens="">User1</option>
-                                <option data-tokens="">User2</option>
-                                <option data-tokens="">User3</option>
-                              </select>
-                        </div>
-                    </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">
-                            Status<span class="text-danger">*</span></label>
+                        <label class="col-sm-2 col-form-label">Create Date<span class="text-danger">*</span></label>
+                        <div class="col-sm-10" style="display: flex;">
+                            <input type="text" class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.createDate">
 
-                        <div class="col-md-7">
-                            <select class="custom-select mr-sm-2" id="">
-                                <option selected>Status</option>
-                                <option value="1">Draft</option>
-                                <option value="2">Pending</option>
-                                <option value="3">Working</option>
-                                <option value="4">Reviewing</option>
-                                <option value="5">Done</option>
-                              </select>
+                            <span style="padding: 10px; margin-left: auto" class="col-sm-2">Update Date</span>
+                            <input type="text" style="margin-left: auto" class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.updateDate">
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Description <span class="text-danger">*</span></label>
+                        <div class="col-md-10">
+                            <textarea rows="3" class="form-control no-resize" placeholder="Descriptions" readonly [value]="todoDetail.des"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-md-2 col-form-label">
+                        Create User<span class="text-danger">*</span></label>
+
+
+                        <div class="col-md-10" style="display: flex;">
+                          <input type="text"  class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.createUser">
+
+                            <span style="padding: 10px;margin-left: auto" class="col-sm-2">Status</span>
+                            <input type="text" style="margin-left: auto" class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.status">
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group row">
+                        <label class="col-md-2 col-form-label">
+                          Create User<span class="text-danger">*</span></label>
+
+                        <div class="col-md-3" style="display: flex;">
+                          <input type="text" class="form-control datepicker" name="date" readonly [value]="todoDetail.createUser">
+                        </div>
+                    </div> -->
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+
+                <!-- <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
+                </div> -->
               </div>
-            </div>
-          </div>
+        </ng-template>
 
-                 <div class="modal fade" id="new-task" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Task Details</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <label for="inputName" class="col-sm-3 col-form-label">Task Name<span
-                                        class="text-danger">*</span></label>
-                                <div class="col-sm-9">
-                                    <input type="Text" class="form-control" id="inputName" placeholder="Name">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
-                                <div class="col-md-9" style="display: flex;">
-                                    <input type="text" class="form-control datepicker" name="date" value="" >
 
-                                    <span style="padding: 10px;">To</span>
-                                    <input type="text" class="form-control datepicker" name="date" value="" >
 
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
-                                        class="text-danger">*</span></label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>High</option>
-                                        <option>Normal</option>
-                                        <option>Low</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
-                                <div class="col-md-9">
-                                    <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">
-                                    Assign for<span class="text-danger">*</span></label>
 
-                                <div class="col-md-9">
-                                    <select class="selectpicker" data-live-search="true" title="Select User">
+    <ng-template #update let-modal>
 
-                                        <option data-tokens="">User1</option>
-                                        <option data-tokens="">User2</option>
-                                        <option data-tokens="">User3</option>
-                                      </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">
-                                    Status<span class="text-danger">*</span></label>
+    </ng-template>
 
-                                <div class="col-md-7">
-                                    <select class="custom-select mr-sm-2" id="">
-                                        <option selected>Status</option>
-                                        <option value="1">Draft</option>
-                                        <option value="2">Pending</option>
-                                        <option value="3">Working</option>
-                                        <option value="4">Reviewing</option>
-                                        <option value="5">Done</option>
-                                      </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+    <ng-template #history let-modal>
 
-    </main> -->
+    </ng-template>
 

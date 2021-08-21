@@ -9,11 +9,10 @@ import { MyTaskModule } from './modules/my-task/my-task.module';
 import { GuardGuard } from './guard/guard.guard';
 
 const routes: Routes = [
-
   {
     path: '',
     redirectTo: '/project-manager',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 
   //App Routers
@@ -21,51 +20,65 @@ const routes: Routes = [
     path: '',
     component: ContentLayoutComponent,
     canActivate: [GuardGuard],
-    children:[
+    children: [
       {
-        path:'myaccount',
-        loadChildren:()=>
-          import('./modules/myaccount/myaccount.module').then(m=>m.MyaccountModule)
-      },
-      {
-        path:'user-manager',
-        loadChildren:()=>
-          import('./modules/user-management/user-management.module').then(m=>m.UserManagementModule)
-      },
-      {
-        path:'my-todo',
-        loadChildren:()=>
-          import('./modules/my-todo/my-todo.module').then(m=>m.MyTodoModule)
-      },
-      {
-        path:'my-task',
-        loadChildren:()=>
-          import('./modules/my-task/my-task.module').then(m=>MyTaskModule)
-      }
-      ,
-      {
-        path:'project-manager',
-        loadChildren:()=>
-          import('./modules/project-management/project-management.module').then(m=>m.ProjectManagementModule)
-      },
+        path: 'myaccount',
+        canActivate: [GuardGuard],
 
+        loadChildren: () =>
+          import('./modules/myaccount/myaccount.module').then(
+            (m) => m.MyaccountModule
+          ),
+      },
+      {
+        path: 'user-manager',
+        canActivate: [GuardGuard],
 
-    ]
+        loadChildren: () =>
+          import('./modules/user-management/user-management.module').then(
+            (m) => m.UserManagementModule
+          ),
+      },
+      {
+        path: 'my-todo',
+        canActivate: [GuardGuard],
+
+        loadChildren: () =>
+          import('./modules/my-todo/my-todo.module').then(
+            (m) => m.MyTodoModule
+          ),
+      },
+      {
+        path: 'my-task',
+        canActivate: [GuardGuard],
+
+        loadChildren: () =>
+          import('./modules/my-task/my-task.module').then((m) => MyTaskModule),
+      },
+      {
+        path: 'project-manager',
+        canActivate: [GuardGuard],
+
+        loadChildren: () =>
+          import('./modules/project-management/project-management.module').then(
+            (m) => m.ProjectManagementModule
+          ),
+      },
+    ],
   },
   // Auth Routers
   {
     path: 'login',
     component: AuthLayoutComponent,
     loadChildren: () =>
-      import('./modules/auth/auth.module').then(m => m.AuthModule)
+      import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   // Fallback when no prior routes is matched
-  { path: '**', redirectTo: '/project-manager', pathMatch: 'full' }
-
+  { path: '**', redirectTo: '/project-manager', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

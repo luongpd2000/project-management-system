@@ -49,6 +49,9 @@ public class Task implements Serializable {
     @Column(name = "project_id", nullable = false)
     private Integer projectId;
 
+    @Column(name = "des")
+    private String des;
+
 
     @Column(name = "create_date", nullable = false)
     private Date createDate;

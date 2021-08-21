@@ -1,17 +1,17 @@
-    
-    <main class="content-wrapper">
+
+    <!-- <main class="content-wrapper">
         <div class="container p-30">
             <div class="section-body">
             <div class="row">
-                
+
                 <div class="col-md-12 main-datatable">
                     <div class="card_body">
                         <div class="task-list">Your Todo</div>
                         <div class="row d-flex">
                             <div class=" col-sm-4 group-btn ">
-                                
+
                             </div>
-                            
+
                             <div class="col-sm-8 add_flex">
                                 <div class="form-group searchInput">
                                     <label for="email">Search:</label>
@@ -42,7 +42,7 @@
                                         <td>Project1</td>
                                         <td>task1</td>
                                         <td><span class="mode mode_high">High</span></td>
-                                        
+
                                         <td>17-Apr-2020</td>
                                         <td><span class="mode mode_working">Working</span></td>
                                         <td>
@@ -58,7 +58,7 @@
                                         <td>Project1</td>
                                         <td>task1</td>
                                         <td><span class="mode mode_normal">Normal</span></td>
-                                        
+
                                         <td>17-Apr-2020</td>
                                         <td><span class="mode mode_done">Done</span></td>
                                         <td>
@@ -74,7 +74,7 @@
                                         <td>Project1</td>
                                         <td>task1</td>
                                         <td><span class="mode mode_low">Low</span></td>
-                                        
+
                                         <td>17-Apr-2020</td>
                                         <td><span class="mode mode_working">Working</span></td>
                                         <td>
@@ -90,7 +90,7 @@
                                         <td>Project1</td>
                                         <td>task1</td>
                                         <td><span class="mode mode_high">High</span></td>
-                                        
+
                                         <td>17-Apr-2020</td>
                                         <td><span class="mode mode_reviewing">Reviewing</span></td>
                                         <td>
@@ -108,16 +108,194 @@
             </div>
         </div>
         </div>
+    </main> -->
+
+
+    <main class="content-wrapper">
+
+      <div class="container p-30">
+
+        <div class="task-list mb-3">Todo List
+        </div>
+
+        <div class="row">
+          <div class="search-input">
+            <div class="row">
+              <div class="col-6">
+              </div>
+
+              <div class="col-6">
+                <div class="form-group searchInput">
+                  <label for="email">Search:</label>
+                  <input type="search" class="form-control" id="filterbox" placeholder="Search..."
+                    aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 main-datatable">
+            <div class="card_body">
+
+
+              <div class="overflow-x">
+
+                <table mat-table [dataSource]="dataSource">
+
+                  <ng-container matColumnDef="select">
+                    <td mat-cell *matCellDef="let row">
+                      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="STT">
+                    <th mat-header-cell *matHeaderCellDef> STT </th>
+                    <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ID">
+                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Created Date">
+                    <th mat-header-cell *matHeaderCellDef> Created Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.createDate}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Start Date">
+                    <th mat-header-cell *matHeaderCellDef> Start Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.startDate}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Task Id">
+                    <th mat-header-cell *matHeaderCellDef> Task Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.taskId}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Todo Type">
+                    <th mat-header-cell *matHeaderCellDef> Todo Type </th>
+                    <td mat-cell *matCellDef="let element"> {{element.todoType}} </td>
+                  </ng-container>
+
+
+                  <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element, index as i">
+
+                      <!-- <button mat-icon-button (click)="openDetails(detail,element)">
+                        <mat-icon>launch</mat-icon>
+                      </button>
+                      <button mat-icon-button color="warn" (click)="openDelete(delete,element)">
+                        <mat-icon>delete_outline</mat-icon>
+                      </button>
+                      <br>
+                      <button type="button" class="btn btn-warning mt-2 mb-3"
+                        (click)="openpasswordRecover(passwordrecover,element)">Password Recover</button> -->
+                    </td>
+                  </ng-container>
+
+                  <!-- <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button><mat-icon>launch</mat-icon></button>
+                        <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
+                         </td>
+                </ng-container> -->
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                  </tr>
+                </table>
+
+                <div class="footer-pagination mt-3">
+                  <div class="row">
+                    <div class="col-md-6"></div>
+
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-9" style="padding-left: 30%">
+                          <ngb-pagination [(page)]="thePageNumber"
+                                          [pageSize]="thePageSize"
+                                          [collectionSize]="theTotalElements"
+                                          [maxSize]="5"
+                                          [boundaryLinks]="true"
+                                          (pageChange)="getData()">
+                          </ngb-pagination>
+
+                          <!-- <span>{{thePageNumber}}</span>
+                          <span>{{thePageSize}}</span>
+                          <span>{{theTotalElements}}</span> -->
+                        </div>
+
+                        <div class="col-md-3 mt-2" style="text-align: right;">
+                          <span class="mr-2">Page Size</span>
+                          <select (change)="updatePageSize($event)">
+                            <option selected="true">5</option>
+                            <option>10</option>
+                            <option>20</option>
+                            <option>50</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-    <main class="content-wrapper"> 
-          <!--to do Modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <main class="content-wrapper">
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Todo Details</h5>
                   <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-              
+
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
@@ -131,10 +309,10 @@
                         <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
                         <div class="col-md-9" style="display: flex;">
                             <input type="text" class="form-control datepicker" name="date" value="" >
-                            
+
                             <span style="padding: 10px;">To</span>
                             <input type="text" class="form-control datepicker" name="date" value="" >
-                           
+
                         </div>
                     </div>
                     <div class="form-group row">
@@ -157,10 +335,10 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">
                             Assign for<span class="text-danger">*</span></label>
-             
+
                         <div class="col-md-9">
                             <select class="selectpicker" data-live-search="true" title="Select User">
-                                
+
                                 <option data-tokens="">User1</option>
                                 <option data-tokens="">User2</option>
                                 <option data-tokens="">User3</option>
@@ -170,7 +348,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">
                             Status<span class="text-danger">*</span></label>
-            
+
                         <div class="col-md-7">
                             <select class="custom-select mr-sm-2" id="">
                                 <option selected>Status</option>
@@ -190,9 +368,6 @@
               </div>
             </div>
           </div>
-          <!-- Modal End -->
-                 <!-- modal new task -->
-                 <!-- Modal -->
 
                  <div class="modal fade" id="new-task" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
@@ -215,10 +390,10 @@
                                 <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
                                 <div class="col-md-9" style="display: flex;">
                                     <input type="text" class="form-control datepicker" name="date" value="" >
-                                    
+
                                     <span style="padding: 10px;">To</span>
                                     <input type="text" class="form-control datepicker" name="date" value="" >
-                                   
+
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -241,10 +416,10 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">
                                     Assign for<span class="text-danger">*</span></label>
-                   
+
                                 <div class="col-md-9">
                                     <select class="selectpicker" data-live-search="true" title="Select User">
-                                        
+
                                         <option data-tokens="">User1</option>
                                         <option data-tokens="">User2</option>
                                         <option data-tokens="">User3</option>
@@ -254,7 +429,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">
                                     Status<span class="text-danger">*</span></label>
-               
+
                                 <div class="col-md-7">
                                     <select class="custom-select mr-sm-2" id="">
                                         <option selected>Status</option>
@@ -274,7 +449,6 @@
                       </div>
                     </div>
                   </div>
-         <!-- modal new task END -->
 
-    </main>
+    </main> -->
 

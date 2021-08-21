@@ -6,11 +6,16 @@ import com.projectmanager.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
+@Service
+@Transactional(rollbackFor = Exception.class)
 public class TodoServiceImpl implements TodoService {
 
     @Autowired
@@ -29,10 +34,10 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Todo create(Todo todo) {
         Optional<Todo> t = todoRepository.findByNameAndDeletedIsFalse(todo.getName());
-
+        if(todo.getTaskId()== t.get().getTaskId() && todo.getTodoType()==t.get().getTodoType()){
+            return null;
+        }
         if(!t.isPresent()) {
-
-//          todo.setAdmin(false);
             todo.setDeleted(false);
             todo.setCreateDate(Date.valueOf(LocalDate.now()));
             return todoRepository.save(todo);
@@ -42,12 +47,13 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public boolean update(Todo todo) {
-        Optional<Todo> t = todoRepository.findByNameAndDeletedIsFalse(todo.getName());
+        Optional<Todo> t = todoRepository.findByIdAndDeletedIsFalse(todo.getId());
 
         if (!t.isPresent()){
             return false;
         } else {
-
+            todo.setUpdateDate(Date.valueOf(LocalDate.now()));
+            todoRepository.save(todo);
         }
 
         return true;
@@ -70,6 +76,16 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Optional<Todo> findByName(String name){
         return todoRepository.findByNameAndDeletedIsFalse(name);
+    }
+
+    @Override
+    public Page<Todo> findByAssignedUser(Integer id, Pageable pageable) {
+        return todoRepository.findByAssignedUserAndDeletedIsFalse(id,pageable);
+    }
+
+    @Override
+    public List<Todo> findByAssignedUser(Integer id) {
+        return todoRepository.findByAssignedUserAndDeletedIsFalse(id);
     }
 
 

@@ -7,5 +7,4 @@ export class Project {
     public endDate!: string;
     public status: string='';
     public creater: number=1
- 
 }

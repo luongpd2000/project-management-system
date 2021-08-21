@@ -56,5 +56,14 @@ export class ProjectService {
   }
 
 
+  getProjectListByUserId(id: number): Observable<any>{
+    return this.http.get<any>(this.bareUrl+"project_management/findProjectListByUserId/"+id,this.httpOptions);
+  }
+
+  getListProjectOfUser(id: number): Observable<any>{
+    return this.http.get<any>(this.bareUrl+"project_management/getListProjectOfUser/"+id,this.httpOptions);
+  }
+
+
 
 }

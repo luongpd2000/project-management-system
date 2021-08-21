@@ -7,6 +7,7 @@ import { ProjectDetails } from 'src/app/data/schema/project-details';
 import { ProjectService } from '../../../service/project.service';
 import { DatePicker } from 'src/app/data/schema/date-picker';
 import { FomatInputService } from 'src/app/data/service/fomat-input.service';
+import { JwtServiceService } from 'src/app/service/jwt-service.service';
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
@@ -21,6 +22,8 @@ export class ProjectDetailsComponent implements OnInit {
   currentProject!: ProjectDetails;
   taskList = [];
   todoNum = 0;
+  isAdmin: boolean = true;
+  role!: String;
 
   alert: boolean = false;
   closeAlert() {
@@ -31,10 +34,15 @@ export class ProjectDetailsComponent implements OnInit {
     private projectService: ProjectService,
     private modalService: NgbModal,
     private fomat: FomatInputService,
-    private router: Router
+    private router: Router,
+    private jwtService: JwtServiceService
   ) { }
 
   ngOnInit(): void {
+    this.role = this.jwtService.getRole();
+    if(this.role === '[ROLE_USER]'){
+      this.isAdmin = false;
+    }
     this.loadDetails();
   }
 
@@ -55,7 +63,7 @@ export class ProjectDetailsComponent implements OnInit {
         return !item.delete;
       }).length;
 
-      
+
     })
   }
   // open project Form

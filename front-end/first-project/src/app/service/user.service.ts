@@ -79,7 +79,7 @@ export class UserService {
 
 
   getUsersInProject(id: number): Observable<any>{
-    const url = `${this.baseUrl}/admin/findListEmployeeByProjectId/${id}`;
+    const url = `${this.baseUrl}/findListEmployeeByProjectId/${id}`;
     return this.httpClient.get<any>(url,this.httpOptions);
   }
 

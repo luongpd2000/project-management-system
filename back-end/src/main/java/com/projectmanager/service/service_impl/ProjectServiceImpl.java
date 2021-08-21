@@ -1,9 +1,12 @@
 package com.projectmanager.service.service_impl;
 
 import com.projectmanager.entity.Project;
+import com.projectmanager.entity.ProjectEmployee;
 import com.projectmanager.entity.Task;
 import com.projectmanager.entity.User;
+import com.projectmanager.repository.ProjectEmployeeRepository;
 import com.projectmanager.repository.ProjectRepository;
+import com.projectmanager.repository.UserRepository;
 import com.projectmanager.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     ProjectRepository projectRepository;
 
+    @Autowired
+    ProjectEmployeeRepository projectEmployeeRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
     // nhớ check delete nhé
     public List<Project> findAll(){
         return projectRepository.findAll();
@@ -33,6 +42,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> findProjectByUserId(Integer userId) {
         return projectRepository.findProjectByUserId(userId);
+    }
+
+    @Override
+    public List<Project> getListProjectOfUser(Integer uId) {
+        return projectRepository.getListProjectOfUser(uId);
     }
 
     @Override
@@ -52,7 +66,19 @@ public class ProjectServiceImpl implements ProjectService {
             project.setCreateDate(Date.valueOf(LocalDate.now()));
             project.setDeleted(false);
             project.setCreateUser(1);
-            return projectRepository.save(project);
+//            User admin = userRepository.getById(1);
+//            System.out.println(admin);
+//            ProjectEmployee pm = new ProjectEmployee();
+//            pm.setRole("admin");
+//            pm.setUser(admin);
+//            pm.setProjectId(project.getId());
+//            pm.setDelete(false);
+//            System.out.println(pm);
+//            List<ProjectEmployee>
+//            project.setProjectEmployeeList();
+            projectRepository.save(project);
+//            projectEmployeeRepository.save(pm);
+            return project;
         }
         return null;
     }
@@ -66,6 +92,7 @@ public class ProjectServiceImpl implements ProjectService {
             p.get().setDes(project.getDes());
             p.get().setStartDate(project.getStartDate());
             p.get().setEndDate(project.getEndDate());
+
             projectRepository.save(project);
             return true;
         }else return false;

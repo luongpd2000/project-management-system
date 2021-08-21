@@ -76,9 +76,9 @@ public class ProjectServiceImpl implements ProjectService {
 //            System.out.println(pm);
 //            List<ProjectEmployee>
 //            project.setProjectEmployeeList();
-            projectRepository.save(project);
+
 //            projectEmployeeRepository.save(pm);
-            return project;
+            return projectRepository.save(project);;
         }
         return null;
     }

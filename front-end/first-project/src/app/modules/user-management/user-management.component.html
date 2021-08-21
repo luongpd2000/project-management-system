@@ -319,14 +319,14 @@
         <div class="form-group row" *ngIf="!checkAdd">
           <label for="inputName" class="col-sm-3 col-form-label">Id<span class="text-danger">*</span></label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" placeholder="Id" disabled [value]="!checkAdd ? userDetails.id:'' ">
+            <input type="text" class="form-control" placeholder="Id" readonly [value]="!checkAdd ? userDetails.id:'' ">
           </div>
         </div>
 
         <div class="form-group row">
           <label for="inputName" class="col-sm-3 col-form-label">User Name<span class="text-danger">*</span></label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="" placeholder="Name" [value]="userDetails.username" disabled>
+            <input type="text" class="form-control" id="" placeholder="Name" [value]="userDetails.username" readonly>
           </div>
         </div>
 
@@ -335,7 +335,7 @@
           <label for="inputName" class="col-sm-3 col-form-label">Full Name<span class="text-danger">*</span></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="Full Name" [value]="userDetails.fullName"
-              disabled>
+            readonly>
 
           </div>
         </div>
@@ -344,7 +344,7 @@
           <label for="inputName" class="col-sm-3 col-form-label">Phone Number<span class="text-danger">*</span></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="Phone Number" [value]="userDetails.phone"
-              disabled>
+            readonly>
 
           </div>
         </div>
@@ -352,14 +352,14 @@
         <div class="form-group row">
           <label for="inputName" class="col-sm-3 col-form-label">Email<span class="text-danger">*</span></label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" id="" placeholder="Email" [value]="userDetails.email" disabled>
+            <input type="email" class="form-control" id="" placeholder="Email" [value]="userDetails.email" readonly>
           </div>
         </div>
 
         <div class="form-group row">
           <label for="inputName" class="col-sm-3 col-form-label">Address<span class="text-danger">*</span></label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="" placeholder="Address" [value]="userDetails.address" disabled>
+            <input type="text" class="form-control" id="" placeholder="Address" [value]="userDetails.address" readonly>
 
           </div>
         </div>
@@ -368,7 +368,7 @@
           <label for="inputName" class="col-sm-3 col-form-label">Created Date<span class="text-danger">*</span></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="createDate" [value]="userDetails.createDate"
-              disabled>
+            readonly>
           </div>
         </div>
 
@@ -376,7 +376,7 @@
           <label for="inputName" class="col-sm-3 col-form-label">Update Date<span class="text-danger">*</span></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="updateDate" [value]="userDetails.updateDate"
-              disabled>
+            readonly>
           </div>
         </div>
       </div>

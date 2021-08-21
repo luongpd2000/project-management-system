@@ -2,12 +2,11 @@ package com.projectmanager.controller;
 
 import com.projectmanager.dto.Status;
 import com.projectmanager.dto.UserDto;
+import com.projectmanager.entity.Project;
 import com.projectmanager.entity.Todo;
+import com.projectmanager.entity.TodoHistory;
 import com.projectmanager.entity.User;
-import com.projectmanager.service.ProjectEmployeeService;
-import com.projectmanager.service.ProjectService;
-import com.projectmanager.service.TodoService;
-import com.projectmanager.service.UserService;
+import com.projectmanager.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +36,9 @@ public class Controller {
 
     @Autowired
     TodoService todoService;
+
+    @Autowired
+    TodoHistoryService todoHistoryService;
 
     @GetMapping("/findUserByUsername/{username}")
     public ResponseEntity<?> findUserByUsername(@PathVariable String username){
@@ -145,6 +147,10 @@ public class Controller {
         return ResponseEntity.ok(todoService.update(todo));
     }
 
+    @PostMapping("/createTodoHistory")
+    public ResponseEntity<?> createTodoHistory(@Valid @RequestBody TodoHistory todoHistory){
+        return ResponseEntity.ok(todoHistoryService.create(todoHistory));
+    }
 
 
 }

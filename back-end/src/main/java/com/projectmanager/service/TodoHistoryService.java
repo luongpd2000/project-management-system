@@ -1,4 +1,6 @@
 package com.projectmanager.service;
 
-public interface TodoHistoryService {
+import com.projectmanager.entity.TodoHistory;
+
+public interface TodoHistoryService extends GeneralService<TodoHistory>{
 }

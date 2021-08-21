@@ -7,6 +7,7 @@
           <button class="btn btn-success" style="margin:10px" (click)="open(new_task)">New Task</button>
           <div class="row d-flex">
 
+
             <!-- <div class="form-group searchInput">
                   <label for="email">Search:</label>
                   <input type="search" class="form-control" id="filterbox" placeholder=" ">
@@ -41,6 +42,7 @@
               </mat-form-field>
               <button class="btn btn-primary">Search</button>
             </form>
+
 
 
           </div>
@@ -93,6 +95,8 @@
     </div>
   </div>
 </main>
+
+
 <ng-template #new_task let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">Task Details</h5>
@@ -114,6 +118,7 @@
       <div class="form-group row">
         <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
         <div class="col-md-9" style="display: flex;">
+
           <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
             #d="ngbDatepicker" type="date">
           <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
@@ -125,8 +130,10 @@
           <div *ngIf="endDate&&endDate.invalid&&(endDate?.dirty||endDate?.touched)">
             <span class="invalid-text">*Requierd</span>
           </div>
+
         </div>
       </div>
+
       <div class="form-group row">
         <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
             class="text-danger">*</span></label>
@@ -137,6 +144,7 @@
             <option value="low">Low</option>
           </select>
         </div>
+
       </div>
 
       <div class="form-group row">

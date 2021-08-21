@@ -28,6 +28,9 @@ public class Todo implements Serializable {
     @Column(name = "des")
     private String des;
 
+    @Column(name = "project_id", nullable = false)
+    private Integer projectId;
+
     @Column(name = "start_date")
     private Date startDate;
 

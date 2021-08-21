@@ -31,7 +31,7 @@ import { ListTaskComponent } from './project-details/list-task/list-task.compone
     ReactiveFormsModule,
     NgbModule,
     MaterialModule,
-    
+
   ]
 })
 

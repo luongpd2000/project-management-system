@@ -1,5 +1,7 @@
+import { User } from "./user";
+
 export interface idRole{
-    userId: number;
+    user: User;
     role:String;
     projectId:number;
   }

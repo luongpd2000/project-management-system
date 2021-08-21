@@ -103,16 +103,14 @@ public class AdminController {
 
     //project api
     @GetMapping("/getAllProject")
-    public ResponseEntity<?> getAllProject(  @RequestParam(name = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> getAllProject(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                                          @RequestParam(name = "size",defaultValue = "100")Integer size){
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(projectService.getAll(pageable));
     }
     @PostMapping("/insertProject")
-    public ResponseEntity<?> insertProject( @RequestBody Project project){
-
+    public ResponseEntity<?> insertProject(@Valid @RequestBody Project project){
         return ResponseEntity.ok(projectService.create(project));
-
     }
 
     @PutMapping("updateProject")

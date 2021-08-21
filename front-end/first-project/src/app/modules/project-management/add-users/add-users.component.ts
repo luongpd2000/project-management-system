@@ -20,12 +20,13 @@ import { idRole } from 'src/app/data/schema/id-role';
 export class AddUsersComponent implements OnInit {
 
   arr2: idRole[] = new Array();
+  arrPE: idRole[] = new Array();
   listUsers: User[] = [];
   projectId: number = this.route.snapshot.params['id'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource!: MatTableDataSource<User>;
-  
+
   displayedColumns: string[] = ['select', 'id', 'fullName', 'email', 'role', 'action'];
   selection = new SelectionModel<User>(true, []);
   alert: boolean = false;
@@ -57,7 +58,7 @@ export class AddUsersComponent implements OnInit {
 
       console.log('list users', this.listUsers);
       this.dataSource = new MatTableDataSource<User>(this.listUsers);
-  
+
       console.log("datasouce", this.dataSource.data.length);
       this.dataSource.paginator = this.paginator;
     })
@@ -84,7 +85,7 @@ export class AddUsersComponent implements OnInit {
   logSelection() {
     this.selection.selected.forEach(s => {
       console.log(s.id, s.pRole);
-      this.arr2.push({ userId: s.id, role: s.pRole, projectId: this.projectId });
+      this.arr2.push({ user: s, role: s.pRole, projectId: this.projectId });
     });
     this.saveRole(this.arr2);
     this.modalService.dismissAll();

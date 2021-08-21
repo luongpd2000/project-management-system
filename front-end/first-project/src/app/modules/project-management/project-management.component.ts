@@ -9,6 +9,7 @@ import { StatusService } from '../../data/service/status.service';
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/data/schema/user';
+import { LoginService } from 'src/app/service/login.service';
 
 
 
@@ -36,12 +37,18 @@ export class ProjectManagementComponent implements OnInit {
     private modalService: NgbModal,
     public getStatus:StatusService,
     private jwtService: JwtServiceService,
-    private userService: UserService) {
+    private userService: UserService,
+    private loginService: LoginService) {
     }
-  
+
 
 
   ngOnInit(): void {
+
+    if(!this.loginService.logIn){
+      this.projectList = null;
+    }
+
     this.makeForm();
 
     this.role = this.jwtService.getRole();

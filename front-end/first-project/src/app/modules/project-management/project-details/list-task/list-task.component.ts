@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { EventEmitter, Input, Output } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Task } from 'src/app/data/schema/task';
 import { StatusService } from 'src/app/data/service/status.service';
@@ -18,9 +18,17 @@ import { User } from 'src/app/data/schema/user';
 export class ListTaskComponent implements OnInit {
   @Input() currentProjectId: number;
   @Input() memberList:any[];
+  @Output() updateDetails = new EventEmitter();
+  
+  updateParent(){
+    this.updateDetails.emit();
+    console.log('update parents');
+    
+  }
 
   myUserName!:String;
   myUserId:number;
+  deleteTask:Task;
 
   leaderList=[];
   taskList:Task[]=[];
@@ -104,6 +112,23 @@ export class ListTaskComponent implements OnInit {
       alert("Input invalid!!!")
     }
   }
+
+  openConfirmDelete(content: any, task:Task){
+    this.deleteTask=task;
+    this.modalService.open(content, {
+      centered: true,
+    });
+    
+  }
+  onDelete(){
+    console.log(this.deleteTask);
+    this.taskService.deleteTask(this.deleteTask).subscribe(data=>{
+      console.log(data);
+      this.getData();
+    })
+    this.modalService.dismissAll();
+    
+  }
   // use for Form
   get name(){
     return this.formTask.get('name');
@@ -126,6 +151,5 @@ export class ListTaskComponent implements OnInit {
   get manager(){
     return this.formTask.get('manager');
   }
-
 
 }

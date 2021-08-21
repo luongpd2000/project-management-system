@@ -7,19 +7,28 @@ import { MembersInProjectModule } from './members-in-project/members-in-project.
 
 const routes: Routes = [
   {
-    path:'',component: ProjectManagementComponent,pathMatch:"full",
-    },
+    path: '', component: ProjectManagementComponent, pathMatch: "full",
+  },
 
-    {path:'p-details/:id',loadChildren:()=>
-    import('./project-details/project-details.module').then(m=>m.ProjectDetailsModule)},
+  {
+    path: 'p-details/:id', loadChildren: () =>
+      import('./project-details/project-details.module').then(m => m.ProjectDetailsModule)
+  },
 
-    {path:'task-details', component:TaskDetailsComponent},
+  {
+    path: 'task-details/:id', loadChildren: () =>
+      import('./task-details/task-details.module').then(m => m.TaskDetailsModule)
+  },
 
-    {path:'add-user/:id', loadChildren:()=>
-    import('./add-users/add-users.module').then(m=>m.AddUsersModule)},
+  {
+    path: 'add-user/:id', loadChildren: () =>
+      import('./add-users/add-users.module').then(m => m.AddUsersModule)
+  },
 
-    {path:'members/:id', loadChildren:()=>
-    import('./members-in-project/members-in-project.module').then(m=>m.MembersInProjectModule)}
+  {
+    path: 'members/:id', loadChildren: () =>
+      import('./members-in-project/members-in-project.module').then(m => m.MembersInProjectModule)
+  }
 ];
 
 @NgModule({

@@ -7,7 +7,7 @@ import { DatePicker } from '../schema/date-picker';
 export class FomatInputService {
 
   constructor() { }
-  fomatDate(date:any): string{
+  fomatDate(date:any): String{
     let rs='';
     let year = date.year;
     let month:String = new String(date.month);
@@ -17,7 +17,7 @@ export class FomatInputService {
     return year+'-'+month+'-'+day;
   }
 
-  toDatePicker(date:string):DatePicker{
+  toDatePicker(date:any):DatePicker{
     let date2 = new Date(date);
     let rs = new DatePicker(date2.getFullYear(),date2.getMonth(),date2.getDay());
     return rs;

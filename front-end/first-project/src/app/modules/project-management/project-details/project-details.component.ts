@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
 import { ProjectDetails } from 'src/app/data/schema/project-details';
 import { ProjectService } from '../../../service/project.service';
 import { DatePicker } from 'src/app/data/schema/date-picker';
 import { FomatInputService } from 'src/app/data/service/fomat-input.service';
+import { StatusService } from 'src/app/data/service/status.service';
+
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
+
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
@@ -22,8 +24,13 @@ export class ProjectDetailsComponent implements OnInit {
   currentProject!: ProjectDetails;
   taskList = [];
   todoNum = 0;
+
+  currentProjectId:number;
+  memberList:any[]=[];
+
   isAdmin: boolean = true;
   role!: String;
+
 
   alert: boolean = false;
   closeAlert() {
@@ -35,6 +42,7 @@ export class ProjectDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private fomat: FomatInputService,
     private router: Router,
+    public getStatus:StatusService,
     private jwtService: JwtServiceService
   ) { }
 
@@ -51,7 +59,6 @@ export class ProjectDetailsComponent implements OnInit {
     console.log("You clicked: " + this.id);
     this.projectService.getProjectById(this.id).subscribe(data => {
       this.currentProject = data;
-
       this.taskList = this.currentProject.taskList;
       console.log('todo');
       this.todoNum = 0;
@@ -62,8 +69,8 @@ export class ProjectDetailsComponent implements OnInit {
       this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item=>{
         return !item.delete;
       }).length;
-
-
+      this.currentProjectId=this.currentProject.id;     
+      this.memberList= this.currentProject.projectEmployeeList;
     })
   }
   // open project Form

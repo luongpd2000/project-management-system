@@ -43,8 +43,8 @@ export class TodoService {
       return this.httpClient.put<any>(url,todo,this.httpOptions);
     }
 
-    // updateStatus(todoHis: TodoHistory):Observable<any>{
-    //   const url = `${this.baseUrl}/createTodoHistory`;
-    //   return this.httpClient.post<any>(url,todoHis,this.httpOptions);
-    // }
+    insertHistory(todoHis: TodoHistory):Observable<any>{
+      const url = `${this.baseUrl}/createTodoHistory`;
+      return this.httpClient.post<any>(url,todoHis,this.httpOptions);
+    }
 }

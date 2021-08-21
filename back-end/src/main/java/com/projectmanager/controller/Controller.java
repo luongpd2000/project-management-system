@@ -149,9 +149,7 @@ public class Controller {
 
     @PostMapping("/createTodoHistory")
     public ResponseEntity<?> createTodoHistory(@Valid @RequestBody TodoHistory todoHistory){
-
         return ResponseEntity.ok(todoHistoryService.create(todoHistory));
-
     }
 
 

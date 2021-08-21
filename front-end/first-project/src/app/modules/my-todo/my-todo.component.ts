@@ -146,6 +146,17 @@ export class MyTodoComponent implements OnInit {
     this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
     this.todoDetail.status = this.statusUpdate;
     console.log(this.updateTodoStatus);
+
+    this.todoService.insertHistory(this.updateTodoStatus).subscribe(
+      data=>{
+        console.log(data);
+        this.modalService.dismissAll();
+      },
+      (error) => {
+        console.log(error.error.message);
+      }
+    )
+
     this.todoService.updateStatus(this.todoDetail).subscribe(
       data=>{
         console.log(data);
@@ -159,6 +170,8 @@ export class MyTodoComponent implements OnInit {
         window.alert("update status false")
       }
     )
+
+
 
   }
 

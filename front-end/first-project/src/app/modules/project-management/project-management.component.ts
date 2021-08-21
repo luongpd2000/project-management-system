@@ -21,8 +21,6 @@ import { User } from 'src/app/data/schema/user';
 })
 export class ProjectManagementComponent implements OnInit {
 
-
-
   projectList:ProjectDetails[]=[];
   newProject:Project=new Project();//
   formProject!:FormGroup;
@@ -36,10 +34,11 @@ export class ProjectManagementComponent implements OnInit {
     private projectService:ProjectService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    public getStatus:StatusService) {
-    }
+    public getStatus:StatusService,
     private jwtService: JwtServiceService,
-    private userService: UserService) {}
+    private userService: UserService) {
+    }
+  
 
 
   ngOnInit(): void {
@@ -176,5 +175,6 @@ export class ProjectManagementComponent implements OnInit {
 
 
   }
+
 
 

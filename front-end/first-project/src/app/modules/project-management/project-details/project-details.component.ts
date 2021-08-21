@@ -42,7 +42,7 @@ export class ProjectDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private fomat: FomatInputService,
     private router: Router,
-    public getStatus:StatusService
+    public getStatus:StatusService,
     private jwtService: JwtServiceService
   ) { }
 

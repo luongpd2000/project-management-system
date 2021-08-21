@@ -176,7 +176,9 @@
 
                   <ng-container matColumnDef="Status">
                     <th mat-header-cell *matHeaderCellDef> Status </th>
-                    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                    <td mat-cell *matCellDef="let element">
+                      <span class="badge" [ngStyle]="{'background':getStatus.getTheColor(element?.status)}">{{element?.status}}</span>
+                      </td>
                   </ng-container>
 
                   <ng-container matColumnDef="Task Id">
@@ -186,7 +188,9 @@
 
                   <ng-container matColumnDef="Todo Type">
                     <th mat-header-cell *matHeaderCellDef> Todo Type </th>
-                    <td mat-cell *matCellDef="let element"> {{element.todoType}} </td>
+                    <td mat-cell *matCellDef="let element">
+                      <span class="badge" [ngStyle]="{'background':getStatus.getTheColor(element?.todoType)}">{{element?.todoType}}</span>
+                    </td>
                   </ng-container>
 
 
@@ -197,32 +201,14 @@
                       <button mat-icon-button (click)="openDetails(detail,element)">
                         <mat-icon>launch</mat-icon>
                       </button>
-                      <button mat-icon-button>
+                      <button mat-icon-button (click)="openUpdate(update,element)">
                         <mat-icon>update</mat-icon>
                       </button>
-                      <button mat-icon-button>
+                      <button mat-icon-button (click)="openHistory(history,element)">
                         <mat-icon>more_horiz</mat-icon>
                       </button>
-
-                      <!-- <button mat-icon-button (click)="openDetails(detail,element)">
-                        <mat-icon>launch</mat-icon>
-                      </button>
-                      <button mat-icon-button color="warn" (click)="openDelete(delete,element)">
-                        <mat-icon>delete_outline</mat-icon>
-                      </button>
-                      <br>
-                      <button type="button" class="btn btn-warning mt-2 mb-3"
-                        (click)="openpasswordRecover(passwordrecover,element)">Password Recover</button> -->
                     </td>
                   </ng-container>
-
-                  <!-- <ng-container matColumnDef="Action">
-                    <th mat-header-cell *matHeaderCellDef> Action </th>
-                    <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button><mat-icon>launch</mat-icon></button>
-                        <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
-                         </td>
-                </ng-container> -->
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
@@ -380,10 +366,82 @@
 
 
     <ng-template #update let-modal>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Status History</h5>
+          <button type="button" class="btn-close" (click)="modal.close('Save click')" aria-label="Close"></button>
 
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <span class="col-4">Status</span>
+            <span class="badge col-1" [ngStyle]="{'background':getStatus.getTheColor(todoDetail?.status)}">{{todoDetail?.status}}</span>
+          </div>
+          <div class="row mt-5">
+            <span class="col-4">Select status update</span>
+            <select (change)="selectStatus($event)" class="col-2">
+              <option>pending</option>
+              <option>working</option>
+              <option>reviewing</option>
+            </select>
+          </div>
+          <form [formGroup]="updateform">
+          <div class="form-group row mt-5">
+            <label class="col-md-2 col-form-label">Description <span class="text-danger">*</span></label>
+            <div class="col-md-10">
+                <textarea rows="3" class="form-control no-resize" placeholder="Descriptions" formControlName="des"></textarea>
+            </div>
+        </div>
+      </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
+          <button type="submit" class="btn btn-primary" (click)="updateStatus()" [disabled]="!select">
+            Update</button>
+        </div>
+      </div>
     </ng-template>
 
-    <ng-template #history let-modal>
 
+    <ng-template #history let-modal>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Todo History</h5>
+          <button type="button" class="btn-close" (click)="modal.close('Save click')" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+      <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th style="min-width:20px; max-width: 50;">ID</th>
+            <th style="min-width:150px;">Description</th>
+            <th style="min-width:100px;">PreStatus</th>
+            <th style="min-width:100px;">Status</th>
+            <th style="min-width:100px;">Update Date</th>
+            <th style="min-width:100px;">Update User</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let history of todoHistory; index as i ">
+            <td>{{i+1}}</td>
+            <td>{{history?.id}}</td>
+            <td>{{history?.des}}</td>
+            <td><span class="mode"
+                [ngStyle]="{'background':getStatus.getTheColor(history?.preStatus)}">{{history?.preStatus}}</span></td>
+            <td><span class="mode "
+                [ngStyle]="{'background':getStatus.getTheColor(history?.status)}">{{history?.status}}</span></td>
+          <td>{{history.updateDate}}</td>
+          <td>{{history?.updateUser}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
+                </div>
+  </div>
     </ng-template>
 

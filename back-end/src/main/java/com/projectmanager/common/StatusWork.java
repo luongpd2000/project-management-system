@@ -5,6 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class StatusWork {
-    static String[] arr = { "DRAFT", "PENDING", "WORKING", "ON-REVIEWING","DONE" };
+    static String[] arr = { "draft", "pending", "working", "reviewing","done" };
     public static List<String> StatusTaskAndTodo = Arrays.asList(arr);
 }

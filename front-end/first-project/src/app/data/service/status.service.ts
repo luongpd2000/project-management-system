@@ -13,7 +13,9 @@ export class StatusService {
   { status: "done", color: "#09922d" },
   { status: "high", color: "#e52000" },
   { status: "normal", color: "#09922d" },
-  { status: "low", color: "#e52000" }
+  { status: "low", color: "#e52000" },
+  { status: "bug", color: "#e52000" },
+  { status: "feature", color: "#09922d" }
   ]
   getTheColor(status) {
     return this.colors.filter(item => item.status === status)[0].color;

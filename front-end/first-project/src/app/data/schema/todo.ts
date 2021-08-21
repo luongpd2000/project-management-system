@@ -8,12 +8,12 @@ export class Todo{
   endDate!: Date;
   todoType!: String;
   status!: String;
-  taskId!: Number;
+  taskId!: number;
   projectId!: number;
   createDate!: Date;
   updateDate!: Date;
   createUser!: number;
-  assignedUser!: Number;
+  assignedUser!: number;
   delete!: boolean;
-  todoHistory!: TodoHistory[];
+  todoHistoryList!: TodoHistory[];
 }

@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Table(name = "todo_history")
 @Entity
@@ -16,7 +17,7 @@ public class TodoHistory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "des")
@@ -28,8 +29,8 @@ public class TodoHistory implements Serializable {
     @Column(name = "pre_status", nullable = false)
     private String preStatus;
 
-    @Column(name = "update_date", nullable = false)
-    private String updateDate;
+    @Column(name = "update_date")
+    private Date updateDate;
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.EAGER)

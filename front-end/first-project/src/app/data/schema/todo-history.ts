@@ -3,7 +3,7 @@ export class TodoHistory {
   des!: String;
   status!: String;
   preStatus!: String;
-  updateDate!: String;
+  updateDate!: Date;
   updateUser!: number;
   todoId!: number;
 }

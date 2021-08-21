@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+import { Todo } from '../data/schema/todo';
+import { TodoHistory } from '../data/schema/todo-history';
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +37,14 @@ export class TodoService {
       return this.httpClient.get<any>(url,this.httpOptions);
 
     }
+
+    updateStatus(todo: Todo):Observable<any>{
+      const url = `${this.baseUrl}/updateTodo`;
+      return this.httpClient.put<any>(url,todo,this.httpOptions);
+    }
+
+    // updateStatus(todoHis: TodoHistory):Observable<any>{
+    //   const url = `${this.baseUrl}/createTodoHistory`;
+    //   return this.httpClient.post<any>(url,todoHis,this.httpOptions);
+    // }
 }

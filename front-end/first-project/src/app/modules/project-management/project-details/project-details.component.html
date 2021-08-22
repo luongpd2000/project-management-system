@@ -8,7 +8,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <h1>{{currentProject?.name}}</h1>
+      <p class="page-name">{{currentProject?.name}}</p>
       <div class="group-btn-1" style="margin-top: 30px;">
         <button class="btn btn-success " *ngIf="isAdmin" routerLink='/project-manager/add-user/{{currentProject?.id}}'>Add user</button>
         <button class="btn btn-info "routerLink='/project-manager/members/{{currentProject?.id}}'>Members</button>
@@ -76,7 +76,7 @@
           <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
             <span class="invalid-text">*Requierd</span>
           </div>
-          <span>To</span>
+          <span style="padding:10px">To</span>
           <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
             #d2="ngbDatepicker" type="date">
           <div *ngIf="endDate&&endDate.invalid&&(endDate?.dirty||endDate?.touched)">

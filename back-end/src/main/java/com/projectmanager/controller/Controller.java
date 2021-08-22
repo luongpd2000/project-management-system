@@ -142,6 +142,16 @@ public class Controller {
         return ResponseEntity.ok(todoService.findByAssignedUser(id));
     }
 
+    @PostMapping("/createTodo")
+    public ResponseEntity<?> createTodo(@Valid @RequestBody Todo todo){
+        return ResponseEntity.ok(todoService.create(todo));
+    }
+
+    @DeleteMapping("/deleteTodo/{id}")
+    public ResponseEntity<?> deleteTodo(@PathVariable Integer id){
+        return ResponseEntity.ok(todoService.delete(id));
+    }
+
     @PutMapping("/updateTodo")
     public ResponseEntity<?> updateTodo(@RequestBody Todo todo){
         return ResponseEntity.ok(todoService.update(todo));

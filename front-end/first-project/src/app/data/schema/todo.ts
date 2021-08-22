@@ -4,14 +4,14 @@ export class Todo{
   id!: number;
   name!: String;
   des!: String;
-  startDate!: Date;
-  endDate!: Date;
+  startDate!: String;
+  endDate!: String;
   todoType!: String;
   status!: String;
   taskId!: number;
   projectId!: number;
-  createDate!: Date;
-  updateDate!: Date;
+  createDate!: String;
+  updateDate!: String;
   createUser!: number;
   assignedUser!: number;
   delete!: boolean;

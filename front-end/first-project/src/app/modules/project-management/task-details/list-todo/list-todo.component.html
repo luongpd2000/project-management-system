@@ -1,26 +1,23 @@
 <main class="content-wrapper">
     <div class="container p-30">
-      <div class="task-list mb-3">Todo List
-      </div>
       <div class="row">
-        <div class="search-input">
-          <div class="row">
-            <div class="col-6">
-              <button class="btn btn-success" style="margin:10px" (click)="openNew(new_todo)">New Todo</button>
-            </div>
-
-            <div class="col-6">
-              <div class="form-group searchInput">
-                <label for="email">Search:</label>
-                <input type="search" class="form-control" id="filterbox" placeholder="Search..."
-                  aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="col-md-12 main-datatable">
           <div class="card_body">
-
+            <div class="task-list">Todo List
+            </div>
+            <div class="search-input  row d-flex">
+              <div class="col-6">
+                <button class="btn btn-success" style="margin:10px" (click)="openNew(new_todo)">New Todo</button>
+              </div>
+              <div class="col-6">
+                <div class="form-group searchInput">
+                  <label for="email">Search:</label>
+                  <input type="search" class="form-control" id="filterbox" placeholder="Search..."
+                    aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            
             <div class="overflow-x">
 
               <table mat-table [dataSource]="dataSource">
@@ -133,9 +130,11 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
+
     </div>
   </main>
 

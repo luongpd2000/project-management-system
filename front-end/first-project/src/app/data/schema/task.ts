@@ -1,3 +1,5 @@
+import { TaskHistory } from "./task-history";
+
 export class Task{
   id!: number;
   name:String='';
@@ -13,6 +15,6 @@ export class Task{
   taskManagerId!: Number;
   delete!: boolean;
   des:String='';
+  taskHistoryList: TaskHistory[];
 
- 
 }

@@ -13,7 +13,8 @@ public interface TaskService extends GeneralService<Task>{
 
     Optional<Task> findByUser(Integer id);
 
-    Page<Task> findByProject(Integer id, Pageable pageable);
+    Page<Task> findByProjectPageable(Integer id, Pageable pageable);
 
+    List<Task> findByProject(Integer id);
 
 }

@@ -490,7 +490,7 @@
         <div class="modal-body">
           <div class="row">
             <span class="col-4">Status</span>
-            <span class="badge col-1" [ngStyle]="{'background':getStatus.getTheColor(curTodo?.status)}">{{curTodo?.status}}</span>
+            <span class="badge col-1" [ngStyle]="{'background':getStatus.getTheColor(todoDetail?.status)}">{{todoDetail?.status}}</span>
           </div>
           <div class="row mt-5">
             <span class="col-4">Select status update</span>
@@ -515,7 +515,7 @@
             Update</button>
         </div>
       </div>
-      <div class="modal-body" *ngIf="!isEmployeeOfTodo" >
+      <div class="modal-body" *ngIf="!isEmployeeOfTodo && !isLeader && !isAdmin" >
         <span>You are not responsible for this todo</span>
       </div>
     </div>

@@ -254,8 +254,8 @@ export class ListTodoComponent implements OnInit {
 
   openUpdateTodo(content: any, element) {
     this.isEmployeeOfTodo = false;
-    this.curTodo = element;
-    if(this.curTodo.assignedUser===this.curUserId){
+    this.todoDetail = element;
+    if(this.todoDetail.assignedUser===this.curUserId){
       this.isEmployeeOfTodo = true;
     }
     console.log(this.isAdmin +" " + this.isEmployeeOfTodo +" "+ this.isLeader + " "+ this.curTaskId)

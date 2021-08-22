@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class LoginService {
 
   public logIn: boolean = false;
+  public userId: number;
 
   // public logIn2 = new ReplaySubject<boolean>(1);
   // public logIn2$ = this.logIn2.asObservable();

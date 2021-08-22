@@ -3,7 +3,9 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { JwtServiceService } from './service/jwt-service.service';
 import { LoginService } from './service/login.service';
+import { UserService } from './service/user.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,8 @@ export class AppComponent {
 
   constructor(private location: Location,
               private loginService: LoginService,
+              private userService: UserService,
+              private jwtService: JwtServiceService,
               private router: Router,
               private modalService: NgbModal){
 
@@ -32,14 +36,31 @@ export class AppComponent {
     console.log(this.loginService.path);
 
     if(this.loginService.logIn === true){
+
       this.router.navigate([this.loginService.path]);
+
+      this.userService.getUser(this.jwtService.getUsername()).subscribe(
+        data=>{
+          this.loginService.userId = data.id;
+        },error => {
+          console.log("có lỗi " + error.status.message)
+          console.log(error);
+        }
+      )
     }else{
       this.loginService.isLoggedIn().subscribe(
         data =>{
           console.log(data);
           console.log(data.status);
-          // this.loginService.logIn2.next(true);
           this.loginService.logIn = true;
+          this.userService.getUser(this.jwtService.getUsername()).subscribe(
+            data=>{
+              this.loginService.userId = data.id;
+            },error => {
+              console.log("có lỗi " + error.status.message)
+              console.log(error);
+            }
+          )
           this.router.navigate([this.loginService.path==="/login"? "":this.loginService.path]);
         },error => {
           console.log("có lỗi check isLogIn " + error.status)

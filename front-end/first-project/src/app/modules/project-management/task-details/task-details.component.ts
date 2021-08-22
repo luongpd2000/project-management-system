@@ -9,6 +9,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../service/user.service';
 import { FomatInputService } from 'src/app/data/service/fomat-input.service';
 import { User } from 'src/app/data/schema/user';
+import { JwtServiceService } from 'src/app/service/jwt-service.service';
+import { LoginService } from 'src/app/service/login.service';
 
 @Component({
   selector: 'app-task-details',
@@ -22,16 +24,25 @@ export class TaskDetailsComponent implements OnInit {
   curProjectId:number;
   formTask!:FormGroup;
   curLeader=new User();
+  curUserId: number;
   memberList=[];
   leaderList=[];
+  employeeList=[];
+  isLeader: boolean = false;
+  isAdmin: boolean = false;
+
   getMembers(){
     this.userService.getUsersInProject(this.curProjectId).subscribe(data=>{
-      // console.log('member', data);
       this.memberList=data['content'];
       this.memberList.forEach(data=>{
-        if(data.role=="leader") this.leaderList.push(data.user);
+        if(data.role=="leader"){
+        this.leaderList.push(data.user);
+        }else if(data.role==="dev"){
+        this.employeeList.push(data.user);
+        }
       });
       console.log('leader',this.leaderList);
+      console.log('dev',this.employeeList);
     });
   }
 
@@ -40,20 +51,31 @@ export class TaskDetailsComponent implements OnInit {
   public getStatus: StatusService,
   private modalService: NgbModal,
   private userService: UserService,
-  private fomatInput: FomatInputService) {
+  private fomatInput: FomatInputService,
+  private loginService: LoginService,
+  private jwtService: JwtServiceService) {
     this.curTaskId = this.route.snapshot.params['id'];
    }
   ngOnInit(): void {
+    this.isAdmin = false;
+    this.isLeader = false;
+    this.curUserId = this.loginService.userId;
+    if(this.jwtService.getRole()==="[ROLE_ADMIN]"){
+      this.isAdmin = true;
+    }
     this.getTaskDetails();
-    
+
   }
   getTaskDetails(){
     this.taskService.getTask(this.curTaskId).subscribe(data=>{
       this.currentTask=data;
       this.curProjectId = <number>this.currentTask.projectId;
       this.getMembers();
+      if(this.currentTask.taskManagerId === this.curUserId){
+        this.isLeader = true;
+      }
       // console.log('pId',this.curProjectId);
-      // console.log('currentTask: ', this.currentTask);    
+      // console.log('currentTask: ', this.currentTask);
     })
 
   }
@@ -96,7 +118,7 @@ export class TaskDetailsComponent implements OnInit {
         this.modalService.dismissAll();
         this.getTaskDetails();
       })
-      
+
     }else{
       alert("Input invalid!!!")
     }

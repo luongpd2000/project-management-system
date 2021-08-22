@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/service/login.service';
 import { CookieService } from 'ngx-cookie-service';
+import { UserService } from 'src/app/service/user.service';
+import { JwtServiceService } from 'src/app/service/jwt-service.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
               private route: ActivatedRoute,
               private router : Router,
+              private userService : UserService,
+              private jwtService : JwtServiceService,
               private _cookieService: CookieService) { }
 
   ngOnInit(): void {
@@ -72,6 +76,14 @@ export class LoginComponent implements OnInit {
         this._cookieService.set("Authorization",data.Authorization)
         this.loginService.logIn = true;
         this.router.navigate([this.loginService.path==="/login"? "" : this.loginService.path]);
+        this.userService.getUser(this.jwtService.getUsername()).subscribe(
+          data=>{
+            this.loginService.userId = data.id;
+          },error => {
+            console.log("có lỗi " + error.status.message)
+            console.log(error);
+          }
+        )
       }, error =>{
         console.log(error + " có lỗi login");
     })

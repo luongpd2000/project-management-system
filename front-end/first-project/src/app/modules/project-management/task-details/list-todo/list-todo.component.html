@@ -7,7 +7,7 @@
             </div>
             <div class="search-input  row d-flex">
               <div class="col-6">
-                <button class="btn btn-success" style="margin:10px" (click)="openNew(new_todo)">New Todo</button>
+                <button class="btn btn-success" style="margin:10px" (click)="openNew(new_todo)" *ngIf="isLeader || isAdmin" >New Todo</button>
               </div>
               <div class="col-6">
                 <div class="form-group searchInput">
@@ -16,7 +16,7 @@
                     aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
                 </div>
               </div>
-            </div>         
+            </div>
             <div class="overflow-x">
               <table mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="select">
@@ -78,7 +78,7 @@
                     <button mat-icon-button (click)="openDetails(detail,element)">
                       <mat-icon>launch</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="openUpdateTodo(update_todo,element)">
+                    <button mat-icon-button (click)="openUpdateTodo(update_todo,element)" *ngIf="isLeader || isAdmin" >
                       <mat-icon>update</mat-icon>
                     </button>
                     <button mat-icon-button (click)="openUpdateTodo(update,element)">
@@ -87,7 +87,7 @@
                     <button mat-icon-button (click)="openHistory(history,element)">
                       <mat-icon>more_horiz</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="openDelete(confirmDelete,element.id)">
+                    <button mat-icon-button color="warn" (click)="openDelete(confirmDelete,element.id)" *ngIf="isLeader || isAdmin">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
                   </td>
@@ -157,7 +157,7 @@
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
           <div class="col-md-9" style="display: flex;">
-  
+
             <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
               #d="ngbDatepicker" type="date">
             <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
@@ -169,7 +169,7 @@
             <div *ngIf="endDate&&endDate.invalid&&(endDate?.dirty||endDate?.touched)">
               <span class="invalid-text">*Requierd</span>
             </div>
-  
+
           </div>
         </div>
         <div class="form-group row">
@@ -182,7 +182,7 @@
               <!-- <option value="other">Other</option> -->
             </select>
           </div>
-  
+
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
@@ -198,7 +198,7 @@
             Assign for<span class="text-danger">*</span></label>
           <div class="col-md-7">
             <select class="custom-select mr-sm-2" id="" formControlName='assignfor'>
-              <option value={{myAccount?.id}}>For Me </option>            
+              <option value={{myAccount?.id}}>For Me </option>
               <option *ngFor="let member of memberList" value={{member.id}}>{{member.fullName}}</option>
             </select>
           </div>
@@ -248,7 +248,7 @@
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
           <div class="col-md-9" style="display: flex;">
-  
+
             <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
               #d="ngbDatepicker" type="date">
             <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
@@ -260,7 +260,7 @@
             <div *ngIf="endDate&&endDate.invalid&&(endDate?.dirty||endDate?.touched)">
               <span class="invalid-text">*Requierd</span>
             </div>
-  
+
           </div>
         </div>
         <div class="form-group row">
@@ -273,7 +273,7 @@
               <option value="other">Other</option>
             </select>
           </div>
-  
+
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
@@ -289,7 +289,7 @@
             Assign for<span class="text-danger">*</span></label>
           <div class="col-md-7">
             <select class="custom-select mr-sm-2" id="" formControlName='assignfor'>
-              <option value={{myAccount?.id}}>For Me </option>            
+              <option value={{myAccount?.id}}>For Me </option>
               <option *ngFor="let member of memberList" value={{member.id}}>{{member.fullName}}</option>
             </select>
           </div>
@@ -486,32 +486,37 @@
         <button type="button" class="btn-close" (click)="modal.close('Save click')" aria-label="Close"></button>
 
       </div>
-      <div class="modal-body">
-        <div class="row">
-          <span class="col-4">Status</span>
-          <span class="badge col-1" [ngStyle]="{'background':getStatus.getTheColor(todoDetail?.status)}">{{todoDetail?.status}}</span>
-        </div>
-        <div class="row mt-5">
-          <span class="col-4">Select status update</span>
-          <select (change)="selectStatus($event)" class="col-2">
-            <option>pending</option>
-            <option>working</option>
-            <option>reviewing</option>
-          </select>
-        </div>
-        <form [formGroup]="updateform">
-        <div class="form-group row mt-5">
-          <label class="col-md-2 col-form-label">Description <span class="text-danger">*</span></label>
-          <div class="col-md-10">
-              <textarea rows="3" class="form-control no-resize" placeholder="Descriptions" formControlName="des"></textarea>
+      <div *ngIf="isEmployeeOfTodo || isLeader || isAdmin">
+        <div class="modal-body">
+          <div class="row">
+            <span class="col-4">Status</span>
+            <span class="badge col-1" [ngStyle]="{'background':getStatus.getTheColor(curTodo?.status)}">{{curTodo?.status}}</span>
           </div>
+          <div class="row mt-5">
+            <span class="col-4">Select status update</span>
+            <select (change)="selectStatus($event)" class="col-2">
+              <option>pending</option>
+              <option>working</option>
+              <option>reviewing</option>
+            </select>
+          </div>
+          <form [formGroup]="updateform">
+          <div class="form-group row mt-5">
+            <label class="col-md-2 col-form-label">Description <span class="text-danger">*</span></label>
+            <div class="col-md-10">
+                <textarea rows="3" class="form-control no-resize" placeholder="Descriptions" formControlName="des"></textarea>
+            </div>
+        </div>
+      </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
+          <button type="submit" class="btn btn-primary" (click)="updateStatus()" [disabled]="!select">
+            Update</button>
+        </div>
       </div>
-    </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
-        <button type="submit" class="btn btn-primary" (click)="updateStatus()" [disabled]="!select">
-          Update</button>
+      <div class="modal-body" *ngIf="!isEmployeeOfTodo" >
+        <span>You are not responsible for this todo</span>
       </div>
     </div>
   </ng-template>

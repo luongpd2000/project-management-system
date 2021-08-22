@@ -86,8 +86,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<Task> findByProject(Integer id, Pageable pageable){
+    public Page<Task> findByProjectPageable(Integer id, Pageable pageable){
         return taskRepository.getByProjectIdAndDeletedIsFalse(id, pageable);
+    }
+
+    @Override
+    public List<Task> findByProject(Integer id) {
+        return taskRepository.getByProjectIdAndDeletedIsFalse(id);
     }
 
 }

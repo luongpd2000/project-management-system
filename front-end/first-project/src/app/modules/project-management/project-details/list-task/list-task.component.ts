@@ -9,6 +9,9 @@ import { FomatInputService } from 'src/app/data/service/fomat-input.service';
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/data/schema/user';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { TaskHistory } from 'src/app/data/schema/task-history';
 
 @Component({
   selector: 'app-list-task',
@@ -19,7 +22,29 @@ export class ListTaskComponent implements OnInit {
   @Input() currentProjectId: number;
   @Input() memberList:any[];
   @Output() updateDetails = new EventEmitter();
-  
+
+  thePageNumber: number = 1;
+  thePageSize: number = 5;
+  theTotalElements: number = 0;
+
+  dataSource!: MatTableDataSource<Task>;
+  displayedColumns: string[] = [
+    'No.',
+    'ID',
+    'Name',
+    'Priority',
+    'Type',
+    'Manager',
+    'StartDate',
+    'Due to',
+    'Status',
+    'Action',
+  ];
+
+  selection = new SelectionModel<Task>(true, []);
+
+
+
   updateParent(){
     this.updateDetails.emit();
     console.log('update parents');
@@ -28,9 +53,12 @@ export class ListTaskComponent implements OnInit {
   myUserName!:String;
   myUserId:number;
   deleteTask:Task;
+  detailTask: Task= new Task;
+  taskHisrotyList: TaskHistory[] = [];
 
   leaderList=[];
   taskList:Task[]=[];
+  taskListAll:Task[]=[];
   formTask!:FormGroup;
   newTask=new Task();
   getLeaderList(){
@@ -40,7 +68,7 @@ export class ListTaskComponent implements OnInit {
     console.log('member', this.memberList);
     console.log('leader', this.leaderList);
   }
-  
+
   constructor(private taskService:TaskService,
     public getStatus:StatusService,
     private modalService: NgbModal,
@@ -53,18 +81,40 @@ export class ListTaskComponent implements OnInit {
     console.log(this.currentProjectId);
     this.getData();
     this.getLeaderList();
+
     this.myUserName = this.jwt.getUsername();
+
     if(this.myUserName!=null){
       this.userService.getUser(this.myUserName).subscribe(data=>{
         this.myUserId=data.id;
       })
     }
+    this.getDataAll();
   }
 
   getData(){
-    this.taskService.getListTaskByProjectId(this.currentProjectId).subscribe(data=>{
+    this.taskService.getListTaskByProjectIdPageable(this.currentProjectId,this.thePageNumber-1,this.thePageSize).subscribe(
+      data=>{
       this.taskList = data['content'];
       console.log(this.taskList);
+      this.dataSource = new MatTableDataSource<Task>(this.taskList);
+      this.thePageNumber = data.pageable.pageNumber + 1;
+      this.thePageSize = data.pageable.pageSize;
+      this.theTotalElements = data.totalElements;
+    },
+    (error) => {
+      console.log(error.error.message);
+    })
+  }
+
+  getDataAll(){
+    this.taskService.getListTaskByProjectId(this.currentProjectId).subscribe(
+      data=>{
+      this.taskListAll = data;
+      console.log(this.taskListAll);
+    },
+    (error) => {
+      console.log(error.error.message);
     })
   }
 
@@ -109,7 +159,7 @@ export class ListTaskComponent implements OnInit {
         this.modalService.dismissAll();
         this.getData();
       })
-      
+
     }else{
       alert("Input invalid!!!")
     }
@@ -120,7 +170,7 @@ export class ListTaskComponent implements OnInit {
     this.modalService.open(content, {
       centered: true,
     });
-    
+
   }
   onDelete(){
     console.log(this.deleteTask);
@@ -129,8 +179,39 @@ export class ListTaskComponent implements OnInit {
       this.getData();
     })
     this.modalService.dismissAll();
-    
+
   }
+
+  openHistory(content: any, element){
+    this.detailTask = element;
+    console.log(this.detailTask);
+    this.taskHisrotyList = this.detailTask.taskHistoryList;
+    console.log(this.taskHisrotyList);
+    this.modalService.open(content, {
+      centered: true,
+      size: 'lg',
+    });
+  }
+
+
+  updatePageSize(event) {
+    this.thePageSize = event.target.value;
+    console.log(this.thePageSize)
+    this.thePageNumber = 1;
+    this.getData();
+
+  }
+
+  applyFilter(filterValue: string) {
+    if(filterValue.trim()!=="" || filterValue.trim()!==null){
+      this.dataSource = new MatTableDataSource<Task>(this.taskListAll);
+    }else{
+      this.dataSource = new MatTableDataSource<Task>(this.taskList);
+    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+
   // use for Form
   get name(){
     return this.formTask.get('name');

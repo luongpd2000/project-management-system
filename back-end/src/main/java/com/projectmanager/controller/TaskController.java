@@ -63,6 +63,12 @@ public class TaskController {
                                              @RequestParam(name = "size", defaultValue = "100") Integer size,
             @RequestParam(name = "projectId") Integer id){
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(taskService.findByProject(id, pageable));
+        return ResponseEntity.ok(taskService.findByProjectPageable(id, pageable));
     }
+
+    @GetMapping("/projectTaskListAll")
+    public ResponseEntity<?> projectTaskListAll(@RequestParam(name = "projectId") Integer id){
+        return ResponseEntity.ok(taskService.findByProject(id));
+    }
+
 }

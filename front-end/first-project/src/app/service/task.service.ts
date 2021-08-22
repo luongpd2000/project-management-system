@@ -58,7 +58,13 @@ export class TaskService {
   }
 
   getListTaskByProjectId(pId:number): Observable<any>{
-    const taskUrl = `${this.baseUrl}/projectTaskList/?projectId=${pId}`;
+    const taskUrl = `${this.baseUrl}/projectTaskListAll/?projectId=${pId}`;
+    return this.httpClient.get<any>(taskUrl, this.httpOptions);
+  }
+
+  getListTaskByProjectIdPageable(pId:number,thePage: number,
+    thePageSize: number): Observable<any>{
+    const taskUrl = `${this.baseUrl}/projectTaskList/?projectId=${pId}&page=${thePage}&size=${thePageSize}`;
     return this.httpClient.get<any>(taskUrl, this.httpOptions);
   }
 }

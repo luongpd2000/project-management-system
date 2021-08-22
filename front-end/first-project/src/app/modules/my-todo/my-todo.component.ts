@@ -172,7 +172,6 @@ export class MyTodoComponent implements OnInit {
     )
 
 
-
   }
 
   updatePageSize(event) {

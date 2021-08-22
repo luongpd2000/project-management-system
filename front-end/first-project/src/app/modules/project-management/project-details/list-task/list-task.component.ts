@@ -77,13 +77,14 @@ export class ListTaskComponent implements OnInit {
   }
   makeForm(){
     this.formTask = new FormGroup({
-      "name":new FormControl('name',[Validators.required]),
+      "name":new FormControl(null,[Validators.required]),
       "des":new FormControl(null,[Validators.required]),
       "priority":new FormControl('high',[Validators.required]),
       "startDate":new FormControl(null,[Validators.required]),
       "endDate":new FormControl(null,[Validators.required]),
       "status":new FormControl('draft',[Validators.required]),
-      "manager":new FormControl(this.myUserId,[Validators.required])
+      "manager":new FormControl(this.myUserId,[Validators.required]),
+      "taskType":new FormControl("feature", [Validators.required])
     })
   }
 
@@ -99,6 +100,7 @@ export class ListTaskComponent implements OnInit {
       this.newTask.priority=this.formTask.value.priority;
       this.newTask.taskManagerId=this.formTask.value.manager;
       this.newTask.createUser=this.myUserId;
+      this.newTask.taskType=this.formTask.value.taskType;
       this.newTask.projectId=this.currentProjectId;
       console.log('click save!!');
       console.log(JSON.stringify(this.newTask));

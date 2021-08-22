@@ -54,7 +54,7 @@ export class TaskService {
 
   updateTask(task: Task){
     const updateTaskUrl = `${this.baseUrl}/updateTask/${task.id}`;
-    return this.httpClient.put<Task>(updateTaskUrl, this.httpOptions);
+    return this.httpClient.put(updateTaskUrl, task, this.httpOptions);
   }
 
   getListTaskByProjectId(pId:number): Observable<any>{

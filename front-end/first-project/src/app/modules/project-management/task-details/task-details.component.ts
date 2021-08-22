@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ListTodoComponent } from './list-todo/list-todo.component';
 import { ActivatedRoute } from '@angular/router';
 import { Task } from 'src/app/data/schema/task';
 import { StatusService } from 'src/app/data/service/status.service';
@@ -16,6 +17,7 @@ import { User } from 'src/app/data/schema/user';
 })
 export class TaskDetailsComponent implements OnInit {
   currentTask=new Task();
+  updateTask=new Task();
   curTaskId:number;
   curProjectId:number;
   formTask!:FormGroup;
@@ -71,6 +73,7 @@ export class TaskDetailsComponent implements OnInit {
       "startDate":new FormControl(this.fomatInput.toDatePicker(this.currentTask.startDate),[Validators.required]),
       "endDate":new FormControl(this.fomatInput.toDatePicker(this.currentTask.endDate),[Validators.required]),
       "status":new FormControl(this.currentTask.status,[Validators.required]),
+      "taskType":new FormControl(this.currentTask.taskType,[Validators.required]),
       "manager":new FormControl(this.currentTask.taskManagerId,[Validators.required])
     })
   }
@@ -83,14 +86,17 @@ export class TaskDetailsComponent implements OnInit {
       this.currentTask.endDate = this.fomatInput.fomatDate(this.formTask.value.endDate);
       this.currentTask.status=this.formTask.value.status;
       this.currentTask.priority=this.formTask.value.priority;
+      this.currentTask.taskType=this.formTask.value.taskType;
       this.currentTask.taskManagerId=this.formTask.value.manager;
+      //
       console.log('click save!!');
       console.log(JSON.stringify(this.currentTask));
-      // this.taskService.createTask(this.newTask).subscribe(data=>{
-      //   console.log('new',data);
-      //   this.modalService.dismissAll();
-      //   this.getData();
-      // })
+      this.taskService.updateTask(this.currentTask).subscribe(data=>{
+        console.log('update',data);
+        alert("Edit Success");
+        this.modalService.dismissAll();
+        this.getTaskDetails();
+      })
       
     }else{
       alert("Input invalid!!!")

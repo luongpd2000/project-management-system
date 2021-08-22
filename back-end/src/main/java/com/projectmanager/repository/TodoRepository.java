@@ -20,4 +20,7 @@ public interface TodoRepository extends JpaRepository<Todo, Integer>, JpaSpecifi
     Page<Todo> findByAssignedUserAndDeletedIsFalse(Integer id, Pageable pageable);
 
     List<Todo> findByAssignedUserAndDeletedIsFalse(Integer id);
+
+    Page<Todo>findByTaskIdAndDeletedIsFalse(Integer id, Pageable pageable);
+    List<Todo>findByTaskIdAndDeletedIsFalse(Integer id);
 }

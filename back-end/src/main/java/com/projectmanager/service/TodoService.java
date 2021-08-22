@@ -28,4 +28,6 @@ public interface TodoService extends GeneralService<Todo> {
     Page<Todo> findByAssignedUser(Integer id, Pageable pageable);
 
     List<Todo> findByAssignedUser(Integer id);
+    Page<Todo>findByTaskIdAndDeletedIsFalse(Integer id, Pageable pageable);
+    List<Todo>findByTaskIdAndDeletedIsFalse(Integer id);
 }

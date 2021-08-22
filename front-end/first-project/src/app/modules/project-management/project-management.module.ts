@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { ListTaskComponent } from './project-details/list-task/list-task.component';
+import { ListTodoComponent } from './task-details/list-todo/list-todo.component';
 // import { NgSelectModule } from '@ng-select/ng-select';
 //
 
@@ -22,7 +23,8 @@ import { ListTaskComponent } from './project-details/list-task/list-task.compone
     ProjectDetailsComponent,
     TaskDetailsComponent,
     AddUsersComponent,
-    ListTaskComponent
+    ListTaskComponent,
+    ListTodoComponent
   ],
   imports: [
     CommonModule,

@@ -152,5 +152,18 @@ public class Controller {
         return ResponseEntity.ok(todoHistoryService.create(todoHistory));
     }
 
+    @GetMapping("/findTodoByTaskIdPageable/{id}")
+    public ResponseEntity<?> findTodoByTaskIdPageable(@PathVariable Integer id,
+                                                      @RequestParam(name = "page",defaultValue = "0") Integer page,
+                                                      @RequestParam(name = "size",defaultValue = "100")Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(todoService.findByTaskIdAndDeletedIsFalse(id,pageable));
+    }
+
+    @GetMapping("/findTodoByTaskIdNoPageable/{id}")
+    public ResponseEntity<?> findTodoByTaskIdPageable(@PathVariable Integer id)   {
+        return ResponseEntity.ok(todoService.findByTaskIdAndDeletedIsFalse(id));
+    }
+
 
 }

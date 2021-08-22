@@ -52,9 +52,10 @@
               <thead>
                 <tr>
                   <th>No.</th>
-                  <th style="min-width:20px; max-width: 50;">ID</th>
+                  <th style="min-width:20px; max-width: 50px;">ID</th>
                   <th style="min-width:150px;">Name</th>
                   <th style="min-width:100px;">Priority</th>
+                  <th>Type</th>
                   <th style="min-width:100px;">Manager</th>
                   <th style="min-width:100px;">StartDate</th>
                   <th style="min-width:100px;">Due to</th>
@@ -70,7 +71,8 @@
                   <td>{{task?.name}}</td>
                   <td><span class="mode"
                       [ngStyle]="{'background':getStatus.getTheColor(task?.priority)}">{{task?.priority}}</span></td>
-                  <td>{{task?.taskManagerId}}</td>
+                  <td>{{task?.taskType}}</td>
+                      <td>{{task?.taskManagerId}}</td>
                   <td>{{task?.startDate}}</td>
                   <td>{{task?.endDate}}</td>
                   <td><span class="mode "
@@ -132,6 +134,18 @@
           </div>
 
         </div>
+      </div>
+      <div class="form-group row">
+        <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Type<span
+            class="text-danger">*</span></label>
+        <div class="col-sm-7">
+          <select class="custom-select  mr-sm-2" id="" formControlName='taskType'>
+            <option value="feature">Feature</option>
+            <option value="bug">Bug</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
       </div>
 
       <div class="form-group row">

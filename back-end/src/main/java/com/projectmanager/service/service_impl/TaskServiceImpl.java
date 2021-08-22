@@ -50,7 +50,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean update(Task task) {
 
-        Optional<Task> t = taskRepository.findByNameAndDeletedIsFalse(task.getName());
+        Optional<Task> t = taskRepository.findByIdAndDeletedIsFalse(task.getId());
+        System.out.println(t);
 
         if (!t.isPresent()){
             return false;

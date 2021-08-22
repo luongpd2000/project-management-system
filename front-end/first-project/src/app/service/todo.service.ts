@@ -38,8 +38,19 @@ export class TodoService {
 
     }
 
+    getTodoListByTask(id: number, thePage: number, thePageSize: number):Observable<any>{
+      const url = `${this.baseUrl}/findTodoByTaskIdPageable/${id}?page=${thePage}&size=${thePageSize}`;
 
-   
+      return this.httpClient.get<any>(url,this.httpOptions);
+    }
+    getTodoListByTasNoPageable(id: number):Observable<any>{
+      const url = `${this.baseUrl}/findTodoByTaskIdNoPageable/${id}`;
+
+      return this.httpClient.get<any>(url,this.httpOptions);
+    }
+
+
+  
     updateStatus(todo: Todo):Observable<any>{
       const url = `${this.baseUrl}/updateTodo`;
       return this.httpClient.put<any>(url,todo,this.httpOptions);

@@ -96,6 +96,7 @@ public class AdminController {
 
     @GetMapping("/findProjectEmployeeById/{id}")
     public ResponseEntity<?> findProjectEmployeeById(@PathVariable Integer id){
+        System.out.println(projectEmployeeService.findById(id));
         return ResponseEntity.ok(projectEmployeeService.findById(id));
     }
 

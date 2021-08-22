@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { EventEmitter, Input, Output } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Task } from 'src/app/data/schema/task';
 import { StatusService } from 'src/app/data/service/status.service';
@@ -18,9 +18,16 @@ import { User } from 'src/app/data/schema/user';
 export class ListTaskComponent implements OnInit {
   @Input() currentProjectId: number;
   @Input() memberList:any[];
+  @Output() updateDetails = new EventEmitter();
+  
+  updateParent(){
+    this.updateDetails.emit();
+    console.log('update parents');
+  }
 
   myUserName!:String;
   myUserId:number;
+  deleteTask:Task;
 
   leaderList=[];
   taskList:Task[]=[];
@@ -52,7 +59,6 @@ export class ListTaskComponent implements OnInit {
         this.myUserId=data.id;
       })
     }
-    
   }
 
   getData(){
@@ -71,15 +77,18 @@ export class ListTaskComponent implements OnInit {
   }
   makeForm(){
     this.formTask = new FormGroup({
-      "name":new FormControl('name',[Validators.required]),
+      "name":new FormControl(null,[Validators.required]),
       "des":new FormControl(null,[Validators.required]),
       "priority":new FormControl('high',[Validators.required]),
       "startDate":new FormControl(null,[Validators.required]),
       "endDate":new FormControl(null,[Validators.required]),
       "status":new FormControl('draft',[Validators.required]),
-      "manager":new FormControl(this.myUserId,[Validators.required])
+      "manager":new FormControl(this.myUserId,[Validators.required]),
+      "taskType":new FormControl("feature", [Validators.required])
     })
   }
+
+
 
   saveNewTask(){
     if(this.formTask.valid){
@@ -91,6 +100,7 @@ export class ListTaskComponent implements OnInit {
       this.newTask.priority=this.formTask.value.priority;
       this.newTask.taskManagerId=this.formTask.value.manager;
       this.newTask.createUser=this.myUserId;
+      this.newTask.taskType=this.formTask.value.taskType;
       this.newTask.projectId=this.currentProjectId;
       console.log('click save!!');
       console.log(JSON.stringify(this.newTask));
@@ -103,6 +113,23 @@ export class ListTaskComponent implements OnInit {
     }else{
       alert("Input invalid!!!")
     }
+  }
+
+  openConfirmDelete(content: any, task:Task){
+    this.deleteTask=task;
+    this.modalService.open(content, {
+      centered: true,
+    });
+    
+  }
+  onDelete(){
+    console.log(this.deleteTask);
+    this.taskService.deleteTask(this.deleteTask).subscribe(data=>{
+      console.log(data);
+      this.getData();
+    })
+    this.modalService.dismissAll();
+    
   }
   // use for Form
   get name(){
@@ -126,6 +153,5 @@ export class ListTaskComponent implements OnInit {
   get manager(){
     return this.formTask.get('manager');
   }
-
 
 }

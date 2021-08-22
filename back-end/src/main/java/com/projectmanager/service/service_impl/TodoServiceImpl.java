@@ -88,5 +88,15 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.findByAssignedUserAndDeletedIsFalse(id);
     }
 
+    @Override
+    public Page<Todo> findByTaskIdAndDeletedIsFalse(Integer id, Pageable pageable) {
+        return todoRepository.findByTaskIdAndDeletedIsFalse(id, pageable);
+    }
+
+    @Override
+    public List<Todo> findByTaskIdAndDeletedIsFalse(Integer id) {
+        return todoRepository.findByTaskIdAndDeletedIsFalse(id);
+    }
+
 
 }

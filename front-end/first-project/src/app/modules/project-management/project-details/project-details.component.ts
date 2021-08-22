@@ -20,9 +20,9 @@ import { JwtServiceService } from 'src/app/service/jwt-service.service';
 export class ProjectDetailsComponent implements OnInit {
   private id: number = 0;
   formProject!: FormGroup;
-  model = new DatePicker(2020, 12, 22);
   currentProject!: ProjectDetails;
   taskList = [];
+  taskNum=0;
   todoNum = 0;
 
   currentProjectId:number;
@@ -64,6 +64,7 @@ export class ProjectDetailsComponent implements OnInit {
       this.todoNum = 0;
       this.taskList.forEach(task => {
         this.todoNum += (<Array<any>>task['todoList']).length;
+        if(task.deleted==false) this.taskNum++;
       })
       console.log(this.todoNum);
       this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item=>{

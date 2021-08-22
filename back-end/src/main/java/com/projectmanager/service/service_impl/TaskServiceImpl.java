@@ -50,7 +50,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean update(Task task) {
 
-        Optional<Task> t = taskRepository.findByNameAndDeletedIsFalse(task.getName());
+        Optional<Task> t = taskRepository.findByIdAndDeletedIsFalse(task.getId());
+        System.out.println(t);
 
         if (!t.isPresent()){
             return false;
@@ -63,14 +64,15 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean delete(Integer id) {
         Optional<Task> t = taskRepository.findByIdAndDeletedIsFalse(id);
+        System.out.println(t);
 
         if(!t.isPresent()) {
             return false;
         }else {
             t.get().setDeleted(true);
             taskRepository.save(t.get());
+            return true;
         }
-        return false;
     }
 
     @Override
@@ -85,7 +87,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<Task> findByProject(Integer id, Pageable pageable){
-        return taskRepository.findByProjectIdAndDeletedIsFalse(id, pageable);
+        return taskRepository.getByProjectIdAndDeletedIsFalse(id, pageable);
     }
 
 }

@@ -47,10 +47,14 @@ export class TaskService {
     const deleteTaskUrl =`${this.baseUrl}/deleteTask/${task.id}`;
     return this.httpClient.delete<any>(deleteTaskUrl, this.httpOptions);
   }
+  deleteTaskById(taskId:number){
+    const deleteTaskUrl =`${this.baseUrl}/deleteTask/${taskId}`;
+    return this.httpClient.delete<any>(deleteTaskUrl, this.httpOptions);
+  }
 
   updateTask(task: Task){
     const updateTaskUrl = `${this.baseUrl}/updateTask/${task.id}`;
-    return this.httpClient.put<Task>(updateTaskUrl, this.httpOptions);
+    return this.httpClient.put(updateTaskUrl, task, this.httpOptions);
   }
 
   getListTaskByProjectId(pId:number): Observable<any>{

@@ -40,6 +40,9 @@ public class Controller {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    TaskHistoryService taskHistoryService;
+
     // User management api
     @GetMapping("/findUserByUsername/{username}")
     public ResponseEntity<?> findUserByUsername(@PathVariable String username) {
@@ -242,6 +245,18 @@ public class Controller {
     public ResponseEntity<?> projectTaskListAll(@RequestParam(name = "projectId") Integer id) {
         return ResponseEntity.ok(taskService.findByProject(id));
     }
+
+
+
+    @PostMapping("/createTaskHistory")
+    public ResponseEntity<?> createTaskHistory(@Valid @RequestBody TaskHistory taskHistory) {
+        return ResponseEntity.ok(taskHistoryService.create(taskHistory));
+    }
+
+
+
+
+
     //
 
 //    @GetMapping("/findProjectEmployeeById/{id}")

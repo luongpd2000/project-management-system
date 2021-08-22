@@ -1,4 +1,6 @@
 package com.projectmanager.service;
 
-public interface TaskHistoryService {
+import com.projectmanager.entity.TaskHistory;
+
+public interface TaskHistoryService extends GeneralService<TaskHistory>{
 }

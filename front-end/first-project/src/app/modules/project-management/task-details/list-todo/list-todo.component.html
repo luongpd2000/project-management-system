@@ -187,7 +187,7 @@
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
           <div class="col-md-9">
-            <textarea rows="4" class="form-control no-resize" placeholder="Descriptions" formControlName='des'></textarea>
+            <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"  formControlName='des'></textarea>
             <div *ngIf="des&&des.invalid&&(des?.dirty||des?.touched)">
               <span class="invalid-text">*Requierd</span>
             </div>
@@ -198,8 +198,9 @@
             Assign for<span class="text-danger">*</span></label>
           <div class="col-md-7">
             <select class="custom-select mr-sm-2" id="" formControlName='assignfor'>
+              <!-- <option [(ngModel)]="todoDetail.endDate"></option> -->
               <option value={{myAccount?.id}}>For Me </option>
-              <option *ngFor="let member of memberList" value={{member.id}}>{{member.fullName}}</option>
+              <option *ngFor="let member of memberList" value={{member.id}}>{{member.user.fullName}}</option>
             </select>
           </div>
         </div>
@@ -270,7 +271,6 @@
             <select class="custom-select  mr-sm-2" id="" formControlName='todoType'>
               <option value="feature">Feature</option>
               <option value="bug">Bug</option>
-              <option value="other">Other</option>
             </select>
           </div>
 
@@ -290,7 +290,7 @@
           <div class="col-md-7">
             <select class="custom-select mr-sm-2" id="" formControlName='assignfor'>
               <option value={{myAccount?.id}}>For Me </option>
-              <option *ngFor="let member of memberList" value={{member.id}}>{{member.fullName}}</option>
+              <option *ngFor="let member of memberList" value={{member.id}} >{{member.user.fullName}}</option>
             </select>
           </div>
         </div>

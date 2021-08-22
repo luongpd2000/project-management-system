@@ -12,11 +12,13 @@ import { TodoService } from 'src/app/service/todo.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/data/schema/user';
 import { FomatInputService } from '../../../../data/service/fomat-input.service';
+import { ProjectEmployee } from 'src/app/data/schema/project-employee';
+import { LoginService } from 'src/app/service/login.service';
 
 @Component({
   selector: 'app-list-todo',
   templateUrl: './list-todo.component.html',
-  styleUrls: ['./list-todo.component.css']
+  styleUrls: ['./list-todo.component.css'],
 })
 export class ListTodoComponent implements OnInit {
   @Input() curTaskId: number;
@@ -32,14 +34,15 @@ export class ListTodoComponent implements OnInit {
   userId: number;
   todoDetail: Todo;
   todoHistory: TodoHistory[] = [];
-  statusUpdate: String = "";
+  statusUpdate: String = '';
   select: boolean = false;
   updateTodoStatus: TodoHistory = new TodoHistory();
   idDelete: number;
   // update chi danh cho employee
   updateform: FormGroup;
-  memberList: User[] = [];
+  memberList: ProjectEmployee[] = [];
   employeeList: User[] = [];
+  leaderList: User[] = [];
   isEmployeeOfTodo: boolean = false;
   // isLeader: boolean;;
 
@@ -65,66 +68,79 @@ export class ListTodoComponent implements OnInit {
 
   selection = new SelectionModel<Todo>(true, []);
 
-  constructor(private route: ActivatedRoute,
+  getMembers() {
+    this.userService.getUsersInProject(this.curProjectId).subscribe((data) => {
+      this.memberList = data['content'];
+      this.memberList.forEach((data) => {
+        if (data.role === 'leader') {
+          this.leaderList.push(data.user);
+        } else if (data.role === 'dev') {
+          this.employeeList.push(data.user);
+        }
+      });
+      console.log('leader', this.leaderList);
+      console.log('dev', this.employeeList);
+    });
+  }
+
+  constructor(
+    private route: ActivatedRoute,
     private modalService: NgbModal,
     private jwt: JwtServiceService,
     private router: Router,
     private todoService: TodoService,
     private userService: UserService,
     public getStatus: StatusService,
-    public fomatInput: FomatInputService) { }
+    public fomatInput: FomatInputService
+  ) {}
 
   ngOnInit(): void {
     this.getData();
     this.getAllData();
 
-
-
-    // this.myUserName = this.jwt.getUsername();
-
-    // if(this.myUserName!=null){
-      // if(this.jwt.getRole()==="[ROLE_ADMIN]"){
-      //   this.isAdmin = true;
-      // }else{
-      //   this.isAdmin = false;
-      // }
-
-    // this.userService.getUser(this.jwt.getUsername()).subscribe(data => {
-    //   this.myAccount = data;
-    // })
-    console.log(this.curUserId)
+    console.log(this.curUserId);
+    this.userService.getUser(this.jwt.getUsername()).subscribe(
+      data=>{
+        this.myAccount = data;
+      }
+    )
     this.getMembers();
     this.updateform = new FormGroup({
       des: new FormControl(''),
     });
-
   }
 
   getData() {
-    this.todoService.getTodoListByTask(this.curTaskId, this.thePageNumber - 1, this.thePageSize).subscribe(
-      data => {
-        this.todoList = data['content'];
-        console.log(this.todoList)
-        console.log(this.todoList[0])
-        // if(this.todoList[0].assignedUser===this.curUserId){
-        //   this.isLeader = true;
-        // }else{
-        //   this.isLeader = false;
-        // }
-        this.dataSource = new MatTableDataSource<Todo>(this.todoList);
-        this.thePageNumber = data.pageable.pageNumber + 1;
-        this.thePageSize = data.pageable.pageSize;
-        this.theTotalElements = data.totalElements;
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    );
+    this.todoService
+      .getTodoListByTask(
+        this.curTaskId,
+        this.thePageNumber - 1,
+        this.thePageSize
+      )
+      .subscribe(
+        (data) => {
+          this.todoList = data['content'];
+          console.log(this.todoList);
+          console.log(this.todoList[0]);
+          // if(this.todoList[0].assignedUser===this.curUserId){
+          //   this.isLeader = true;
+          // }else{
+          //   this.isLeader = false;
+          // }
+          this.dataSource = new MatTableDataSource<Todo>(this.todoList);
+          this.thePageNumber = data.pageable.pageNumber + 1;
+          this.thePageSize = data.pageable.pageSize;
+          this.theTotalElements = data.totalElements;
+        },
+        (error) => {
+          console.log(error.error.message);
+        }
+      );
   }
 
   getAllData() {
     this.todoService.getTodoListByTasNoPageable(this.curTaskId).subscribe(
-      data => {
+      (data) => {
         this.todoListAll = data;
         console.log(this.todoListAll);
       },
@@ -133,105 +149,170 @@ export class ListTodoComponent implements OnInit {
       }
     );
   }
-  getMembers() {
-    this.userService.getUsersInProject(this.curProjectId).subscribe(data => {
-      let members: any[] = data['content'];
-      members.forEach(element => {
-        this.memberList.push(element.user);
-        if (element.role != "leader") this.employeeList.push(element.user);
-      });
-
-      console.log(this.memberList, this.employeeList);
-
-    });
-  }
 
   openModal(content) {
     this.modalService.open(content, {
       centered: true,
       size: 'lg',
-    })
+    });
   }
 
   openNew(content) {
     this.makeNewForm();
-    this.openModal(content)
+    this.openModal(content);
   }
 
   makeNewForm() {
     this.todoForm = new FormGroup({
-      "name": new FormControl(null, [Validators.required]),
-      "des": new FormControl("description", [Validators.required]),
+      name: new FormControl(null, [Validators.required]),
+      des: new FormControl('description', [Validators.required]),
       // "priority":new FormControl('high',[Validators.required]),
-      "startDate": new FormControl(null, [Validators.required]),
-      "endDate": new FormControl(null, [Validators.required]),
-      "status": new FormControl('draft', [Validators.required]),
-      "todoType": new FormControl('feature', [Validators.required]),
-      "assignfor": new FormControl(this.myAccount.id, [Validators.required])
-    })
+      startDate: new FormControl(null, [Validators.required]),
+      endDate: new FormControl(null, [Validators.required]),
+      status: new FormControl('draft', [Validators.required]),
+      todoType: new FormControl('feature', [Validators.required]),
+      assignfor: new FormControl(this.myAccount.id, [Validators.required]),
+    });
   }
   makeUpdateForm() {
     this.todoForm = new FormGroup({
-      "name": new FormControl(this.curTodo.name, [Validators.required]),
-      "des": new FormControl(this.curTodo.des, [Validators.required]),
+      name: new FormControl(this.todoDetail.name, [Validators.required]),
+      des: new FormControl(this.todoDetail.des, [Validators.required]),
       // "priority":new FormControl(this.curTodo.priority,[Validators.required]),
-      "startDate": new FormControl(this.fomatInput.toDatePicker(this.curTodo.startDate), [Validators.required]),
-      "endDate": new FormControl(this.fomatInput.toDatePicker(this.curTodo.endDate), [Validators.required]),
-      "status": new FormControl(this.curTodo.status, [Validators.required]),
-      "todoType": new FormControl(this.curTodo.todoType, [Validators.required]),
-      "assignfor": new FormControl(this.curTodo.assignedUser, [Validators.required])
-    })
+      startDate: new FormControl(
+        this.fomatInput.toDatePicker(this.todoDetail.startDate),
+        [Validators.required]
+      ),
+      endDate: new FormControl(
+        this.fomatInput.toDatePicker(this.todoDetail.endDate),
+        [Validators.required]
+      ),
+      status: new FormControl(this.todoDetail.status, [Validators.required]),
+      todoType: new FormControl(this.todoDetail.todoType, [Validators.required]),
+      assignfor: new FormControl(this.todoDetail.assignedUser, [
+        Validators.required,
+      ]),
+    });
   }
   saveNewTodo() {
     if (this.todoForm.valid) {
       this.curTodo.name = this.todoForm.value.name;
       this.curTodo.des = this.todoForm.value.des;
-      this.curTodo.startDate = this.fomatInput.fomatDate(this.todoForm.value.startDate);
-      this.curTodo.endDate = this.fomatInput.fomatDate(this.todoForm.value.endDate);
+      this.curTodo.startDate = this.fomatInput.fomatDate(
+        this.todoForm.value.startDate
+      );
+      this.curTodo.endDate = this.fomatInput.fomatDate(
+        this.todoForm.value.endDate
+      );
       this.curTodo.status = this.todoForm.value.status;
       this.curTodo.todoType = this.todoForm.value.todoType;
-      this.curTodo.assignedUser = this.todoForm.value.assignfor
+      this.curTodo.assignedUser = this.todoForm.value.assignfor;
       //
       this.curTodo.taskId = this.curTaskId;
       this.curTodo.projectId = this.curProjectId;
       this.curTodo.createUser = this.myAccount.id;
       console.log('click save!!');
       console.log(JSON.stringify(this.curTodo));
-      this.todoService.createTodo(this.curTodo).subscribe(data => {
+      this.todoService.createTodo(this.curTodo).subscribe((data) => {
         console.log('create', data);
-        alert("Create success!!");
+        alert('Create success!!');
+        this.getData();
+        this.getAllData();
         this.modalService.dismissAll();
-        this.ngOnInit();
-      })
+        // this.ngOnInit();
+      });
     } else {
-      alert("Input invalid!!!")
+      alert('Input invalid!!!');
     }
   }
   saveUpdateTodo() {
     if (this.todoForm.valid) {
-      this.curTodo.name = this.todoForm.value.name;
-      this.curTodo.des = this.todoForm.value.des;
-      this.curTodo.startDate = this.fomatInput.fomatDate(this.todoForm.value.startDate);
-      this.curTodo.endDate = this.fomatInput.fomatDate(this.todoForm.value.endDate);
-      this.curTodo.status = this.todoForm.value.status;
-      this.curTodo.todoType = this.todoForm.value.todoType;
-      this.curTodo.assignedUser = this.todoForm.value.assignfor
+      this.todoDetail.name = this.todoForm.value.name;
+      this.todoDetail.des = this.todoForm.value.des;
+      this.todoDetail.startDate = this.fomatInput.fomatDate(
+        this.todoForm.value.startDate
+      );
+      this.todoDetail.endDate = this.fomatInput.fomatDate(
+        this.todoForm.value.endDate
+      );
+      this.todoDetail.status = this.todoForm.value.status;
+      this.todoDetail.todoType = this.todoForm.value.todoType;
+      this.todoDetail.assignedUser = this.todoForm.value.assignfor;
+
+      this.updateTodoStatus.preStatus = this.todoDetail.status;
+      this.updateTodoStatus.todoId = this.todoDetail.id;
+      this.updateTodoStatus.updateUser = this.todoForm.value.assignfor;
+      this.updateTodoStatus.des = this.todoForm.value.des;
+      this.updateTodoStatus.status = this.todoForm.value.status;
+
+      this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
+    // this.curTodo.status = this.statusUpdate;
+      console.log(this.updateTodoStatus);
+      console.log(this.todoDetail);
+      this.todoService.insertHistory(this.updateTodoStatus).subscribe(
+        (data) => {
+          console.log(data);
+          console.log('click save!!');
+          console.log(JSON.stringify(this.todoDetail));
+          // this.modalService.dismissAll();
+          this.todoService.updateStatus(this.todoDetail).subscribe((data) => {
+            console.log('create', data);
+            alert('update success!!');
+            this.getData();
+            this.getAllData();
+            this.modalService.dismissAll();
+            this.ngOnInit();
+          });
+          this.modalService.dismissAll();
+        },
+        (error) => {
+          console.log(error.error.message);
+        }
+      );
       //
       // this.curTodo.taskId=this.curTaskId;
       // this.curTodo.projectId=this.curProjectId;
       // this.curTodo.createUser=this.myAccount.id;
-      console.log('click save!!');
-      console.log(JSON.stringify(this.curTodo));
-      // this.modalService.dismissAll();
-      this.todoService.updateStatus(this.curTodo).subscribe(data => {
-        console.log('create', data);
-        alert("update success!!");
-        this.modalService.dismissAll();
-        this.ngOnInit();
-      })
     } else {
-      alert("Input invalid!!!")
+      alert('Input invalid!!!');
     }
+  }
+
+  updateStatus() {
+    console.log(this.statusUpdate);
+    this.updateTodoStatus.preStatus = this.todoDetail.status;
+    this.updateTodoStatus.todoId = this.todoDetail.id;
+    this.updateTodoStatus.updateUser = this.todoDetail.assignedUser;
+    this.updateTodoStatus.des = this.updateform.controls['des'].value;
+    this.updateTodoStatus.status = this.statusUpdate;
+    this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
+    this.todoDetail.status = this.statusUpdate;
+
+    console.log(this.updateTodoStatus);
+
+    this.todoService.insertHistory(this.updateTodoStatus).subscribe(
+      (data) => {
+        console.log(data);
+        this.modalService.dismissAll();
+      },
+      (error) => {
+        console.log(error.error.message);
+      }
+    );
+
+    this.todoService.updateStatus(this.todoDetail).subscribe(
+      (data) => {
+        console.log(data);
+        this.modalService.dismissAll();
+        this.getData();
+        this.getAllData();
+        window.alert('update status success');
+      },
+      (error) => {
+        console.log(error.error.message);
+        window.alert('update status false');
+      }
+    );
   }
 
   openDetails(content: any, element) {
@@ -255,10 +336,18 @@ export class ListTodoComponent implements OnInit {
   openUpdateTodo(content: any, element) {
     this.isEmployeeOfTodo = false;
     this.todoDetail = element;
-    if(this.todoDetail.assignedUser===this.curUserId){
+    if (this.todoDetail.assignedUser === this.curUserId) {
       this.isEmployeeOfTodo = true;
     }
-    console.log(this.isAdmin +" " + this.isEmployeeOfTodo +" "+ this.isLeader + " "+ this.curTaskId)
+    console.log(
+      this.isAdmin +
+        ' ' +
+        this.isEmployeeOfTodo +
+        ' ' +
+        this.isLeader +
+        ' ' +
+        this.curTaskId
+    );
     this.makeUpdateForm();
     this.openModal(content);
   }
@@ -268,73 +357,35 @@ export class ListTodoComponent implements OnInit {
     this.openModal(content);
   }
   onDelete() {
-    this.todoService.deleteTodo(this.idDelete).subscribe(data => {
+    this.todoService.deleteTodo(this.idDelete).subscribe((data) => {
       // console.log('delete:', data,typeof(data));
       this.modalService.dismissAll();
       if (data) {
         this.getData();
         this.getAllData();
-        alert("Delete seccessed!")
-      } else  alert("Delete failed!");
-
-    })
-
+        alert('Delete seccessed!');
+      } else alert('Delete failed!');
+    });
   }
   //update status for employee
-  selectStatus(event){
+  selectStatus(event) {
     this.select = true;
     this.statusUpdate = event.target.value;
-    console.log(this.statusUpdate)
-    console.log(event.target.value)
+    console.log(this.statusUpdate);
+    console.log(event.target.value);
   }
 
-  updateStatus(){
-    console.log(this.statusUpdate)
-    this.updateTodoStatus.preStatus = this.todoDetail.status;
-    this.updateTodoStatus.todoId = this.todoDetail.id;
-    this.updateTodoStatus.updateUser = this.todoDetail.assignedUser;
-    this.updateTodoStatus.des = this.updateform.controls['des'].value;
-    this.updateTodoStatus.status = this.statusUpdate;
-    this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
-    this.todoDetail.status = this.statusUpdate;
-    console.log(this.updateTodoStatus);
-
-    this.todoService.insertHistory(this.updateTodoStatus).subscribe(
-      data=>{
-        console.log(data);
-        this.modalService.dismissAll();
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    )
-
-    this.todoService.updateStatus(this.todoDetail).subscribe(
-      data=>{
-        console.log(data);
-        this.modalService.dismissAll();
-        this.getData();
-        this.getAllData();
-        window.alert("update status success")
-      },
-      (error) => {
-        console.log(error.error.message);
-        window.alert("update status false")
-      }
-    )
-  }
   //End - update status for employee
 
   updatePageSize(event) {
     this.thePageSize = event.target.value;
-    console.log(this.thePageSize)
+    console.log(this.thePageSize);
     this.thePageNumber = 1;
     this.getData();
-
   }
 
   applyFilter(filterValue: string) {
-    if (filterValue.trim() !== "") {
+    if (filterValue.trim() !== '') {
       this.dataSource = new MatTableDataSource<Todo>(this.todoListAll);
     } else {
       this.dataSource = new MatTableDataSource<Todo>(this.todoList);
@@ -349,7 +400,7 @@ export class ListTodoComponent implements OnInit {
     return this.todoForm.get('des');
   }
   get priority() {
-    return this.todoForm.get('priority')
+    return this.todoForm.get('priority');
   }
   get startDate() {
     return this.todoForm.get('startDate');

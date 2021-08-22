@@ -18,7 +18,7 @@ public class TaskHistory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "des")
@@ -30,7 +30,7 @@ public class TaskHistory implements Serializable {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @Column(name = "update_date", nullable = false)
+    @Column(name = "update_date")
     private Date updateDate;
 
 

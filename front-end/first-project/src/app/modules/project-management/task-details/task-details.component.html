@@ -15,12 +15,12 @@
                         <div class="col-6 py-1">{{currentTask?.startDate}}</div>
                         <div class="col-6 py-1"><strong>End Date:</strong></div>
                         <div class="col-6 py-1">{{currentTask?.endDate}}</div>
-                        <div class="col-6 py-1"><strong>Leader:</strong></div>
+                        <div class="col-6 py-1"><strong>LeaderId:</strong></div>
                         <div class="col-6 py-1">{{currentTask.taskManagerId}}</div>
                         <div class="col-6 py-1"><strong>Type:</strong></div>
                         <div class="col-6 py-1">{{currentTask.taskType}}</div>
                         <div class="col-6 py-1"><strong>Todo:</strong></div>
-                        <div class="col-6 py-1"><strong>32</strong></div>
+                        <div class="col-6 py-1"><strong>{{todoNum}}</strong></div>
                         <div class="col-6 py-1"><strong>Status</strong> </div>
                         <div class="col-6 py-1">
                             <strong><span class="badge"
@@ -38,7 +38,8 @@
             <div class="row">
               <app-list-todo [curTaskId]="curTaskId" [curProjectId]="curProjectId"
                               [isLeader]="isLeader"  [isAdmin]="isAdmin"  [curUserId]="curUserId"
-              >
+
+                              >
 
               </app-list-todo>
 

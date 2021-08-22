@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Task} from '../data/schema/task';
 import { CookieService } from 'ngx-cookie-service';
+import { TaskHistory } from '../data/schema/task-history';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,11 @@ export class TaskService {
   createTask(task: Task){
     const createTaskUrl = `${this.baseUrl}/createTask`;
     return this.httpClient.post(createTaskUrl,task,this.httpOptions);
+  }
+
+  createTaskHistory(taskHis: TaskHistory){
+    const createTaskUrl = `${this.baseUrl}/createTaskHistory`;
+    return this.httpClient.post(createTaskUrl,taskHis,this.httpOptions);
   }
 
   deleteTask(task: Task){

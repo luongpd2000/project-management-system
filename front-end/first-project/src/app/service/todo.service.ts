@@ -49,7 +49,11 @@ export class TodoService {
       return this.httpClient.get<any>(url,this.httpOptions);
     }
 
-
+    createTodo(todo: Todo):Observable<any>{
+      const url = `${this.baseUrl}/createTodo`;
+      return this.httpClient.post<Todo>(url,todo,this.httpOptions);
+    }
+    
   
     updateStatus(todo: Todo):Observable<any>{
       const url = `${this.baseUrl}/updateTodo`;
@@ -59,6 +63,11 @@ export class TodoService {
     insertHistory(todoHis: TodoHistory):Observable<any>{
       const url = `${this.baseUrl}/createTodoHistory`;
       return this.httpClient.post<any>(url,todoHis,this.httpOptions);
+    }
+
+    deleteTodo(idTodo:number):Observable<any>{
+      const url = `${this.baseUrl}/deleteTodo/${idTodo}`;
+      return this.httpClient.delete<any>(url,this.httpOptions);
     }
 
 }

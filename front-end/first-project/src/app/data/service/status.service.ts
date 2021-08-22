@@ -16,6 +16,7 @@ export class StatusService {
   { status: "low", color: "#e52000" },
   { status: "bug", color: "#e52000" },
   { status: "feature", color: "#09922d" }
+
   ]
   getTheColor(status) {
     return this.colors.filter(item => item.status === status)[0].color;

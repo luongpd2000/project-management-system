@@ -73,16 +73,12 @@ public class AdminController {
     }
 
 
-
-
     // api ProjectEmployee management
 
     @PostMapping("/createProjectEmployee")
     public ResponseEntity<?> createProjectEmployee(@Valid @RequestBody ProjectEmployee projectEmployee){
         return ResponseEntity.ok(projectEmployeeService.create(projectEmployee));
     }
-
-
 
     @DeleteMapping("/deleteProjectEmployee/{id}")
     public ResponseEntity<?> deleteProjectEmployee(@PathVariable Integer id){
@@ -99,7 +95,6 @@ public class AdminController {
         System.out.println(projectEmployeeService.findById(id));
         return ResponseEntity.ok(projectEmployeeService.findById(id));
     }
-
 
     //project api
     @GetMapping("/getAllProject")

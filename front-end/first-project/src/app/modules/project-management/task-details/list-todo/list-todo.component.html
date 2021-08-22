@@ -1,10 +1,7 @@
 <main class="content-wrapper">
-
     <div class="container p-30">
-
       <div class="task-list mb-3">Todo List
       </div>
-
       <div class="row">
         <div class="search-input">
           <div class="row">
@@ -23,7 +20,6 @@
         </div>
         <div class="col-md-12 main-datatable">
           <div class="card_body">
-
 
             <div class="overflow-x">
 
@@ -89,11 +85,14 @@
                     <button mat-icon-button (click)="openDetails(detail,element)">
                       <mat-icon>launch</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="openUpdate(update,element)">
+                    <button mat-icon-button (click)="openUpdateTodo(update_todo,element)">
                       <mat-icon>update</mat-icon>
                     </button>
                     <button mat-icon-button (click)="openHistory(history,element)">
                       <mat-icon>more_horiz</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="openDelete(confirmDelete,element.id)">
+                      <mat-icon>delete_outline</mat-icon>
                     </button>
                   </td>
                 </ng-container>
@@ -133,7 +132,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -141,8 +139,96 @@
     </div>
   </main>
 
-
-
+  <ng-template #update_todo let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Todo Details</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="todoForm">
+        <div class="form-group row">
+          <label for="inputName" class="col-sm-3 col-form-label">Todo Name<span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input type="Text" class="form-control" id="inputName" placeholder="Name" formControlName="name">
+            <div *ngIf="name&&name.invalid&&(name?.dirty||name?.touched)">
+              <span class="invalid-text">*Requierd</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
+          <div class="col-md-9" style="display: flex;">
+  
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
+              #d="ngbDatepicker" type="date">
+            <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
+              <span class="invalid-text">*Requierd</span>
+            </div>
+            <span style="padding: 10px">To</span>
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
+              #d2="ngbDatepicker" type="date">
+            <div *ngIf="endDate&&endDate.invalid&&(endDate?.dirty||endDate?.touched)">
+              <span class="invalid-text">*Requierd</span>
+            </div>
+  
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Type<span
+              class="text-danger">*</span></label>
+          <div class="col-sm-7">
+            <select class="custom-select  mr-sm-2" id="" formControlName='todoType'>
+              <option value="feature">Feature</option>
+              <option value="bug">Bug</option>
+              <!-- <option value="other">Other</option> -->
+            </select>
+          </div>
+  
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
+          <div class="col-md-9">
+            <textarea rows="4" class="form-control no-resize" placeholder="Descriptions" formControlName='des'></textarea>
+            <div *ngIf="des&&des.invalid&&(des?.dirty||des?.touched)">
+              <span class="invalid-text">*Requierd</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">
+            Assign for<span class="text-danger">*</span></label>
+          <div class="col-md-7">
+            <select class="custom-select mr-sm-2" id="" formControlName='assignfor'>
+              <option value={{myAccount?.id}}>For Me </option>            
+              <option *ngFor="let member of memberList" value={{member.id}}>{{member.fullName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">
+            Status<span class="text-danger">*</span></label>
+          <div class="col-md-7">
+            <select class="custom-select mr-sm-2" id="" formControlName='status'>
+              <option value="draft" selected>Draft</option>
+              <option value="pending">Pending</option>
+              <option value="working">Working</option>
+              <option value="reviewing">Reviewing</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div *ngIf="status&&status.invalid&&(status?.dirty||status?.touched)">
+            <span class="invalid-text">*Requierd</span>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary" (click)="saveUpdateTodo()">Save changes</button>
+    </div>
+  </ng-template>
 
   <ng-template #new_todo let-modal>
     <div class="modal-header">
@@ -184,7 +270,7 @@
           <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Type<span
               class="text-danger">*</span></label>
           <div class="col-sm-7">
-            <select class="custom-select  mr-sm-2" id="" formControlName='taskType'>
+            <select class="custom-select  mr-sm-2" id="" formControlName='todoType'>
               <option value="feature">Feature</option>
               <option value="bug">Bug</option>
               <option value="other">Other</option>
@@ -192,20 +278,6 @@
           </div>
   
         </div>
-  
-        <div class="form-group row">
-          <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
-              class="text-danger">*</span></label>
-          <div class="col-sm-7">
-            <select class="custom-select  mr-sm-2" id="" formControlName='priority'>
-              <option value="high">High</option>
-              <option value="normal">Normal</option>
-              <option value="low">Low</option>
-            </select>
-          </div>
-  
-        </div>
-  
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
           <div class="col-md-9">
@@ -248,7 +320,6 @@
       <button type="button" class="btn btn-primary" (click)="saveNewTodo()">Save changes</button>
     </div>
   </ng-template>
-
 
   <ng-template #detail let-modal >
           <!-- <div class="modal-dialog modal-lg" role="document"> -->
@@ -349,45 +420,7 @@
                 <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
               </div> -->
             </div>
-      </ng-template>
-
-  <ng-template #update let-modal>
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Status History</h5>
-        <button type="button" class="btn-close" (click)="modal.close('Save click')" aria-label="Close"></button>
-
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <span class="col-4">Status</span>
-          <span class="badge col-1" [ngStyle]="{'background':getStatus.getTheColor(todoDetail?.status)}">{{todoDetail?.status}}</span>
-        </div>
-        <div class="row mt-5">
-          <span class="col-4">Select status update</span>
-          <select (change)="selectStatus($event)" class="col-2">
-            <option>pending</option>
-            <option>working</option>
-            <option>reviewing</option>
-          </select>
-        </div>
-        <form [formGroup]="updateform">
-        <div class="form-group row mt-5">
-          <label class="col-md-2 col-form-label">Description <span class="text-danger">*</span></label>
-          <div class="col-md-10">
-              <textarea rows="3" class="form-control no-resize" placeholder="Descriptions" formControlName="des"></textarea>
-          </div>
-      </div>
-    </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
-        <button type="submit" class="btn btn-primary" (click)="updateStatus()" [disabled]="!select">
-          Update</button>
-      </div>
-    </div>
-  </ng-template>
-
+    </ng-template>
 
   <ng-template #history let-modal>
     <div class="modal-content">
@@ -429,5 +462,23 @@
                 <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
               </div>
 </div>
+  </ng-template>
+
+  <ng-template #confirmDelete let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Confirm Delete</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h5>Are you sure you want to delete this Todo.</h5>
+      <div class=" text-center">
+        <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Yes, Delete!</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
   </ng-template>
 

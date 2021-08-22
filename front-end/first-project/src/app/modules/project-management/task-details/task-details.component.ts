@@ -32,7 +32,6 @@ export class TaskDetailsComponent implements OnInit {
         if(data.role=="leader") this.leaderList.push(data.user);
       });
       console.log('leader',this.leaderList);
-
     });
   }
 

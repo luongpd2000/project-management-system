@@ -57,7 +57,7 @@ public class Task implements Serializable {
     private Date createDate;
 
     @Column(name = "update_date")
-    private Timestamp updateDate;
+    private Date updateDate;
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.EAGER)

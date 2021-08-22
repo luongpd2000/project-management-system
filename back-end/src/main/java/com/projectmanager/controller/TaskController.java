@@ -58,11 +58,25 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findByUser(id));
     }
 
+    @GetMapping("/userTaskListPageable")
+    public ResponseEntity<?> userTaskListPageable(@RequestParam(name = "userId") Integer id,
+                                                  @RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                  @RequestParam(name = "size", defaultValue = "100") Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(taskService.findByUserPageable(id,pageable));
+    }
+
     @GetMapping("/projectTaskList")
     public ResponseEntity<?> projectTaskList(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                              @RequestParam(name = "size", defaultValue = "100") Integer size,
             @RequestParam(name = "projectId") Integer id){
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(taskService.findByProject(id, pageable));
+        return ResponseEntity.ok(taskService.findByProjectPageable(id, pageable));
     }
+
+    @GetMapping("/projectTaskListAll")
+    public ResponseEntity<?> projectTaskListAll(@RequestParam(name = "projectId") Integer id){
+        return ResponseEntity.ok(taskService.findByProject(id));
+    }
+
 }

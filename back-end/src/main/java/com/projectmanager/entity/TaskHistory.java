@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -23,14 +24,22 @@ public class TaskHistory implements Serializable {
     @Column(name = "des")
     private String des;
 
-    @Column(name = "pre_starus", nullable = false)
-    private String preStarus;
+    @Column(name = "pre_status", nullable = false)
+    private String preStatus;
 
     @Column(name = "status", nullable = false)
     private String status;
 
     @Column(name = "update_date", nullable = false)
-    private Timestamp updateDate;
+    private Date updateDate;
+
+
+    @Column(name = "update_user", nullable = false)
+    private Integer updateUser;
+
+    @Column(name = "task_id", nullable = false)
+    private Integer taskId;
+
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.EAGER)
@@ -43,11 +52,4 @@ public class TaskHistory implements Serializable {
 //    @JoinColumn(name = "task_id",referencedColumnName = "id")
 //    @Nullable
 //    private Task task;
-
-    @Column(name = "update_user", nullable = false)
-    private Integer updateUser;
-
-    @Column(name = "task_id", nullable = false)
-    private Integer taskId;
-
 }

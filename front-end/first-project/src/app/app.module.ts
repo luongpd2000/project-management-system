@@ -33,7 +33,7 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgSelectModule, 
+    NgSelectModule,
     FormsModule
   ],
   providers: [CookieService,

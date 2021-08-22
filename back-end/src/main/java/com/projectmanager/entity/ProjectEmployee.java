@@ -44,7 +44,6 @@ public class ProjectEmployee implements Serializable {
     @Column(name = "des")
     private String des;
 
-
     @Column(name = "is_deleted")
     private Boolean delete;
 

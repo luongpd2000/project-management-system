@@ -21,27 +21,27 @@ export class ProjectService {
       })
   };
 
-   getAllProjects(){
-    return this.http.get<any>(this.bareUrl+'project_management/admin/getAllProject', this.httpOptions);
+   getAllProjects():Observable<any>{
+    return this.http.get<any>(this.bareUrl+'project_management/getAllProject', this.httpOptions);
   }
 
-  postProject(p:Project){
+  postProject(p:Project):Observable<any>{
     console.log(p);
     return this.http.post<any>('http://localhost:8080/api/v1/project_management/admin/insertProject',p,this.httpOptions);
   }
 
-  putProject(p:Project){
+  putProject(p:Project):Observable<any>{
     console.log(p);
-    return this.http.put(this.bareUrl+'project_management/admin/updateProject',p,this.httpOptions);
+    return this.http.put<any>(this.bareUrl+'project_management/admin/updateProject',p,this.httpOptions);
 
   }
 
-  getProjectById(id:number){
+  getProjectById(id:number):Observable<any>{
     console.log("find project by id:"+id);
     return this.http.get<any>(this.bareUrl+'project_management/getProjectById/'+id,this.httpOptions);
   }
 
-  deleteProject(id:number){
+  deleteProject(id:number):Observable<any>{
     console.log("delete this project:"+id);
     return this.http.delete(this.bareUrl+'project_management/admin/deleteProject/'+id,this.httpOptions);
   }

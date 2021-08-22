@@ -18,7 +18,13 @@ public interface TaskRepository extends JpaRepository<Task, Integer>, JpaSpecifi
 
     Page<Task> findAllByDeletedIsFalse(Pageable pageable);
 
-    Optional<Task> findByCreateUserAndDeletedIsFalse(Integer id);
+    List<Task> findByCreateUserAndDeletedIsFalse(Integer id);
+
+    Page<Task> findByCreateUserAndDeletedIsFalse(Integer id,Pageable pageable);
+
+    List<Task> findByTaskManagerIdAndDeletedIsFalse(Integer id);
+
+    Page<Task> findByTaskManagerIdAndDeletedIsFalse(Integer id,Pageable pageable);
 
     Page<Task>  getByProjectIdAndDeletedIsFalse(Integer id, Pageable pageable);
 

@@ -81,8 +81,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> findByUser(Integer id){
-        return taskRepository.findByCreateUserAndDeletedIsFalse(id);
+    public List<Task> findByUser(Integer id){
+        return taskRepository.findByTaskManagerIdAndDeletedIsFalse(id);
+    }
+
+    @Override
+    public Page<Task> findByUserPageable(Integer id, Pageable pageable) {
+        return taskRepository.findByTaskManagerIdAndDeletedIsFalse(id,pageable);
     }
 
     @Override

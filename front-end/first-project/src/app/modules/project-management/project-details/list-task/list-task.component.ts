@@ -55,6 +55,7 @@ export class ListTaskComponent implements OnInit {
   deleteTask:Task;
   detailTask: Task= new Task;
   taskHisrotyList: TaskHistory[] = [];
+  isAdmin: boolean = false;
 
   leaderList=[];
   taskList:Task[]=[];
@@ -85,6 +86,11 @@ export class ListTaskComponent implements OnInit {
     this.myUserName = this.jwt.getUsername();
 
     if(this.myUserName!=null){
+      if(this.myUserName==="admin"){
+        this.isAdmin = true;
+      }else{
+        this.isAdmin = false;
+      }
       this.userService.getUser(this.myUserName).subscribe(data=>{
         this.myUserId=data.id;
       })

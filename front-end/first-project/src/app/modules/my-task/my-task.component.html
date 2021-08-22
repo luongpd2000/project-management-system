@@ -1,211 +1,203 @@
-<!-- detail project -->
+<main class="content-wrapper">
+  <div class="container p-30">
+    <div class="row">
+      <div class="col-md-12 main-datatable">
+        <div class="card_body">
+          <div class="task-list">Task List</div>
+            <div class="search-input row d-flex">
+                <div class="col-6">
+                </div>
 
-  <!-- detail project end -->
-
-  <!-- ListTask -->
-  <main class="content-wrapper">
-    <div class="container p-30">
-      <div class="row">
-        <div class="col-md-12 main-datatable">
-          <div class="card_body">
-            <div class="task-list">My Task</div>
-            <div class="row d-flex">
-              <div class="col-sm-4">
-
+                <div class="col-6">
+                  <div class="form-group searchInput">
+                    <label for="email">Search:</label>
+                    <input type="search" class="form-control" id="filterbox" placeholder="Search..."
+                      aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
+                  </div>
+                </div>
               </div>
-              <div class="col-sm-8 add_flex">
-                <div class="form-group searchInput">
-                  <label for="email">Search:</label>
-                  <input type="search" class="form-control" id="filterbox" placeholder=" ">
+
+          <div class="overflow-x">
+
+            <table mat-table [dataSource]="dataSource">
+
+              <ng-container matColumnDef="select">
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="No.">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ID">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Priority">
+                <th mat-header-cell *matHeaderCellDef> Priority </th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.priority}}
+                  <!-- <span class="badge" [ngStyle]="{'background':getStatus.getTheColor(element?.priority)}">{{element?.priority}}</span> -->
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Type">
+                <th mat-header-cell *matHeaderCellDef> Type </th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.taskType}}
+                  <!-- <span class="badge" [ngStyle]="{'background':getStatus.getTheColor(element?.taskType)}">{{element?.taskType}}</span> -->
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Manager">
+                <th mat-header-cell *matHeaderCellDef> Manager </th>
+                <td mat-cell *matCellDef="let element"> {{element.taskManagerId}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="StartDate">
+                <th mat-header-cell *matHeaderCellDef> StartDate </th>
+                <td mat-cell *matCellDef="let element"> {{element.startDate}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Due to">
+                <th mat-header-cell *matHeaderCellDef> Due to </th>
+                <td mat-cell *matCellDef="let element"> {{element.endDate}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.status}}
+                  <!-- <span class="badge" [ngStyle]="{'background':getStatus.getTheColor(element?.status)}">{{element?.status}}</span> -->
+                </td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element, index as i">
+
+                  <!-- <button mat-icon-button (click)="openConfirmDelete(confirmDelete,element)">
+                    <mat-icon>launch</mat-icon>
+                  </button> -->
+                  <!-- <button mat-icon-button (click)="openHistory(history,element)">
+                    <mat-icon>update</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="openConfirmDelete(confirmDelete,element)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button> -->
+                  <button mat-icon-button (click)="openHistory(history,element)">
+                    <mat-icon>update</mat-icon>
+                  </button>
+                  <button mat-icon-button routerLink="/project-manager/task-details/{{element.id}}">
+                    <mat-icon>more_horiz</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+              </tr>
+            </table>
+
+            <div class="footer-pagination mt-3">
+              <div class="row">
+                <div class="col-md-6"></div>
+
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-9" style="padding-left: 30%">
+                      <ngb-pagination [(page)]="thePageNumber"
+                                      [pageSize]="thePageSize"
+                                      [collectionSize]="theTotalElements"
+                                      [maxSize]="5"
+                                      [boundaryLinks]="true"
+                                      (pageChange)="getData()">
+                      </ngb-pagination>
+
+                    </div>
+
+                    <div class="col-md-3 mt-2" style="text-align: right;">
+                      <span class="mr-2">Page Size</span>
+                      <select (change)="updatePageSize($event)">
+                        <option selected="true">5</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="overflow-x">
-
-              <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
-                <thead>
-                  <tr>
-                    <th style="min-width:20px; max-width: 50;">ID</th>
-                    <th style="min-width:150px;">Project</th>
-                    <th style="min-width:150px;">Name</th>
-                    <th style="min-width:150px;">Priority</th>
-                    <th style="min-width:100px;">Manager</th>
-                    <th style="min-width:100px;">Due to</th>
-                    <th style="min-width:150px;">Status</th>
-                    <th style="min-width:150px;">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor ="let task of tasks" >
-                    <td>{{task.id}}</td>
-                    <td>{{task.name}}</td>
-                    <td>Task1</td>
-                    <td><span class="mode mode_high">High</span></td>
-                    <td>Vũ Đức Tuyên</td>
-                    <td>17-Apr-2020</td>
-                    <td><span class="mode mode_working">Working</span></td>
-                    <td>
-
-                        <button type="button" class="btn btn-primary " routerLink='/project-manager/task-details'>
-                          Details
-                        </button>
 
 
 
-                    </td>
-                  </tr>
 
-                </tbody>
-              </table>
-            </div>
+
           </div>
-        </div>
-      </div>
-    </div>
-  </main>
-  <!-- ListTask End -->
-
-  <!-- modal project-->
-  <div class="modal fade" id="new-project" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Details project</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group row">
-            <label for="inputName" class="col-sm-3 col-form-label">Project Name<span class="text-danger">*</span></label>
-            <div class="col-sm-9">
-              <input type="Text" class="form-control" id="inputName" placeholder="Name">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
-            <div class="col-md-9" style="display: flex;">
-              <input type="text" class="form-control datepicker" name="date" value="">
-
-              <span style="padding: 10px;">To</span>
-              <input type="text" class="form-control datepicker" name="date" value="">
-
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
-            <div class="col-md-9">
-              <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">
-              Status<span class="text-danger">*</span></label>
-
-            <div class="col-md-7">
-              <select class="custom-select mr-sm-2" id="">
-                <option selected>Status</option>
-                <option value="1">Draft</option>
-                <option value="2">Pending</option>
-                <option value="3">Working</option>
-                <option value="4">Reviewing</option>
-                <option value="5">Done</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Add</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- modal project END
-     -->
-  <!-- modal new task -->
-  <!-- Modal -->
+</main>
 
-  <div class="modal fade" id="new-task" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Task Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group row">
-            <label for="inputName" class="col-sm-3 col-form-label">Task Name<span class="text-danger">*</span></label>
-            <div class="col-sm-9">
-              <input type="Text" class="form-control" id="inputName" placeholder="Name">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
-            <div class="col-md-9" style="display: flex;">
-              <input type="text" class="form-control datepicker" name="date" value="">
 
-              <span style="padding: 10px;">To</span>
-              <input type="text" class="form-control datepicker" name="date" value="">
+<ng-template #history let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Todo History</h5>
+      <button type="button" class="btn-close" (click)="modal.close('Save click')" aria-label="Close"></button>
 
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
-                class="text-danger">*</span></label>
-            <div class="col-sm-9">
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>High</option>
-                <option>Normal</option>
-                <option>Low</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
-            <div class="col-md-9">
-              <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"></textarea>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">
-              Assign for<span class="text-danger">*</span></label>
-
-            <div class="col-md-9">
-              <select class="selectpicker" data-live-search="true" title="Select User">
-
-                <option data-tokens="">User1</option>
-                <option data-tokens="">User2</option>
-                <option data-tokens="">User3</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label">
-              Status<span class="text-danger">*</span></label>
-            <div class="col-md-7">
-              <select class="custom-select mr-sm-2" id="">
-                <option selected>Status</option>
-                <option value="1">Draft</option>
-                <option value="2">Pending</option>
-                <option value="3">Working</option>
-                <option value="4">Reviewing</option>
-                <option value="5">Done</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
-  <!-- modal new task END -->
-  <!-- ENd Main -->
-  <!-- Footter -->
+    <div class="modal-body">
+  <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th style="min-width:20px; max-width: 50;">ID</th>
+        <th style="min-width:150px;">Description</th>
+        <th style="min-width:100px;">PreStatus</th>
+        <th style="min-width:100px;">Status</th>
+        <th style="min-width:100px;">Update Date</th>
+        <th style="min-width:100px;">Update User</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let history of taskHisrotyList; index as i ">
+        <td>{{i+1}}</td>
+        <td>{{history.id}}</td>
+        <td>{{history.des}}</td>
+        <td>
+          <span class="mode "
+            [ngStyle]="{'background':getStatus.getTheColor(history?.preStatus)}">{{history?.preStatus}}</span></td>
+        <td>
+          <!-- {{history.status}} -->
+          <span class="mode "
+            [ngStyle]="{'background':getStatus.getTheColor(history?.status)}">{{history?.status}}</span>
+          </td>
+      <td>{{history.updateDate}}</td>
+      <td>{{history.updateUser}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+              <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
+            </div>
+</div>
+</ng-template>

@@ -5,6 +5,7 @@ import { ProjectDetailsRoutingModule } from './project-details-routing.module';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
     ProjectDetailsRoutingModule,
     MaterialModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    NgbModule
   ]
 })
 export class ProjectDetailsModule { }

@@ -6,7 +6,7 @@
           <div class="task-list">Task List</div>
             <div class="search-input row d-flex">
                 <div class="col-6">
-                  <button class="btn btn-success" style="margin:10px" (click)="open(new_task)">New Task</button>
+                  <button class="btn btn-success" style="margin:10px" (click)="open(new_task)" *ngIf="isAdmin">New Task</button>
                 </div>
 
                 <div class="col-6">
@@ -18,52 +18,7 @@
                 </div>
               </div>
 
-
           <div class="overflow-x">
-
-            <!-- <table style="width:100%; " id="filtertable" class="table cust-datatable dataTable no-footer">
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th style="min-width:20px; max-width: 50px;">ID</th>
-                  <th style="min-width:150px;">Name</th>
-                  <th style="min-width:100px;">Priority</th>
-                  <th>Type</th>
-                  <th style="min-width:100px;">Manager</th>
-                  <th style="min-width:100px;">StartDate</th>
-                  <th style="min-width:100px;">Due to</th>
-                  <th style="min-width:100px;">Status</th>
-                  <th style="min-width:150px;">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                <tr *ngFor="let task of taskList; index as i ">
-                  <td>{{i+1}}</td>
-                  <td>{{task?.id}}</td>
-                  <td>{{task?.name}}</td>
-                  <td><span class="mode"
-                      [ngStyle]="{'background':getStatus.getTheColor(task?.priority)}">{{task?.priority}}</span></td>
-                  <td>{{task?.taskType}}</td>
-                      <td>{{task?.taskManagerId}}</td>
-                  <td>{{task?.startDate}}</td>
-                  <td>{{task?.endDate}}</td>
-                  <td><span class="mode "
-                      [ngStyle]="{'background':getStatus.getTheColor(task?.status)}">{{task?.status}}</span></td>
-                  <td>
-                    <button mat-icon-button>
-                      <mat-icon>launch</mat-icon>
-                    </button>
-                    <button mat-icon-button color="warn" (click)="openConfirmDelete(confirmDelete,task)">
-                      <mat-icon>delete_outline</mat-icon>
-                    </button>
-                    <button mat-icon-button routerLink="/project-manager/task-details/{{task.id}}">
-                      <mat-icon>more_horiz</mat-icon>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table> -->
 
             <table mat-table [dataSource]="dataSource">
 
@@ -142,7 +97,7 @@
                   <button mat-icon-button (click)="openHistory(history,element)">
                     <mat-icon>update</mat-icon>
                   </button>
-                  <button mat-icon-button color="warn" (click)="openConfirmDelete(confirmDelete,element)">
+                  <button mat-icon-button color="warn" (click)="openConfirmDelete(confirmDelete,element)" *ngIf="isAdmin">
                     <mat-icon>delete_outline</mat-icon>
                   </button>
                   <button mat-icon-button routerLink="/project-manager/task-details/{{element.id}}">

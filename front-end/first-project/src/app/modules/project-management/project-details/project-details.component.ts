@@ -70,7 +70,7 @@ export class ProjectDetailsComponent implements OnInit {
       this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item=>{
         return !item.delete;
       }).length;
-      this.currentProjectId=this.currentProject.id;     
+      this.currentProjectId=this.currentProject.id;
       this.memberList= this.currentProject.projectEmployeeList;
     })
   }

@@ -6,7 +6,7 @@
           <div class="task-list">Task List</div>
             <div class="search-input row d-flex">
                 <div class="col-6">
-                  <button class="btn btn-success" style="margin:10px" (click)="open(new_task)" *ngIf="isAdmin">New Task</button>
+                  <button class="btn btn-success" style="margin:10px" (click)="open(new_task)" *ngIf="isAdmin || isLeaderOfProject">New Task</button>
                 </div>
 
                 <div class="col-6">
@@ -97,7 +97,7 @@
                   <button mat-icon-button (click)="openHistory(history,element)">
                     <mat-icon>update</mat-icon>
                   </button>
-                  <button mat-icon-button color="warn" (click)="openConfirmDelete(confirmDelete,element)" *ngIf="isAdmin">
+                  <button mat-icon-button color="warn" (click)="openConfirmDelete(confirmDelete,element)" *ngIf="isAdmin || isLeaderOfProject">
                     <mat-icon>delete_outline</mat-icon>
                   </button>
                   <button mat-icon-button routerLink="/project-manager/task-details/{{element.id}}">
@@ -263,9 +263,14 @@
     </button>
   </div>
   <div class="modal-body">
-    <h5>Are you sure you want to delete this Project.</h5>
+    <div *ngIf="isAdmin || isLeaderOfTask">
+      <h5>Are you sure you want to delete this Project.</h5>
     <div class=" text-center">
       <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Yes, Delete!</button>
+    </div>
+    </div>
+    <div *ngIf="!isAdmin && !isLeaderOfTask">
+      <span>You are not responsible for this task</span>
     </div>
   </div>
   <div class="modal-footer">

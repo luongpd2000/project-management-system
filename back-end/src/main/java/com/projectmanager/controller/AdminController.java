@@ -37,89 +37,71 @@ public class AdminController {
     ProjectService projectService;
 
     // api user management
-    @GetMapping("/userList")
+    @GetMapping("/userList")//
     public ResponseEntity<?> userList(@RequestParam(name = "page", defaultValue = "0") Integer page,
-                                      @RequestParam(name = "size", defaultValue = "100")Integer size){
+                                      @RequestParam(name = "size", defaultValue = "100") Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(userService.getAll(pageable));
-
     }
 
-    @GetMapping("/findAll")
-    public ResponseEntity<?> findAll(){
-        return ResponseEntity.ok(userService.findAllByDeleteIsFalse());
-    }
+//    @GetMapping("/findAll")
+//    public ResponseEntity<?> findAll(){
+//        return ResponseEntity.ok(userService.findAllByDeleteIsFalse());
+//    }
 
-    @PostMapping("/addUser")
-    public ResponseEntity<?> userList(@RequestBody ArrayList<ProjectEmployee> listRole){
+    @PostMapping("/addUser")//
+    public ResponseEntity<?> userList(@RequestBody ArrayList<ProjectEmployee> listRole) {
         return ResponseEntity.ok(projectEmployeeService.addPartner(listRole));
     }
 
-    @PostMapping("/createUser")
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user){
+    @PostMapping("/createUser")//
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         return ResponseEntity.ok(userService.create(user));
     }
 
 
-    @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Integer id){
+    @DeleteMapping("/deleteUser/{id}")//
+    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
 
         return ResponseEntity.ok(userService.delete(id));
     }
 
-    @GetMapping("/userNotInProject/{id}")
-    public ResponseEntity<?> findUserNotInProject(@PathVariable Integer id){
-        return ResponseEntity.ok(userService.findAllUsersNotInProject(id));
-    }
-
-
     // api ProjectEmployee management
 
-    @PostMapping("/createProjectEmployee")
-    public ResponseEntity<?> createProjectEmployee(@Valid @RequestBody ProjectEmployee projectEmployee){
+    @PostMapping("/createProjectEmployee")//
+    public ResponseEntity<?> createProjectEmployee(@Valid @RequestBody ProjectEmployee projectEmployee) {
         return ResponseEntity.ok(projectEmployeeService.create(projectEmployee));
     }
 
-    @DeleteMapping("/deleteProjectEmployee/{id}")
-    public ResponseEntity<?> deleteProjectEmployee(@PathVariable Integer id){
+    @DeleteMapping("/deleteProjectEmployee/{id}")//
+    public ResponseEntity<?> deleteProjectEmployee(@PathVariable Integer id) {
         return ResponseEntity.ok(projectEmployeeService.delete(id));
     }
 
-    @PutMapping("/updateProjectEmployee")
-    public ResponseEntity<?> updateUser(@RequestBody ProjectEmployee projectEmployee){
+    @PutMapping("/updateProjectEmployee")//
+    public ResponseEntity<?> updateUser(@RequestBody ProjectEmployee projectEmployee) {
         return ResponseEntity.ok(projectEmployeeService.update(projectEmployee));
     }
 
-    @GetMapping("/findProjectEmployeeById/{id}")
-    public ResponseEntity<?> findProjectEmployeeById(@PathVariable Integer id){
-        System.out.println(projectEmployeeService.findById(id));
-        return ResponseEntity.ok(projectEmployeeService.findById(id));
-    }
-
     //project api
-    @GetMapping("/getAllProject")
-    public ResponseEntity<?> getAllProject(@RequestParam(name = "page", defaultValue = "0") Integer page,
-                                                         @RequestParam(name = "size",defaultValue = "100")Integer size){
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(projectService.getAll(pageable));
-    }
-    @PostMapping("/insertProject")
-    public ResponseEntity<?> insertProject(@Valid @RequestBody Project project){
+
+    @PostMapping("/insertProject")//
+    public ResponseEntity<?> insertProject(@Valid @RequestBody Project project) {
         return ResponseEntity.ok(projectService.create(project));
     }
 
-    @PutMapping("updateProject")
-    public ResponseEntity<?> updateProject(@RequestBody Project project){
+    @PutMapping("updateProject")//
+    public ResponseEntity<?> updateProject(@RequestBody Project project) {
         return ResponseEntity.ok(projectService.update(project));
     }
 
-    @DeleteMapping("deleteProject/{id}")
-    public ResponseEntity<?> deleteProject(@PathVariable Integer id){
+    @DeleteMapping("deleteProject/{id}")//
+    public ResponseEntity<?> deleteProject(@PathVariable Integer id) {
         return ResponseEntity.ok(projectService.delete(id));
     }
 
-    @PostMapping("/passwordRecover")
-    public ResponseEntity<?> passwordRecover(@RequestBody PasswordRecover pr){
+    @PostMapping("/passwordRecover")//
+    public ResponseEntity<?> passwordRecover(@RequestBody PasswordRecover pr) {
         return ResponseEntity.ok(new Status(userService.passwordRecover(pr)));
     }
 

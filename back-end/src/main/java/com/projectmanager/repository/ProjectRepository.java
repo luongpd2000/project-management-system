@@ -31,7 +31,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaS
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE project_employee  SET is_delete = 1 WHERE project_id = ?1",nativeQuery = true)
+    @Query(value = "UPDATE project_employee  SET is_deleted = 1 WHERE project_id = ?1",nativeQuery = true)
     Integer deleteProjectInPE(Integer pId);
 
     @Transactional

@@ -249,50 +249,51 @@ export class ListTodoComponent implements OnInit {
     })
 
   }
+  //update status for employee
+  selectStatus(event){
+    this.select = true;
+    this.statusUpdate = event.target.value;
+    console.log(this.statusUpdate)
+    console.log(event.target.value)
+  }
 
-  // selectStatus(event){
-  //   this.select = true;
-  //   this.statusUpdate = event.target.value;
-  //   console.log(this.statusUpdate)
-  //   console.log(event.target.value)
-  // }
+  updateStatus(){
+    console.log(this.statusUpdate)
+    this.updateTodoStatus.preStatus = this.todoDetail.status;
+    this.updateTodoStatus.todoId = this.todoDetail.id;
+    this.updateTodoStatus.updateUser = this.todoDetail.assignedUser;
+    this.updateTodoStatus.des = this.updateform.controls['des'].value;
+    this.updateTodoStatus.status = this.statusUpdate;
+    this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
+    this.todoDetail.status = this.statusUpdate;
+    console.log(this.updateTodoStatus);
 
-  // updateStatus(){
-  //   console.log(this.statusUpdate)
-  //   this.updateTodoStatus.preStatus = this.todoDetail.status;
-  //   this.updateTodoStatus.todoId = this.todoDetail.id;
-  //   this.updateTodoStatus.updateUser = this.todoDetail.assignedUser;
-  //   this.updateTodoStatus.des = this.updateform.controls['des'].value;
-  //   this.updateTodoStatus.status = this.statusUpdate;
-  //   this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
-  //   this.todoDetail.status = this.statusUpdate;
-  //   console.log(this.updateTodoStatus);
+    this.todoService.insertHistory(this.updateTodoStatus).subscribe(
+      data=>{
+        console.log(data);
+        this.modalService.dismissAll();
+      },
+      (error) => {
+        console.log(error.error.message);
+      }
+    )
 
-  //   this.todoService.insertHistory(this.updateTodoStatus).subscribe(
-  //     data=>{
-  //       console.log(data);
-  //       this.modalService.dismissAll();
-  //     },
-  //     (error) => {
-  //       console.log(error.error.message);
-  //     }
-  //   )
-
-  //   this.todoService.updateStatus(this.todoDetail).subscribe(
-  //     data=>{
-  //       console.log(data);
-  //       this.modalService.dismissAll();
-  //       this.getData();
-  //       this.getAllData();
-  //       window.alert("update status success")
-  //     },
-  //     (error) => {
-  //       console.log(error.error.message);
-  //       window.alert("update status false")
-  //     }
-  //   )
-  // }
-  // 
+    this.todoService.updateStatus(this.todoDetail).subscribe(
+      data=>{
+        console.log(data);
+        this.modalService.dismissAll();
+        this.getData();
+        this.getAllData();
+        window.alert("update status success")
+      },
+      (error) => {
+        console.log(error.error.message);
+        window.alert("update status false")
+      }
+    )
+  }
+  //End - update status for employee
+  
   updatePageSize(event) {
     this.thePageSize = event.target.value;
     console.log(this.thePageSize)

@@ -27,7 +27,7 @@ export class ProjectService {
 
   postProject(p:Project){
     console.log(p);
-    return this.http.post('http://localhost:8080/api/v1/project_management/admin/insertProject',p,this.httpOptions);
+    return this.http.post<any>('http://localhost:8080/api/v1/project_management/admin/insertProject',p,this.httpOptions);
   }
 
   putProject(p:Project){
@@ -67,6 +67,6 @@ export class ProjectService {
 
 
 
-  
+
 
 }

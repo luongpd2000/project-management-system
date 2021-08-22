@@ -21,6 +21,10 @@ import { FomatInputService } from '../../../../data/service/fomat-input.service'
 export class ListTodoComponent implements OnInit {
   @Input() curTaskId: number;
   @Input() curProjectId: number;
+  @Input() isLeader: boolean;
+  @Input() isAdmin: boolean;
+  @Input() curUserId: number;
+
   //form nay cho admin, leader
   todoForm!: FormGroup;
   todoList: Todo[] = [];
@@ -36,6 +40,8 @@ export class ListTodoComponent implements OnInit {
   updateform: FormGroup;
   memberList: User[] = [];
   employeeList: User[] = [];
+  isEmployeeOfTodo: boolean = false;
+  // isLeader: boolean;;
 
   myAccount: User;
   curTodo: Todo = new Todo();
@@ -71,20 +77,40 @@ export class ListTodoComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
     this.getAllData();
-    this.userService.getUser(this.jwt.getUsername()).subscribe(data => {
-      this.myAccount = data;
-    })
+
+
+
+    // this.myUserName = this.jwt.getUsername();
+
+    // if(this.myUserName!=null){
+      // if(this.jwt.getRole()==="[ROLE_ADMIN]"){
+      //   this.isAdmin = true;
+      // }else{
+      //   this.isAdmin = false;
+      // }
+
+    // this.userService.getUser(this.jwt.getUsername()).subscribe(data => {
+    //   this.myAccount = data;
+    // })
+    console.log(this.curUserId)
     this.getMembers();
     this.updateform = new FormGroup({
       des: new FormControl(''),
     });
 
   }
+
   getData() {
     this.todoService.getTodoListByTask(this.curTaskId, this.thePageNumber - 1, this.thePageSize).subscribe(
       data => {
         this.todoList = data['content'];
         console.log(this.todoList)
+        console.log(this.todoList[0])
+        // if(this.todoList[0].assignedUser===this.curUserId){
+        //   this.isLeader = true;
+        // }else{
+        //   this.isLeader = false;
+        // }
         this.dataSource = new MatTableDataSource<Todo>(this.todoList);
         this.thePageNumber = data.pageable.pageNumber + 1;
         this.thePageSize = data.pageable.pageSize;
@@ -227,7 +253,12 @@ export class ListTodoComponent implements OnInit {
   }
 
   openUpdateTodo(content: any, element) {
+    this.isEmployeeOfTodo = false;
     this.curTodo = element;
+    if(this.curTodo.assignedUser===this.curUserId){
+      this.isEmployeeOfTodo = true;
+    }
+    console.log(this.isAdmin +" " + this.isEmployeeOfTodo +" "+ this.isLeader + " "+ this.curTaskId)
     this.makeUpdateForm();
     this.openModal(content);
   }
@@ -293,7 +324,7 @@ export class ListTodoComponent implements OnInit {
     )
   }
   //End - update status for employee
-  
+
   updatePageSize(event) {
     this.thePageSize = event.target.value;
     console.log(this.thePageSize)

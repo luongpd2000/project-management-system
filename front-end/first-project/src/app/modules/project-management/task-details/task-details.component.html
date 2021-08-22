@@ -35,7 +35,11 @@
 
             </div>
             <div class="row">
-              <app-list-todo [curTaskId]="curTaskId" [curProjectId]="curProjectId"></app-list-todo>
+              <app-list-todo [curTaskId]="curTaskId" [curProjectId]="curProjectId"
+                              [isLeader]="isLeader"  [isAdmin]="isAdmin"  [curUserId]="curUserId"
+              >
+
+              </app-list-todo>
 
 
                 <!-- <div class="col-md-12 main-datatable">

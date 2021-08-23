@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { User } from 'src/app/data/schema/user';
 import { UserService } from 'src/app/service/user.service';
 import { ProjectService } from '../../../service/project.service';
@@ -37,10 +37,10 @@ export class AddUsersComponent implements OnInit {
 
 
   constructor(private userService: UserService,
-     private projectService: ProjectService,
-      private route: ActivatedRoute,
-      public dialog: MatDialog,
-      private modalService: NgbModal,) {
+    private projectService: ProjectService,
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private modalService: NgbModal,) {
   }
 
   ngOnInit(): void {
@@ -50,23 +50,23 @@ export class AddUsersComponent implements OnInit {
 
   getData() {
     this.userService.getNonPartner(this.projectId).subscribe(data => {
-      console.log('run again');
 
       this.listUsers = data;
 
+      console.log('member: ', data);
+      
       this.listUsers.forEach(data => { data.pRole = 'dev' })
 
-      console.log('list users', this.listUsers);
+      // console.log('list users', this.listUsers);
       this.dataSource = new MatTableDataSource<User>(this.listUsers);
 
-      console.log("datasouce", this.dataSource.data.length);
+      // console.log("datasouce", this.dataSource.data.length);
       this.dataSource.paginator = this.paginator;
     })
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator
-
   }
 
   isAllSelected() {
@@ -112,18 +112,18 @@ export class AddUsersComponent implements OnInit {
 
   openDialog(element: any): void {
     const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.data = element;
-       dialogConfig.width='60%'
-        this.dialog.open(DetailsUserComponent, dialogConfig);
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = element;
+    dialogConfig.width = '60%'
+    this.dialog.open(DetailsUserComponent, dialogConfig);
 
-}
-openCofirm(content: any) {
-  console.log('confirm');
-  this.modalService.open(content, {
-    centered: true,
-  });
-}
+  }
+  openCofirm(content: any) {
+    console.log('confirm');
+    this.modalService.open(content, {
+      centered: true,
+    });
+  }
 
 }

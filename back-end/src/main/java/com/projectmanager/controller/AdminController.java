@@ -44,13 +44,13 @@ public class AdminController {
         return ResponseEntity.ok(userService.getAll(pageable));
     }
 
-//    @GetMapping("/findAll")
-//    public ResponseEntity<?> findAll(){
-//        return ResponseEntity.ok(userService.findAllByDeleteIsFalse());
-//    }
+    @GetMapping("/findAllUser")
+    public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(userService.findAllByDeleteIsFalse());
+    }
 
     @PostMapping("/addUser")//
-    public ResponseEntity<?> userList(@RequestBody ArrayList<ProjectEmployee> listRole) {
+    public ResponseEntity<?> userList(@Valid @RequestBody ArrayList<ProjectEmployee> listRole) {
         return ResponseEntity.ok(projectEmployeeService.addPartner(listRole));
     }
 

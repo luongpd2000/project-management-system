@@ -26,10 +26,12 @@ public class ProjectEmployee implements Serializable {
 //    @Nullable
 //    private Project project_employee;
 
-    @Column(name = "project_id", nullable = false)
+    @NotNull
+    @Column(name = "project_id")
     private Integer projectId;
 
 //    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",referencedColumnName = "id")
 //    @Nullable

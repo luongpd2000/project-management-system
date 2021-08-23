@@ -16,7 +16,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./user-management.component.css'],
 })
 export class UserManagementComponent implements OnInit {
-  userList: User[]=[];
+  userList: User[] = [];
   newUser: User = new User();
   formProject!: FormGroup;
   checkAdd: boolean = true;
@@ -30,11 +30,10 @@ export class UserManagementComponent implements OnInit {
   passwordReset: String;
   isPasswordReset: boolean = false;
 
-
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
-  allUsers: User[]=[];
+  allUsers: User[] = [];
 
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -60,62 +59,80 @@ export class UserManagementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.jwt.getRole() === '[ROLE_USER]') {
+      this.router.navigate(['']);
+    } else {
+      this.getData();
 
-    this.getData();
+      this.userForm = new FormGroup({
+        username: new FormControl('', [
+          Validators.required,
+          // Validators.minLength(8),
+          Validators.maxLength(50),
+          Validators.pattern('^[a-zA-Z0-9]+$'),
+          // ProjectManagementSystemValidators.notOnlyWhitespace
+        ]),
+        fullName: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(50),
+          // ProjectManagementSystemValidators.notOnlyWhitespace
+        ]),
+        email: new FormControl('', [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ]),
+        phone: new FormControl('', [
+          Validators.pattern('^(84|0[3|5|7|8|9])+([0-9]{8})$'),
+        ]),
+        address: new FormControl('', [Validators.maxLength(200)]),
+        password: new FormControl('', [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(
+            '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+          ),
+        ]),
+        confirmPassword: new FormControl('', [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(
+            '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+          ),
+        ]),
+      });
 
-    this.userForm = new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        // Validators.minLength(8),
-        Validators.maxLength(50),
-        Validators.pattern('^[a-zA-Z0-9]+$'),
-        // ProjectManagementSystemValidators.notOnlyWhitespace
-      ]),
-      fullName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(50),
-        // ProjectManagementSystemValidators.notOnlyWhitespace
-      ]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-      ]),
-      phone: new FormControl('', [
-        Validators.pattern('^(84|0[3|5|7|8|9])+([0-9]{8})$'),
-      ]),
-      address: new FormControl('', [Validators.maxLength(200)]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(50),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
-        ),
-      ]),
-      confirmPassword: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(50),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
-        ),
-      ]),
-    });
-
-    this.getAllData();
+      this.getAllData();
+    }
   }
 
   getData() {
-    this.userService.getAllUsersPageable(this.thePageNumber-1,this.thePageSize).subscribe(
+    this.userService
+      .getAllUsersPageable(this.thePageNumber - 1, this.thePageSize)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          this.userList = data['content'];
+          console.log(this.userList);
+          this.statusDelete = false;
+          this.dataSource = new MatTableDataSource<User>(this.userList);
+          //this.userList = data._embedded.users;
+          this.thePageNumber = data.pageable.pageNumber + 1;
+          this.thePageSize = data.pageable.pageSize;
+          this.theTotalElements = data.totalElements;
+        },
+        (error) => {
+          console.log(error.error.message);
+        }
+      );
+  }
+
+  getAllData() {
+    this.userService.getAllUsers().subscribe(
       (data) => {
+        this.allUsers = data;
         console.log(data);
-        this.userList = data['content'];
-        console.log(this.userList);
-        this.statusDelete = false;
-        this.dataSource = new MatTableDataSource<User>(this.userList);
-        //this.userList = data._embedded.users;
-        this.thePageNumber = data.pageable.pageNumber + 1;
-        this.thePageSize = data.pageable.pageSize;
-        this.theTotalElements = data.totalElements;
+        console.log(this.allUsers);
       },
       (error) => {
         console.log(error.error.message);
@@ -123,22 +140,9 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
-  getAllData(){
-    this.userService.getAllUsers().subscribe(
-      data=> {
-        this.allUsers = data['content'];
-        console.log(data);
-        console.log(this.allUsers)
-      },(error) => {
-        console.log(error.error.message);
-      }
-    )
-  }
-
-
   updatePageSize(event) {
     this.thePageSize = event.target.value;
-    console.log(this.thePageSize)
+    console.log(this.thePageSize);
     this.thePageNumber = 1;
     this.getData();
   }
@@ -214,7 +218,6 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
-
   openDelete(content: any, element) {
     this.userDetails = element;
     this.modalService.open(content, {
@@ -275,12 +278,10 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
-
-
   applyFilter(filterValue: string) {
-    if(filterValue.trim()!==""){
+    if (filterValue.trim() !== '') {
       this.dataSource = new MatTableDataSource<User>(this.allUsers);
-    }else{
+    } else {
       this.dataSource = new MatTableDataSource<User>(this.userList);
     }
     this.dataSource.filter = filterValue.trim().toLowerCase();

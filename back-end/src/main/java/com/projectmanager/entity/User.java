@@ -25,13 +25,16 @@ public class User implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "user_name", nullable = false)
+    @NotBlank
+    @Column(name = "user_name")
     private String username;
 
+    @NotNull
     @Column(name = "full_name")
     private String fullName;
 
     //@JsonIgnore
+//    @NotBlank
     @Transient
     private String password;
 
@@ -42,6 +45,7 @@ public class User implements Serializable {
     @Column(name = "is_deleted")
     private Boolean delete;
 
+    @NotBlank
     @Column(name = "email")
     private String email;
 
@@ -57,7 +61,7 @@ public class User implements Serializable {
     @Column(name = "update_date")
     private Date updateDate;
 
-//    @NotNull
+    @NotNull
     @Column(name = "create_user")
     private Integer createUser;
 

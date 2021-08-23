@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -24,20 +25,23 @@ public class TaskHistory implements Serializable {
     @Column(name = "des")
     private String des;
 
-    @Column(name = "pre_status", nullable = false)
+    @NotNull
+    @Column(name = "pre_status")
     private String preStatus;
 
-    @Column(name = "status", nullable = false)
+    @NotNull
+    @Column(name = "status")
     private String status;
 
     @Column(name = "update_date")
     private Date updateDate;
 
-
-    @Column(name = "update_user", nullable = false)
+    @NotNull
+    @Column(name = "update_user")
     private Integer updateUser;
 
-    @Column(name = "task_id", nullable = false)
+    @NotNull
+    @Column(name = "task_id")
     private Integer taskId;
 
 

@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -19,10 +21,11 @@ public class Task implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @NotNull
+    @Column(name = "name")
     private String name;
 
     @Column(name = "start_date")
@@ -31,13 +34,16 @@ public class Task implements Serializable {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "task_type", nullable = false)
+    @NotNull
+    @Column(name = "task_type")
     private String taskType;
 
-    @Column(name = "priority", nullable = false)
+    @NotNull
+    @Column(name = "priority")
     private String priority;
 
-    @Column(name = "status", nullable = false)
+    @NotNull
+    @Column(name = "status")
     private String status;
 
 //    @JsonIgnore
@@ -46,14 +52,15 @@ public class Task implements Serializable {
 //    @Nullable
 //    private Project project_task;
 
-    @Column(name = "project_id", nullable = false)
+    @NotNull
+    @Column(name = "project_id")
     private Integer projectId;
 
     @Column(name = "des")
     private String des;
 
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     private Date createDate;
 
     @Column(name = "update_date")
@@ -65,7 +72,8 @@ public class Task implements Serializable {
 //    @Nullable
 //    private User createUser;
 
-    @Column(name = "create_user", nullable = false)
+    @NotNull
+    @Column(name = "create_user")
     private Integer createUser;
 
 //    @JsonIgnore
@@ -73,10 +81,11 @@ public class Task implements Serializable {
 //    @JoinColumn(name = "task_manager_id",referencedColumnName = "id")
 //    private User taskManager;
 
-    @Column(name = "task_manager_id", nullable = false)
+    @NotNull
+    @Column(name = "task_manager_id")
     private Integer taskManagerId;
 
-    @Column(name = "is_deleted", nullable = false)
+    @Column(name = "is_deleted")
     private Boolean deleted;
 
     @OneToMany(mappedBy = "taskId", fetch = FetchType.LAZY)

@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -19,10 +21,11 @@ public class Project implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @NotBlank
+    @Column(name = "name")
     private String name;
 
     @Column(name = "des")
@@ -52,7 +55,7 @@ public class Project implements Serializable {
 //    @Nullable
 //    private User createUser;
 
-    @Nullable
+    @NotNull
     @Column(name = "create_user")
     private Integer createUser;
 

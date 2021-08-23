@@ -10,109 +10,147 @@ import { JwtServiceService } from 'src/app/service/jwt-service.service';
 @Component({
   selector: 'app-myaccount',
   templateUrl: './myaccount.component.html',
-  styleUrls: ['./myaccount.component.css']
+  styleUrls: ['./myaccount.component.css'],
 })
 export class MyaccountComponent implements OnInit {
-
   user: User = new User();
 
   userId: number = 1;
 
-  username: String = "luongpd";
+  username: String = 'luongpd';
 
-  check: boolean = false;// check change pass
+  check: boolean = false; // check change pass
 
-  checkEditInfor: boolean = false;// check change Infor
+  checkEditInfor: boolean = false; // check change Infor
 
   acountForm!: FormGroup;
 
-  editOldPassword: String ="";
-  editNewPassword: String ="";
-  editConfirmPassword: String ="";
+  editOldPassword: String = '';
+  editNewPassword: String = '';
+  editConfirmPassword: String = '';
 
   checkPass: boolean = true;
   // checkUpdate: boolean = false;
 
-
-
-  constructor(private userService: UserService,
-              private route: ActivatedRoute,
-              private jwt: JwtServiceService) { }
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private jwt: JwtServiceService
+  ) {}
 
   ngOnInit(): void {
     this.handleGetUser();
 
     this.acountForm = new FormGroup({
-      fullName: new FormControl('',[
+      fullName: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(50)
+        Validators.maxLength(50),
         // ProjectManagementSystemValidators.notOnlyWhitespace
       ]),
-      email: new FormControl('',[
+      email: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
       ]),
-      phone: new FormControl('',[
+      phone: new FormControl('', [
         // Validators.maxLength(11),
         // Validators.minLength(11),
-        Validators.pattern('^(84|0[3|5|7|8|9])+([0-9]{8})$')]),
-
-      address: new FormControl('',[
-        Validators.maxLength(200)]),
-
-      currentPassword: new FormControl('',[
-        //Validators.minLength(8),
-        Validators.maxLength(50),
-        //Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+        Validators.pattern('^(84|0[3|5|7|8|9])+([0-9]{8})$'),
       ]),
-      newPassword: new FormControl('',[
-        //Validators.minLength(8),
+
+      address: new FormControl('', [Validators.maxLength(200)]),
+
+      currentPassword: new FormControl('', [
+        Validators.minLength(8),
         Validators.maxLength(50),
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
-      confirmPassword: new FormControl('',[
-        //Validators.minLength(8),
+        Validators.pattern(
+          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+        ),
+      ]),
+      newPassword: new FormControl('', [
+        Validators.minLength(8),
         Validators.maxLength(50),
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')])
+        Validators.pattern(
+          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+        ),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.minLength(8),
+        Validators.maxLength(50),
+        Validators.pattern(
+          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+        ),
+      ]),
     });
   }
 
-
-
-
-
   handleGetUser() {
-    this.userService.getUser(this.jwt.getUsername()).subscribe(   //this.jwt.getUsername()    this.username
-      data => {
+    this.userService.getUser(this.jwt.getUsername()).subscribe(
+      //this.jwt.getUsername()    this.username
+      (data) => {
         this.user = data;
         console.log(data);
       }
-    )
+    );
   }
 
-  checkEdit(){
-    if(this.check == false){
+  checkEdit() {
+    if (this.check == false) {
       this.check = true;
-    }else{
+    } else {
       this.check = false;
-      this.editOldPassword ="";
-      this.editNewPassword ="";
-      this.editConfirmPassword ="";
+      this.editOldPassword = '';
+      this.editNewPassword = '';
+      this.editConfirmPassword = '';
     }
     console.log(this.check);
   }
 
-  checkEditAccount(){
+  checkEditAccount() {
     this.checkEditInfor = true;
   }
 
-
-  update(){
-    console.log("update");
+  update() {
+    console.log('update');
     const userUpdate = this.user;
+
+    if (this.check === false) {
+      this.acountForm.controls['currentPassword'].clearValidators();
+      this.acountForm.controls['currentPassword'].updateValueAndValidity();
+      this.acountForm.controls['newPassword'].clearValidators();
+      this.acountForm.controls['newPassword'].updateValueAndValidity();
+      this.acountForm.controls['confirmPassword'].clearValidators();
+      this.acountForm.controls['confirmPassword'].updateValueAndValidity();
+    } else {
+      this.acountForm.controls['currentPassword'].setValidators([
+        Validators.minLength(8),
+        Validators.maxLength(50),
+        Validators.pattern(
+          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+        ),
+      ]);
+      this.acountForm.controls['currentPassword'].updateValueAndValidity();
+      this.acountForm.controls['newPassword'].setValidators([
+        Validators.minLength(8),
+        Validators.maxLength(50),
+        Validators.pattern(
+          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+        ),
+      ]);
+      this.acountForm.controls['newPassword'].updateValueAndValidity();
+      this.acountForm.controls['confirmPassword'].setValidators([
+        Validators.minLength(8),
+        Validators.maxLength(50),
+        Validators.pattern(
+          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+        ),
+      ]);
+      this.acountForm.controls['confirmPassword'].updateValueAndValidity();
+    }
+
     if (this.acountForm.invalid) {
       this.acountForm.markAllAsTouched();
-      console.log("false " + this.acountForm.status)
+      console.log('false ' + this.acountForm.status);
       return;
     }
 
@@ -123,34 +161,56 @@ export class MyaccountComponent implements OnInit {
     userUpdate.password = this.acountForm.controls['currentPassword'].value;
     userUpdate.newPassword = this.acountForm.controls['newPassword'].value;
 
-    console.log("true " + this.acountForm.status)
+    console.log('true ' + this.acountForm.status);
 
-    console.log( userUpdate.newPassword +" " + this.acountForm.controls['confirmPassword'].value);
+    console.log(
+      userUpdate.newPassword +
+        ' ' +
+        this.acountForm.controls['confirmPassword'].value
+    );
 
-    if(this.check===true && userUpdate.newPassword != this.acountForm.controls['confirmPassword'].value) {
-      console.log("false pass compare" );
+    if (
+      this.check === true &&
+      userUpdate.newPassword !=
+        this.acountForm.controls['confirmPassword'].value
+    ) {
+      console.log('false pass compare');
       this.checkPass = false;
       return;
     }
 
-    console.log(JSON.stringify(userUpdate))
+    console.log(JSON.stringify(userUpdate));
     this.userService.updateUser(userUpdate).subscribe(
-      data => {
+      (data) => {
         console.log(data);
-        // window.alert("Update sucess")
-    }, error =>{
+        window.alert('Update sucess');
+      },
+      (error) => {
         console.log(error);
-        // window.alert("Update failure")
-    });
-
+        window.alert('Update failure');
+      }
+    );
   }
 
-
-  get fullName() { return this.acountForm.get('fullName');}
-  get email() { return this.acountForm.get('email');}
-  get phone() { return this.acountForm.get('phone');}
-  get address() { return this.acountForm.get('address');}
-  get currentPassword() { return this.acountForm.get('currentPassword');}
-  get newPassword() { return this.acountForm.get('newPassword');}
-  get confirmPassword() { return this.acountForm.get('confirmPassword');}
+  get fullName() {
+    return this.acountForm.get('fullName');
+  }
+  get email() {
+    return this.acountForm.get('email');
+  }
+  get phone() {
+    return this.acountForm.get('phone');
+  }
+  get address() {
+    return this.acountForm.get('address');
+  }
+  get currentPassword() {
+    return this.acountForm.get('currentPassword');
+  }
+  get newPassword() {
+    return this.acountForm.get('newPassword');
+  }
+  get confirmPassword() {
+    return this.acountForm.get('confirmPassword');
+  }
 }

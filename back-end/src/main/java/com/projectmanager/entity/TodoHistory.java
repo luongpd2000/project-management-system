@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -20,13 +21,16 @@ public class TodoHistory implements Serializable {
     @Column(name = "id")
     private Integer id;
 
+    @NotNull
     @Column(name = "des")
     private String des;
 
-    @Column(name = "status", nullable = false)
+    @NotNull
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "pre_status", nullable = false)
+    @NotNull
+    @Column(name = "pre_status")
     private String preStatus;
 
     @Column(name = "update_date")
@@ -43,10 +47,11 @@ public class TodoHistory implements Serializable {
 //    @JoinColumn(name = "todo_id",referencedColumnName = "id")
 //    @Nullable
 //    private Todo todo;
-
-    @Column(name = "update_user", nullable = false)
+    @NotNull
+    @Column(name = "update_user")
     private Integer updateUser;
 
-    @Column(name = "todo_id", nullable = false)
+    @NotNull
+    @Column(name = "todo_id")
     private Integer todoId;
 }

@@ -48,9 +48,9 @@ export class LoginComponent implements OnInit {
         // ProjectManagementSystemValidators.notOnlyWhitespace
       ]),
       password: new FormControl('',[
-        //Validators.minLength(8),
+        Validators.minLength(8),
         Validators.maxLength(50),
-        //Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
       ])
     })
   }

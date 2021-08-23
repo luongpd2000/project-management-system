@@ -18,6 +18,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     NavComponent,
     FooterComponent,
     AuthLayoutComponent
+
   ],
   imports: [
     BrowserModule,

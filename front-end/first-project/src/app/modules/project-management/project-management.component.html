@@ -1,16 +1,35 @@
 <div class="section-body">
     <div class="container-fluid p-30">
         <p style="    margin-bottom: 30px;" class="page-name">List Project</p>
-        <div class="row">
+        <div class="search-input row d-flex">
+            <div class="col-6">
+                <button type="button" class="btn btn-success" *ngIf="isAdmin" (click)="open(content)">Add
+                    Project</button>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group searchInput">
+                <label for="">Search:</label>
+                <input type="search" class="form-control" id="filterbox" placeholder="Search..."
+                  aria-describedby="basic-addon2"  autocomplete="off" [(ngModel)]="filter" >
+              </div>
+            </div>
+          </div>
+        <!-- <div class="row">
             <div class="col-md-12">
+                
                 <div class="child-header" style=" display: flex;">
                     <div class="group-button" style="    margin-right: auto;">
                         <button type="button" class="btn btn-success" *ngIf="isAdmin" (click)="open(content)">Add
                             Project</button>
                     </div>
-                    <div class="header-action col-md-4">
+                    <div class=" col-md-6">
+
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search here">
+                            <div class="form-group">
+                                <input type="text" class="form-control mb-4" placeholder="Search" [(ngModel)]="filter" id="listSearch">
+                              </div>
+                            
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="button">
                                     <i class="fa fa-search"></i>
@@ -21,7 +40,7 @@
                 </div>
 
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <!-- end button with search -->
@@ -31,7 +50,7 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="Project-List" role="tabpanel">
                 <div class="row">
-                    <div class="col-lg-6 col-md-12" style="margin-top: 30px;" *ngFor="let p of projectList">
+                    <div class="col-lg-6 col-md-12" style="margin-top: 30px;" *ngFor="let p of projectList | searchFilter: filter">
                         <a class="link-detail" routerLink='/project-manager/p-details/{{p.id}}'>
                             <div class="card">
                                 <div class="card-header">

@@ -34,6 +34,7 @@ export class ProjectManagementComponent implements OnInit {
   project: Project = new Project();
   arrPE: idRole[] = new Array();
   admin: User = new User();
+  public filter: any = '';
 
   constructor(
     private projectService: ProjectService,

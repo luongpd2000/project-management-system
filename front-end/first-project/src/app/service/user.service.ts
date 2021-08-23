@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../data/schema/user';
 import { CookieService } from 'ngx-cookie-service';
 import { PasswordRecover } from '../data/schema/password-recover';
+import { ProjectEmployee } from '../data/schema/project-employee';
 
 @Injectable({
   providedIn: 'root'
@@ -102,6 +103,11 @@ export class UserService {
     const createUserUrl = `${this.baseUrl}/admin/passwordRecover`;
 
     return this.httpClient.post<any>(createUserUrl,pr,this.httpOptions);
+  }
+
+  updateProjectEmployee(pe:ProjectEmployee):Observable<any>{
+    const updateUrl = `${this.baseUrl}/admin/updateProjectEmployee`;
+    return this.httpClient.put<any>(updateUrl, pe, this.httpOptions);
   }
 
 

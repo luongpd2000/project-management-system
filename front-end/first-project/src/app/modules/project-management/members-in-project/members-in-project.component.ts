@@ -70,8 +70,10 @@ export class MembersInProjectComponent implements OnInit {
 
     this.userService.getUsersInProject(this.projectId).subscribe(
       data=>{
-        console.log(data);
-        this.listUsers = data['content']
+        // console.log(data);
+        this.listUsers = data['content'];
+        console.log('member: ', this.listUsers);
+        
         this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
         this.dataSource.paginator = this.paginator;
       }
@@ -149,5 +151,22 @@ openCofirm(content: any,element) {
   this.modalService.open(content, {
     centered: true,
   });
+}
+
+openCofirmUpdate(content, element){
+  this.pe = element;
+  console.log('confirm update', element);
+  this.modalService.open(content, {
+    centered: true,
+  });
+  this.getData();
+}
+
+updateRole(){
+  this.userService.updateProjectEmployee(this.pe).subscribe(data=>{
+    console.log('update', data); 
+    this.getData();
+    this.modalService.dismissAll();
+  })
 }
 }

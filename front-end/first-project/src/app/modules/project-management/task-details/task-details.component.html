@@ -2,10 +2,12 @@
     <div class="container p-30">
         <div class="section-body">
             <div class="container " style="padding-bottom: 30px">
-                <h1 class="task-list">{{currentTask.name}}</h1>
+                <!-- <h1 class="task-list">{{currentTask.name}}</h1> -->
+                <p class="page-name">{{currentTask.name}}</p>
                 <div class="group-btn" style="margin-top: 30px;">
                     <button type="button" class="btn btn-primary " (click)="open(edit_task)" *ngIf="isAdmin || isLeader">Edit</button>
-                </div>
+                    <button class="btn btn-secondary" routerLink="/project-manager/p-details/{{curProjectId}}" >Back </button>
+                  </div>
                 <div class="col-6">
                     <div class="row">
                         <div class="col-6 py-1"><strong>Created:</strong></div>

@@ -19,4 +19,5 @@ public interface ProjectEmployeeRepository extends JpaRepository<ProjectEmployee
 
     // lấy list project của 1 user
     Page<ProjectEmployee> findByUserIdAndDeleteIsFalse(Integer userId,Pageable pageable);
+
 }

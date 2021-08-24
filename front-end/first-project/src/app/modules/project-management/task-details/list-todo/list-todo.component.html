@@ -229,7 +229,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
       <button type="button" class="btn btn-primary" (click)="saveUpdateTodo()">Save changes</button>
     </div>
   </ng-template>
@@ -318,7 +318,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
       <button type="button" class="btn btn-primary" (click)="saveNewTodo()">Save changes</button>
     </div>
   </ng-template>

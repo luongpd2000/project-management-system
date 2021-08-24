@@ -100,4 +100,6 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.getByProjectIdAndDeletedIsFalse(id);
     }
 
+
+
 }

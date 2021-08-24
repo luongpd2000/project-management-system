@@ -19,4 +19,6 @@ public interface TaskService extends GeneralService<Task>{
 
     List<Task> findByProject(Integer id);
 
+
+
 }

@@ -73,8 +73,12 @@ export class ProjectDetailsComponent implements OnInit {
           return !item.delete;
         }).length;
       this.currentProjectId = this.currentProject.id;
-      this.memberList = this.currentProject.projectEmployeeList;
-    });
+
+      this.currentProject.projectEmployeeList.forEach(pe=>{
+        if(pe.delete!=true) this.memberList.push(pe);
+      });
+    })
+
   }
   // open project Form
   openProjectForm(content: any) {

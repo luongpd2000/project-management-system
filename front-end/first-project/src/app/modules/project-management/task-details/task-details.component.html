@@ -265,24 +265,13 @@
             <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
               <span class="invalid-text">*Required</span>
             </div>
+            <span style="padding: 10px">To</span>
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
+              #d2="ngbDatepicker" type="date">
 
-            <div class="form-group row">
-              <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
-              <div class="col-md-9" style="display: flex;">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
-                  #d="ngbDatepicker" type="date">
-                <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
-                  <span class="invalid-text">*Required</span>
-                </div>
-                <span style="padding: 10px">To</span>
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
-                  #d2="ngbDatepicker" type="date">
-
-              </div>
-              <div *ngIf="!dateCheck">
-                <span class="invalid-text">End date must be greater start date</span>
-              </div>
-            </div>
+          </div>
+          <div *ngIf="!dateCheck">
+            <span class="invalid-text">End date must be greater start date</span>
           </div>
         </div>
         <div class="form-group row">

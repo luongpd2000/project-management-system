@@ -57,7 +57,4 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
     Integer moveToAdminTaskByUidAndPid(Integer uId, Integer pId);
 
 
-
-
-
 }

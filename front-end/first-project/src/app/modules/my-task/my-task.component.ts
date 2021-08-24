@@ -24,6 +24,7 @@ export class MyTaskComponent implements OnInit {
   detailTask: Task= new Task;
   user: User = new User();
   userId: number;
+  deleteTask: Task = new Task();
 
   thePageNumber: number = 1;
   thePageSize: number = 5;
@@ -111,6 +112,23 @@ export class MyTaskComponent implements OnInit {
     });
   }
 
+  openConfirmDelete(content: any, task: Task) {
+    this.deleteTask = task;
+    this.modalService.open(content, {
+      centered: true,
+    });
+  }
+
+  onDelete() {
+    console.log(this.deleteTask);
+    this.taskService.deleteTask(this.deleteTask).subscribe((data) => {
+      console.log(data);
+      this.getData();
+    });
+    this.modalService.dismissAll();
+  }
+
+  
   updatePageSize(event) {
     this.thePageSize = event.target.value;
     console.log(this.thePageSize)

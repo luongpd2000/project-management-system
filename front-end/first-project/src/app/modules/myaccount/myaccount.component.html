@@ -42,15 +42,15 @@
                   <div *ngIf="fullName?.invalid && (fullName?.dirty || fullName?.touched)" class="mt-1">
 
 
-                    <div *ngIf="(fullName?.errors?.required) ">
+                    <div *ngIf="(fullName?.errors?.required) " class="invalid-text">
                         Full Name is required
                     </div>
 
-                    <div *ngIf="fullName?.errors?.minlength">
+                    <div *ngIf="fullName?.errors?.minlength" class="invalid-text">
                       Full Name must be at least 8 characters long
                     </div>
 
-                    <div *ngIf="fullName?.errors?.maxlength">
+                    <div *ngIf="fullName?.errors?.maxlength" class="invalid-text">
                       Full Name must be at small 50 characters long
                     </div>
                 </div>
@@ -64,11 +64,11 @@
                   <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="mt-1">
 
 
-                    <div *ngIf="email?.errors?.required ">
+                    <div *ngIf="email?.errors?.required " class="invalid-text">
                       Email is required
                     </div>
 
-                  <div *ngIf="email?.errors?.pattern">
+                  <div *ngIf="email?.errors?.pattern" class="invalid-text">
                       Email must be a valid email address format
                   </div>
                 </div>
@@ -82,7 +82,7 @@
 
                   <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)" class="mt-1">
 
-                  <div *ngIf="phone?.errors?.pattern">
+                  <div *ngIf="phone?.errors?.pattern" class="invalid-text">
                     Phone must be a valid phone format
                   </div>
                 </div>
@@ -94,7 +94,7 @@
                   <input type="text" class="form-control" id="address" [(ngModel)]="user.address" formControlName="address">
 
                   <div *ngIf="address?.invalid && (address?.dirty || address?.touched)" class="mt-1">
-                    <div *ngIf="address?.errors?.maxlength">
+                    <div *ngIf="address?.errors?.maxlength" class="invalid-text">
                       Address must be at small 200 characters long
                     </div>
                 </div>
@@ -119,19 +119,19 @@
                     formControlName="currentPassword" [(ngModel)]="editOldPassword" >
                     <div *ngIf="currentPassword?.invalid && (currentPassword?.dirty || currentPassword?.touched)" class="mt-1">
 
-                      <div *ngIf="currentPassword?.errors?.required ">
+                      <div *ngIf="currentPassword?.errors?.required " class="invalid-text">
                         currentPassword is required
                       </div>
 
-                      <div *ngIf="currentPassword?.errors?.minlength">
+                      <div *ngIf="currentPassword?.errors?.minlength" class="invalid-text">
                         Current Password must be at least 8 characters long
                       </div>
 
-                      <div *ngIf="currentPassword?.errors?.maxlength">
+                      <div *ngIf="currentPassword?.errors?.maxlength" class="invalid-text">
                         Current Password must be at small 50 characters long
                       </div>
 
-                      <div *ngIf="currentPassword?.errors?.pattern">
+                      <div *ngIf="currentPassword?.errors?.pattern" class="invalid-text">
                         Current Password must be a valid password format
                         <br>
                         least one lowercase letter, one uppercase letter, one digit, one special character,
@@ -149,19 +149,19 @@
                     formControlName="newPassword" [(ngModel)]="editNewPassword">
                     <div *ngIf="newPassword?.invalid && (newPassword?.dirty || newPassword?.touched)" class="mt-1">
 
-                      <div *ngIf="newPassword?.errors?.required ">
+                      <div *ngIf="newPassword?.errors?.required " class="invalid-text">
                         newPassword is required
                       </div>
 
-                      <div *ngIf="newPassword?.errors?.minlength">
+                      <div *ngIf="newPassword?.errors?.minlength" class="invalid-text">
                         New Password must be at least 8 characters long
                       </div>
 
-                      <div *ngIf="newPassword?.errors?.maxlength">
+                      <div *ngIf="newPassword?.errors?.maxlength" class="invalid-text">
                         New Password must be at small 50 characters long
                       </div>
 
-                      <div *ngIf="newPassword?.errors?.pattern">
+                      <div *ngIf="newPassword?.errors?.pattern" class="invalid-text">
                         New Password must be a valid password format
                         <br>
                         least one lowercase letter, one uppercase letter, one digit, one special character,
@@ -179,19 +179,19 @@
                     formControlName="confirmPassword" [(ngModel)]="editConfirmPassword">
                     <div *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)" class="mt-1">
 
-                      <div *ngIf="confirmPassword?.errors?.required ">
+                      <div *ngIf="confirmPassword?.errors?.required " class="invalid-text">
                         confirmPassword is required
                       </div>
 
-                      <div *ngIf="confirmPassword?.errors?.minlength">
+                      <div *ngIf="confirmPassword?.errors?.minlength" class="invalid-text">
                         Confirm Password must be at least 8 characters long
                       </div>
 
-                      <div *ngIf="confirmPassword?.errors?.maxlength">
+                      <div *ngIf="confirmPassword?.errors?.maxlength" class="invalid-text">
                         Confirm Password must be at small 50 characters long
                       </div>
 
-                      <div *ngIf="confirmPassword?.errors?.pattern">
+                      <div *ngIf="confirmPassword?.errors?.pattern" class="invalid-text">
                         Confirm Password must be a valid password format
                         <br>
                         least one lowercase letter, one uppercase letter, one digit, one special character,
@@ -200,7 +200,7 @@
 
                   </div>
 
-                  <div *ngIf="!checkPass" class="mt-1">
+                  <div *ngIf="!checkPass" class="mt-1" class="invalid-text">
                     Confirm Password and New Password must be same
                 </div>
                   </div>

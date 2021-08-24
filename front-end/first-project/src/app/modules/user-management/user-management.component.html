@@ -13,11 +13,18 @@
               (click)="openAddUser(newuser)">New User</button>
           </div>
 
-          <div class="col-6">
-            <div class="form-group searchInput">
+          <div class="col-6 row">
+            <div class="form-group searchInput col-6">
               <label for="email">Search:</label>
               <input type="search" class="form-control" id="filterbox" placeholder="Search..."
                 aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
+            </div>
+            <div class="col-3" style="margin-left: auto;">
+              <select class="custom-select mt-3" (change)="selectStatus($event)">
+                <option value="all" selected>All</option>
+                <option value="active">Active</option>
+                <option value="delete">Delete</option>
+              </select>
             </div>
           </div>
         </div>
@@ -73,24 +80,32 @@
                 <td mat-cell *matCellDef="let element"> {{element.address}} </td>
               </ng-container>
 
+              <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let element">
+                  <!-- {{element.delete}} -->
+
+                  <span class="badge" *ngIf="!element.delete"
+                    [ngStyle]="{'background':getStatus.getTheColor('active')}">active</span>
+                  <span class="badge" *ngIf="element.delete"
+                    [ngStyle]="{'background':getStatus.getTheColor('delete')}">delete</span>
+                </td>
+              </ng-container>
 
               <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef> Action </th>
                 <td mat-cell *matCellDef="let element, index as i">
-                  <!-- <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#new-user"
-                    (click)="openDetails(detail,element)">Details</button>
-                  <button type="button" class="btn btn-danger mt-2" data-toggle="modal"
-                    (click)="openDelete(delete,element)">Delete</button> -->
-
-                  <button mat-icon-button (click)="openDetails(detail,element)">
-                    <mat-icon>launch</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" (click)="openDelete(delete,element)">
-                    <mat-icon>delete_outline</mat-icon>
-                  </button>
-                  <br>
-                  <button type="button" class="btn btn-warning mt-2 mb-3"
-                    (click)="openpasswordRecover(passwordrecover,element)">Password Recover</button>
+                  <div *ngIf="!element.delete" >
+                    <button mat-icon-button (click)="openDetails(detail,element)">
+                      <mat-icon>launch</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="openDelete(delete,element)">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <br>
+                    <button type="button" class="btn btn-warning mt-2 mb-3"
+                      (click)="openpasswordRecover(passwordrecover,element)">Password Recover</button>
+                  </div>
                 </td>
               </ng-container>
 
@@ -114,12 +129,9 @@
                 <div class="col-md-6">
                   <div class="row">
                     <div class="col-md-9" style="padding-left: 30%">
-                      <ngb-pagination [(page)]="thePageNumber"
-                                      [pageSize]="thePageSize"
-                                      [collectionSize]="theTotalElements"
-                                      [maxSize]="5"
-                                      [boundaryLinks]="true"
-                                      (pageChange)="getData()">
+                      <ngb-pagination [(page)]="thePageNumber" [pageSize]="thePageSize"
+                        [collectionSize]="theTotalElements" [maxSize]="5" [boundaryLinks]="true"
+                        (pageChange)="changePage()">
                       </ngb-pagination>
 
                       <!-- <span>{{thePageNumber}}</span>
@@ -172,15 +184,15 @@
             <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="mt-1">
 
 
-              <div *ngIf="(username?.errors?.required) ">
+              <div *ngIf="(username?.errors?.required) " class="invalid-text">
                 Username is required
               </div>
 
-              <div *ngIf="username?.errors?.pattern">
+              <div *ngIf="username?.errors?.pattern" class="invalid-text">
                 Username must be a valid username format
               </div>
 
-              <div *ngIf="username?.errors?.maxlength">
+              <div *ngIf="username?.errors?.maxlength" class="invalid-text">
                 Username must be at small 50 characters long
               </div>
             </div>
@@ -195,15 +207,15 @@
             <div *ngIf="fullName?.invalid && (fullName?.dirty || fullName?.touched)" class="mt-1">
 
 
-              <div *ngIf="(fullName?.errors?.required) ">
+              <div *ngIf="(fullName?.errors?.required) " class="invalid-text">
                 Full Name is required
               </div>
 
-              <div *ngIf="fullName?.errors?.minlength">
+              <div *ngIf="fullName?.errors?.minlength" class="invalid-text">
                 Full Name must be at least 8 characters long
               </div>
 
-              <div *ngIf="fullName?.errors?.maxlength">
+              <div *ngIf="fullName?.errors?.maxlength" class="invalid-text">
                 Full Name must be at small 50 characters long
               </div>
             </div>
@@ -216,7 +228,7 @@
             <input type="text" class="form-control" id="" placeholder="Phone Number" formControlName="phone">
             <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)" class="mt-1">
 
-              <div *ngIf="phone?.errors?.pattern">
+              <div *ngIf="phone?.errors?.pattern" class="invalid-text">
                 Phone must be a valid phone format
               </div>
             </div>
@@ -228,10 +240,10 @@
           <div class="col-sm-9">
             <input type="email" class="form-control" id="" placeholder="Email" formControlName="email">
             <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="mt-1">
-              <div *ngIf="email?.errors?.required ">
+              <div *ngIf="email?.errors?.required " class="invalid-text">
                 Email is required
               </div>
-              <div *ngIf="email?.errors?.pattern">
+              <div *ngIf="email?.errors?.pattern" class="invalid-text">
                 Email must be a valid email address format
               </div>
             </div>
@@ -243,7 +255,7 @@
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="Address" formControlName="address">
             <div *ngIf="address?.invalid && (address?.dirty || address?.touched)" class="mt-1">
-              <div *ngIf="address?.errors?.maxlength">
+              <div *ngIf="address?.errors?.maxlength" class="invalid-text">
                 Address must be at small 200 characters long
               </div>
             </div>
@@ -256,14 +268,14 @@
           <div class="col-sm-9">
             <input type="password" class="form-control" id="" placeholder="Password" formControlName="password">
             <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="mt-1">
-              <div *ngIf="(password?.errors?.required) ">
+              <div *ngIf="(password?.errors?.required) " class="invalid-text">
                 Password is required
               </div>
-              <div *ngIf="password?.errors?.maxlength">
+              <div *ngIf="password?.errors?.maxlength" class="invalid-text">
                 Password must be at small 50 characters long
               </div>
 
-              <div *ngIf="password?.errors?.pattern">
+              <div *ngIf="password?.errors?.pattern" class="invalid-text">
                 Password must be a valid password format
               </div>
             </div>
@@ -277,18 +289,18 @@
             <input type="password" class="form-control" id="" placeholder="Confirm Password"
               formControlName="confirmPassword">
             <div *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)" class="mt-1">
-              <div *ngIf="(confirmPassword?.errors?.required) ">
+              <div *ngIf="(confirmPassword?.errors?.required) " class="invalid-text">
                 Confirm Password is required
               </div>
-              <div *ngIf="confirmPassword?.errors?.maxlength">
+              <div *ngIf="confirmPassword?.errors?.maxlength" class="invalid-text">
                 Confirm Password must be at small 50 characters long
               </div>
 
-              <div *ngIf="confirmPassword?.errors?.pattern">
+              <div *ngIf="confirmPassword?.errors?.pattern" class="invalid-text">
                 Confirm Password must be a valid password format
               </div>
             </div>
-            <div *ngIf="!checkPass" class="mt-1">
+            <div *ngIf="!checkPass" class="invalid-text mt-1">
               Confirm Password and New Password must be same
             </div>
           </div>
@@ -335,7 +347,7 @@
           <label for="inputName" class="col-sm-3 col-form-label">Full Name<span class="text-danger">*</span></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="Full Name" [value]="userDetails.fullName"
-            readonly>
+              readonly>
 
           </div>
         </div>
@@ -344,7 +356,7 @@
           <label for="inputName" class="col-sm-3 col-form-label">Phone Number<span class="text-danger">*</span></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="Phone Number" [value]="userDetails.phone"
-            readonly>
+              readonly>
 
           </div>
         </div>
@@ -368,7 +380,7 @@
           <label for="inputName" class="col-sm-3 col-form-label">Created Date<span class="text-danger">*</span></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="createDate" [value]="userDetails.createDate"
-            readonly>
+              readonly>
           </div>
         </div>
 
@@ -376,7 +388,7 @@
           <label for="inputName" class="col-sm-3 col-form-label">Update Date<span class="text-danger">*</span></label>
           <div class="col-sm-9">
             <input type="text" class="form-control" id="" placeholder="updateDate" [value]="userDetails.updateDate"
-            readonly>
+              readonly>
           </div>
         </div>
       </div>
@@ -423,10 +435,10 @@
           <div class="col-sm-9">
             <input type="email" class="form-control" id="" placeholder="Email" formControlName="email">
             <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="mt-1">
-              <div *ngIf="email?.errors?.required ">
+              <div *ngIf="email?.errors?.required " class="invalid-text">
                 Email is required
               </div>
-              <div *ngIf="email?.errors?.pattern">
+              <div *ngIf="email?.errors?.pattern" class="invalid-text">
                 Email must be a valid email address format
               </div>
             </div>

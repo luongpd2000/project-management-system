@@ -49,6 +49,26 @@ export class UserService {
 
   }
 
+  getAllUsersActivePageable(thePage: number,
+    thePageSize: number): Observable<any>{
+
+    const userUrl = `${this.baseUrl}/admin/userActiveList?page=${thePage}&size=${thePageSize}`;
+
+    return this.httpClient.get<any>(userUrl,this.httpOptions);
+
+  }
+
+  getAllUsersDeletePageable(thePage: number,
+    thePageSize: number): Observable<any>{
+
+    const userUrl = `${this.baseUrl}/admin/userDeletedList?page=${thePage}&size=${thePageSize}`;
+
+    return this.httpClient.get<any>(userUrl,this.httpOptions);
+
+  }
+
+
+
   getAllUsers(){
 
     const userUrl = `${this.baseUrl}/admin/findAllUser`;

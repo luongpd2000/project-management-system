@@ -102,6 +102,9 @@
                   <button mat-icon-button (click)="openHistory(history,element)">
                     <mat-icon>update</mat-icon>
                   </button>
+                  <button mat-icon-button color="warn" (click)="openConfirmDelete(confirmDelete,element)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
                   <button mat-icon-button routerLink="/project-manager/task-details/{{element.id}}">
                     <mat-icon>more_horiz</mat-icon>
                   </button>
@@ -200,4 +203,23 @@
               <button type="button" class="btn btn-secondary"(click)="modal.close('Save click')">Close</button>
             </div>
 </div>
+</ng-template>
+
+<ng-template #confirmDelete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Delete</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <h5>Are you sure you want to delete this Project.</h5>
+    <div class=" text-center">
+      <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Yes, Delete!</button>
+    </div>
+      <span>You are not responsible for this task</span>
+    </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+  </div>
 </ng-template>

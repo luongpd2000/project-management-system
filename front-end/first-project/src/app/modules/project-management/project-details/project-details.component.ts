@@ -10,14 +10,11 @@ import { StatusService } from 'src/app/data/service/status.service';
 
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
 
-
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.css']
+  styleUrls: ['./project-details.component.css'],
 })
-
-
 export class ProjectDetailsComponent implements OnInit {
   private id: number = 0;
   formProject!: FormGroup;
@@ -25,6 +22,9 @@ export class ProjectDetailsComponent implements OnInit {
   taskList = [];
   taskNum = 0;
   todoNum = 0;
+  d1: string;
+  d2: string;
+  dateCheck = true;
 
   currentProjectId: number;
   memberList: any[] = [];
@@ -32,21 +32,20 @@ export class ProjectDetailsComponent implements OnInit {
   isAdmin: boolean = true;
   role!: String;
 
-
   alert: boolean = false;
   closeAlert() {
     this.alert = false;
   }
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private projectService: ProjectService,
     private modalService: NgbModal,
     public fomat: FomatInputService,
     private router: Router,
     public getStatus: StatusService,
-    private jwtService: JwtServiceService,
-
-  ) { }
+    private jwtService: JwtServiceService
+  ) {}
 
   ngOnInit(): void {
     this.role = this.jwtService.getRole();
@@ -58,64 +57,94 @@ export class ProjectDetailsComponent implements OnInit {
 
   loadDetails() {
     this.id = this.route.snapshot.params['id'];
-    console.log("You clicked: " + this.id);
-    this.projectService.getProjectById(this.id).subscribe(data => {
+    console.log('You clicked: ' + this.id);
+    this.projectService.getProjectById(this.id).subscribe((data) => {
       this.currentProject = data;
       this.taskList = this.currentProject.taskList;
       console.log('todo');
       this.todoNum = 0;
-      this.taskList.forEach(task => {
+      this.taskList.forEach((task) => {
         this.todoNum += (<Array<any>>task['todoList']).length;
         if (task.deleted == false) this.taskNum++;
-      })
+      });
       console.log(this.todoNum);
-      this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item => {
-        return !item.delete;
-      }).length;
+      this.currentProject.partnerNum =
+        this.currentProject.projectEmployeeList.filter((item) => {
+          return !item.delete;
+        }).length;
       this.currentProjectId = this.currentProject.id;
       this.memberList = this.currentProject.projectEmployeeList;
-    })
+    });
   }
   // open project Form
   openProjectForm(content: any) {
     this.makeEditProjectForm();
     this.modalService.open(content, {
       centered: true,
-      size: 'lg'
+      size: 'lg',
     });
   }
 
   makeEditProjectForm() {
     this.formProject = new FormGroup({
-      "name": new FormControl(this.currentProject.name, [Validators.required]),
-      "des": new FormControl(this.currentProject.des, [Validators.required]),
-      "startDate": new FormControl(this.fomat.toDatePicker(this.currentProject.startDate), [Validators.required]),
-      "endDate": new FormControl(this.fomat.toDatePicker(this.currentProject.endDate), [Validators.required]),
-      "status": new FormControl(this.currentProject.status, [Validators.required])
-    })
+      name: new FormControl(this.currentProject.name, [Validators.required]),
+      des: new FormControl(this.currentProject.des, [Validators.required]),
+      startDate: new FormControl(
+        this.fomat.toDatePicker(this.currentProject.startDate),
+        [Validators.required]
+      ),
+      endDate: new FormControl(
+        this.fomat.toDatePicker(this.currentProject.endDate)
+      ),
+      status: new FormControl(this.currentProject.status, [
+        Validators.required,
+      ]),
+    });
     console.log('start date:', this.currentProject.startDate);
     console.log('end date:', this.currentProject.endDate);
-    
   }
 
   saveProject() {
+    this.dateCheck = true;
     if (this.formProject.valid) {
-      console.log("click save!!!");
+      console.log('click save!!!');
       this.currentProject.name = this.formProject.value.name;
       this.currentProject.des = this.formProject.value.des;
-      this.currentProject.startDate = this.fomat.fomatDate(this.formProject.value.startDate);
-      this.currentProject.endDate = this.fomat.fomatDate(this.formProject.value.endDate);
+      this.currentProject.startDate = this.fomat.fomatDate(
+        this.formProject.value.startDate
+      );
+      this.currentProject.endDate = this.fomat.fomatDate(
+        this.formProject.value.endDate
+      );
       this.currentProject.status = this.formProject.value.status;
-      this.projectService.putProject(this.currentProject).subscribe(data => {
-        this.projectService.getAllProjects().subscribe(data => {
-          this.currentProject = data['content'];
-          this.loadDetails();
-          this.alert = true;
-        }, error => { console.log(error.error.message) });
-      });
-      this.modalService.dismissAll();
+
+      this.d1 = this.currentProject.startDate.toString();
+      this.d2 = this.currentProject.endDate.toString();
+      if (
+        (this.currentProject.endDate !== '' &&
+          this.fomat.compare(this.d1, this.d2)) ||
+        this.currentProject.endDate === ''
+      ) {
+        this.projectService
+          .putProject(this.currentProject)
+          .subscribe((data) => {
+            this.projectService.getAllProjects().subscribe(
+              (data) => {
+                this.currentProject = data['content'];
+                this.loadDetails();
+                this.alert = true;
+              },
+              (error) => {
+                console.log(error.error.message);
+              }
+            );
+          });
+        this.modalService.dismissAll();
+      } else {
+        this.dateCheck = false;
+      }
     } else {
-      alert("DATA INVALID")
+      alert('DATA INVALID');
     }
   }
 
@@ -126,11 +155,16 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   onDelete() {
-    this.projectService.deleteProject(this.currentProject.id).subscribe(data => {
-      console.log(data);
-      this.modalService.dismissAll();
-      this.router.navigateByUrl('/project-manager');
-    }, error => { console.log(error.error.message) });
+    this.projectService.deleteProject(this.currentProject.id).subscribe(
+      (data) => {
+        console.log(data);
+        this.modalService.dismissAll();
+        this.router.navigateByUrl('/project-manager');
+      },
+      (error) => {
+        console.log(error.error.message);
+      }
+    );
   }
 
   get name() {

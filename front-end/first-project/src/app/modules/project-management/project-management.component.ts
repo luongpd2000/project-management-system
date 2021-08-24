@@ -35,6 +35,9 @@ export class ProjectManagementComponent implements OnInit {
   project: Project = new Project();
   arrPE: idRole[] = new Array();
   admin: User = new User();
+  d1: string;
+  d2: string;
+  dateCheck = true;
   public filter: any = '';
 
   constructor(
@@ -128,7 +131,7 @@ export class ProjectManagementComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       des: new FormControl(null, [Validators.required]),
       startDate: new FormControl(null, [Validators.required]),
-      endDate: new FormControl(null, [Validators.required]),
+      endDate: new FormControl(null),
       status: new FormControl('draft', [Validators.required]),
     });
   }
@@ -144,6 +147,7 @@ export class ProjectManagementComponent implements OnInit {
   close() { }
 
   fomatDate(date: any): string {
+    if(date===null) return '';
     let rs = '';
     let year = date.year;
     let month: String = new String(date.month);
@@ -153,6 +157,7 @@ export class ProjectManagementComponent implements OnInit {
     return year + '-' + month + '-' + day;
   }
   saveProject() {
+    this.dateCheck = true;
     if (this.formProject.valid) {
       console.log('click save!!!');
       this.newProject.name = this.formProject.value.name;
@@ -162,33 +167,32 @@ export class ProjectManagementComponent implements OnInit {
       );
       this.newProject.endDate = this.fomatDate(this.formProject.value.endDate);
       this.newProject.status = this.formProject.value.status;
+      // this.newProject.creater = 1;
 
       console.log(
         this.fomatDate(this.newProject.startDate),
         this.fomatDate(this.formProject.value.endDate)
       );
 
-      this.projectService.postProject(this.newProject).subscribe((data) => {
-        this.project = data;
-        console.log(data);
-        console.log(this.project);
-        console.log(this.user);
-        this.addAmin();
-        this.getDetails();
+      this.d1 = this.newProject.startDate.toString();
+      this.d2 = this.newProject.endDate.toString();
+      if((this.newProject.endDate!=='' && this.fomat.compare(this.d1,this.d2)) || this.newProject.endDate===''){
 
-        // this.projectService.getAllProjects().subscribe(
-        //   (data) => {
-        //     this.projectList = data['content'];
-        //     console.log(this.projectList.length);
-        //   },
-        //   (error) => {
-        //     console.log(error.error.message);
-        //   }
-        // );
-      });
+        this.projectService.postProject(this.newProject).subscribe((data) => {
+          this.project = data;
+          console.log(data);
+          console.log(this.project);
+          console.log(this.user);
+          this.addAmin();
+          this.getDetails();
+        });
 
-      this.modalService.dismissAll();
-      this.makeForm();
+        this.modalService.dismissAll();
+        this.makeForm();
+
+      }else{
+        this.dateCheck = false;
+      }
     } else {
       alert('DATA INVALID');
     }

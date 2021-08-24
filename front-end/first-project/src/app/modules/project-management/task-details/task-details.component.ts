@@ -36,6 +36,9 @@ export class TaskDetailsComponent implements OnInit {
   todoNum: number;
   todoList: [];
   taskHistory= new TaskHistory;
+  d1: string;
+  d2: string;
+  dateCheck = true;
 
   getMembers() {
     this.userService.getUsersInProject(this.curProjectId).subscribe((data) => {
@@ -81,7 +84,7 @@ export class TaskDetailsComponent implements OnInit {
       this.userService.getUserById(this.currentTask.taskManagerId).subscribe(data=>{
         this.currentTask.taskManagerDetails=data;
       })
-      this.currentTask.taskManagerDetails 
+      this.currentTask.taskManagerDetails
       this.curProjectId = <number>this.currentTask.projectId;
       this.getMembers();
       if (this.currentTask.taskManagerId === this.curUserId) {
@@ -124,8 +127,7 @@ export class TaskDetailsComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        this.fomatInput.toDatePicker(this.currentTask.endDate),
-        [Validators.required]
+        this.fomatInput.toDatePicker(this.currentTask.endDate)
       ),
       status: new FormControl(this.currentTask.status, [Validators.required]),
       taskType: new FormControl(this.currentTask.taskType, [
@@ -138,6 +140,7 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   saveTask() {
+    this.dateCheck = true;
     if (this.formTask.valid) {
       this.currentTask.name = this.formTask.value.name;
       this.currentTask.des = this.formTask.value.des;
@@ -158,22 +161,30 @@ export class TaskDetailsComponent implements OnInit {
       this.taskHistory.taskId = this.currentTask.id;
       this.taskHistory.updateUser = this.curUserId;
 
-      this.taskService.createTaskHistory(this.taskHistory).subscribe(
-        (data) => {
-          console.log(data + ' ok');
-          console.log('click save!!');
-          console.log(JSON.stringify(this.currentTask));
-          this.taskService.updateTask(this.currentTask).subscribe((data) => {
-            console.log('update', data);
-            alert('Edit Success');
-            this.modalService.dismissAll();
-            this.getTaskDetails();
-          });
-        },
-        (error) => {
-          console.log(error.error.message);
-        }
-      );
+      this.d1 = this.currentTask.startDate.toString();
+      this.d2 = this.currentTask.endDate.toString();
+      if((this.currentTask.endDate!=='' && this.fomatInput.compare(this.d1,this.d2)) || this.currentTask.endDate===''){
+
+
+        this.taskService.createTaskHistory(this.taskHistory).subscribe(
+          (data) => {
+            console.log(data + ' ok');
+            console.log('click save!!');
+            console.log(JSON.stringify(this.currentTask));
+            this.taskService.updateTask(this.currentTask).subscribe((data) => {
+              console.log('update', data);
+              alert('Edit Success');
+              this.modalService.dismissAll();
+              this.getTaskDetails();
+            });
+          },
+          (error) => {
+            console.log(error.error.message);
+          }
+        );
+      }else{
+        this.dateCheck = false;
+      }
       //
       //   console.log('click save!!');
       //   console.log(JSON.stringify(this.currentTask));

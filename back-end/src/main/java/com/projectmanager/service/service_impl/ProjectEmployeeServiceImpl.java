@@ -2,7 +2,9 @@ package com.projectmanager.service.service_impl;
 
 import com.projectmanager.entity.ProjectEmployee;
 import com.projectmanager.repository.ProjectEmployeeRepository;
+import com.projectmanager.repository.UserRepository;
 import com.projectmanager.service.ProjectEmployeeService;
+import com.projectmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,9 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
 
     @Autowired
     ProjectEmployeeRepository projectEmployeeRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public Page<ProjectEmployee> getAll(Pageable pageable) {
@@ -58,9 +63,17 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
         if (!employee.isPresent() || employee.get().getDelete()) {
             return false;
         }else {
-            employee.get().setDelete(true);
+             Integer uId = employee.get().getUser().getId();
+             Integer pId = employee.get().getProjectId();
+             if(uId!=null&&pId!=null){
+                 userRepository.moveToAdminTaskByUidAndPid(uId, pId);
+                 userRepository.moveToAdminTodoByUidAndPid(uId, pId);
+                 employee.get().setDelete(true);
+                 return true;
+             }
+             return false;
         }
-        return true;
+
     }
 
     @Override

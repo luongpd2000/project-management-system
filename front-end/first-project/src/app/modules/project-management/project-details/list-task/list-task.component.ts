@@ -66,7 +66,9 @@ export class ListTaskComponent implements OnInit {
 
   getLeaderList() {
     this.memberList.forEach((data) => {
-      if (data.role == 'leader') {
+      console.log(data);
+      
+      if (data.role == 'leader' && data.delete!=true) {
         this.leaderList.push(data['user']);
         if (data.user.id === this.myUserId) {
           console.log(data.userId + ' ' + this.myUserId);
@@ -182,6 +184,7 @@ export class ListTaskComponent implements OnInit {
       console.log(JSON.stringify(this.newTask));
       this.taskService.createTask(this.newTask).subscribe((data) => {
         console.log('new', data);
+        window.alert('Update sucess');
         this.modalService.dismissAll();
         this.getData();
       });

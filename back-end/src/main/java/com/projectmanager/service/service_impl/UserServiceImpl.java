@@ -4,6 +4,9 @@ package com.projectmanager.service.service_impl;
 import com.projectmanager.dto.PasswordRecover;
 import com.projectmanager.entity.User;
 import com.projectmanager.repository.UserRepository;
+import com.projectmanager.service.ProjectEmployeeService;
+import com.projectmanager.service.TaskService;
+import com.projectmanager.service.TodoService;
 import com.projectmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +29,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TodoService todoService;
+
+    @Autowired
+    TaskService taskService;
+
+    @Autowired
+    ProjectEmployeeService projectEmployeeService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -130,8 +142,12 @@ public class UserServiceImpl implements UserService {
         if(!user.isPresent()) {
             return false;
         }else {
+            userRepository.moveToAdminTaskByUserId(id);
+            userRepository.moveToAdminTodoByUserId(id);
+            userRepository.deleteProjectEmployeeByUserId(id);
             user.get().setDelete(true);
             userRepository.save(user.get());
+
         }
         return true;
     }

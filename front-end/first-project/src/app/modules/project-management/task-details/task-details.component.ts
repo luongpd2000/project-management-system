@@ -115,7 +115,7 @@ export class TaskDetailsComponent implements OnInit {
   makeForm() {
     this.formTask = new FormGroup({
       name: new FormControl(this.currentTask.name, [Validators.required]),
-      des: new FormControl('description', [Validators.required]),
+      des: new FormControl(this.currentTask.des, [Validators.required]),
       priority: new FormControl(this.currentTask.priority, [
         Validators.required,
       ]),

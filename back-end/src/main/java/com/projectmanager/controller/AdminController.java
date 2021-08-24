@@ -5,9 +5,7 @@ import com.projectmanager.dto.Status;
 import com.projectmanager.entity.Project;
 import com.projectmanager.entity.ProjectEmployee;
 import com.projectmanager.entity.User;
-import com.projectmanager.service.ProjectEmployeeService;
-import com.projectmanager.service.ProjectService;
-import com.projectmanager.service.UserService;
+import com.projectmanager.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +34,8 @@ public class AdminController {
     @Autowired
     ProjectService projectService;
 
+
+
     // api user management
     @GetMapping("/userList")//
     public ResponseEntity<?> userList(@RequestParam(name = "page", defaultValue = "0") Integer page,
@@ -62,6 +62,7 @@ public class AdminController {
 
     @DeleteMapping("/deleteUser/{id}")//
     public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
+
 
         return ResponseEntity.ok(userService.delete(id));
     }

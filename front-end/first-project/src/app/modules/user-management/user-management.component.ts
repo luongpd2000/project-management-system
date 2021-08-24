@@ -29,7 +29,6 @@ export class UserManagementComponent implements OnInit {
   pr: PasswordRecover = new PasswordRecover();
   passwordReset: String;
   isPasswordReset: boolean = false;
-
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;

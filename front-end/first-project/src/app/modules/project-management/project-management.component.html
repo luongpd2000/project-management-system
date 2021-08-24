@@ -61,9 +61,9 @@
                                     <p class="description">{{p.des}}</p>
                                     <div class="row">
                                         <div class="col-5 py-1"><strong>Start:</strong></div>
-                                        <div class="col-7 py-1">{{fomat.fomatDateToDMY(p.startDate)}}</div>
+                                        <div class="col-7 py-1">{{p.startDate}}</div>
                                         <div class="col-5 py-1"><strong>End:</strong></div>
-                                        <div class="col-7 py-1">{{fomat.fomatDateToDMY(p.endDate)}}</div>
+                                        <div class="col-7 py-1">{{p.endDate}}</div>
                                         <div class="col-5 py-1"><strong>Task:</strong></div>
                                         <div class="col-7 py-1"><strong>{{p.taskNum}}</strong></div>
                                         <div class="col-5 py-1"><strong>Todo:</strong></div>
@@ -159,7 +159,7 @@
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" (click)="saveProject()">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()" >Close</button>
                   </div>
             </div>
 

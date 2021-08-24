@@ -183,7 +183,6 @@ export class UserManagementComponent implements OnInit {
     this.newUser.address = this.userForm.controls['address'].value;
     this.newUser.password = this.userForm.controls['password'].value;
     this.newUser.createUser = 1;
-    
     console.log('true ' + this.userForm.status);
 
     console.log(

@@ -18,7 +18,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +35,8 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     ReactiveFormsModule,
     NgSelectModule,
-    FormsModule
+    FormsModule,
+    
   ],
   providers: [CookieService,
               GuardGuard,

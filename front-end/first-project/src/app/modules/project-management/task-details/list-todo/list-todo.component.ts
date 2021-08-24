@@ -62,6 +62,7 @@ export class ListTodoComponent implements OnInit {
     'Start Date',
     'Status',
     'Task Id',
+    // 'Assigned for',
     'Todo Type',
     'Action',
   ];
@@ -120,6 +121,11 @@ export class ListTodoComponent implements OnInit {
       .subscribe(
         (data) => {
           this.todoList = data['content'];
+          this.todoList.forEach(data=>{
+            this.userService.getUserById(data.assignedUser).subscribe(item=>{
+                data.assignedUserDetails=item;
+            })
+          })
           console.log(this.todoList);
           console.log(this.todoList[0]);
           // if(this.todoList[0].assignedUser===this.curUserId){

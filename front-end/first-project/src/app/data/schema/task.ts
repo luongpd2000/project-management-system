@@ -1,4 +1,5 @@
 import { TaskHistory } from "./task-history";
+import { User } from "./user";
 
 export class Task{
   id!: number;
@@ -12,7 +13,8 @@ export class Task{
   createDate!: Date;
   updateDate!: Date;
   createUser!: number;
-  taskManagerId!: Number;
+  taskManagerId!: number;
+  taskManagerDetails:User;
   delete!: boolean;
   des:String='';
   taskHistoryList: TaskHistory[];

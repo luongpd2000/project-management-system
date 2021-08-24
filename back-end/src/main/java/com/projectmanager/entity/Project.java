@@ -55,7 +55,7 @@ public class Project implements Serializable {
 //    @Nullable
 //    private User createUser;
 
-    @NotNull
+//    @NotNull
     @Column(name = "create_user")
     private Integer createUser;
 

@@ -45,6 +45,9 @@ export class ListTodoComponent implements OnInit {
   leaderList: User[] = [];
   isEmployeeOfTodo: boolean = false;
   // isLeader: boolean;;
+  d1: string;
+  d2: string;
+  dateCheck = true;
 
   myAccount: User;
   curTodo: Todo = new Todo();
@@ -100,11 +103,9 @@ export class ListTodoComponent implements OnInit {
     this.getAllData();
 
     console.log(this.curUserId);
-    this.userService.getUser(this.jwt.getUsername()).subscribe(
-      data=>{
-        this.myAccount = data;
-      }
-    )
+    this.userService.getUser(this.jwt.getUsername()).subscribe((data) => {
+      this.myAccount = data;
+    });
     this.getMembers();
     this.updateform = new FormGroup({
       des: new FormControl(''),
@@ -121,11 +122,13 @@ export class ListTodoComponent implements OnInit {
       .subscribe(
         (data) => {
           this.todoList = data['content'];
-          this.todoList.forEach(data=>{
-            this.userService.getUserById(data.assignedUser).subscribe(item=>{
-                data.assignedUserDetails=item;
-            })
-          })
+          this.todoList.forEach((data) => {
+            this.userService
+              .getUserById(data.assignedUser)
+              .subscribe((item) => {
+                data.assignedUserDetails = item;
+              });
+          });
           console.log(this.todoList);
           console.log(this.todoList[0]);
           // if(this.todoList[0].assignedUser===this.curUserId){
@@ -171,10 +174,10 @@ export class ListTodoComponent implements OnInit {
   makeNewForm() {
     this.todoForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
-      des: new FormControl('description', [Validators.required]),
+      des: new FormControl('', [Validators.required]),
       // "priority":new FormControl('high',[Validators.required]),
-      startDate: new FormControl(null, [Validators.required]),
-      endDate: new FormControl(null, [Validators.required]),
+      startDate: new FormControl([Validators.required]),
+      endDate: new FormControl(),
       status: new FormControl('draft', [Validators.required]),
       todoType: new FormControl('feature', [Validators.required]),
       assignfor: new FormControl(this.myAccount.id, [Validators.required]),
@@ -190,17 +193,19 @@ export class ListTodoComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        this.fomatInput.toDatePicker(this.todoDetail.endDate),
-        [Validators.required]
+        this.fomatInput.toDatePicker(this.todoDetail.endDate)
       ),
       status: new FormControl(this.todoDetail.status, [Validators.required]),
-      todoType: new FormControl(this.todoDetail.todoType, [Validators.required]),
+      todoType: new FormControl(this.todoDetail.todoType, [
+        Validators.required,
+      ]),
       assignfor: new FormControl(this.todoDetail.assignedUser, [
         Validators.required,
       ]),
     });
   }
   saveNewTodo() {
+    this.dateCheck = true;
     if (this.todoForm.valid) {
       this.curTodo.name = this.todoForm.value.name;
       this.curTodo.des = this.todoForm.value.des;
@@ -217,21 +222,35 @@ export class ListTodoComponent implements OnInit {
       this.curTodo.taskId = this.curTaskId;
       this.curTodo.projectId = this.curProjectId;
       this.curTodo.createUser = this.myAccount.id;
-      console.log('click save!!');
-      console.log(JSON.stringify(this.curTodo));
-      this.todoService.createTodo(this.curTodo).subscribe((data) => {
-        console.log('create', data);
-        alert('Create success!!');
-        this.getData();
-        this.getAllData();
-        this.modalService.dismissAll();
-        // this.ngOnInit();
-      });
+
+      this.d1 = this.curTodo.startDate.toString();
+      this.d2 = this.curTodo.endDate.toString();
+      console.log(this.d1 + this.d2)
+      if (
+        (this.curTodo.endDate !== '' &&
+          this.fomatInput.compare(this.d1, this.d2)) ||
+        this.curTodo.endDate === ''
+      ) {
+        console.log('click save!!');
+        console.log(JSON.stringify(this.curTodo));
+        this.todoService.createTodo(this.curTodo).subscribe((data) => {
+          console.log('create', data);
+          alert('Create success!!');
+          this.getData();
+          this.getAllData();
+          this.modalService.dismissAll();
+          // this.ngOnInit();
+        });
+      } else {
+        this.dateCheck = false;
+      }
     } else {
       alert('Input invalid!!!');
+      console.log(this.todoForm)
     }
   }
   saveUpdateTodo() {
+    this.dateCheck = true;
     if (this.todoForm.valid) {
       this.todoDetail.name = this.todoForm.value.name;
       this.todoDetail.des = this.todoForm.value.des;
@@ -252,29 +271,39 @@ export class ListTodoComponent implements OnInit {
       this.updateTodoStatus.status = this.todoForm.value.status;
 
       this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
-    // this.curTodo.status = this.statusUpdate;
+      // this.curTodo.status = this.statusUpdate;
       console.log(this.updateTodoStatus);
       console.log(this.todoDetail);
-      this.todoService.insertHistory(this.updateTodoStatus).subscribe(
-        (data) => {
-          console.log(data);
-          console.log('click save!!');
-          console.log(JSON.stringify(this.todoDetail));
-          // this.modalService.dismissAll();
-          this.todoService.updateStatus(this.todoDetail).subscribe((data) => {
-            console.log('create', data);
-            alert('update success!!');
-            this.getData();
-            this.getAllData();
+      this.d1 = this.todoDetail.startDate.toString();
+      this.d2 = this.todoDetail.endDate.toString();
+      if (
+        (this.todoDetail.endDate !== '' &&
+          this.fomatInput.compare(this.d1, this.d2)) ||
+        this.todoDetail.endDate === ''
+      ) {
+        this.todoService.insertHistory(this.updateTodoStatus).subscribe(
+          (data) => {
+            console.log(data);
+            console.log('click save!!');
+            console.log(JSON.stringify(this.todoDetail));
+            // this.modalService.dismissAll();
+            this.todoService.updateStatus(this.todoDetail).subscribe((data) => {
+              console.log('create', data);
+              alert('update success!!');
+              this.getData();
+              this.getAllData();
+              this.modalService.dismissAll();
+              this.ngOnInit();
+            });
             this.modalService.dismissAll();
-            this.ngOnInit();
-          });
-          this.modalService.dismissAll();
-        },
-        (error) => {
-          console.log(error.error.message);
-        }
-      );
+          },
+          (error) => {
+            console.log(error.error.message);
+          }
+        );
+      } else {
+        this.dateCheck = false;
+      }
       //
       // this.curTodo.taskId=this.curTaskId;
       // this.curTodo.projectId=this.curProjectId;

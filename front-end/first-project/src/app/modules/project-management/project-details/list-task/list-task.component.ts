@@ -27,6 +27,9 @@ export class ListTaskComponent implements OnInit {
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
+  d1: string;
+  d2: string;
+  dateCheck = true;
 
   dataSource!: MatTableDataSource<Task>;
   displayedColumns: string[] = [
@@ -157,7 +160,7 @@ export class ListTaskComponent implements OnInit {
       des: new FormControl(null, [Validators.required]),
       priority: new FormControl('high', [Validators.required]),
       startDate: new FormControl(null, [Validators.required]),
-      endDate: new FormControl(null, [Validators.required]),
+      endDate: new FormControl(null),
       status: new FormControl('draft', [Validators.required]),
       manager: new FormControl(this.myUserId, [Validators.required]),
       taskType: new FormControl('feature', [Validators.required]),
@@ -165,6 +168,7 @@ export class ListTaskComponent implements OnInit {
   }
 
   saveNewTask() {
+    this.dateCheck = true;
     if (this.formTask.valid) {
       this.newTask.name = this.formTask.value.name;
       this.newTask.des = this.formTask.value.des;
@@ -180,14 +184,25 @@ export class ListTaskComponent implements OnInit {
       this.newTask.createUser = this.myUserId;
       this.newTask.taskType = this.formTask.value.taskType;
       this.newTask.projectId = this.currentProjectId;
-      console.log('click save!!');
-      console.log(JSON.stringify(this.newTask));
-      this.taskService.createTask(this.newTask).subscribe((data) => {
-        console.log('new', data);
-        window.alert('Update sucess');
-        this.modalService.dismissAll();
-        this.getData();
-      });
+
+
+      this.d1 = this.newTask.startDate.toString();
+      this.d2 = this.newTask.endDate.toString();
+      if (
+        (this.newTask.endDate !== '' &&
+          this.fomatInput.compare(this.d1, this.d2)) ||
+        this.newTask.endDate === ''
+      ) {
+        console.log('click save!!');
+        console.log(JSON.stringify(this.newTask));
+        this.taskService.createTask(this.newTask).subscribe((data) => {
+          console.log('new', data);
+          this.modalService.dismissAll();
+          this.getData();
+        });
+      } else {
+        this.dateCheck = false;
+      }
     } else {
       alert('Input invalid!!!');
     }

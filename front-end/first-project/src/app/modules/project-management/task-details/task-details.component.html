@@ -1,39 +1,40 @@
 <main class="content-wrapper">
-  <div class="container p-30">
-    <div class="section-body">
-      <div class="container " style="padding-bottom: 30px">
-        <!-- <h1 class="task-list">{{currentTask.name}}</h1> -->
-        <p class="page-name">{{currentTask.name}}</p>
-        <div class="group-btn" style="margin-top: 30px;">
-          <button type="button" class="btn btn-primary " (click)="open(edit_task)"
-            *ngIf="isAdmin || isLeader">Edit</button>
-          <button class="btn btn-secondary" routerLink="/project-manager/p-details/{{curProjectId}}">Back </button>
-        </div>
-        <div class="col-6">
-          <div class="row">
-            <div class="col-6 py-1"><strong>Created:</strong></div>
-            <div class="col-6 py-1">{{currentTask.createDate}}</div>
-            <div class="col-6 py-1"><strong>Start Date:</strong></div>
-            <div class="col-6 py-1">{{currentTask?.startDate}}</div>
-            <div class="col-6 py-1"><strong>End Date:</strong></div>
-            <div class="col-6 py-1">{{currentTask?.endDate}}</div>
-            <div class="col-6 py-1"><strong>Leader:</strong></div>
-            <div class="col-6 py-1">
-              <!-- <p *ngIf="'true'=='true'"; else elseBlock> Admin</p>
-              <ng-template #elseBlock>
-                <p>{{currentTask.taskManagerDetails.fullName}}</p>
-                
-              </ng-template> -->
-              {{currentTask.taskManagerDetails.fullName}}
-            </div>
-            <div class="col-6 py-1"><strong>Type:</strong></div>
-            <div class="col-6 py-1">{{currentTask.taskType}}</div>
-            <div class="col-6 py-1"><strong>Todo:</strong></div>
-            <div class="col-6 py-1"><strong>{{todoNum}}</strong></div>
-            <div class="col-6 py-1"><strong>Status</strong> </div>
-            <div class="col-6 py-1">
-              <strong><span class="badge"
-                  [ngStyle]="{'background':getStatus.getTheColor(currentTask?.status)}">{{currentTask?.status}}</span></strong>
+    <div class="container p-30">
+        <div class="section-body">
+            <div class="container " style="padding-bottom: 30px">
+                <!-- <h1 class="task-list">{{currentTask.name}}</h1> -->
+                <p class="page-name">{{currentTask.name}}</p>
+                <div class="group-btn" style="margin-top: 30px;">
+                    <button type="button" class="btn btn-primary " (click)="open(edit_task)" *ngIf="isAdmin || isLeader">Edit</button>
+                    <button class="btn btn-secondary" routerLink="/project-manager/p-details/{{curProjectId}}" >Back </button>
+                  </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6 py-1"><strong>Created:</strong></div>
+                        <div class="col-6 py-1">{{currentTask.createDate}}</div>
+                        <div class="col-6 py-1"><strong>Start Date:</strong></div>
+                        <div class="col-6 py-1">{{currentTask?.startDate}}</div>
+                        <div class="col-6 py-1"><strong>End Date:</strong></div>
+                        <div class="col-6 py-1">{{currentTask?.endDate}}</div>
+                        <div class="col-6 py-1"><strong>Leader:</strong></div>
+                        <div class="col-6 py-1">{{currentTask?.taskManagerDetails.fullName}}</div>
+                        <div class="col-6 py-1"><strong>Type:</strong></div>
+                        <div class="col-6 py-1">{{currentTask?.taskType}}</div>
+                        <div class="col-6 py-1"><strong>Todo:</strong></div>
+                        <div class="col-6 py-1"><strong>{{todoNum}}</strong></div>
+                        <div class="col-6 py-1"><strong>Status</strong> </div>
+                        <div class="col-6 py-1">
+                            <strong><span class="badge"
+                                    [ngStyle]="{'background':getStatus.getTheColor(currentTask?.status)}">{{currentTask?.status}}</span></strong>
+                        </div>
+                        <div class="col-6 py-1"><strong>Priority</strong></div>
+                        <div class="col-6 py-1"><strong><span class="badge"
+                                    [ngStyle]="{'background':getStatus.getTheColor(currentTask?.priority)}">{{currentTask.priority}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
             <div class="col-6 py-1"><strong>Priority</strong></div>
             <div class="col-6 py-1"><strong><span class="badge"
@@ -43,7 +44,7 @@
         </div>
 
 
-      </div>
+   
       <div class="row">
         <app-list-todo [curTaskId]="curTaskId" [curProjectId]="curProjectId" [isLeader]="isLeader" [isAdmin]="isAdmin"
           [curUserId]="curUserId">
@@ -151,8 +152,7 @@
                     </div>
                 </div> -->
       </div>
-    </div>
-  </div>
+  
 </main>
 
 <main class="content-wrapper">
@@ -265,11 +265,23 @@
             <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
               <span class="invalid-text">*Required</span>
             </div>
-            <span style="padding: 10px">To</span>
-            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
-              #d2="ngbDatepicker" type="date">
-            <div *ngIf="endDate&&endDate.invalid&&(endDate?.dirty||endDate?.touched)">
-              <span class="invalid-text">*Required</span>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label">Due <span class="text-danger">*</span></label>
+              <div class="col-md-9" style="display: flex;">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='startDate' ngbDatepicker
+                  #d="ngbDatepicker" type="date">
+                <div *ngIf="startDate&&startDate.invalid&&(startDate?.dirty||startDate?.touched)">
+                  <span class="invalid-text">*Required</span>
+                </div>
+                <span style="padding: 10px">To</span>
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='endDate' ngbDatepicker
+                  #d2="ngbDatepicker" type="date">
+
+              </div>
+              <div *ngIf="!dateCheck">
+                <span class="invalid-text">End date must be greater start date</span>
+              </div>
             </div>
           </div>
         </div>

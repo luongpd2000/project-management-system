@@ -51,7 +51,7 @@ export class UserService {
 
   getAllUsers(){
 
-    const userUrl = `${this.baseUrl}/admin/userList`;
+    const userUrl = `${this.baseUrl}/admin/findAllUser`;
 
     return this.httpClient.get<User[]>(userUrl,this.httpOptions);
 

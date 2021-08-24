@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
     public String passwordRecover(PasswordRecover pr){
         User admin = userRepository.findById(1).get();
         User user = userRepository.findById(pr.getId()).get();
-        String password = UUID.randomUUID().toString();
+        String password = UUID.randomUUID().toString()+"I123@";
         if(pr.getEmail().equals(admin.getEmail())){
             user.setEncryptedPassword(bCryptPasswordEncoder.encode(password));
             userRepository.save(user);

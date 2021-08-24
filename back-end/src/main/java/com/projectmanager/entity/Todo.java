@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -19,16 +20,18 @@ public class Todo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @NotNull
+    @Column(name = "name")
     private String name;
 
     @Column(name = "des")
     private String des;
 
-    @Column(name = "project_id", nullable = false)
+    @NotNull
+    @Column(name = "project_id")
     private Integer projectId;
 
     @Column(name = "start_date")
@@ -37,12 +40,14 @@ public class Todo implements Serializable {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "is_deleted", nullable = false)
+    @Column(name = "is_deleted")
     private Boolean deleted;
 
-    @Column(name = "todo_type", nullable = false)
+    @NotNull
+    @Column(name = "todo_type")
     private String todoType;
 
+    @NotNull
     @Column(name = "status")
     private String status;
 
@@ -51,11 +56,11 @@ public class Todo implements Serializable {
 //    @JoinColumn(name = "task_id",referencedColumnName = "id")
 //    @Nullable
 //    private Task task;
-
-    @Column(name = "task_id", nullable = false)
+    @NotNull
+    @Column(name = "task_id")
     private Integer taskId;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     private Date createDate;
 
     @Column(name = "update_date")
@@ -66,15 +71,15 @@ public class Todo implements Serializable {
 //    @JoinColumn(name = "create_user",referencedColumnName = "id")
 //    @Nullable
 //    private User createUser;
-
-    @Column(name = "create_user", nullable = false)
+    @NotNull
+    @Column(name = "create_user")
     private Integer createUser;
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @JoinColumn(name = "assigned_user",referencedColumnName = "id")
 //    private User assignedUser;
-
+    @NotNull
     @Column(name = "assigned_user")
     private Integer assignedUser;
 

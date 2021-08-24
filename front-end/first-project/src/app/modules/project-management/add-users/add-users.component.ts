@@ -10,6 +10,7 @@ import { ProjectService } from '../../../service/project.service';
 import { DetailsUserComponent } from './details-user/details-user.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { idRole } from 'src/app/data/schema/id-role';
+import { JwtServiceService } from 'src/app/service/jwt-service.service';
 
 
 @Component({
@@ -26,7 +27,6 @@ export class AddUsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource!: MatTableDataSource<User>;
-
   displayedColumns: string[] = ['select', 'id', 'fullName', 'email', 'role', 'action'];
   selection = new SelectionModel<User>(true, []);
   alert: boolean = false;
@@ -39,12 +39,18 @@ export class AddUsersComponent implements OnInit {
   constructor(private userService: UserService,
     private projectService: ProjectService,
     private route: ActivatedRoute,
+    private router: Router,
     public dialog: MatDialog,
+    public jwt: JwtServiceService,
     private modalService: NgbModal,) {
   }
 
   ngOnInit(): void {
-    this.getData();
+    if(this.jwt.getRole()==='[ROLE_USER]'){
+      this.router.navigate(['']);
+    }else{
+      this.getData();
+    }
   }
 
 
@@ -54,7 +60,7 @@ export class AddUsersComponent implements OnInit {
       this.listUsers = data;
 
       console.log('member: ', data);
-      
+
       this.listUsers.forEach(data => { data.pRole = 'dev' })
 
       // console.log('list users', this.listUsers);

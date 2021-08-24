@@ -16,6 +16,7 @@ import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/data/schema/user';
 import { LoginService } from 'src/app/service/login.service';
 import { idRole } from 'src/app/data/schema/id-role';
+import { FomatInputService } from 'src/app/data/service/fomat-input.service';
 
 @Component({
   selector: 'app-project-management',
@@ -43,8 +44,9 @@ export class ProjectManagementComponent implements OnInit {
     public getStatus: StatusService,
     private jwtService: JwtServiceService,
     private userService: UserService,
-    private loginService: LoginService
-  ) {}
+    private loginService: LoginService,
+    public fomat:FomatInputService
+  ) { }
 
   ngOnInit(): void {
     if (!this.loginService.logIn) {
@@ -96,7 +98,7 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   date = new Date();
-  getDetails(){
+  getDetails() {
     this.projectService.getAllProjects().subscribe(
       (data) => {
         this.projectList = data['content'];
@@ -139,7 +141,7 @@ export class ProjectManagementComponent implements OnInit {
     });
   }
 
-  close() {}
+  close() { }
 
   fomatDate(date: any): string {
     let rs = '';

@@ -19,7 +19,16 @@ export class FomatInputService {
 
   toDatePicker(date:any):DatePicker{
     let date2 = new Date(date);
-    let rs = new DatePicker(date2.getFullYear(),date2.getMonth(),date2.getDay());
+    
+    let rs = new DatePicker(date2.getFullYear(),date2.getMonth()+1,date2.getDate());
+    
     return rs;
+  }
+
+  fomatDateToDMY(date:String){
+    let dateArr=date.split('-');
+    // console.log('fomat to: ', [dateArr[2],dateArr[1],dateArr[0] ].join("-"));
+    
+    return [dateArr[2],dateArr[1],dateArr[0] ].join("-");
   }
 }

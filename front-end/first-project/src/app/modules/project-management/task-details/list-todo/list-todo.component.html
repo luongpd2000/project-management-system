@@ -63,6 +63,12 @@
                   <td mat-cell *matCellDef="let element"> {{element.taskId}} </td>
                 </ng-container>
 
+                <!-- <ng-container matColumnDef="Assigned for">
+                  <th mat-header-cell *matHeaderCellDef> Assigned for </th>
+                  <td mat-cell *matCellDef="let element"> {{element.assignedUser}} </td>
+                </ng-container> -->
+                
+
                 <ng-container matColumnDef="Todo Type">
                   <th mat-header-cell *matHeaderCellDef> Todo Type </th>
                   <td mat-cell *matCellDef="let element">
@@ -400,6 +406,13 @@
 
                           <span style="padding: 10px;margin-left: auto" class="col-sm-2">Status</span>
                           <input type="text" style="margin-left: auto" class="form-control datepicker col-sm-4" name="date" readonly [value]="todoDetail.status">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 col-form-label">
+                      Assigned for  <span class="text-danger">*</span></label>
+                      <div class="col-md-10" >
+                        <input type="text"  class="form-control"  readonly [value]="todoDetail.assignedUserDetails.fullName">
                       </div>
                   </div>
 

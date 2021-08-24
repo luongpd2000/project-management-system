@@ -78,6 +78,10 @@ export class TaskDetailsComponent implements OnInit {
   getTaskDetails() {
     this.taskService.getTask(this.curTaskId).subscribe((data) => {
       this.currentTask = data;
+      this.userService.getUserById(this.currentTask.taskManagerId).subscribe(data=>{
+        this.currentTask.taskManagerDetails=data;
+      })
+      this.currentTask.taskManagerDetails 
       this.curProjectId = <number>this.currentTask.projectId;
       this.getMembers();
       if (this.currentTask.taskManagerId === this.curUserId) {

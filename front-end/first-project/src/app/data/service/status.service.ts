@@ -13,7 +13,7 @@ export class StatusService {
   { status: "done", color: "#09922d" },
   { status: "high", color: "#e52000" },
   { status: "normal", color: "#09922d" },
-  { status: "low", color: "#e52000" },
+  { status: "low", color: "#8b9096" },
   { status: "bug", color: "#e52000" },
   { status: "feature", color: "#09922d" }
 

@@ -10,6 +10,7 @@ import { StatusService } from 'src/app/data/service/status.service';
 
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
 
+
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
@@ -22,11 +23,11 @@ export class ProjectDetailsComponent implements OnInit {
   formProject!: FormGroup;
   currentProject!: ProjectDetails;
   taskList = [];
-  taskNum=0;
+  taskNum = 0;
   todoNum = 0;
 
-  currentProjectId:number;
-  memberList:any[]=[];
+  currentProjectId: number;
+  memberList: any[] = [];
 
   isAdmin: boolean = true;
   role!: String;
@@ -40,15 +41,16 @@ export class ProjectDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private projectService: ProjectService,
     private modalService: NgbModal,
-    private fomat: FomatInputService,
+    public fomat: FomatInputService,
     private router: Router,
-    public getStatus:StatusService,
-    private jwtService: JwtServiceService
+    public getStatus: StatusService,
+    private jwtService: JwtServiceService,
+
   ) { }
 
   ngOnInit(): void {
     this.role = this.jwtService.getRole();
-    if(this.role === '[ROLE_USER]'){
+    if (this.role === '[ROLE_USER]') {
       this.isAdmin = false;
     }
     this.loadDetails();
@@ -64,14 +66,14 @@ export class ProjectDetailsComponent implements OnInit {
       this.todoNum = 0;
       this.taskList.forEach(task => {
         this.todoNum += (<Array<any>>task['todoList']).length;
-        if(task.deleted==false) this.taskNum++;
+        if (task.deleted == false) this.taskNum++;
       })
       console.log(this.todoNum);
-      this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item=>{
+      this.currentProject.partnerNum = this.currentProject.projectEmployeeList.filter(item => {
         return !item.delete;
       }).length;
-      this.currentProjectId=this.currentProject.id;
-      this.memberList= this.currentProject.projectEmployeeList;
+      this.currentProjectId = this.currentProject.id;
+      this.memberList = this.currentProject.projectEmployeeList;
     })
   }
   // open project Form
@@ -91,6 +93,9 @@ export class ProjectDetailsComponent implements OnInit {
       "endDate": new FormControl(this.fomat.toDatePicker(this.currentProject.endDate), [Validators.required]),
       "status": new FormControl(this.currentProject.status, [Validators.required])
     })
+    console.log('start date:', this.currentProject.startDate);
+    console.log('end date:', this.currentProject.endDate);
+    
   }
 
   saveProject() {

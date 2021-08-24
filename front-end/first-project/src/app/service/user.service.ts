@@ -26,13 +26,13 @@ export class UserService {
   constructor(private httpClient: HttpClient,
     private _cookieService: CookieService) { }
 
-  // getUser(userId : number): Observable<User>{
+  getUserById(userId : number): Observable<User>{
 
-  //   const userUrl = `${this.baseUrl}/findUserById/${userId}`;
+    const userUrl = `${this.baseUrl}/findUserById/${userId}`;
 
-  //   return this.httpClient.get<User>(userUrl);
+    return this.httpClient.get<User>(userUrl, this.httpOptions);
 
-  // }
+  }
   getUser(username : String): Observable<User>{
 
     const userUrl = `${this.baseUrl}/findUserByUsername/${username}`;

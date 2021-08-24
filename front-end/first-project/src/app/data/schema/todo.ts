@@ -1,4 +1,5 @@
 import { TodoHistory } from "./todo-history";
+import { User } from "./user";
 
 export class Todo{
   id!: number;
@@ -14,6 +15,7 @@ export class Todo{
   updateDate!: String;
   createUser!: number;
   assignedUser!: number;
+  assignedUserDetails!:User;
   delete!: boolean;
   todoHistoryList!: TodoHistory[];
 }

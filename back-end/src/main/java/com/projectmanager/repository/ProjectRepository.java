@@ -4,6 +4,7 @@ import com.projectmanager.entity.Project;
 import com.projectmanager.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,10 +19,11 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaS
 //    @Query("")
 //    Page<Project> findProjectsByUser(Integer id, Pageable pageable)
 
-    Page<Project> findAllByIdAndAndDeletedIsFalse(Integer idCreateUser, Pageable pageable);
+//    Page<Project> findAllByIdAndAndDeletedIsFalse(Integer idCreateUser, Pageable pageable);
 
     Page<Project> getAllByDeletedIsFalse(Pageable pageable);
 
+    List<Project> getAllByDeletedIsFalse(Sort sort);
 
     Optional<Project> getProjectByIdAndDeletedIsFalse(Integer pId);
 
@@ -48,7 +50,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaS
 
     @Transactional
     @Modifying
-    @Query(value = "SELECT p.* FROM project p, project_employee pe WHERE pe.user_id = ?1 AND p.id= pe.project_id",nativeQuery = true)
+    @Query(value = "SELECT p.* FROM project p, project_employee pe WHERE pe.user_id = ?1 AND p.id= pe.project_id ORDER BY id DESC",nativeQuery = true)
     List<Project> getListProjectOfUser(Integer uId);
 
 

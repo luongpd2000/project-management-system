@@ -90,6 +90,7 @@ export class UserService {
 
     return this.httpClient.get<User[]>(userUrl,this.httpOptions);
   }
+
   getPartner(pId:number){
     const userUrl = `${this.baseUrl}/admin/userInProject/${pId}`;
     console.log(userUrl);
@@ -101,6 +102,17 @@ export class UserService {
     const url = `${this.baseUrl}/findListEmployeeByProjectId/${id}`;
     return this.httpClient.get<any>(url,this.httpOptions);
   }
+
+  getUsersActiveInProject(id: number): Observable<any>{
+    const url = `${this.baseUrl}/findListEmployeeActiveByProjectId/${id}`;
+    return this.httpClient.get<any>(url,this.httpOptions);
+  }
+
+  getUsersDeletedInProject(id: number): Observable<any>{
+    const url = `${this.baseUrl}/findListEmployeeDeletedByProjectId/${id}`;
+    return this.httpClient.get<any>(url,this.httpOptions);
+  }
+
 
 
   deleteUser(userId : number): Observable<any> {

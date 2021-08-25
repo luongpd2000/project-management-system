@@ -11,6 +11,7 @@ import com.projectmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,6 +82,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<List<User>> findAllUsersInProject(Integer id) {
         return userRepository.findAllUsersInProject(id);
+    }
+
+    @Override
+    public Optional<List<User>> findAllUsersActiveInProject(Integer id) {
+        return userRepository.findAllUsersActiveInProject(id);
+    }
+
+    @Override
+    public Optional<List<User>> findAllUsersDeleteInProject(Integer id) {
+        return userRepository.findAllUsersDeleteInProject(id);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.projectmanager.repository;
 import com.projectmanager.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,8 +29,15 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
     @Query(value = "SELECT u.* FROM user u WHERE u.id NOT IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 ) ", nativeQuery = true)
     Optional<List<User>> findAllUsersNotInProject(Integer id);
 
-    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 ) ", nativeQuery = true)
+    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1  ) ", nativeQuery = true)
     Optional<List<User>> findAllUsersInProject(Integer id);
+
+
+    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = false) ", nativeQuery = true)
+    Optional<List<User>> findAllUsersActiveInProject(Integer id);
+
+    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = true ) ", nativeQuery = true)
+    Optional<List<User>> findAllUsersDeleteInProject(Integer id);
 
     @Transactional
     @Modifying

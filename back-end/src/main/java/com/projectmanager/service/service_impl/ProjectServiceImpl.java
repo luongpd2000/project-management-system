@@ -11,6 +11,7 @@ import com.projectmanager.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,11 +34,8 @@ public class ProjectServiceImpl implements ProjectService {
     UserRepository userRepository;
 
     // nhớ check delete nhé
-    public List<Project> findAll(){
-        return projectRepository.findAll();
-    }
     @Override
-    public Page<Project> FindAllNotDelete(Integer userId, Pageable pageable){return projectRepository.findAllByIdAndAndDeletedIsFalse(userId,pageable);}
+    public Page<Project> FindAllNotDelete(Integer userId, Pageable pageable){return null;}
 
     @Override
     public List<Project> findProjectByUserId(Integer userId) {
@@ -52,6 +50,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Page<Project> getAll(Pageable pageable) {
         return projectRepository.getAllByDeletedIsFalse(pageable);
+    }
+
+    public List<Project> findAll(){
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        return projectRepository.getAllByDeletedIsFalse(sort);
     }
 
     @Override

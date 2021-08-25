@@ -10,5 +10,6 @@ public interface ProjectService extends GeneralService<Project> {
     Page<Project> FindAllNotDelete(Integer userId, Pageable pageable);
     List<Project> findProjectByUserId(Integer userId);
     List<Project> getListProjectOfUser(Integer uId);
+    List<Project> findAll();
 //    Project findProjectById(Integer pId);
 }

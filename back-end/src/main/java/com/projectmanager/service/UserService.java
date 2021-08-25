@@ -4,6 +4,7 @@ import com.projectmanager.dto.PasswordRecover;
 import com.projectmanager.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -18,6 +19,11 @@ public interface UserService extends UserDetailsService, GeneralService<User> {
     Optional<List<User>> findAllUsersNotInProject(Integer id);
 
     Optional<List<User>> findAllUsersInProject(Integer id);
+
+    Optional<List<User>> findAllUsersActiveInProject(Integer id);
+
+    Optional<List<User>> findAllUsersDeleteInProject(Integer id);
+
 
     Page<User> findAllByDeleteIsFalse(Pageable pageable);
 

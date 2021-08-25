@@ -1,5 +1,6 @@
 import { TaskHistory } from "./task-history";
 import { User } from "./user";
+import {Todo} from "./todo";
 
 export class Task{
   id!: number;
@@ -18,5 +19,5 @@ export class Task{
   delete!: boolean;
   des:String='';
   taskHistoryList: TaskHistory[];
-
+  todoList: Todo[] = [];
 }

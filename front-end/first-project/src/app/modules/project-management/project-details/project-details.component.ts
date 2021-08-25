@@ -22,6 +22,7 @@ export class ProjectDetailsComponent implements OnInit {
   taskList = [];
   taskNum = 0;
   todoNum = 0;
+ 
   d1: string;
   d2: string;
   dateCheck = true;
@@ -63,7 +64,9 @@ export class ProjectDetailsComponent implements OnInit {
       this.taskList = this.currentProject.taskList;
       console.log('todo');
       this.todoNum = 0;
+
       this.taskList.forEach((task) => {
+
         this.todoNum += (<Array<any>>task['todoList']).length;
         if (task.deleted == false) this.taskNum++;
       });

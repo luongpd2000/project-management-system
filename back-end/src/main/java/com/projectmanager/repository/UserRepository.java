@@ -26,10 +26,10 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
     Page<User> findAllByDeleteIsTrue(Pageable pageable);
 
-    @Query(value = "SELECT u.* FROM user u WHERE u.id NOT IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 ) ", nativeQuery = true)
+    @Query(value = "SELECT u.* FROM user u WHERE u.id NOT IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = false) AND u.is_deleted = false", nativeQuery = true)
     Optional<List<User>> findAllUsersNotInProject(Integer id);
 
-    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1  ) ", nativeQuery = true)
+    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1  ) AND u.is_deleted = false", nativeQuery = true)
     Optional<List<User>> findAllUsersInProject(Integer id);
 
 

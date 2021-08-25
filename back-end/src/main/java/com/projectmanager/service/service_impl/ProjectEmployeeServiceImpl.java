@@ -1,6 +1,7 @@
 package com.projectmanager.service.service_impl;
 
 import com.projectmanager.entity.ProjectEmployee;
+import com.projectmanager.entity.User;
 import com.projectmanager.repository.ProjectEmployeeRepository;
 import com.projectmanager.repository.UserRepository;
 import com.projectmanager.service.ProjectEmployeeService;
@@ -97,7 +98,7 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
     }
 
     @Override
-    public Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId) {
+    public Optional<ProjectEmployee> findByProjectIdAndUserIdAndDeleteIsFalse(Integer projectId, Integer userId) {
         return projectEmployeeRepository.findByProjectIdAndUserIdAndDeleteIsFalse(projectId, userId);
     }
 
@@ -110,14 +111,35 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
     public Boolean addPartner(ArrayList<ProjectEmployee> list) {
         try{
             for ( ProjectEmployee pe : list)
-            {   pe.setDelete(false);
-
-                projectEmployeeRepository.save(pe);
-            };
+            {
+                Optional<ProjectEmployee> p = this.findByProjectIdAndUserId(pe.getProjectId(),pe.getUser().getId());
+                if(p.isPresent()) {
+                    p.get().setDelete(false);
+                    p.get().setDes(pe.getDes());
+                    p.get().setRole(pe.getRole());
+                    p.get().setUser(pe.getUser());
+                    System.out.println(p.get());
+                    projectEmployeeRepository.save(p.get());
+                }else {
+                    System.out.println(pe);
+                    pe.setDelete(false);
+                    projectEmployeeRepository.save(pe);
+                }
+            }
             return true;
         }catch(Exception e){
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public Optional<ProjectEmployee> findByProjectIdAndUser(Integer projectId, User user) {
+        return projectEmployeeRepository.findByProjectIdAndUser(projectId,user);
+    }
+
+    @Override
+    public Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId) {
+        return projectEmployeeRepository.findByProjectIdAndUserId(projectId,userId);
     }
 }

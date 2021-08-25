@@ -11,4 +11,5 @@ public interface ProjectService extends GeneralService<Project> {
     List<Project> findProjectByUserId(Integer userId);
     List<Project> getListProjectOfUser(Integer uId);
 //    Project findProjectById(Integer pId);
+List<Project> searchProject(String name, String status, String startDate, String endDate);
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common'
 import { ProjectService } from '../../service/project.service';
 
 import {
@@ -38,7 +39,8 @@ export class ProjectManagementComponent implements OnInit {
   d1: string;
   d2: string;
   dateCheck = true;
-  public filter: any = '';
+  
+ 
 
   constructor(
     private projectService: ProjectService,
@@ -48,8 +50,28 @@ export class ProjectManagementComponent implements OnInit {
     private jwtService: JwtServiceService,
     private userService: UserService,
     private loginService: LoginService,
-    public fomat:FomatInputService
+    public fomat:FomatInputService,
+    public datepipe: DatePipe
   ) { }
+  formSearch = this.formBuilder.group({
+    name:[''],
+    status:[''],
+    startDate:[''],
+    endDate:['']
+  });
+  onSearch(){
+    let name = this.formSearch.value.name;
+    let status = this.formSearch.value.status;
+    let startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
+    startDate=startDate==null?'':startDate;
+    let endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
+    endDate=endDate==null?'':endDate;
+    this.projectService.searchProject(name, status, startDate, endDate).subscribe(data=>{
+      console.log('datasearch : ',data);
+      
+    })
+    console.log(name, status, startDate, endDate); 
+  }
 
   ngOnInit(): void {
     if (!this.loginService.logIn) {
@@ -105,6 +127,7 @@ export class ProjectManagementComponent implements OnInit {
     this.projectService.getAllProjects().subscribe(
       (data) => {
         this.projectList = data['content'];
+
         this.projectList.forEach((data) => {
           let tasks: Array<any> = <Array<any>>data.taskList;
           let partners: Array<any> = <Array<any>>data.projectEmployeeList;
@@ -125,6 +148,23 @@ export class ProjectManagementComponent implements OnInit {
         console.log(error.error.message);
       }
     );
+  }
+
+  makeData(){
+    this.projectList.forEach((data) => {
+      let tasks: Array<any> = <Array<any>>data.taskList;
+      let partners: Array<any> = <Array<any>>data.projectEmployeeList;
+      let todo = 0;
+      data.taskNum = tasks.length;
+      tasks.forEach((element) => {
+        todo += element['todoList'].length;
+      });
+      data.partnerNum = partners.filter(function (item) {
+        return !item.delete;
+      }).length;
+      console.log(data.partnerNum);
+      data.todoNum = todo;
+    });
   }
   makeForm() {
     this.formProject = new FormGroup({

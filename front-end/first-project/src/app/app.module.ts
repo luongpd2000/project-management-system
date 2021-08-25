@@ -16,6 +16,7 @@ import { GuardGuard } from './guard/guard.guard';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common'
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { FormsModule } from '@angular/forms';
   ],
   providers: [CookieService,
               GuardGuard,
+              DatePipe
             ],
   bootstrap: [AppComponent]
 })

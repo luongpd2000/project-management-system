@@ -50,6 +50,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Project> searchProject(String name, String status, String startDate, String endDate) {
+        return projectRepository.searchProject(name, status, startDate, endDate);
+    }
+
+    @Override
     public Page<Project> getAll(Pageable pageable) {
         return projectRepository.getAllByDeletedIsFalse(pageable);
     }

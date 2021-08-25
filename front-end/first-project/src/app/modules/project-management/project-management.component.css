@@ -12,3 +12,9 @@ p.description {
   overflow: hidden;
   white-space: nowrap;
 }
+.mat-form-field{
+  margin-right: 10px;
+}
+.mat-form-field-wrapper{
+  padding-bottom: 0;
+}

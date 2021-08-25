@@ -19,7 +19,6 @@ export class FomatInputService {
 
   toDatePicker(date: any): DatePicker {
     let date2 = new Date(date);
-
     let rs = new DatePicker(
       date2.getFullYear(),
       date2.getMonth() + 1,

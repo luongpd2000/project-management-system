@@ -7,6 +7,7 @@ import com.projectmanager.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -78,23 +79,23 @@ public class Controller {
 
     //  project MANAGEMENT API
     @GetMapping("/getAllProject")
-    public ResponseEntity<?> getAllProject(@RequestParam(name = "page", defaultValue = "0") Integer page,
-                                           @RequestParam(name = "size", defaultValue = "100") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(projectService.getAll(pageable));
+    public ResponseEntity<?> getAllProject() {
+//        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        return ResponseEntity.ok(projectService.findAll());
     }
 
-    @GetMapping("/findProjectById/{id}")
-    public ResponseEntity<?> findProjectById(@PathVariable Integer id,
-                                             @RequestParam(name = "page") Integer page,
-                                             @RequestParam(name = "size") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(projectService.FindAllNotDelete(id, pageable));
-    }
+//    @GetMapping("/findProjectById/{id}")
+//    public ResponseEntity<?> findProjectById(@PathVariable Integer id,
+//                                             @RequestParam(name = "page") Integer page,
+//                                             @RequestParam(name = "size") Integer size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        return ResponseEntity.ok(projectService.FindAllNotDelete(id, pageable));
+//    }
 
     @GetMapping("/findProjectByUserId/{id}")
     public ResponseEntity<?> findProjectByUserId(@PathVariable Integer id) {
 //        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
         return ResponseEntity.ok(projectService.findProjectByUserId(id));
     }
 
@@ -115,6 +116,7 @@ public class Controller {
         return ResponseEntity.ok(projectEmployeeService.findByUserIdAndDeleteIsFalse(id, pageable));
     }
 
+
     @GetMapping("/getProjectById/{id}")
     public ResponseEntity<?> getProjectById(@PathVariable Integer id) {
         return ResponseEntity.ok(projectService.findById(id));
@@ -128,18 +130,44 @@ public class Controller {
     }
 
     //user-employee management in a project API
+
     @GetMapping("/userInProject/{id}")
     public ResponseEntity<?> findUserInProject(@PathVariable Integer id) {
+//        Sort sort = Sort.by(Sort.Direction.DESC,"id");
         return ResponseEntity.ok(userService.findAllUsersInProject(id));
     }
 
-    @GetMapping("/findListEmployeeByProjectId/{id}")
-    public ResponseEntity<?> findListEmployeeByProjectId(@PathVariable Integer id,
-                                                         @RequestParam(name = "page", defaultValue = "0") Integer page,
-                                                         @RequestParam(name = "size", defaultValue = "100") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(projectEmployeeService.findByProjectId(id, pageable));
+
+    @GetMapping("/userActiveInProject/{id}")
+    public ResponseEntity<?> findUserActiveInProject(@PathVariable Integer id) {
+//        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        return ResponseEntity.ok(userService.findAllUsersInProject(id));
     }
+
+
+    @GetMapping("/userDeletedInProject/{id}")
+    public ResponseEntity<?> findUserDeletedInProject(@PathVariable Integer id) {
+//        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        return ResponseEntity.ok(userService.findAllUsersInProject(id));
+    }
+
+
+
+    @GetMapping("/findListEmployeeByProjectId/{id}")
+    public ResponseEntity<?> findListEmployeeByProjectId(@PathVariable Integer id) {
+        return ResponseEntity.ok(projectEmployeeService.findByProjectId(id));
+    }
+
+    @GetMapping("/findListEmployeeActiveByProjectId/{id}")
+    public ResponseEntity<?> findListEmployeeActiveByProjectId(@PathVariable Integer id) {
+        return ResponseEntity.ok(projectEmployeeService.findByProjectIdAndDeleteIsFalse(id));
+    }
+
+    @GetMapping("/findListEmployeeDeletedByProjectId/{id}")
+    public ResponseEntity<?> findListEmployeeDeletedByProjectId(@PathVariable Integer id) {
+        return ResponseEntity.ok(projectEmployeeService.findByProjectIdAndDeleteIsTrue(id));
+    }
+
 
     @GetMapping("/getListProjectOfUser/{id}")
     public ResponseEntity<?> getListProjectOfUser(@PathVariable Integer id) {
@@ -156,7 +184,8 @@ public class Controller {
     public ResponseEntity<?> findByAssignedUser(@PathVariable Integer id,
                                                 @RequestParam(name = "page", defaultValue = "0") Integer page,
                                                 @RequestParam(name = "size", defaultValue = "100") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable = PageRequest.of(page, size,sort);
         return ResponseEntity.ok(todoService.findByAssignedUser(id, pageable));
     }
 
@@ -189,7 +218,8 @@ public class Controller {
     public ResponseEntity<?> findTodoByTaskIdPageable(@PathVariable Integer id,
                                                       @RequestParam(name = "page", defaultValue = "0") Integer page,
                                                       @RequestParam(name = "size", defaultValue = "100") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable = PageRequest.of(page, size,sort);
         return ResponseEntity.ok(todoService.findByTaskIdAndDeletedIsFalse(id, pageable));
     }
 
@@ -236,7 +266,8 @@ public class Controller {
     public ResponseEntity<?> userTaskListPageable(@RequestParam(name = "userId") Integer id,
                                                   @RequestParam(name = "page", defaultValue = "0") Integer page,
                                                   @RequestParam(name = "size", defaultValue = "100") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable = PageRequest.of(page, size,sort);
         return ResponseEntity.ok(taskService.findByUserPageable(id, pageable));
     }
 
@@ -244,7 +275,8 @@ public class Controller {
     public ResponseEntity<?> projectTaskList(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                              @RequestParam(name = "size", defaultValue = "100") Integer size,
                                              @RequestParam(name = "projectId") Integer id) {
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable = PageRequest.of(page, size,sort);
         return ResponseEntity.ok(taskService.findByProjectPageable(id, pageable));
     }
 

@@ -9,6 +9,7 @@ import com.projectmanager.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 @RestController
@@ -40,21 +42,24 @@ public class AdminController {
     @GetMapping("/userList")//
     public ResponseEntity<?> userList(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                       @RequestParam(name = "size", defaultValue = "100") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable = PageRequest.of(page, size,sort);
         return ResponseEntity.ok(userService.getAll(pageable));
     }
 
     @GetMapping("/userActiveList")//
     public ResponseEntity<?> userActiveList(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                       @RequestParam(name = "size", defaultValue = "100") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable = PageRequest.of(page, size,sort);
         return ResponseEntity.ok(userService.findAllByDeleteIsFalse(pageable));
     }
 
     @GetMapping("/userDeletedList")//
     public ResponseEntity<?> userDeletedList(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                       @RequestParam(name = "size", defaultValue = "100") Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable = PageRequest.of(page, size,sort);
         return ResponseEntity.ok(userService.findAllByDeleteIsTrue(pageable));
     }
 

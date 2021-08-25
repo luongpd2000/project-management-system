@@ -12,6 +12,7 @@ import { idRole } from 'src/app/data/schema/id-role';
 import { DetailsUserComponent } from '../add-users/details-user/details-user.component';
 import { ProjectEmployee } from 'src/app/data/schema/project-employee';
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
+import { StatusService } from 'src/app/data/service/status.service';
 
 @Component({
   selector: 'app-members-in-project',
@@ -27,12 +28,13 @@ export class MembersInProjectComponent implements OnInit {
   pe: ProjectEmployee;
   isAdmin: boolean = true;
   role!: String;
+  filter: String = 'all';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource!: MatTableDataSource<ProjectEmployee>;
 
-  displayedColumns: string[] = ['stt' ,'id', 'fullName', 'email', 'role', 'action'];
+  displayedColumns: string[] = ['stt' ,'id', 'fullName', 'email', 'role', 'status','action'];
   selection = new SelectionModel<ProjectEmployee>(true, []);
   alert: boolean = false;
   closeAlert() {
@@ -44,7 +46,8 @@ export class MembersInProjectComponent implements OnInit {
       private route: ActivatedRoute,
       public dialog: MatDialog,
       private modalService: NgbModal,
-      private jwtService: JwtServiceService) {
+      private jwtService: JwtServiceService,
+      public getStatus: StatusService) {
   }
 
   ngOnInit(): void {
@@ -58,22 +61,35 @@ export class MembersInProjectComponent implements OnInit {
   }
 
   getData() {
-    // this.userService.getPartner(this.projectId).subscribe(data => {
-    //   console.log('run again');
-    //   this.listUsers = data;
-    //   this.listUsers.forEach(data => { data.pRole = 'dev' })
-    //   console.log('list users', this.listUsers);
-    //   this.dataSource = new MatTableDataSource<User>(this.listUsers);
-    //   console.log("datasouce", this.dataSource.data.length);
-    //   this.dataSource.paginator = this.paginator;
-    // })
 
     this.userService.getUsersInProject(this.projectId).subscribe(
       data=>{
-        // console.log(data);
-        this.listUsers = data['content'];
+        this.listUsers = data;
         console.log('member: ', this.listUsers);
-        
+        this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
+        this.dataSource.paginator = this.paginator;
+      }
+    )
+  }
+
+  getDataActive(){
+    this.userService.getUsersActiveInProject(this.projectId).subscribe(
+      data=>{
+        this.listUsers = data;
+        console.log('member: ', this.listUsers);
+
+        this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
+        this.dataSource.paginator = this.paginator;
+      }
+    )
+  }
+
+  getDataDelete(){
+    this.userService.getUsersDeletedInProject(this.projectId).subscribe(
+      data=>{
+        this.listUsers = data;
+        console.log('member: ', this.listUsers);
+
         this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
         this.dataSource.paginator = this.paginator;
       }
@@ -82,7 +98,6 @@ export class MembersInProjectComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator
-
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -99,26 +114,6 @@ export class MembersInProjectComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
-  // logSelection() {
-  //   this.selection.selected.forEach(s => {
-  //     console.log(s.id, s.pRole);
-  //     this.arr2.push({ userId: s.id, role: s.pRole, projectId: this.projectId });
-  //   });
-  //   this.saveRole(this.arr2);
-  //   this.modalService.dismissAll();
-  // }
-
-  // saveRole(list: Array<any>) {
-  //   this.projectService.postRole(list).subscribe(data => {
-  //     console.log('ADD User seccess');
-  //     this.alert = true;
-  //     this.arr2 = [];
-  //     this.ngOnInit()
-  //   });
-
-  // }
-
 
   deleteMember(){
       this.projectService.deleteUserInProject(this.pe.id).subscribe(
@@ -162,9 +157,18 @@ openCofirmUpdate(content, element){
   this.getData();
 }
 
+selectStatus(event){
+  console.log(event.target.value)
+  this.filter = event.target.value;
+  if(this.filter==='all') this.getData();
+  if(this.filter==='active') this.getDataActive();
+  if(this.filter==='delete') this.getDataDelete();
+}
+
+
 updateRole(){
   this.userService.updateProjectEmployee(this.pe).subscribe(data=>{
-    console.log('update', data); 
+    console.log('update', data);
     this.getData();
     this.modalService.dismissAll();
   })

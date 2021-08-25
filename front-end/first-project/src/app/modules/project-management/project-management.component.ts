@@ -17,6 +17,9 @@ import { User } from 'src/app/data/schema/user';
 import { LoginService } from 'src/app/service/login.service';
 import { idRole } from 'src/app/data/schema/id-role';
 import { FomatInputService } from 'src/app/data/service/fomat-input.service';
+import {Todo} from 'src/app/data/schema/todo';
+
+
 
 @Component({
   selector: 'app-project-management',
@@ -37,6 +40,7 @@ export class ProjectManagementComponent implements OnInit {
   admin: User = new User();
   d1: string;
   d2: string;
+  progress: number = 0;
   dateCheck = true;
   public filter: any = '';
 
@@ -75,13 +79,23 @@ export class ProjectManagementComponent implements OnInit {
         this.projectService.getListProjectOfUser(this.userId).subscribe(
           (data) => {
             this.projectList = data;
-            console.log(this.projectList);
+
+            console.log('Project List: ' +this.projectList);
             this.projectList.forEach((data) => {
               let tasks: Array<any> = <Array<any>>data.taskList;
               let partners: Array<any> = <Array<any>>data.projectEmployeeList;
               let todo = 0;
+              let todoProgress = 0;
+
+
+
+
               data.taskNum = tasks.length;
               tasks.forEach((element) => {
+                element.todoList;
+                if ((element['todoList'].status) == 'done') {
+                  todoProgress ++;
+                }
                 todo += element['todoList'].length;
               });
               data.partnerNum = partners.filter(function (item) {
@@ -89,8 +103,11 @@ export class ProjectManagementComponent implements OnInit {
               }).length;
               console.log(data.partnerNum);
               data.todoNum = todo;
+              data.progress = (todoProgress/todo) * 100;
+
             });
-            console.log(this.projectList);
+            console.log('Project list: '+ this.projectList);
+
           },
           (error) => {
             console.log(error.error.message);
@@ -98,6 +115,8 @@ export class ProjectManagementComponent implements OnInit {
         );
       });
     }
+
+
   }
 
   date = new Date();
@@ -109,15 +128,34 @@ export class ProjectManagementComponent implements OnInit {
           let tasks: Array<any> = <Array<any>>data.taskList;
           let partners: Array<any> = <Array<any>>data.projectEmployeeList;
           let todo = 0;
+          let todoProgress = 0;
+
           data.taskNum = tasks.length;
           tasks.forEach((element) => {
+
+            element['todoList'].forEach((todo)=>{
+              if (todo.status === 'done'){
+                todoProgress ++;
+              }
+
+            })
             todo += element['todoList'].length;
           });
           data.partnerNum = partners.filter(function (item) {
             return !item.delete;
           }).length;
-          console.log(data.partnerNum);
+          console.log('partner '+ data.partnerNum);
           data.todoNum = todo;
+          if (todo == 0){
+            data.progress = 0;
+          } else {
+            data.progress = Math.round(todoProgress/todo * 100);
+          }
+
+
+          console.log('todoProgress '+todoProgress)
+          console.log('todoNum '+data.todoNum);
+          console.log(' progress '+data.progress);
         });
         console.log(this.projectList);
       },

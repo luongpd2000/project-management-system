@@ -65,9 +65,13 @@ export class ProjectService {
   }
 
   searchProject(name:String, status:String, startDate:String, endDate:String):Observable<any>{
-    const projectUrl = `${this.baseUrl}search-project?name=${name}&status=${status}&startDate=${startDate}&endDate=${endDate}`;
+    const projectUrl = `${this.baseUrl}project_management/search-project?name=${name}&status=${status}&startDate=${startDate}&endDate=${endDate}`;
     return this.http.get<any>(projectUrl,this.httpOptions);
   }
 
+  searchProjectWithUserId(name:String, status:String, startDate:String, endDate:String, uId:number):Observable<any>{
+    const projectUrl = `${this.baseUrl}project_management/searchProjectWithUserId?uId=${uId}&name=${name}&status=${status}&startDate=${startDate}&endDate=${endDate}`;
+    return this.http.get<any>(projectUrl,this.httpOptions);
+  }
 
 }

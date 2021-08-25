@@ -11,7 +11,7 @@
               <div class="form-group searchInput">
                 <label for="">Search:</label>
                 <input type="search" class="form-control" id="filterbox" placeholder="Search..."
-                  aria-describedby="basic-addon2"  autocomplete="off" [(ngModel)]="filter" >
+                  aria-describedby="basic-addon2"  autocomplete="off" >
               </div>
             </div>
           </div>
@@ -50,7 +50,7 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="Project-List" role="tabpanel">
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 mb-3" style="margin-top: 30px;" *ngFor="let p of projectList | searchFilter: filter">
+                    <div class="col-lg-6 col-md-12 mb-3" style="margin-top: 30px;" *ngFor="let p of projectList">
                         <a class="link-detail" routerLink='/project-manager/p-details/{{p.id}}'>
                             <div class="card">
                                 <div class="card-header">
@@ -162,7 +162,6 @@
                     <button type="button" class="btn btn-secondary" (click)="modal.dismiss()" >Close</button>
                   </div>
             </div>
-
 
 </ng-template>
 

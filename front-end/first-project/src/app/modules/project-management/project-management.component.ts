@@ -123,7 +123,8 @@ export class ProjectManagementComponent implements OnInit {
   getDetails() {
     this.projectService.getAllProjects().subscribe(
       (data) => {
-        this.projectList = data['content'];
+        console.log(data)
+        this.projectList = data;
         this.projectList.forEach((data) => {
           let tasks: Array<any> = <Array<any>>data.taskList;
           let partners: Array<any> = <Array<any>>data.projectEmployeeList;

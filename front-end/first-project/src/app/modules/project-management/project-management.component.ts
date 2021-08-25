@@ -18,6 +18,9 @@ import { User } from 'src/app/data/schema/user';
 import { LoginService } from 'src/app/service/login.service';
 import { idRole } from 'src/app/data/schema/id-role';
 import { FomatInputService } from 'src/app/data/service/fomat-input.service';
+import {Todo} from 'src/app/data/schema/todo';
+
+
 
 @Component({
   selector: 'app-project-management',
@@ -40,6 +43,7 @@ export class ProjectManagementComponent implements OnInit {
   admin: User = new User();
   d1: string;
   d2: string;
+  progress: number = 0;
   dateCheck = true;
   formSearch:FormGroup;
   makeSearchForm(){
@@ -85,6 +89,8 @@ export class ProjectManagementComponent implements OnInit {
         this.getDetailForUser();
       });
     }
+
+
   }
   
   onSearch(){// search project

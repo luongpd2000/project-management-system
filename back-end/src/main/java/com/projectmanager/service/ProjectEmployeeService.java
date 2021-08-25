@@ -1,6 +1,7 @@
 package com.projectmanager.service;
 
 import com.projectmanager.entity.ProjectEmployee;
+import com.projectmanager.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,10 +18,16 @@ public interface ProjectEmployeeService extends GeneralService<ProjectEmployee>{
     List<ProjectEmployee> findByProjectIdAndDeleteIsTrue(Integer id);
 
 
-    Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId);
+    Optional<ProjectEmployee> findByProjectIdAndUserIdAndDeleteIsFalse(Integer projectId, Integer userId);
 
     Page<ProjectEmployee> findByUserIdAndDeleteIsFalse(Integer userId,Pageable pageable);
 
     Boolean addPartner(ArrayList<ProjectEmployee> list);
+
+    Optional<ProjectEmployee> findByProjectIdAndUser(Integer projectId, User user);
+
+    Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId);
+
+
 
 }

@@ -84,8 +84,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllByDeleteIsFalse() {
-        return userRepository.findAllByDeleteIsFalse();
+    public Page<User> findAllByDeleteIsFalse(Pageable pageable) {
+        return userRepository.findAllByDeleteIsFalse(pageable);
+    }
+
+    @Override
+    public Page<User> findAllByDeleteIsTrue(Pageable pageable) {
+        return userRepository.findAllByDeleteIsTrue(pageable);
+    }
+
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
 
@@ -93,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> getAll(Pageable pageable) {
         System.out.println("find all project ");
-        return userRepository.findAllByDeleteIsFalse(pageable);
+        return userRepository.findAll(pageable);
     }
 
     @Override

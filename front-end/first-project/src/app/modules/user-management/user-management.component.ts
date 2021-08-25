@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordRecover } from 'src/app/data/schema/password-recover';
 import { User } from 'src/app/data/schema/user';
+import { StatusService } from 'src/app/data/service/status.service';
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -33,6 +34,7 @@ export class UserManagementComponent implements OnInit {
   thePageSize: number = 5;
   theTotalElements: number = 0;
   allUsers: User[] = [];
+  filter: String = 'all';
 
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -45,6 +47,7 @@ export class UserManagementComponent implements OnInit {
     'Email',
     'Phone',
     'Address',
+    'Status',
     'Action',
   ];
   selection = new SelectionModel<User>(true, []);
@@ -54,7 +57,8 @@ export class UserManagementComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private jwt: JwtServiceService,
-    private router: Router
+    private router: Router,
+    public getStatus: StatusService
   ) {}
 
   ngOnInit() {
@@ -126,6 +130,50 @@ export class UserManagementComponent implements OnInit {
       );
   }
 
+  getDataActive() {
+    this.userService
+      .getAllUsersActivePageable(this.thePageNumber - 1, this.thePageSize)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          this.userList = data['content'];
+          console.log(this.userList);
+          this.statusDelete = false;
+          this.dataSource = new MatTableDataSource<User>(this.userList);
+          //this.userList = data._embedded.users;
+          this.thePageNumber = data.pageable.pageNumber + 1;
+          this.thePageSize = data.pageable.pageSize;
+          this.theTotalElements = data.totalElements;
+        },
+        (error) => {
+          console.log(error.error.message);
+        }
+      );
+  }
+
+  getDataDelete() {
+    this.userService
+      .getAllUsersDeletePageable(this.thePageNumber - 1, this.thePageSize)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          this.userList = data['content'];
+          console.log(this.userList);
+          this.statusDelete = false;
+          this.dataSource = new MatTableDataSource<User>(this.userList);
+          //this.userList = data._embedded.users;
+          this.thePageNumber = data.pageable.pageNumber + 1;
+          this.thePageSize = data.pageable.pageSize;
+          this.theTotalElements = data.totalElements;
+        },
+        (error) => {
+          console.log(error.error.message);
+        }
+      );
+  }
+
+
+
   getAllData() {
     this.userService.getAllUsers().subscribe(
       (data) => {
@@ -143,7 +191,15 @@ export class UserManagementComponent implements OnInit {
     this.thePageSize = event.target.value;
     console.log(this.thePageSize);
     this.thePageNumber = 1;
-    this.getData();
+    if(this.filter==='all') this.getData();
+    if(this.filter==='active') this.getDataActive();
+    if(this.filter==='delete') this.getDataDelete();
+  }
+
+  changePage(){
+    if(this.filter==='all') this.getData();
+    if(this.filter==='active') this.getDataActive();
+    if(this.filter==='delete') this.getDataDelete();
   }
 
   openDetails(content: any, element) {
@@ -285,6 +341,20 @@ export class UserManagementComponent implements OnInit {
     }
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+
+  selectStatus(event){
+    console.log(event.target.value)
+    this.filter = event.target.value;
+    if(this.filter==='all') this.getData();
+    if(this.filter==='active') this.getDataActive();
+    if(this.filter==='delete') this.getDataDelete();
+  }
+
+
+
+
+
 
   get username() {
     return this.userForm.get('username');

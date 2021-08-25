@@ -19,7 +19,13 @@ public interface UserService extends UserDetailsService, GeneralService<User> {
 
     Optional<List<User>> findAllUsersInProject(Integer id);
 
-    List<User> findAllByDeleteIsFalse( );
+    Page<User> findAllByDeleteIsFalse(Pageable pageable);
+
+    Page<User> findAllByDeleteIsTrue(Pageable pageable);
+
+
+    List<User> findAll();
+
 
     String passwordRecover(PasswordRecover pr);
 }

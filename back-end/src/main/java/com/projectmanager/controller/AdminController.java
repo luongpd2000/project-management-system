@@ -44,9 +44,25 @@ public class AdminController {
         return ResponseEntity.ok(userService.getAll(pageable));
     }
 
+    @GetMapping("/userActiveList")//
+    public ResponseEntity<?> userActiveList(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                      @RequestParam(name = "size", defaultValue = "100") Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(userService.findAllByDeleteIsFalse(pageable));
+    }
+
+    @GetMapping("/userDeletedList")//
+    public ResponseEntity<?> userDeletedList(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                      @RequestParam(name = "size", defaultValue = "100") Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(userService.findAllByDeleteIsTrue(pageable));
+    }
+
+
+
     @GetMapping("/findAllUser")
     public ResponseEntity<?> findAll(){
-        return ResponseEntity.ok(userService.findAllByDeleteIsFalse());
+        return ResponseEntity.ok(userService.findAll());
     }
 
     @PostMapping("/addUser")//

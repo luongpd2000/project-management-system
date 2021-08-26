@@ -6,21 +6,16 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DateDMYPipe } from 'src/app/date-dmy.pipe';
-
-
-
 
 @NgModule({
-  declarations: [DateDMYPipe],
+  declarations: [],
   imports: [
     CommonModule,
     ProjectDetailsRoutingModule,
     MaterialModule,
     MatButtonModule,
     MatIconModule,
-    NgbModule
-    
+    NgbModule 
   ]
 })
 export class ProjectDetailsModule { }

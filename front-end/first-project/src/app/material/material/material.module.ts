@@ -9,6 +9,8 @@ import {MatSelectModule} from '@angular/material/select';
 
 import {MatTableModule} from '@angular/material/table';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
 
 @NgModule({
   exports: [
@@ -17,6 +19,7 @@ import {MatTableModule} from '@angular/material/table';
     MatPaginatorModule,
     MatSelectModule,
     MatTableModule,
+    MatDatepickerModule
   ]
 })
 export class MaterialModule {}

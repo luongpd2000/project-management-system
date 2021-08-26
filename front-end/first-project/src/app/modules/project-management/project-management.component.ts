@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common'
 import { ProjectService } from '../../service/project.service';
 
 import {
@@ -28,6 +29,8 @@ import {Todo} from 'src/app/data/schema/todo';
 })
 export class ProjectManagementComponent implements OnInit {
   projectList: ProjectDetails[] = [];
+  projectSearchList:ProjectDetails[]=[];
+  allProject:ProjectDetails[]=[];
   newProject: Project = new Project(); //
   formProject!: FormGroup;
   username!: String;
@@ -42,8 +45,16 @@ export class ProjectManagementComponent implements OnInit {
   d2: string;
   progress: number = 0;
   dateCheck = true;
-  public filter: any = '';
-
+  formSearch:FormGroup;
+  makeSearchForm(){
+    this.formSearch = this.formBuilder.group({
+      name:[''],
+      status:[''],
+      startDate:[''],
+      endDate:['']
+    });
+  }
+   
   constructor(
     private projectService: ProjectService,
     private formBuilder: FormBuilder,
@@ -52,21 +63,21 @@ export class ProjectManagementComponent implements OnInit {
     private jwtService: JwtServiceService,
     private userService: UserService,
     private loginService: LoginService,
-    public fomat:FomatInputService
+    public fomat:FomatInputService,
+    public datepipe: DatePipe
   ) { }
 
+  
   ngOnInit(): void {
     if (!this.loginService.logIn) {
       this.projectList = null;
     }
-
     this.makeForm();
-
+    this.makeSearchForm();
     this.role = this.jwtService.getRole();
 
     if (this.role === '[ROLE_ADMIN]') {
       this.getDetails();
-
     } else {
       this.isAdmin = false;
       this.username = this.jwtService.getUsername();
@@ -75,89 +86,45 @@ export class ProjectManagementComponent implements OnInit {
         this.user = data;
         console.log(data);
         this.userId = this.user.id;
-
-        this.projectService.getListProjectOfUser(this.userId).subscribe(
-          (data) => {
-            this.projectList = data;
-
-            console.log('Project List: ' +this.projectList);
-            this.projectList.forEach((data) => {
-              let tasks: Array<any> = <Array<any>>data.taskList;
-              let partners: Array<any> = <Array<any>>data.projectEmployeeList;
-              let todo = 0;
-              let todoProgress = 0;
-
-
-
-
-              data.taskNum = tasks.length;
-              tasks.forEach((element) => {
-                element.todoList;
-                if ((element['todoList'].status) == 'done') {
-                  todoProgress ++;
-                }
-                todo += element['todoList'].length;
-              });
-              data.partnerNum = partners.filter(function (item) {
-                return !item.delete;
-              }).length;
-              console.log(data.partnerNum);
-              data.todoNum = todo;
-              data.progress = (todoProgress/todo) * 100;
-
-            });
-            console.log('Project list: '+ this.projectList);
-
-          },
-          (error) => {
-            console.log(error.error.message);
-          }
-        );
+        this.getDetailForUser();
       });
     }
 
 
   }
+  
+  onSearch(){// search project
+    let name = this.formSearch.value.name;
+    let status = this.formSearch.value.status;
+    let startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
+    startDate=startDate==null?'':startDate;
+    let endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
+    endDate=endDate==null?'':endDate;
+    if(this.isAdmin){
+      this.projectService.searchProject(name, status, startDate, endDate).subscribe(data=>{
+        console.log('datasearch : ',data);
+        this.projectList = data;
+        this.makeData();   
+      })
+    }else{
+      this.projectService.searchProjectWithUserId(name, status, startDate, endDate, this.userId).subscribe(data=>{
+        console.log('data search: ', data);
+        this.projectList = data;
+        this.makeData();
+      })
+    }
+    
+    console.log(name, status, startDate, endDate); 
+  
+  }
 
-  date = new Date();
-  getDetails() {
+  getDetails() {//get all project for admin
     this.projectService.getAllProjects().subscribe(
       (data) => {
         console.log(data)
         this.projectList = data;
-        this.projectList.forEach((data) => {
-          let tasks: Array<any> = <Array<any>>data.taskList;
-          let partners: Array<any> = <Array<any>>data.projectEmployeeList;
-          let todo = 0;
-          let todoProgress = 0;
-
-          data.taskNum = tasks.length;
-          tasks.forEach((element) => {
-
-            element['todoList'].forEach((todo)=>{
-              if (todo.status === 'done'){
-                todoProgress ++;
-              }
-
-            })
-            todo += element['todoList'].length;
-          });
-          data.partnerNum = partners.filter(function (item) {
-            return !item.delete;
-          }).length;
-          console.log('partner '+ data.partnerNum);
-          data.todoNum = todo;
-          if (todo == 0){
-            data.progress = 0;
-          } else {
-            data.progress = Math.round(todoProgress/todo * 100);
-          }
-
-
-          console.log('todoProgress '+todoProgress)
-          console.log('todoNum '+data.todoNum);
-          console.log(' progress '+data.progress);
-        });
+        this.allProject = this.projectList;
+        this.makeData();
         console.log(this.projectList);
       },
       (error) => {
@@ -165,7 +132,39 @@ export class ProjectManagementComponent implements OnInit {
       }
     );
   }
-  makeForm() {
+
+  getDetailForUser(){//get all project this user joined and joining
+    this.projectService.getListProjectOfUser(this.userId).subscribe(
+      (data) => {
+        this.projectList = data;
+        this.allProject = this.projectList;
+        this.makeData();
+        console.log(this.projectList);
+      },
+      (error) => {
+        console.log(error.error.message);
+      }
+    );
+  }
+
+  makeData(){// custom data like number of todo, task, teamsize...
+    this.projectList.forEach((data) => {
+      let tasks: Array<any> = <Array<any>>data.taskList;
+      let partners: Array<any> = <Array<any>>data.projectEmployeeList;
+      let todo = 0;
+      data.taskNum = tasks.length;
+      tasks.forEach((element) => {
+        todo += element['todoList'].length;
+      });
+      data.partnerNum = partners.filter(function (item) {
+        return !item.delete;
+      }).length;
+      console.log(data.partnerNum);
+      data.todoNum = todo;
+    });
+  }
+
+  makeForm() {// make form search
     this.formProject = new FormGroup({
       name: new FormControl('', [Validators.required]),
       des: new FormControl(null, [Validators.required]),
@@ -175,7 +174,12 @@ export class ProjectManagementComponent implements OnInit {
     });
   }
 
-  open(content: any) {
+  getAllProject(){
+    this.projectList=this.allProject;
+    this.makeSearchForm();
+  }
+
+  open(content: any) {//open a content modal
     this.makeForm();
     this.modalService.open(content, {
       centered: true,
@@ -183,34 +187,22 @@ export class ProjectManagementComponent implements OnInit {
     });
   }
 
-  close() { }
-
-  fomatDate(date: any): string {
-    if(date===null) return '';
-    let rs = '';
-    let year = date.year;
-    let month: String = new String(date.month);
-    if (month.length == 1) month = '0' + month;
-    let day: String = new String(date.day);
-    if (day.length == 1) day = '0' + day;
-    return year + '-' + month + '-' + day;
-  }
   saveProject() {
     this.dateCheck = true;
     if (this.formProject.valid) {
       console.log('click save!!!');
       this.newProject.name = this.formProject.value.name;
       this.newProject.des = this.formProject.value.des;
-      this.newProject.startDate = this.fomatDate(
+      this.newProject.startDate = this.fomat.fomatDate(
         this.formProject.value.startDate
       );
-      this.newProject.endDate = this.fomatDate(this.formProject.value.endDate);
+      this.newProject.endDate = this.fomat.fomatDate(this.formProject.value.endDate);
       this.newProject.status = this.formProject.value.status;
       // this.newProject.creater = 1;
 
       console.log(
-        this.fomatDate(this.newProject.startDate),
-        this.fomatDate(this.formProject.value.endDate)
+        this.fomat.fomatDate(this.newProject.startDate),
+        this.fomat.fomatDate(this.formProject.value.endDate)
       );
 
       this.d1 = this.newProject.startDate.toString();

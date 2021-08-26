@@ -99,6 +99,23 @@ public class Controller {
         return ResponseEntity.ok(projectService.findProjectByUserId(id));
     }
 
+    @GetMapping("/search-project")
+    public ResponseEntity<?> searchProject(@RequestParam String name,
+                                           @RequestParam String status,
+                                           @RequestParam String startDate,
+                                           @RequestParam String endDate){
+        return ResponseEntity.ok(projectService.searchProject(name, status, startDate, endDate));
+    }
+
+    @GetMapping("/searchProjectWithUserId")
+    public ResponseEntity<?> searchProjectWithUserId(@RequestParam String name,
+                                           @RequestParam String status,
+                                           @RequestParam String startDate,
+                                           @RequestParam String endDate,
+                                                     @RequestParam Integer uId){
+        return ResponseEntity.ok(projectService.searchProjectWithUserId(uId, name, status, startDate, endDate));
+    }
+
     //projectEmployee API
     @GetMapping("/findProjectListByUserId/{id}")
     public ResponseEntity<?> findProjectListByUserId(@PathVariable Integer id,
@@ -283,6 +300,8 @@ public class Controller {
     public ResponseEntity<?> createTaskHistory(@Valid @RequestBody TaskHistory taskHistory) {
         return ResponseEntity.ok(taskHistoryService.create(taskHistory));
     }
+
+
 
 
 

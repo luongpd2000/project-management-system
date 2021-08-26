@@ -1,5 +1,6 @@
 package com.projectmanager.repository;
 
+import com.projectmanager.dto.ProjectDto;
 import com.projectmanager.entity.Project;
 import com.projectmanager.entity.User;
 import org.springframework.data.domain.Page;
@@ -52,6 +53,21 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaS
     @Modifying
     @Query(value = "SELECT p.* FROM project p, project_employee pe WHERE pe.user_id = ?1 AND p.id= pe.project_id ORDER BY id DESC",nativeQuery = true)
     List<Project> getListProjectOfUser(Integer uId);
+
+    @Query(value="SELECT p.* FROM project p where p.is_deleted = false AND p.name like %?1% " +
+            "AND (?2 = '' OR p.status = ?2)" +
+            "AND (?3 = '' or p.start_date >= ?3)" +
+            "AND (?4 = '' or p.end_date <= ?4)", nativeQuery = true)
+    List<Project> searchProject(String name, String status, String startDate, String endDate);
+
+    @Query(value="SELECT p.* FROM project p, project_employee pe  where p.id = pe.project_id  " +
+            "AND p.is_deleted = false AND pe.is_deleted = false " +
+            "AND pe.user_id = ?1 " +
+            "AND p.name like %?2%  " +
+            "AND (?3 = '' OR p.status = ?3) " +
+            "AND (?4 = '' or p.start_date >= ?4) " +
+            "AND (?5 = '' or p.end_date <= ?5)", nativeQuery = true)
+    List<Project> searchProjectWithUserId(Integer uId, String name, String status, String startDate, String endDate);
 
 
 }

@@ -11,8 +11,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { ListTaskComponent } from './project-details/list-task/list-task.component';
 import { ListTodoComponent } from './task-details/list-todo/list-todo.component';
-import { SearchFilterPipe } from 'src/app/search-filter.pipe';
-
 
 // import { NgSelectModule } from '@ng-select/ng-select';
 //
@@ -27,8 +25,8 @@ import { SearchFilterPipe } from 'src/app/search-filter.pipe';
     TaskDetailsComponent,
     AddUsersComponent,
     ListTaskComponent,
-    ListTodoComponent,
-    SearchFilterPipe
+    ListTodoComponent
+
   
   ],
   imports: [

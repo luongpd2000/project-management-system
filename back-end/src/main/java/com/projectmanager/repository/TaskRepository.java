@@ -33,7 +33,17 @@ public interface TaskRepository extends JpaRepository<Task, Integer>, JpaSpecifi
 
     List<Task>  getByProjectIdAndDeletedIsFalse(Integer id);
 
-
+    @Query(value="SELECT * FROM task t where t.is_deleted = false AND t.name like %?1% " +
+            "AND (?2 = '' OR t.status = ?2)"  +
+            "AND (?3 = '' OR t.priority = ?3) " +
+            "AND (?4 = '' OR t.task_type = ?4) " +
+            "AND (?5 = 0 OR t.task_manager_id = ?5) " +
+            "AND (?6 = '' or t.start_date >= ?6) " +
+            "AND (?7 = '' or t.end_date <= ?7) " +
+            "AND t.project_id = ?8 " +
+            "ORDER BY t.id  ", nativeQuery = true)
+    Page<Task> searchTask(String name, String status, String priority, String type,
+                          Integer leaderId, String startDate, String endDate, Integer projectId, Pageable pageable);
 
 
 //    Page <Task> search()

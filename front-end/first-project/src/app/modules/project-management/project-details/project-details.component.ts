@@ -174,6 +174,12 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
 
+  changedTodoNum(taskNumber:number){
+    this.taskNum = taskNumber;
+    console.log('todoNum: ', this.taskNum);
+    
+  }
+
   get name() {
     return this.formProject.get('name');
   }

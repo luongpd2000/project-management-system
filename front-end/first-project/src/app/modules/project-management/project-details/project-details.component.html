@@ -42,7 +42,7 @@
     </div>
   </div>
 </main>
-<app-list-task [currentProjectId]="currentProjectId" [memberList]="memberList" (updateDetails)="loadDetails()">
+<app-list-task [currentProjectId]="currentProjectId" [memberList]="memberList" [taskNum]="taskNum" (taskNumChanged)='changedTodoNum($event)'>
 
 </app-list-task>
 <!-- detail project end -->

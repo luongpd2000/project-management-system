@@ -80,4 +80,11 @@ export class TaskService {
     const taskUrl = `${this.baseUrl}/projectTaskList/?projectId=${pId}&page=${thePage}&size=${thePageSize}`;
     return this.httpClient.get<any>(taskUrl, this.httpOptions);
   }
-}
+
+  searchTask(name:String , status:String , priority: String , type: String ,
+    leaderId:number,  startDate: String,  endDate: String,  projectId: number,thePage: number,
+    thePageSize: number):Observable<any>{
+        const taskUrl = `${this.baseUrl}/searchTask?name=${name}&status=${status}&startDate=${startDate}&endDate=${endDate}&type=${type}&priority=${priority}&leaderId=${leaderId}&page=${thePage}&size=${thePageSize}&projectId=${projectId}`;
+        return this.httpClient.get<any>(taskUrl, this.httpOptions);
+    }
+  }

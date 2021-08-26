@@ -152,15 +152,30 @@ export class ProjectManagementComponent implements OnInit {
       let tasks: Array<any> = <Array<any>>data.taskList;
       let partners: Array<any> = <Array<any>>data.projectEmployeeList;
       let todo = 0;
+      let todoProgress = 0;
+
       data.taskNum = tasks.length;
       tasks.forEach((element) => {
+        element['todoList'].forEach((todo)=>{
+          if (todo.status === 'done'){
+            todoProgress ++;
+          }
+
+        })
         todo += element['todoList'].length;
       });
+
       data.partnerNum = partners.filter(function (item) {
         return !item.delete;
       }).length;
       console.log(data.partnerNum);
       data.todoNum = todo;
+      if (todo == 0){
+        data.progress = 0;
+      } else {
+        data.progress = Math.round(todoProgress/todo * 100);
+      }
+
     });
   }
 

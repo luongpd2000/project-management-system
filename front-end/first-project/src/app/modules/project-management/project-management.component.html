@@ -2,13 +2,8 @@
     <div class="container-fluid p-30">
         <p style="    margin-bottom: 30px;" class="page-name">List Project</p>
         <div class="search-input row d-flex">
-            
+
             <div class="col-12">
-                <!-- <div class="form-group searchInput">
-                  <label for="">Search:</label>
-                  <input type="search" class="form-control" id="filterbox" placeholder="Search..."
-                    aria-describedby="basic-addon2"  autocomplete="off" >
-                </div> -->
                 <form [formGroup]="formSearch">
                   <mat-form-field appearance="fill">
                       <mat-label>Name</mat-label>
@@ -59,7 +54,7 @@
     <div class="container-fluid">
         <div class="tab-content">
             <div class="tab-pane fade show active" id="Project-List" role="tabpanel">
-                <div class="row" *ngIf="projectList?.length!=0; else elseBlock">           
+                <div class="row" *ngIf="projectList?.length!=0; else elseBlock">
                     <div class="col-lg-6 col-md-12 mb-3" style="margin-top: 30px;" *ngFor="let p of projectList">
                         <a class="link-detail" routerLink='/project-manager/p-details/{{p.id}}'>
                             <div class="card">
@@ -98,7 +93,7 @@
                             </div>
                         </a>
                     </div>
-                    
+
                 </div>
                 <ng-template #elseBlock> <div class="row p-30">Can not found any project</div> </ng-template>
             </div>

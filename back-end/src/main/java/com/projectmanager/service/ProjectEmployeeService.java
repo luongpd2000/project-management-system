@@ -28,6 +28,8 @@ public interface ProjectEmployeeService extends GeneralService<ProjectEmployee>{
 
     Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId);
 
+    List<ProjectEmployee> searchUsersInProject(Integer idP,String username, String fullName, String email, String phone, String role);
+
 
 
 }

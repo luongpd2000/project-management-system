@@ -127,4 +127,33 @@ public class AdminController {
         return ResponseEntity.ok(new Status(userService.passwordRecover(pr)));
     }
 
+
+    @GetMapping("/searchUser")
+    public ResponseEntity<?> searchUser(@RequestParam String username,
+                                           @RequestParam String fullname,
+                                           @RequestParam String email,
+                                           @RequestParam String address,
+                                           @RequestParam String phone){
+        return ResponseEntity.ok(userService.searchUser(username, fullname, email, address, phone));
+    }
+
+    @GetMapping("/searchUsersNotInProject")
+    public ResponseEntity<?> searchUsersNotInProject(@RequestParam Integer idP,
+                                                   @RequestParam String username,
+                                                    @RequestParam String fullname,
+                                                    @RequestParam String email,
+                                                    @RequestParam String phone){
+        return ResponseEntity.ok(userService.searchUsersNotInProject(idP, username, fullname, email, phone));
+    }
+
+    @GetMapping("/searchUsersInProject")
+    public ResponseEntity<?> searchUsersInProject(@RequestParam Integer idP,
+                                                    @RequestParam String username,
+                                                    @RequestParam String fullname,
+                                                    @RequestParam String email,
+                                                    @RequestParam String phone,
+                                                  @RequestParam String role){
+        return ResponseEntity.ok(projectEmployeeService.searchUsersInProject(idP, username, fullname, email, phone, role));
+    }
+
 }

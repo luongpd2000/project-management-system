@@ -17,6 +17,7 @@ import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common'
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -36,8 +37,8 @@ import { DatePipe } from '@angular/common'
     HttpClientModule,
     ReactiveFormsModule,
     NgSelectModule,
-    FormsModule,
-    
+    FormsModule
+
   ],
   providers: [CookieService,
               GuardGuard,

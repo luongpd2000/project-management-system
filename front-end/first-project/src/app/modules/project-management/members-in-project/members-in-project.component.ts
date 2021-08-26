@@ -13,6 +13,7 @@ import { DetailsUserComponent } from '../add-users/details-user/details-user.com
 import { ProjectEmployee } from 'src/app/data/schema/project-employee';
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
 import { StatusService } from 'src/app/data/service/status.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-members-in-project',
@@ -24,12 +25,13 @@ export class MembersInProjectComponent implements OnInit {
   arr2: idRole[] = new Array();
   // listUsers: User[] = [];
   listUsers: ProjectEmployee[] = [];
+  listUsersSearch: ProjectEmployee[] = [];
   projectId: number = this.route.snapshot.params['id'];
   pe: ProjectEmployee;
   isAdmin: boolean = true;
   role!: String;
   filter: String = 'all';
-
+  formSearch: FormGroup;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource!: MatTableDataSource<ProjectEmployee>;
@@ -40,18 +42,28 @@ export class MembersInProjectComponent implements OnInit {
   closeAlert() {
     this.alert = false;
   }
-
+  makeSearchForm() {
+    this.formSearch = this.formBuilder.group({
+      username: [''],
+      fullname: [''],
+      enail: [''],
+      address: [''],
+      phone: [''],
+      role: ['']
+    });
+  }
   constructor(private userService: UserService,
      private projectService: ProjectService,
       private route: ActivatedRoute,
       public dialog: MatDialog,
       private modalService: NgbModal,
       private jwtService: JwtServiceService,
-      public getStatus: StatusService) {
+      public getStatus: StatusService,
+      private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-
+    this.makeSearchForm();
     this.role = this.jwtService.getRole();
     if(this.role === '[ROLE_USER]'){
       this.isAdmin = false;
@@ -94,6 +106,44 @@ export class MembersInProjectComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       }
     )
+  }
+
+  onSearch() {
+    // search project
+
+    let username = this.formSearch.value.username;
+    let fullname = this.formSearch.value.fullname;
+    let email = this.formSearch.value.enail;
+    let phone = this.formSearch.value.phone;
+    let role = this.formSearch.value.role;
+
+    console.log(this.projectId,username, fullname, email, phone,role);
+
+    this.userService
+      .searchUsersInProject(
+        this.projectId,
+        username,
+        fullname,
+        email,
+        phone,
+        role
+      )
+      .subscribe((data) => {
+        this.listUsers = data;
+        console.log(data);
+        // this.statusDelete = false;
+        this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
+
+      // console.log("datasouce", this.dataSource.data.length);
+      this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  getAllUser(){
+    if (this.filter === 'all') this.getData();
+    if (this.filter === 'active') this.getDataActive();
+    if (this.filter === 'delete') this.getDataDelete();
+    this.makeSearchForm();
   }
 
   ngAfterViewInit() {

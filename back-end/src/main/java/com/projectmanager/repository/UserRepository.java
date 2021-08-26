@@ -26,11 +26,25 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
     Page<User> findAllByDeleteIsTrue(Pageable pageable);
 
+    @Query(value = "SELECT u.* FROM user u WHERE u.user_name like %?1% AND u.full_name like %?2%  " +
+                    "AND u.email like %?3% AND u.address like %?4% AND u.phone like %?5%" , nativeQuery = true)
+    List<User> searchUser(String username, String fullName, String email, String address, String phone);
+
     @Query(value = "SELECT u.* FROM user u WHERE u.id NOT IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = false) AND u.is_deleted = false", nativeQuery = true)
     Optional<List<User>> findAllUsersNotInProject(Integer id);
 
+    @Query(value = "SELECT u.* FROM user u WHERE u.id NOT IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = false) " +
+            "AND u.is_deleted = false AND u.user_name like %?2% AND u.full_name like %?3% AND u.email like %?4%  AND u.phone like %?5%", nativeQuery = true)
+    Optional<List<User>> searchUsersNotInProject(Integer idP,String username, String fullName, String email, String phone);
+
+
     @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1  ) AND u.is_deleted = false", nativeQuery = true)
     Optional<List<User>> findAllUsersInProject(Integer id);
+
+
+    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1  ) " +
+            "AND u.is_deleted = false AND u.user_name like %?2% AND u.full_name like %?3% AND u.email like %?4%  AND u.phone like %?5%", nativeQuery = true)
+    Optional<List<User>> searchUsersInProject(Integer idP,String username, String fullName, String email, String phone);
 
 
     @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = false) ", nativeQuery = true)

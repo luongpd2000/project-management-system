@@ -168,8 +168,11 @@ export class TaskDetailsComponent implements OnInit {
       console.log(this.taskHistory)
       this.d1 = this.currentTask.startDate.toString();
       this.d2 = this.currentTask.endDate.toString();
+
+
       if((this.currentTask.endDate!=='' && this.fomatInput.compare(this.d1,this.d2)) || this.currentTask.endDate===''){
 
+        if(this.taskHistory.preStatus!==this.taskHistory.status){
 
         this.taskService.createTaskHistory(this.taskHistory).subscribe(
           (data) => {
@@ -187,6 +190,14 @@ export class TaskDetailsComponent implements OnInit {
             console.log(error.error.message);
           }
         );
+        }else{
+          this.taskService.updateTask(this.currentTask).subscribe((data) => {
+            console.log('update', data);
+            alert('Edit Success');
+            this.modalService.dismissAll();
+            this.getTaskDetails();
+          });
+        }
       }else{
         this.dateCheck = false;
       }
@@ -203,6 +214,8 @@ export class TaskDetailsComponent implements OnInit {
       alert('Input invalid!!!');
     }
   }
+
+
 
   // use for Form
   get name() {

@@ -19,6 +19,8 @@ public interface TaskService extends GeneralService<Task>{
 
     List<Task> findByProject(Integer id);
 
+    Page<Task> searchTask(String name, String status, String priority, String type,
+                          Integer leaderId, String startDate, String endDate,Integer projectId, Pageable pageable);
 
 
 }

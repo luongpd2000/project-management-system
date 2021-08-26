@@ -130,7 +130,8 @@ export class TaskDetailsComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        this.fomatInput.toDatePicker(this.currentTask.endDate)
+        ''
+        // this.currentTask.endDate===null?'':this.fomatInput.toDatePicker(this.currentTask.endDate)
       ),
       status: new FormControl(this.currentTask.status, [Validators.required]),
       taskType: new FormControl(this.currentTask.taskType, [

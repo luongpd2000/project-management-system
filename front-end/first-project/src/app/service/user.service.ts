@@ -131,6 +131,9 @@ export class UserService {
     phone: String
   ): Observable<any> {
     const projectUrl = `${this.baseUrl}/admin/searchUser?username=${username}&fullname=${fullname}&email=${email}&address=${address}&phone=${phone}`;
+
+    console.log('search: ', projectUrl);
+    
     return this.httpClient.get<any>(projectUrl, this.httpOptions);
   }
 

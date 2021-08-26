@@ -23,7 +23,18 @@ import { DatePipe } from '@angular/common';
 export class ListTaskComponent implements OnInit {
   @Input() currentProjectId: number;
   @Input() memberList: any[];
-  @Output() updateDetails = new EventEmitter();
+  @Input() taskNum : number;
+  @Output() taskNumChanged: EventEmitter<number> = new EventEmitter();
+  increaseTaskNum() {
+    this.taskNum++;
+    this.taskNumChanged.emit(this.taskNum);
+    console.log('increase task num');
+    
+  }
+decreaseTaskNum() {
+  this.taskNum--;
+  this.taskNumChanged.emit(this.taskNum);
+}
 
   thePageNumber: number = 1;
   thePageSize: number = 5;
@@ -60,11 +71,6 @@ export class ListTaskComponent implements OnInit {
   ];
 
   selection = new SelectionModel<Task>(true, []);
-
-  updateParent() {
-    this.updateDetails.emit();
-    console.log('update parents');
-  }
 
   myUserName!: String;
   myUserId: number;
@@ -251,12 +257,13 @@ export class ListTaskComponent implements OnInit {
           this.fomatInput.compare(this.d1, this.d2)) ||
         this.newTask.endDate === ''
       ) {
-        console.log('click save!!');
-        console.log(JSON.stringify(this.newTask));
+        // console.log('click save!!');
+        // console.log(JSON.stringify(this.newTask));
         this.taskService.createTask(this.newTask).subscribe((data) => {
           console.log('new', data);
           this.modalService.dismissAll();
           this.getData();
+          this.increaseTaskNum();
         });
       } else {
         this.dateCheck = false;
@@ -281,6 +288,7 @@ export class ListTaskComponent implements OnInit {
     this.taskService.deleteTask(this.deleteTask).subscribe((data) => {
       console.log(data);
       this.getData();
+      this.decreaseTaskNum();
     });
     this.modalService.dismissAll();
   }

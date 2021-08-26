@@ -130,8 +130,9 @@ export class UserService {
     address: String,
     phone: String
   ): Observable<any> {
-    const projectUrl = `${this.baseUrl}/admin/searchUser?username=${username}&fullname=${fullname}
-    &email=${email}&address=${address}&phone=${phone}`;
+    const projectUrl = `${this.baseUrl}/admin/searchUser?username=${username}&fullname=${fullname}&email=${email}&address=${address}&phone=${phone}`;
+    console.log('search: ', projectUrl);
+    
     return this.httpClient.get<any>(projectUrl, this.httpOptions);
   }
 
@@ -155,8 +156,7 @@ export class UserService {
     phone: String,
     role: String
   ): Observable<any> {
-    const projectUrl = `${this.baseUrl}/admin/searchUsersInProject?idP=${idP}&username=${username}&fullname=${fullname}
-    &email=${email}&phone=${phone}&role=${role}`;
+    const projectUrl = `${this.baseUrl}/admin/searchUsersInProject?idP=${idP}&username=${username}&fullname=${fullname}&email=${email}&phone=${phone}&role=${role}`;
     return this.httpClient.get<any>(projectUrl, this.httpOptions);
   }
 }

@@ -42,11 +42,12 @@ export class TaskDetailsComponent implements OnInit {
 
   getMembers() {
     this.userService.getUsersInProject(this.curProjectId).subscribe((data) => {
-      this.memberList = data['content'];
+      this.memberList = data;
+      console.log(data)
       this.memberList.forEach((data) => {
-        if (data.role == 'leader') {
+        if ((data.role == 'leader' && !data.delete) || (data.role == 'admin' && !data.delete) ) {
           this.leaderList.push(data.user);
-        } else if (data.role === 'dev') {
+        } else if (data.role === 'dev' && !data.delete) {
           this.employeeList.push(data.user);
         }
       });
@@ -81,6 +82,8 @@ export class TaskDetailsComponent implements OnInit {
   getTaskDetails() {
     this.taskService.getTask(this.curTaskId).subscribe((data) => {
       this.currentTask = data;
+      console.log(data)
+      console.log(this.currentTask)
       this.userService.getUserById(this.currentTask.taskManagerId).subscribe(data=>{
         this.currentTask.taskManagerDetails=data;
       })
@@ -154,13 +157,14 @@ export class TaskDetailsComponent implements OnInit {
       this.currentTask.priority = this.formTask.value.priority;
       this.currentTask.taskType = this.formTask.value.taskType;
       this.currentTask.taskManagerId = this.formTask.value.manager;
-
+      console.log(this.currentTask.status +" " + this.formTask.value.status)
       this.taskHistory.des = this.formTask.value.des;
       this.taskHistory.preStatus = this.currentTask.status;
       this.taskHistory.status = this.formTask.value.status;
       this.taskHistory.taskId = this.currentTask.id;
       this.taskHistory.updateUser = this.curUserId;
 
+      console.log(this.taskHistory)
       this.d1 = this.currentTask.startDate.toString();
       this.d2 = this.currentTask.endDate.toString();
       if((this.currentTask.endDate!=='' && this.fomatInput.compare(this.d1,this.d2)) || this.currentTask.endDate===''){

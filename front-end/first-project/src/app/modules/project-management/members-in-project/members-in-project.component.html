@@ -12,6 +12,38 @@
                 <div class="row">
                     <div class="search-input">
                         <div class="row">
+                          <div class="col-12">
+                            <form [formGroup]="formSearch">
+                              <mat-form-field appearance="fill">
+                                  <mat-label>Username</mat-label>
+                                  <input matInput formControlName='username'>
+                                </mat-form-field>
+                              <mat-form-field appearance="fill">
+                                  <mat-label>FullName</mat-label>
+                                  <input matInput formControlName='fullname'>
+                                </mat-form-field>
+                              <mat-form-field appearance="fill">
+                                  <mat-label>Email</mat-label>
+                                  <input matInput formControlName='enail'>
+                                </mat-form-field>
+                              <!-- <mat-form-field appearance="fill">
+                                  <mat-label>Address</mat-label>
+                                  <input matInput formControlName='address'>
+                                </mat-form-field> -->
+                              <mat-form-field appearance="fill">
+                                  <mat-label>Phone</mat-label>
+                                  <input matInput formControlName='phone'>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill">
+                                  <mat-select  formControlName='role' >
+                                    <mat-option value="" selected>All</mat-option>
+                                    <mat-option value="leader">Leader</mat-option>
+                                    <mat-option value="dev">Dev</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                <button class="btn btn-primary b-search" (click)="onSearch()">Search</button>
+                            </form>
+                          </div>
                             <div class="col-6">
                                 <button class="btn btn-success " *ngIf="isAdmin" routerLink='/project-manager/add-user/{{projectId}}'>
                                     Add Members
@@ -25,10 +57,9 @@
                                 </div>
                             </div> -->
                             <div class="col-6 row">
-                              <div class="form-group searchInput col-6">
-                                <label for="email">Search:</label>
-                                <input type="search" class="form-control" id="filterbox" placeholder="Search..."
-                                  aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
+                              <div class="col-3" style="margin-left: auto;">
+                                <button type="button" class="btn btn-primary mt-3" (click)=" getAllUser()">All
+                                  User</button>
                               </div>
                               <div class="col-3" style="margin-left: auto;">
                                 <select class="custom-select mt-3" (change)="selectStatus($event)">

@@ -11,6 +11,7 @@ import { DetailsUserComponent } from './details-user/details-user.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { idRole } from 'src/app/data/schema/id-role';
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -23,7 +24,9 @@ export class AddUsersComponent implements OnInit {
   arr2: idRole[] = new Array();
   arrPE: idRole[] = new Array();
   listUsers: User[] = [];
+  listUsersSearch: User[] = [];
   projectId: number = this.route.snapshot.params['id'];
+  formSearch: FormGroup;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource!: MatTableDataSource<User>;
@@ -34,7 +37,14 @@ export class AddUsersComponent implements OnInit {
     this.alert = false;
   }
 
-
+  makeSearchForm() {
+    this.formSearch = this.formBuilder.group({
+      username: [''],
+      fullname: [''],
+      enail: [''],
+      phone: ['']
+    });
+  }
 
   constructor(private userService: UserService,
     private projectService: ProjectService,
@@ -42,7 +52,8 @@ export class AddUsersComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     public jwt: JwtServiceService,
-    private modalService: NgbModal,) {
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -51,6 +62,8 @@ export class AddUsersComponent implements OnInit {
     }else{
       this.getData();
     }
+
+    this.makeSearchForm();
   }
 
 
@@ -69,6 +82,44 @@ export class AddUsersComponent implements OnInit {
       // console.log("datasouce", this.dataSource.data.length);
       this.dataSource.paginator = this.paginator;
     })
+  }
+
+  onSearch() {
+    // search project
+
+    let username = this.formSearch.value.username;
+    let fullname = this.formSearch.value.fullname;
+    let email = this.formSearch.value.enail;
+    let phone = this.formSearch.value.phone;
+
+    console.log(this.projectId,username, fullname, email, phone);
+
+    this.userService
+      .searchUsersNotInProject(
+        this.projectId,
+        username,
+        fullname,
+        email,
+        phone
+      )
+      .subscribe((data) => {
+        this.listUsersSearch = data;
+        console.log(data);
+        this.listUsersSearch.forEach(data => { data.pRole = 'dev' })
+        // this.statusDelete = false;
+        this.dataSource = new MatTableDataSource<User>(this.listUsersSearch);
+
+      // console.log("datasouce", this.dataSource.data.length);
+      this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  getAllUser() {
+    this.dataSource = new MatTableDataSource<User>(this.listUsers);
+
+    // console.log("datasouce", this.dataSource.data.length);
+    this.dataSource.paginator = this.paginator;
+    this.makeSearchForm();
   }
 
   ngAfterViewInit() {
@@ -107,9 +158,6 @@ export class AddUsersComponent implements OnInit {
 
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 
   openDetails(element: any) {
     console.log(element);

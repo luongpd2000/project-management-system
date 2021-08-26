@@ -32,6 +32,14 @@ public interface UserService extends UserDetailsService, GeneralService<User> {
 
     List<User> findAll();
 
+    List<User> searchUser(String username, String fullName, String email, String address, String phone);
+
+    Optional<List<User>> searchUsersNotInProject(Integer idP,String username, String fullName, String email, String phone);
+
+    Optional<List<User>> searchUsersInProject(Integer idP,String username, String fullName, String email, String phone);
+
+
+
 
     String passwordRecover(PasswordRecover pr);
 }

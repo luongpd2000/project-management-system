@@ -11,7 +11,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { ListTaskComponent } from './project-details/list-task/list-task.component';
 import { ListTodoComponent } from './task-details/list-todo/list-todo.component';
-
+import {MatDatepicker, MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 // import { NgSelectModule } from '@ng-select/ng-select';
 //
 
@@ -27,7 +28,7 @@ import { ListTodoComponent } from './task-details/list-todo/list-todo.component'
     ListTaskComponent,
     ListTodoComponent
 
-  
+
   ],
   imports: [
     CommonModule,
@@ -35,8 +36,7 @@ import { ListTodoComponent } from './task-details/list-todo/list-todo.component'
     ProjectManagementRoutingModule,
     ReactiveFormsModule,
     NgbModule,
-    MaterialModule,
-
+    MaterialModule
   ]
 })
 

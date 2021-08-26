@@ -110,6 +110,20 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public List<User> searchUser(String username, String fullName, String email, String address, String phone) {
+        return userRepository.searchUser(username, fullName, email, address, phone);
+    }
+
+    @Override
+    public Optional<List<User>> searchUsersNotInProject(Integer idP, String username, String fullName, String email, String phone) {
+        return userRepository.searchUsersNotInProject(idP, username, fullName, email, phone);
+    }
+
+    @Override
+    public Optional<List<User>> searchUsersInProject(Integer idP, String username, String fullName, String email, String phone) {
+        return userRepository.searchUsersInProject(idP, username, fullName, email, phone);
+    }
 
 
     @Override

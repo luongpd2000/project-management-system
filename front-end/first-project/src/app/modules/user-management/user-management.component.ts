@@ -1,6 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,6 +23,8 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserManagementComponent implements OnInit {
   userList: User[] = [];
+  userListActive: User[] = [];
+  userListDeleted: User[] = [];
   newUser: User = new User();
   formProject!: FormGroup;
   checkAdd: boolean = true;
@@ -35,8 +42,20 @@ export class UserManagementComponent implements OnInit {
   theTotalElements: number = 0;
   allUsers: User[] = [];
   filter: String = 'all';
+  formSearch: FormGroup;
+  modeSearch: Boolean = false;
 
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  makeSearchForm() {
+    this.formSearch = this.formBuilder.group({
+      username: [''],
+      fullname: [''],
+      enail: [''],
+      address: [''],
+      phone: ['']
+    });
+  }
 
   dataSource!: MatTableDataSource<User>;
   displayedColumns: string[] = [
@@ -58,7 +77,8 @@ export class UserManagementComponent implements OnInit {
     private modalService: NgbModal,
     private jwt: JwtServiceService,
     private router: Router,
-    public getStatus: StatusService
+    public getStatus: StatusService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -66,6 +86,8 @@ export class UserManagementComponent implements OnInit {
       this.router.navigate(['']);
     } else {
       this.getData();
+
+      this.makeSearchForm();
 
       this.userForm = new FormGroup({
         username: new FormControl('', [
@@ -105,7 +127,7 @@ export class UserManagementComponent implements OnInit {
         ]),
       });
 
-      this.getAllData();
+      // this.getAllData();
     }
   }
 
@@ -119,7 +141,6 @@ export class UserManagementComponent implements OnInit {
           console.log(this.userList);
           this.statusDelete = false;
           this.dataSource = new MatTableDataSource<User>(this.userList);
-          //this.userList = data._embedded.users;
           this.thePageNumber = data.pageable.pageNumber + 1;
           this.thePageSize = data.pageable.pageSize;
           this.theTotalElements = data.totalElements;
@@ -136,10 +157,10 @@ export class UserManagementComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log(data);
-          this.userList = data['content'];
+          this.userListActive = data['content'];
           console.log(this.userList);
           this.statusDelete = false;
-          this.dataSource = new MatTableDataSource<User>(this.userList);
+          this.dataSource = new MatTableDataSource<User>(this.userListActive);
           //this.userList = data._embedded.users;
           this.thePageNumber = data.pageable.pageNumber + 1;
           this.thePageSize = data.pageable.pageSize;
@@ -157,10 +178,10 @@ export class UserManagementComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log(data);
-          this.userList = data['content'];
+          this.userListDeleted = data['content'];
           console.log(this.userList);
           this.statusDelete = false;
-          this.dataSource = new MatTableDataSource<User>(this.userList);
+          this.dataSource = new MatTableDataSource<User>(this.userListDeleted);
           //this.userList = data._embedded.users;
           this.thePageNumber = data.pageable.pageNumber + 1;
           this.thePageSize = data.pageable.pageSize;
@@ -172,34 +193,58 @@ export class UserManagementComponent implements OnInit {
       );
   }
 
+  onSearch() {
+    // search project
 
+    this.modeSearch = true;
 
-  getAllData() {
-    this.userService.getAllUsers().subscribe(
-      (data) => {
-        this.allUsers = data;
+    let username = this.formSearch.value.username;
+    let fullname = this.formSearch.value.fullname;
+    let email = this.formSearch.value.enail;
+    let address = this.formSearch.value.address;
+    let phone = this.formSearch.value.phone;
+
+    console.log(username, fullname, email, address, phone);
+
+    this.userService
+      .searchUser(
+        username,
+        fullname,
+        email,
+        address,
+        phone
+      )
+      .subscribe((data) => {
         console.log(data);
-        console.log(this.allUsers);
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    );
+        this.userList = data;
+        console.log(this.userList);
+        // this.statusDelete = false;
+        this.dataSource = new MatTableDataSource<User>(this.userList);
+      });
   }
+
+  getAllUser() {
+    this.modeSearch = false;
+    if (this.filter === 'all') this.getData();
+    if (this.filter === 'active') this.getDataActive();
+    if (this.filter === 'delete') this.getDataDelete();
+    this.makeSearchForm();
+  }
+
 
   updatePageSize(event) {
     this.thePageSize = event.target.value;
     console.log(this.thePageSize);
     this.thePageNumber = 1;
-    if(this.filter==='all') this.getData();
-    if(this.filter==='active') this.getDataActive();
-    if(this.filter==='delete') this.getDataDelete();
+      if (this.filter === 'all') this.getData();
+      if (this.filter === 'active') this.getDataActive();
+      if (this.filter === 'delete') this.getDataDelete();
   }
 
-  changePage(){
-    if(this.filter==='all') this.getData();
-    if(this.filter==='active') this.getDataActive();
-    if(this.filter==='delete') this.getDataDelete();
+  changePage() {
+      if (this.filter === 'all') this.getData();
+      if (this.filter === 'active') this.getDataActive();
+      if (this.filter === 'delete') this.getDataDelete();
   }
 
   openDetails(content: any, element) {
@@ -261,7 +306,7 @@ export class UserManagementComponent implements OnInit {
           this.modalService.dismissAll();
           window.alert('Update sucess');
           this.getData();
-          this.getAllData();
+          this.getDataActive();
         } else {
           window.alert('Update failure: username already exist');
         }
@@ -286,7 +331,7 @@ export class UserManagementComponent implements OnInit {
       (data) => {
         console.log(data);
         this.getData();
-        this.getAllData();
+        this.getDataDelete();
         this.modalService.dismissAll();
         this.statusDelete = true;
       },
@@ -333,28 +378,22 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
-  applyFilter(filterValue: string) {
-    if (filterValue.trim() !== '') {
-      this.dataSource = new MatTableDataSource<User>(this.allUsers);
-    } else {
-      this.dataSource = new MatTableDataSource<User>(this.userList);
-    }
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  // applyFilter(filterValue: string) {
+  //   if (filterValue.trim() !== '') {
+  //     this.dataSource = new MatTableDataSource<User>(this.allUsers);
+  //   } else {
+  //     this.dataSource = new MatTableDataSource<User>(this.userList);
+  //   }
+  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  // }
 
-
-  selectStatus(event){
-    console.log(event.target.value)
+  selectStatus(event) {
+    console.log(event.target.value);
     this.filter = event.target.value;
-    if(this.filter==='all') this.getData();
-    if(this.filter==='active') this.getDataActive();
-    if(this.filter==='delete') this.getDataDelete();
+    if (this.filter === 'all') this.getData();
+    if (this.filter === 'active') this.getDataActive();
+    if (this.filter === 'delete') this.getDataDelete();
   }
-
-
-
-
-
 
   get username() {
     return this.userForm.get('username');

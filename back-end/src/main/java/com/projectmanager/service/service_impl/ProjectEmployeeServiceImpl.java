@@ -142,4 +142,9 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
     public Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId) {
         return projectEmployeeRepository.findByProjectIdAndUserId(projectId,userId);
     }
+
+    @Override
+    public List<ProjectEmployee> searchUsersInProject(Integer idP, String username, String fullName, String email, String phone, String role) {
+        return projectEmployeeRepository.searchUsersInProject(idP, username, fullName, email, phone,role);
+    }
 }

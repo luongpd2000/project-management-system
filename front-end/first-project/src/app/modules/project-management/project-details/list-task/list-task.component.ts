@@ -4,7 +4,7 @@ import { Task } from 'src/app/data/schema/task';
 import { StatusService } from 'src/app/data/service/status.service';
 import { TaskService } from '../../../../service/task.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FomatInputService } from 'src/app/data/service/fomat-input.service';
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
 import { UserService } from 'src/app/service/user.service';
@@ -13,6 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TaskHistory } from 'src/app/data/schema/task-history';
 import { TodoService } from 'src/app/service/todo.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-list-task',
@@ -30,6 +31,19 @@ export class ListTaskComponent implements OnInit {
   d1: string;
   d2: string;
   dateCheck = true;
+  formSearch:FormGroup;
+  isSearchAll = true;
+  makeSearchForm(){
+    this.formSearch = this.formBuilder.group({
+      name:[''],
+      status:[''],
+      priority:[''],
+      type:[''],
+      leader:[''],
+      startDate:[''],
+      endDate:['']
+    });
+  }
 
   dataSource!: MatTableDataSource<Task>;
   displayedColumns: string[] = [
@@ -70,8 +84,7 @@ export class ListTaskComponent implements OnInit {
   getLeaderList() {
     this.memberList.forEach((data) => {
       console.log(data);
-      
-      if (data.role == 'leader' && data.delete!=true) {
+      if ((data.role == 'leader' || data.role == 'admin') && data.delete!=true) {
         this.leaderList.push(data['user']);
         if (data.user.id === this.myUserId) {
           console.log(data.userId + ' ' + this.myUserId);
@@ -79,8 +92,8 @@ export class ListTaskComponent implements OnInit {
         }
       }
     });
-    console.log('member', this.memberList);
-    console.log('leader', this.leaderList);
+    // console.log('member', this.memberList);
+    // console.log('leader', this.leaderList);
   }
 
   constructor(
@@ -89,13 +102,16 @@ export class ListTaskComponent implements OnInit {
     private modalService: NgbModal,
     private fomatInput: FomatInputService,
     private jwt: JwtServiceService,
-    private userService: UserService
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    public datepipe: DatePipe
   ) {}
 
   ngOnInit(): void {
     console.log(this.currentProjectId);
     this.getData();
     this.myUserName = this.jwt.getUsername();
+    this.makeSearchForm();
 
     if (this.myUserName != null) {
       if (this.myUserName === 'admin') {
@@ -113,8 +129,9 @@ export class ListTaskComponent implements OnInit {
     this.getDataAll();
   }
 
-  getData() {
-    this.taskService
+  getData() {// get all tasks in project pageable
+    if(this.isSearchAll){
+      this.taskService
       .getListTaskByProjectIdPageable(
         this.currentProjectId,
         this.thePageNumber - 1,
@@ -133,9 +150,14 @@ export class ListTaskComponent implements OnInit {
           console.log(error.error.message);
         }
       );
+    }else{
+        this.onSearch();
+    }
+    
   }
 
-  getDataAll() {
+
+  getDataAll() {// get all task no pageable
     this.taskService.getListTaskByProjectId(this.currentProjectId).subscribe(
       (data) => {
         this.taskListAll = data;
@@ -145,6 +167,42 @@ export class ListTaskComponent implements OnInit {
         console.log(error.error.message);
       }
     );
+  }
+
+  onSearch(){
+    this.isSearchAll = false;
+
+    let name = this.formSearch.value.name;
+    let status = this.formSearch.value.status;
+    let startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
+    startDate=startDate==null?'':startDate;
+    let endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
+    endDate = endDate==null?'':endDate;
+    let priority = this.formSearch.value.priority;
+    let  type=this.formSearch.value.type;
+    let  leader = this.formSearch.value.leader;
+    this.taskService.searchTask(name, status, priority, type, leader,
+       startDate, endDate, this.currentProjectId,this.thePageNumber - 1, this.thePageSize)
+       .subscribe(data=>{
+        this.taskList = data['content'];
+        // console.log(this.taskList);
+        this.dataSource = new MatTableDataSource<Task>(this.taskList);
+        this.thePageNumber = data.pageable.pageNumber + 1;
+        this.thePageSize = data.pageable.pageSize;
+        this.theTotalElements = data.totalElements;
+       })
+    
+  }
+  getAllTask(){
+    this.isSearchAll = true;
+    this.getData();
+    this.makeSearchForm();
+    // this.dataSource = new MatTableDataSource<Task>(this.taskListAll);
+    // this.thePageNumber =  1;
+    // this.thePageSize = 5;
+    // this.theTotalElements = this.taskListAll.length;
+    // console.log('length: ', this.taskListAll.length);
+    
   }
 
   open(content: any) {

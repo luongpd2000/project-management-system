@@ -100,6 +100,12 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.getByProjectIdAndDeletedIsFalse(id);
     }
 
+    @Override
+    public Page<Task> searchTask(String name, String status, String priority, String type, Integer leaderId, String startDate, String endDate, Integer projectId, Pageable pageable) {
+        return taskRepository.searchTask(name, status, priority, type, leaderId, startDate, endDate,  projectId, pageable);
+    }
+
+
 
 
 }

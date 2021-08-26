@@ -245,6 +245,21 @@ public class Controller {
         return ResponseEntity.ok(taskService.getAll(pageable));
     }
 
+    @GetMapping("/searchTask")
+    public ResponseEntity<?> searchTask(@RequestParam Integer page,
+                                        @RequestParam Integer size,
+                                        @RequestParam String name,
+                                        @RequestParam String priority,
+                                        @RequestParam String status,
+                                        @RequestParam String type,
+                                        @RequestParam(defaultValue = "0") Integer leaderId,
+                                        @RequestParam String startDate,
+                                        @RequestParam String endDate,
+                                        @RequestParam Integer projectId){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(taskService.searchTask(name, status, priority, type, leaderId, startDate, endDate, projectId, pageable));
+    }
+
     @GetMapping("/findTaskById/{id}")
     public ResponseEntity<?> findTaskById(@PathVariable Integer id) {
         return ResponseEntity.ok(taskService.findById(id));

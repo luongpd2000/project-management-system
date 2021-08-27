@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,7 @@ import { User } from 'src/app/data/schema/user';
 import { FomatInputService } from '../../../../data/service/fomat-input.service';
 import { ProjectEmployee } from 'src/app/data/schema/project-employee';
 import { LoginService } from 'src/app/service/login.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-list-todo',
@@ -55,6 +56,19 @@ export class ListTodoComponent implements OnInit {
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
+  formSearch:FormGroup;
+  isSearchAll=true;
+  makeSearchForm(){
+    this.formSearch = this.formBuilder.group({
+      name:[''],
+      status:[''],
+      priority:[''],
+      type:[''],
+      assgined_for:[0],
+      startDate:[''],
+      endDate:['']
+    });
+  }
 
   dataSource!: MatTableDataSource<Todo>;
   displayedColumns: string[] = [
@@ -65,7 +79,6 @@ export class ListTodoComponent implements OnInit {
     'Start Date',
     'Status',
     'Task Id',
-    // 'Assigned for',
     'Priority',
     'Todo Type',
     'Action',
@@ -93,13 +106,15 @@ export class ListTodoComponent implements OnInit {
     private todoService: TodoService,
     private userService: UserService,
     public getStatus: StatusService,
-    public fomatInput: FomatInputService
+    public fomatInput: FomatInputService,
+    private formBuilder: FormBuilder,
+    public datepipe: DatePipe
   ) {}
 
   ngOnInit(): void {
     this.getData();
-    this.getAllData();
     console.log('init todo-list');
+    this.getAllData();
     // console.log('userId:',this.curUserId);
     this.userService.getUser(this.jwt.getUsername()).subscribe((data) => {
       this.myAccount = data;
@@ -108,10 +123,12 @@ export class ListTodoComponent implements OnInit {
     this.updateform = new FormGroup({
       des: new FormControl(''),
     });
+    this.makeSearchForm();
   }
 
   getData() {
-    this.todoService
+    if(this.isSearchAll){
+      this.todoService
       .getTodoListByTask(
         this.curTaskId,
         this.thePageNumber - 1,
@@ -120,6 +137,7 @@ export class ListTodoComponent implements OnInit {
       .subscribe(
         (data) => {
           this.todoList = data['content'];
+          // this.todoListAll = this.todoList;
           this.todoList.forEach((data) => {
             this.userService
               .getUserById(data.assignedUser)
@@ -143,8 +161,11 @@ export class ListTodoComponent implements OnInit {
           console.log(error.error.message);
         }
       );
-  }
+    } else{
+      this.onSearch();
+    }
 
+  }
   getAllData() {
     this.todoService.getTodoListByTasNoPageable(this.curTaskId).subscribe(
       (data) => {
@@ -155,6 +176,45 @@ export class ListTodoComponent implements OnInit {
         console.log(error.error.message);
       }
     );
+  }
+
+  onSearch(){
+    this.isSearchAll = false;
+
+    let name = this.formSearch.value.name;
+    let status = this.formSearch.value.status;
+    let startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
+    startDate=startDate==null?'':startDate;
+    let endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
+    endDate = endDate==null?'':endDate;
+    let priority = this.formSearch.value.priority;
+    let  type=this.formSearch.value.type;
+    let  assignedFor = this.formSearch.value.assgined_for;
+
+    this.todoService.searchTodo(name, status, priority, type, assignedFor,
+       startDate, endDate, this.curTaskId,this.thePageNumber - 1, this.thePageSize)
+       .subscribe(data=>{
+        this.todoList = data['content'];
+        // console.log(this.taskList);
+        console.log('searchList: ', this.todoList);
+        
+        this.dataSource = new MatTableDataSource<Todo>(this.todoList);
+        this.thePageNumber = data.pageable.pageNumber + 1;
+        this.thePageSize = data.pageable.pageSize;
+        this.theTotalElements = data.totalElements;
+       })
+  }
+
+  getAllTodo(){
+    this.isSearchAll=true;
+    this.getData();
+    this.makeSearchForm();
+    // this.dataSource=new MatTableDataSource<Todo>(this.todoListAll);
+    // this.thePageNumber =  1;
+    // this.thePageSize = 5;
+    // this.theTotalElements = this.todoListAll.length;
+    // console.log('total ', this.todoListAll.length);
+    
   }
 
   openModal(content) {
@@ -240,7 +300,6 @@ export class ListTodoComponent implements OnInit {
           console.log('create', data);
           alert('Create success!!');
           this.getData();
-          this.getAllData();
           this.modalService.dismissAll();
           // this.ngOnInit();
         });
@@ -294,7 +353,6 @@ export class ListTodoComponent implements OnInit {
               console.log('create', data);
               alert('update success!!');
               this.getData();
-              this.getAllData();
               this.modalService.dismissAll();
               this.ngOnInit();
             });
@@ -343,7 +401,6 @@ export class ListTodoComponent implements OnInit {
         console.log(data);
         this.modalService.dismissAll();
         this.getData();
-        this.getAllData();
         window.alert('update status success');
       },
       (error) => {
@@ -400,7 +457,6 @@ export class ListTodoComponent implements OnInit {
       this.modalService.dismissAll();
       if (data) {
         this.getData();
-        this.getAllData();
         alert('Delete seccessed!');
       } else alert('Delete failed!');
     });
@@ -421,7 +477,6 @@ export class ListTodoComponent implements OnInit {
     this.thePageNumber = 1;
     this.getData();
   }
-
   applyFilter(filterValue: string) {
     if (filterValue.trim() !== '') {
       this.dataSource = new MatTableDataSource<Todo>(this.todoListAll);
@@ -430,6 +485,7 @@ export class ListTodoComponent implements OnInit {
     }
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
 
   get name() {
     return this.todoForm.get('name');

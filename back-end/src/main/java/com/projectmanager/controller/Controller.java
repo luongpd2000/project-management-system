@@ -203,6 +203,21 @@ public class Controller {
         return ResponseEntity.ok(todoService.findByAssignedUser(id));
     }
 
+    @GetMapping("/searchTodo")
+    public ResponseEntity<?> searchTodo(@RequestParam Integer page,
+                                        @RequestParam Integer size,
+                                        @RequestParam String name,
+                                        @RequestParam String priority,
+                                        @RequestParam String status,
+                                        @RequestParam String type,
+                                        @RequestParam(defaultValue = "0") Integer assignedFor,
+                                        @RequestParam String startDate,
+                                        @RequestParam String endDate,
+                                        @RequestParam Integer taskId){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(todoService.searchTodo(name, status, priority, type, assignedFor, startDate, endDate, taskId, pageable));
+    }
+
     @PostMapping("/createTodo")
     public ResponseEntity<?> createTodo(@Valid @RequestBody Todo todo) {
         return ResponseEntity.ok(todoService.create(todo));

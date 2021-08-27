@@ -228,6 +228,7 @@ decreaseTaskNum() {
     this.isSearchAll = true;
     this.getData();
     this.makeSearchForm();
+    
   }
 
   open(content: any) {

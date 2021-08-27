@@ -33,5 +33,6 @@ public interface TodoService extends GeneralService<Todo> {
 
     List<Todo>findByTaskIdAndDeletedIsFalse(Integer id);
 
-
+    Page<Todo> searchTodo(String name, String status, String priority, String type,
+                          Integer assignedFor, String startDate, String endDate, Integer taskId, Pageable pageable);
 }

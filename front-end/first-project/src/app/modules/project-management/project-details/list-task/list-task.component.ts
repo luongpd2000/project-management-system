@@ -89,7 +89,7 @@ decreaseTaskNum() {
 
   getLeaderList() {
     this.memberList.forEach((data) => {
-      console.log(data);
+      console.log('list mem list task', data);
       if ((data.role == 'leader' || data.role == 'admin') && data.delete!=true) {
         this.leaderList.push(data['user']);
         if (data.user.id === this.myUserId) {
@@ -97,6 +97,8 @@ decreaseTaskNum() {
           this.isLeaderOfProject = true;
         }
       }
+      console.log('list task leader: ', this.leaderList);
+      
     });
     // console.log('member', this.memberList);
     // console.log('leader', this.leaderList);
@@ -111,10 +113,12 @@ decreaseTaskNum() {
     private userService: UserService,
     private formBuilder: FormBuilder,
     public datepipe: DatePipe
-  ) {}
+  ) {   
+  }
 
   ngOnInit(): void {
     console.log(this.currentProjectId);
+    console.log('mem list: ', this.memberList);
     this.getData();
     this.myUserName = this.jwt.getUsername();
     this.makeSearchForm();
@@ -125,13 +129,15 @@ decreaseTaskNum() {
       } else {
         this.isAdmin = false;
       }
+
       this.userService.getUser(this.myUserName).subscribe((data) => {
         this.curUser = data;
         this.myUserId = data.id;
-
         this.getLeaderList();
       });
+      
     }
+    
     this.getDataAll();
   }
 

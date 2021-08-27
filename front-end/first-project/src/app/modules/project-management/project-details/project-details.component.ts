@@ -58,6 +58,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   loadDetails() {
     this.id = this.route.snapshot.params['id'];
+    this.currentProjectId  = this.id;
     console.log('You clicked: ' + this.id);
     this.projectService.getProjectById(this.id).subscribe((data) => {
       this.currentProject = data;
@@ -75,11 +76,14 @@ export class ProjectDetailsComponent implements OnInit {
         this.currentProject.projectEmployeeList.filter((item) => {
           return !item.delete;
         }).length;
-      this.currentProjectId = this.currentProject.id;
-
+      // this.currentProjectId = this.currentProject.id;
+        console.log('project id ',this.currentProjectId);
+       
+        
       this.currentProject.projectEmployeeList.forEach(pe=>{
         if(pe.delete!=true) this.memberList.push(pe);
       });
+      console.log('parents mem list: ', this.memberList);
     })
 
   }
@@ -101,7 +105,7 @@ export class ProjectDetailsComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        this.fomat.toDatePicker(this.currentProject.endDate)
+        this.currentProject.endDate==null?null:this.fomat.toDatePicker(this.currentProject.endDate)
       ),
       status: new FormControl(this.currentProject.status, [
         Validators.required,

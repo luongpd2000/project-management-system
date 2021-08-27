@@ -42,7 +42,8 @@ export class TaskDetailsComponent implements OnInit {
 
   getMembers() {
     this.userService.getUsersInProject(this.curProjectId).subscribe((data) => {
-      this.memberList = data['content'];
+      this.memberList = data;
+      
       this.memberList.forEach((data) => {
         if (data.role == 'leader') {
           this.leaderList.push(data.user);

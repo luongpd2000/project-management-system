@@ -74,7 +74,9 @@ export class ListTodoComponent implements OnInit {
 
   getMembers() {
     this.userService.getUsersInProject(this.curProjectId).subscribe((data) => {
-      this.memberList = data['content'];
+      console.log('data: ',data);
+      
+      this.memberList = data;
       this.memberList.forEach((data) => {
         if (data.role === 'leader') {
           this.leaderList.push(data.user);

@@ -87,6 +87,7 @@ export class UserService {
 
   getUsersInProject(id: number): Observable<any> {
     const url = `${this.baseUrl}/findListEmployeeByProjectId/${id}`;
+    console.log('url ', url);
     return this.httpClient.get<any>(url, this.httpOptions);
   }
 

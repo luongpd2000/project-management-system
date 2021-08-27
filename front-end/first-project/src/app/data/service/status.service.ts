@@ -19,7 +19,14 @@ export class StatusService {
   { status: "delete", color: "#e52000" },
   { status: "active", color: "#09922d" }
   ]
-  getTheColor(status) {
-    return this.colors.filter(item => item.status === status)[0].color;
+  getTheColor(status:String) {
+    let rs = "#8b9096";
+    this.colors.forEach(data=>{
+      if(data.status===status) rs =  data.color;
+    });
+    return rs;
+    // return this.colors.filter(item => item.status === status)[0].color;
+    
+
   }
 }

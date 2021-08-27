@@ -5,18 +5,70 @@
           <div class="card_body">
             <div class="task-list">Todo List
             </div>
-            <div class="search-input  row d-flex">
-              <div class="col-6">
-                <button class="btn btn-success" style="margin:10px" (click)="openNew(new_todo)" *ngIf="isLeader || isAdmin" >New Todo</button>
+            <div class="search-input row d-flex">
+              <div class="col-12">
+                <form [formGroup]="">
+                  <mat-form-field appearance="fill">
+                      <mat-label>Name</mat-label>
+                      <input matInput formControlName='name'>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Status</mat-label>
+                      <mat-select formControlName='status' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="draft">Draft</mat-option>
+                        <mat-option value="pending">Pending</mat-option>
+                        <mat-option value="working">Working</mat-option>
+                        <mat-option value="reviewing">Reviewing</mat-option>
+                        <mat-option value="done">Done</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Priority</mat-label>
+                      <mat-select formControlName='priority' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="high">High</mat-option>
+                        <mat-option value="normal">Normal</mat-option>
+                        <mat-option value="low">Low</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Type</mat-label>
+                      <mat-select formControlName='type' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="feature">Feature</mat-option>
+                        <mat-option value="bug">Bug</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Assigned for</mat-label>
+                      <mat-select formControlName='assgined for' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option *ngFor="let member of memberList" value={{member.user.id}}>{{member.user.fullName}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>From</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName='startDate'>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>To</mat-label>
+                      <input matInput [matDatepicker]="picker2" formControlName='endDate'>
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                    <button class="btn btn-primary b-search"  ><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
               </div>
-              <div class="col-6">
-                <div class="form-group searchInput">
-                  <label for="email">Search:</label>
-                  <input type="search" class="form-control" id="filterbox" placeholder="Search..."
-                    aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
+                <div class="col-6">
+                  <button class="btn btn-success" style="margin:10px"  *ngIf="isAdmin || isLeader" (click)="openNew(new_todo)">New Todo</button>
+                  <button class="btn btn-primary" style="margin:10px">All Todo</button>
                 </div>
               </div>
-            </div>
             <div class="overflow-x">
               <table mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="select">
@@ -61,6 +113,15 @@
                 <ng-container matColumnDef="Task Id">
                   <th mat-header-cell *matHeaderCellDef> Task Id </th>
                   <td mat-cell *matCellDef="let element"> {{element.taskId}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Priority">
+                  <th mat-header-cell *matHeaderCellDef> Priority </th>
+                  <td mat-cell *matCellDef="let element">
+                    <!-- {{element.priority}} -->
+                    <span class="badge" [ngStyle]="{'background':getStatus.getTheColor(element?.priority)}">{{element?.priority}}</span>
+  
+                  </td>
                 </ng-container>
 
                 <!-- <ng-container matColumnDef="Assigned for">
@@ -189,6 +250,18 @@
 
         </div>
         <div class="form-group row">
+          <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
+              class="text-danger">*</span></label>
+          <div class="col-sm-7">
+            <select class="custom-select  mr-sm-2" id="" formControlName='priority'>
+              <option value="high">High</option>
+              <option value="normal">Normal</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+  
+        </div>
+        <div class="form-group row">
           <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>
           <div class="col-md-9">
             <textarea rows="4" class="form-control no-resize" placeholder="Descriptions"  formControlName='des'></textarea>
@@ -277,6 +350,18 @@
             </select>
           </div>
 
+        </div>
+        <div class="form-group row">
+          <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
+              class="text-danger">*</span></label>
+          <div class="col-sm-7">
+            <select class="custom-select  mr-sm-2" id="" formControlName='priority'>
+              <option value="high">High</option>
+              <option value="normal">Normal</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+  
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Description <span class="text-danger">*</span></label>

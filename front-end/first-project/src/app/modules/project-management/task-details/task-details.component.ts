@@ -43,7 +43,6 @@ export class TaskDetailsComponent implements OnInit {
   getMembers() {
     this.userService.getUsersInProject(this.curProjectId).subscribe((data) => {
       this.memberList = data;
-      console.log(data)
       this.memberList.forEach((data) => {
         if ((data.role == 'leader' && !data.delete) || (data.role == 'admin' && !data.delete) ) {
           this.leaderList.push(data.user);
@@ -73,6 +72,8 @@ export class TaskDetailsComponent implements OnInit {
     this.isAdmin = false;
     this.isLeader = false;
     this.curUserId = this.loginService.userId;
+    // console.log('parents userId: ', this.curUserId);
+    
     if (this.jwtService.getRole() === '[ROLE_ADMIN]') {
       this.isAdmin = true;
     }
@@ -89,6 +90,8 @@ export class TaskDetailsComponent implements OnInit {
       })
       this.currentTask.taskManagerDetails
       this.curProjectId = <number>this.currentTask.projectId;
+      console.log('projectId', this.curProjectId);
+      
       this.getMembers();
       if (this.currentTask.taskManagerId === this.curUserId) {
         this.isLeader = true;
@@ -130,8 +133,7 @@ export class TaskDetailsComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        ''
-        // this.currentTask.endDate===null?'':this.fomatInput.toDatePicker(this.currentTask.endDate)
+        ''        // this.currentTask.endDate===null?'':this.fomatInput.toDatePicker(this.currentTask.endDate)
       ),
       status: new FormControl(this.currentTask.status, [Validators.required]),
       taskType: new FormControl(this.currentTask.taskType, [

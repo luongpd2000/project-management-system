@@ -18,4 +18,5 @@ export class Todo{
   assignedUserDetails!:User;
   delete!: boolean;
   todoHistoryList!: TodoHistory[];
+  priority!:String;
 }

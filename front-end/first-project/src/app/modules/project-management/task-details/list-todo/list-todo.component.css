@@ -10,4 +10,8 @@ table {
   table,th.mat-header-cell{
     text-align: center;
   }
+  .mat-form-field{
+    margin-right: 10px;
+    max-width: 140px;
+}
   

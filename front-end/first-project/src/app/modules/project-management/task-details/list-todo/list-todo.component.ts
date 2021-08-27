@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -28,7 +28,18 @@ export class ListTodoComponent implements OnInit {
   @Input() isAdmin: boolean;
   @Input() curUserId: number;
   @Input() memberList:ProjectEmployee[];
+  @Input() todoNum: number;
+  @Output() todoNumChanged: EventEmitter<number> = new EventEmitter();
+  increaseTodoNum() {
+    this.todoNum++;
+    this.todoNumChanged.emit(this.todoNum);
+    console.log('increase task num');
 
+  }
+decreaseTodoNum() {
+  this.todoNum--;
+  this.todoNumChanged.emit(this.todoNum);
+}
   //form nay cho admin, leader
   todoForm!: FormGroup;
   todoList: Todo[] = [];
@@ -294,6 +305,7 @@ export class ListTodoComponent implements OnInit {
         this.todoService.createTodo(this.curTodo).subscribe((data) => {
           console.log('create', data);
           alert('Create success!!');
+          this.increaseTodoNum();
           this.getData();
           this.modalService.dismissAll();
           // this.ngOnInit();
@@ -453,6 +465,7 @@ export class ListTodoComponent implements OnInit {
       if (data) {
         this.getData();
         alert('Delete seccessed!');
+        this.decreaseTodoNum();
       } else alert('Delete failed!');
     });
   }

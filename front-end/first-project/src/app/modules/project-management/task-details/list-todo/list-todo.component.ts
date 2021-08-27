@@ -26,6 +26,7 @@ export class ListTodoComponent implements OnInit {
   @Input() isLeader: boolean;
   @Input() isAdmin: boolean;
   @Input() curUserId: number;
+  @Input() memberList:ProjectEmployee[];
 
   //form nay cho admin, leader
   todoForm!: FormGroup;
@@ -40,7 +41,6 @@ export class ListTodoComponent implements OnInit {
   idDelete: number;
   // update chi danh cho employee
   updateform: FormGroup;
-  memberList: ProjectEmployee[] = [];
   employeeList: User[] = [];
   leaderList: User[] = [];
   isEmployeeOfTodo: boolean = false;
@@ -66,6 +66,7 @@ export class ListTodoComponent implements OnInit {
     'Status',
     'Task Id',
     // 'Assigned for',
+    'Priority',
     'Todo Type',
     'Action',
   ];
@@ -73,20 +74,16 @@ export class ListTodoComponent implements OnInit {
   selection = new SelectionModel<Todo>(true, []);
 
   getMembers() {
-    this.userService.getUsersInProject(this.curProjectId).subscribe((data) => {
-      console.log('data: ',data);
-      
-      this.memberList = data;
-      this.memberList.forEach((data) => {
-        if (data.role === 'leader') {
-          this.leaderList.push(data.user);
-        } else if (data.role === 'dev') {
-          this.employeeList.push(data.user);
-        }
-      });
-      console.log('leader', this.leaderList);
-      console.log('dev', this.employeeList);
-    });
+    console.log('find member: ', this.curProjectId);
+  
+
+    this.memberList.forEach(data=>{
+      if (data.role === 'leader') {
+        this.leaderList.push(data.user);
+      } else if (data.role === 'dev') {
+        this.employeeList.push(data.user);
+      }
+    })
   }
 
   constructor(
@@ -103,8 +100,8 @@ export class ListTodoComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
     this.getAllData();
-
-    console.log(this.curUserId);
+    console.log('init todo-list');
+    // console.log('userId:',this.curUserId);
     this.userService.getUser(this.jwt.getUsername()).subscribe((data) => {
       this.myAccount = data;
     });
@@ -182,6 +179,7 @@ export class ListTodoComponent implements OnInit {
       endDate: new FormControl(),
       status: new FormControl('draft', [Validators.required]),
       todoType: new FormControl('feature', [Validators.required]),
+      priority: new FormControl('high',[Validators.required]),
       assignfor: new FormControl(this.myAccount.id, [Validators.required]),
     });
   }
@@ -195,10 +193,13 @@ export class ListTodoComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        this.fomatInput.toDatePicker(this.todoDetail.endDate)
+        this.todoDetail.endDate==null?null:this.fomatInput.toDatePicker(this.todoDetail.endDate)
       ),
       status: new FormControl(this.todoDetail.status, [Validators.required]),
       todoType: new FormControl(this.todoDetail.todoType, [
+        Validators.required,
+      ]),
+      priority: new FormControl(this.todoDetail.priority, [
         Validators.required,
       ]),
       assignfor: new FormControl(this.todoDetail.assignedUser, [
@@ -219,6 +220,7 @@ export class ListTodoComponent implements OnInit {
       );
       this.curTodo.status = this.todoForm.value.status;
       this.curTodo.todoType = this.todoForm.value.todoType;
+      this.curTodo.priority = this.todoForm.value.priority;
       this.curTodo.assignedUser = this.todoForm.value.assignfor;
       //
       this.curTodo.taskId = this.curTaskId;

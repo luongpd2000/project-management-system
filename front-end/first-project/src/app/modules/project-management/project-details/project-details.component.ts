@@ -136,7 +136,7 @@ export class ProjectDetailsComponent implements OnInit {
           this.fomat.compare(this.d1, this.d2)) ||
         this.currentProject.endDate === ''
       ) {
-        this.projectService
+          this.projectService
           .putProject(this.currentProject)
           .subscribe((data) => {
             this.projectService.getAllProjects().subscribe(

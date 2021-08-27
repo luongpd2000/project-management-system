@@ -134,7 +134,7 @@ export class TaskDetailsComponent implements OnInit {
       ),
       endDate: new FormControl(
         // this.fomatInput.toDatePicker(this.currentTask.endDate)
-             this.currentTask.endDate===null?'':this.fomatInput.toDatePicker(this.currentTask.endDate)
+             this.currentTask.endDate===null?null:this.fomatInput.toDatePicker(this.currentTask.endDate)
       ),
       status: new FormControl(this.currentTask.status, [Validators.required]),
       taskType: new FormControl(this.currentTask.taskType, [
@@ -148,6 +148,8 @@ export class TaskDetailsComponent implements OnInit {
 
   saveTask() {
     this.dateCheck = true;
+
+    console.log(this.formTask.value.endDate)
     if (this.formTask.valid) {
       this.currentTask.name = this.formTask.value.name;
       this.currentTask.des = this.formTask.value.des;
@@ -157,26 +159,26 @@ export class TaskDetailsComponent implements OnInit {
       this.currentTask.endDate = this.fomatInput.fomatDate(
         this.formTask.value.endDate
       );
-      this.currentTask.status = this.formTask.value.status;
       this.currentTask.priority = this.formTask.value.priority;
       this.currentTask.taskType = this.formTask.value.taskType;
       this.currentTask.taskManagerId = this.formTask.value.manager;
-      console.log(this.currentTask.status +" " + this.formTask.value.status)
+      // console.log(this.currentTask.status +" " + this.formTask.value.status)
       this.taskHistory.des = this.formTask.value.des;
       this.taskHistory.preStatus = this.currentTask.status;
       this.taskHistory.status = this.formTask.value.status;
       this.taskHistory.taskId = this.currentTask.id;
       this.taskHistory.updateUser = this.curUserId;
+      this.currentTask.status = this.formTask.value.status;
 
       console.log(this.taskHistory)
       this.d1 = this.currentTask.startDate.toString();
       this.d2 = this.currentTask.endDate.toString();
 
 
-      if((this.currentTask.endDate!=='' && this.fomatInput.compare(this.d1,this.d2)) || this.currentTask.endDate===''){
+      if((this.currentTask.endDate!==null && this.fomatInput.compare(this.d1,this.d2)) || this.currentTask.endDate==='' || this.currentTask.endDate===null){
 
         if(this.taskHistory.preStatus!==this.taskHistory.status){
-
+          // console.log(this.taskHistory.preStatus + " " + this.taskHistory.status)
         this.taskService.createTaskHistory(this.taskHistory).subscribe(
           (data) => {
             console.log(data + ' ok');
@@ -194,6 +196,7 @@ export class TaskDetailsComponent implements OnInit {
           }
         );
         }else{
+          // console.log(this.taskHistory.preStatus + " giống " + this.taskHistory.status)
           this.taskService.updateTask(this.currentTask).subscribe((data) => {
             console.log('update', data);
             alert('Edit Success');

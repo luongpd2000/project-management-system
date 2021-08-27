@@ -107,7 +107,8 @@ export class ProjectDetailsComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        this.currentProject.endDate==null?'':this.fomat.toDatePicker(this.currentProject.endDate)
+        // this.fomat.toDatePicker(this.currentProject.endDate)
+        this.currentProject.endDate==null?null:this.fomat.toDatePicker(this.currentProject.endDate)
       ),
       status: new FormControl(this.currentProject.status, [
         Validators.required,
@@ -118,25 +119,27 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   saveProject() {
-    this.dateCheck = true;
+    this.dateCheck = true;this.currentProject.name = this.formProject.value.name;
+    this.currentProject.des = this.formProject.value.des;
+    this.currentProject.startDate = this.fomat.fomatDate(
+      this.formProject.value.startDate
+    );
+    this.currentProject.endDate = this.fomat.fomatDate(
+      this.formProject.value.endDate
+    );
+    this.currentProject.status = this.formProject.value.status;
+
+    console.log(this.currentProject)
     if (this.formProject.valid) {
       console.log('click save!!!');
-      this.currentProject.name = this.formProject.value.name;
-      this.currentProject.des = this.formProject.value.des;
-      this.currentProject.startDate = this.fomat.fomatDate(
-        this.formProject.value.startDate
-      );
-      this.currentProject.endDate = this.fomat.fomatDate(
-        this.formProject.value.endDate
-      );
-      this.currentProject.status = this.formProject.value.status;
+
 
       this.d1 = this.currentProject.startDate.toString();
       this.d2 = this.currentProject.endDate.toString();
       if (
         (this.currentProject.endDate !== '' &&
           this.fomat.compare(this.d1, this.d2)) ||
-        this.currentProject.endDate === ''
+        this.currentProject.endDate === null || this.currentProject.endDate === ''
       ) {
           this.projectService
           .putProject(this.currentProject)

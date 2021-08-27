@@ -27,7 +27,7 @@ public interface ProjectEmployeeRepository extends JpaRepository<ProjectEmployee
 
     @Query(value = "SELECT pe.* FROM user u, project_employee pe WHERE pe.project_id =?1 AND pe.user_id=u.id " +
             "AND u.is_deleted = false AND UPPER(u.user_name) LIKE CONCAT('%',UPPER(?2),'%') AND UPPER(u.full_name) LIKE CONCAT('%',UPPER(?3),'%') " +
-            "AND UPPER(u.email) LIKE CONCAT('%',UPPER(?4),'%')  AND u.phone like %?5% AND pe.role like %?6%", nativeQuery = true)
+            "AND UPPER(u.email) LIKE CONCAT('%',UPPER(?4),'%')  AND u.phone like %?5% AND pe.role like %?6% ORDER BY pe.id", nativeQuery = true)
     List<ProjectEmployee> searchUsersInProject(Integer idP,String username, String fullName, String email, String phone, String role);
 
     // lấy list nhân viên của 1 project

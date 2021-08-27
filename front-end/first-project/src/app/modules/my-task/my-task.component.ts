@@ -10,6 +10,8 @@ import { JwtServiceService } from 'src/app/service/jwt-service.service';
 import { UserService } from 'src/app/service/user.service';
 import { TaskHistory } from 'src/app/data/schema/task-history';
 import { User } from 'src/app/data/schema/user';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-task',
@@ -30,6 +32,28 @@ export class MyTaskComponent implements OnInit {
   thePageSize: number = 5;
   theTotalElements: number = 0;
 
+  formSearch:FormGroup;
+  isSearchAll = true;
+  name: String;
+  status: String;
+  priority: String;
+  type: String;
+  projectId: number;
+  startDate: String;
+  endDate: String;
+
+  makeSearchForm(){
+    this.formSearch = this.formBuilder.group({
+      name:[''],
+      status:[''],
+      priority:[''],
+      type:[''],
+      projectId:[''],
+      startDate:[''],
+      endDate:['']
+    });
+  }
+
   dataSource!: MatTableDataSource<Task>;
   displayedColumns: string[] = [
     'No.',
@@ -37,7 +61,7 @@ export class MyTaskComponent implements OnInit {
     'Name',
     'Priority',
     'Type',
-    'Manager',
+    'ProjectId',
     'StartDate',
     'Due to',
     'Status',
@@ -51,13 +75,16 @@ export class MyTaskComponent implements OnInit {
     private modalService: NgbModal,
     private fomatInput:FomatInputService,
     private jwt:JwtServiceService,
-    private userService:UserService) {
+    private userService:UserService,
+    private formBuilder: FormBuilder,
+    public datepipe: DatePipe) {
 
   }
 
   ngOnInit(): void {
 
     this.getUser();
+    this.makeSearchForm();
   }
 
   getUser(){
@@ -66,7 +93,6 @@ export class MyTaskComponent implements OnInit {
         this.user = data;
         this.userId = this.user.id;
         this.getData();
-        this.getDataAll();
       },
       (error) => {
         console.log(error.error.message);
@@ -75,31 +101,56 @@ export class MyTaskComponent implements OnInit {
   }
 
   getData(){
-    this.taskService.getTaskByUserPageable(this.userId,this.thePageNumber-1,this.thePageSize).subscribe(
-      data=>{
-        this.taskList = data['content']
-        console.log(this.taskList);
+
+    if(this.isSearchAll){
+      this.taskService.getTaskByUserPageable(this.userId,this.thePageNumber-1,this.thePageSize).subscribe(
+        data=>{
+          this.taskList = data['content']
+          console.log(this.taskList);
+          this.dataSource = new MatTableDataSource<Task>(this.taskList);
+          this.thePageNumber = data.pageable.pageNumber + 1;
+          this.thePageSize = data.pageable.pageSize;
+          this.theTotalElements = data.totalElements;
+        },
+        (error) => {
+          console.log(error.error.message);
+        }
+      )
+    }else{
+      this.onSearch();
+    }
+
+
+  }
+
+
+  onSearch(){
+    this.isSearchAll = false;
+
+    this.name = this.formSearch.value.name;
+    this.status = this.formSearch.value.status;
+    this.startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
+    this.startDate=this.startDate==null?'':this.startDate;
+    this.endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
+    this.endDate = this.endDate==null?'':this.endDate;
+    this.priority = this.formSearch.value.priority;
+    this.type=this.formSearch.value.type;
+    this.projectId=this.formSearch.value.projectId;
+
+
+
+    this.taskService.searchTask(this.name , this.status, this.priority, this.type, this.userId,
+       this.startDate, this.endDate, this.projectId,this.thePageNumber - 1, this.thePageSize)
+       .subscribe(data=>{
+        this.taskList = data['content'];
         this.dataSource = new MatTableDataSource<Task>(this.taskList);
         this.thePageNumber = data.pageable.pageNumber + 1;
         this.thePageSize = data.pageable.pageSize;
         this.theTotalElements = data.totalElements;
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    )
+       })
+
   }
 
-  getDataAll(){
-    this.taskService.getTaskByUser(this.userId).subscribe(
-      data=>{
-      this.taskListAll = data;
-      console.log(this.taskListAll);
-    },
-    (error) => {
-      console.log(error.error.message);
-    })
-  }
 
   openHistory(content: any, element){
     this.detailTask = element;
@@ -119,6 +170,12 @@ export class MyTaskComponent implements OnInit {
     });
   }
 
+  getAllTask(){
+    this.isSearchAll = true;
+    this.getData();
+    this.makeSearchForm();
+  }
+
   onDelete() {
     console.log(this.deleteTask);
     this.taskService.deleteTask(this.deleteTask).subscribe((data) => {
@@ -128,7 +185,7 @@ export class MyTaskComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  
+
   updatePageSize(event) {
     this.thePageSize = event.target.value;
     console.log(this.thePageSize)
@@ -137,12 +194,6 @@ export class MyTaskComponent implements OnInit {
 
   }
 
-  applyFilter(filterValue: string) {
-    if(filterValue.trim()!=="" || filterValue.trim()!==null){
-      this.dataSource = new MatTableDataSource<Task>(this.taskListAll);
-    }else{
-      this.dataSource = new MatTableDataSource<Task>(this.taskList);
-    }
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+
+
 }

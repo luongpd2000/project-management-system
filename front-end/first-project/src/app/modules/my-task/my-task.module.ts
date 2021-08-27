@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,7 +20,10 @@ import { MatIconModule } from '@angular/material/icon';
     MaterialModule,
     NgbModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule
+
   ]
 })
 export class MyTaskModule { }

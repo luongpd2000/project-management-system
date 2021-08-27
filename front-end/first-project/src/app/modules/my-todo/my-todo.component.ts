@@ -43,7 +43,9 @@ export class MyTodoComponent implements OnInit {
     'Start Date',
     'Status',
     'Task Id',
+    'Project Id',
     'Todo Type',
+    'Priority',
     'Action',
   ];
 

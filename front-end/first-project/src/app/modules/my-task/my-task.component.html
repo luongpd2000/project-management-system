@@ -5,15 +5,64 @@
         <div class="card_body">
           <div class="task-list">Task List</div>
             <div class="search-input row d-flex">
-                <div class="col-6">
-                </div>
+              <div class="col-12">
+                <form [formGroup]="formSearch">
+                  <mat-form-field appearance="fill">
+                      <mat-label>Name</mat-label>
+                      <input matInput formControlName='name'>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Status</mat-label>
+                      <mat-select formControlName='status' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="draft">Draft</mat-option>
+                        <mat-option value="pending">Pending</mat-option>
+                        <mat-option value="working">Working</mat-option>
+                        <mat-option value="reviewing">Reviewing</mat-option>
+                        <mat-option value="done">Done</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Priority</mat-label>
+                      <mat-select formControlName='priority' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="high">High</mat-option>
+                        <mat-option value="normal">Normal</mat-option>
+                        <mat-option value="low">Low</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Type</mat-label>
+                      <mat-select formControlName='type' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="feature">Feature</mat-option>
+                        <mat-option value="bug">Bug</mat-option>
+                      </mat-select>
+                    </mat-form-field>
 
+                    <mat-form-field appearance="fill">
+                      <mat-label>Project Id</mat-label>
+                      <input matInput formControlName='projectId'>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>From</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName='startDate'>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>To</mat-label>
+                      <input matInput [matDatepicker]="picker2" formControlName='endDate'>
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                    <button class="btn btn-primary b-search" (click)="onSearch()" ><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+              </div>
                 <div class="col-6">
-                  <div class="form-group searchInput">
-                    <label for="email">Search:</label>
-                    <input type="search" class="form-control" id="filterbox" placeholder="Search..."
-                      aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
-                  </div>
+                  <button class="btn btn-primary" style="margin:10px" (click)="getAllTask()">All Task</button>
                 </div>
               </div>
 
@@ -62,9 +111,9 @@
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="Manager">
-                <th mat-header-cell *matHeaderCellDef> Manager </th>
-                <td mat-cell *matCellDef="let element"> {{element.taskManagerId}} </td>
+              <ng-container matColumnDef="ProjectId">
+                <th mat-header-cell *matHeaderCellDef> ProjectId </th>
+                <td mat-cell *matCellDef="let element"> {{element.projectId}} </td>
               </ng-container>
 
               <ng-container matColumnDef="StartDate">

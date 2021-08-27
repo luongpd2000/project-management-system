@@ -34,6 +34,7 @@ public class TaskHistoryServiceImpl implements TaskHistoryService {
     @Override
     public TaskHistory create(TaskHistory taskHistory) {
         taskHistory.setUpdateDate(Date.valueOf(LocalDate.now()));
+        if(taskHistory.getPreStatus().equals(null)) taskHistory.setPreStatus("");
         return taskHistoryRepository.save(taskHistory);
     }
 

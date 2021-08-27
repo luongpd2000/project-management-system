@@ -25,7 +25,7 @@ public class TaskHistory implements Serializable {
     @Column(name = "des")
     private String des;
 
-    @NotNull
+    @NotNull()
     @Column(name = "pre_status")
     private String preStatus;
 

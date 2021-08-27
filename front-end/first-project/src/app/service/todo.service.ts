@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Todo } from '../data/schema/todo';
 import { TodoHistory } from '../data/schema/todo-history';
 
@@ -9,7 +10,7 @@ import { TodoHistory } from '../data/schema/todo-history';
   providedIn: 'root'
 })
 export class TodoService {
-  private baseUrl = 'http://localhost:8080/api/v1/project_management';
+  private baseUrl = environment.baseUrl;
 
   private httpOptions = {
     headers: new HttpHeaders(

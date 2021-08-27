@@ -4,13 +4,14 @@ import {Observable} from 'rxjs';
 import {Task} from '../data/schema/task';
 import { CookieService } from 'ngx-cookie-service';
 import { TaskHistory } from '../data/schema/task-history';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  private baseUrl = 'http://localhost:8080/api/v1/project_management';
+  private baseUrl = environment.baseUrl;
 
   private httpOptions = {
     headers: new HttpHeaders(

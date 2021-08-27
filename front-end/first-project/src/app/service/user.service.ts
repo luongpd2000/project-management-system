@@ -5,12 +5,13 @@ import { User } from '../data/schema/user';
 import { CookieService } from 'ngx-cookie-service';
 import { PasswordRecover } from '../data/schema/password-recover';
 import { ProjectEmployee } from '../data/schema/project-employee';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'http://localhost:8080/api/v1/project_management';
+  private baseUrl = environment.baseUrl;
 
   private httpOptions = {
     headers: new HttpHeaders({

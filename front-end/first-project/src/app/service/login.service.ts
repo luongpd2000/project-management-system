@@ -4,6 +4,7 @@ import { ObjectUnsubscribedError, Observable, ReplaySubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,9 @@ export class LoginService {
 
   public path: any;
 
-  private baseUrl = 'http://localhost:8080/auth/login';
+  private loginUrl = environment.loginUrl;
 
-  private serverUrl = 'http://localhost:8080/api/v1/project_management';
+  private baseUrl = environment.baseUrl;
 
 
   private httpOptions = {
@@ -35,7 +36,7 @@ export class LoginService {
     private _cookieService: CookieService) { }
 
   login(u: any, p: any): Observable<any>{
-    return this.httpClient.post(this.baseUrl,{
+    return this.httpClient.post(this.loginUrl,{
       username: u,
       password: p
     },this.httpOptions)
@@ -60,7 +61,7 @@ export class LoginService {
         })
     };
     console.log(this._cookieService.get('Authorization'));
-    const url = `${this.serverUrl}/checkLogin`;
+    const url = `${this.baseUrl}/checkLogin`;
 
     return this.httpClient.get(url,headers);
   }

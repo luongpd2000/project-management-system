@@ -3,8 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseUrl :'http://localhost:8080/api/v1/project_management',
+  loginUrl : 'http://localhost:8080/auth/login'
 };
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file

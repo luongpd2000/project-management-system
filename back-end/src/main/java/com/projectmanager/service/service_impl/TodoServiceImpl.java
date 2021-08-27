@@ -99,7 +99,10 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.findByTaskIdAndDeletedIsFalse(id);
     }
 
-
+    @Override
+    public Page<Todo> searchTodo(String name, String status, String priority, String type, Integer assignedFor, String startDate, String endDate, Integer taskId, Pageable pageable) {
+        return todoRepository.searchTodo(name, status, priority, type, assignedFor, startDate, endDate, taskId, pageable);
+    }
 
 
 }

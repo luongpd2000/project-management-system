@@ -7,7 +7,7 @@
             </div>
             <div class="search-input row d-flex">
               <div class="col-12">
-                <form [formGroup]="">
+                <form [formGroup]="formSearch">
                   <mat-form-field appearance="fill">
                       <mat-label>Name</mat-label>
                       <input matInput formControlName='name'>
@@ -42,9 +42,9 @@
                     </mat-form-field>
                     <mat-form-field appearance="fill">
                       <mat-label>Assigned for</mat-label>
-                      <mat-select formControlName='assgined for' >
-                        <mat-option value="" selected>All</mat-option>
-                        <mat-option *ngFor="let member of memberList" value={{member.user.id}}>{{member.user.fullName}}</mat-option>
+                      <mat-select formControlName='assgined_for' >
+                        <mat-option value="0" selected>All</mat-option>
+                        <mat-option *ngFor="let member of memberList" value={{member?.user.id}}>{{member?.user.fullName}}</mat-option>
                       </mat-select>
                     </mat-form-field>
 
@@ -61,12 +61,12 @@
                       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                       <mat-datepicker #picker2></mat-datepicker>
                     </mat-form-field>
-                    <button class="btn btn-primary b-search"  ><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <button class="btn btn-primary b-search"  (click)="onSearch()"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
               </div>
                 <div class="col-6">
                   <button class="btn btn-success" style="margin:10px"  *ngIf="isAdmin || isLeader" (click)="openNew(new_todo)">New Todo</button>
-                  <button class="btn btn-primary" style="margin:10px">All Todo</button>
+                  <button class="btn btn-primary" style="margin:10px" (click)="getAllTodo()">All Todo</button>
                 </div>
               </div>
             <div class="overflow-x">

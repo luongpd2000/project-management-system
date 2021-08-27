@@ -1,5 +1,6 @@
 package com.projectmanager.repository;
 
+import com.projectmanager.entity.Task;
 import com.projectmanager.entity.Todo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,4 +33,15 @@ public interface TodoRepository extends JpaRepository<Todo, Integer>, JpaSpecifi
     @Modifying
     @Query(value = "UPDATE todo  SET assigned_user = 1 WHERE user_id = ?1",nativeQuery = true)
     Integer moveToAdminTodoByUserId(Integer uId);
+
+    @Query(value="SELECT * FROM todo t where t.is_deleted = false  AND t.task_id = ?8 AND t.name like %?1% " +
+            "AND (?2 = '' OR t.status = ?2)"  +
+            "AND (?3 = '' OR t.priority = ?3) " +
+            "AND (?4 = '' OR t.todo_type = ?4) " +
+            "AND (?5 = 0 OR t.assigned_user = ?5) " +
+            "AND (?6 = '' or t.start_date >= ?6) " +
+            "AND (?7 = '' or t.end_date <= ?7) "
+            , nativeQuery = true)
+    Page<Todo> searchTodo(String name, String status, String priority, String type,
+                          Integer assignedFor, String startDate, String endDate, Integer taskId, Pageable pageable);
 }

@@ -209,11 +209,6 @@ decreaseTaskNum() {
     this.isSearchAll = true;
     this.getData();
     this.makeSearchForm();
-    // this.dataSource = new MatTableDataSource<Task>(this.taskListAll);
-    // this.thePageNumber =  1;
-    // this.thePageSize = 5;
-    // this.theTotalElements = this.taskListAll.length;
-    // console.log('length: ', this.taskListAll.length);
     
   }
 

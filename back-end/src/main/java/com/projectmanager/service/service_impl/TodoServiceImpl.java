@@ -100,8 +100,8 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Page<Todo> searchTodo(String name, String status, String priority, String type, Integer assignedFor, String startDate, String endDate, Integer taskId, Pageable pageable) {
-        return todoRepository.searchTodo(name, status, priority, type, assignedFor, startDate, endDate, taskId, pageable);
+    public Page<Todo> searchTodo(String name, String status, String priority, String type, Integer assignedFor, String startDate, String endDate, Integer taskId, Integer projectId, Pageable pageable) {
+        return todoRepository.searchTodo(name, status, priority, type, assignedFor, startDate, endDate, taskId,projectId, pageable);
     }
 
 

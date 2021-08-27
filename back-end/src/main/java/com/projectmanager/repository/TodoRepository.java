@@ -34,14 +34,15 @@ public interface TodoRepository extends JpaRepository<Todo, Integer>, JpaSpecifi
     @Query(value = "UPDATE todo  SET assigned_user = 1 WHERE user_id = ?1",nativeQuery = true)
     Integer moveToAdminTodoByUserId(Integer uId);
 
-    @Query(value="SELECT * FROM todo t where t.is_deleted = false  AND t.task_id = ?8 AND t.name like %?1% " +
+    @Query(value="SELECT * FROM todo t where t.is_deleted = false  AND (?8 = 0 OR t.task_id = ?8) AND UPPER(t.name) LIKE CONCAT('%',UPPER(?1),'%') " +
             "AND (?2 = '' OR t.status = ?2)"  +
             "AND (?3 = '' OR t.priority = ?3) " +
             "AND (?4 = '' OR t.todo_type = ?4) " +
             "AND (?5 = 0 OR t.assigned_user = ?5) " +
+            "AND (?9 = 0 OR t.project_id = ?9) " +
             "AND (?6 = '' or t.start_date >= ?6) " +
             "AND (?7 = '' or t.end_date <= ?7) "
             , nativeQuery = true)
     Page<Todo> searchTodo(String name, String status, String priority, String type,
-                          Integer assignedFor, String startDate, String endDate, Integer taskId, Pageable pageable);
+                          Integer assignedFor, String startDate, String endDate, Integer taskId, Integer projectId, Pageable pageable);
 }

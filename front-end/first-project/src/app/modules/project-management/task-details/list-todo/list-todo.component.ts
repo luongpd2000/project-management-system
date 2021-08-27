@@ -192,12 +192,12 @@ export class ListTodoComponent implements OnInit {
     let  assignedFor = this.formSearch.value.assgined_for;
 
     this.todoService.searchTodo(name, status, priority, type, assignedFor,
-       startDate, endDate, this.curTaskId,this.thePageNumber - 1, this.thePageSize)
+       startDate, endDate, this.curTaskId,this.curProjectId,this.thePageNumber - 1, this.thePageSize)
        .subscribe(data=>{
         this.todoList = data['content'];
         // console.log(this.taskList);
         console.log('searchList: ', this.todoList);
-        
+
         this.dataSource = new MatTableDataSource<Todo>(this.todoList);
         this.thePageNumber = data.pageable.pageNumber + 1;
         this.thePageSize = data.pageable.pageSize;
@@ -209,12 +209,7 @@ export class ListTodoComponent implements OnInit {
     this.isSearchAll=true;
     this.getData();
     this.makeSearchForm();
-    // this.dataSource=new MatTableDataSource<Todo>(this.todoListAll);
-    // this.thePageNumber =  1;
-    // this.thePageSize = 5;
-    // this.theTotalElements = this.todoListAll.length;
-    // console.log('total ', this.todoListAll.length);
-    
+
   }
 
   openModal(content) {

@@ -211,11 +211,12 @@ public class Controller {
                                         @RequestParam String status,
                                         @RequestParam String type,
                                         @RequestParam(defaultValue = "0") Integer assignedFor,
+                                        @RequestParam(defaultValue = "0") Integer projectId,
                                         @RequestParam String startDate,
                                         @RequestParam String endDate,
-                                        @RequestParam Integer taskId){
+                                        @RequestParam(defaultValue = "0") Integer taskId){
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(todoService.searchTodo(name, status, priority, type, assignedFor, startDate, endDate, taskId, pageable));
+        return ResponseEntity.ok(todoService.searchTodo(name, status, priority, type, assignedFor, startDate, endDate, taskId,projectId, pageable));
     }
 
     @PostMapping("/createTodo")

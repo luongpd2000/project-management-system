@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -49,6 +50,22 @@ export class MyTodoComponent implements OnInit {
     'Action',
   ];
 
+
+  formSearch:FormGroup;
+  isSearchAll=true;
+  makeSearchForm(){
+    this.formSearch = this.formBuilder.group({
+      name:[''],
+      status:[''],
+      priority:[''],
+      type:[''],
+      taskId:[''],
+      projectId:[''],
+      startDate:[''],
+      endDate:['']
+    });
+  }
+
   selection = new SelectionModel<Todo>(true, []);
 
   constructor(private route: ActivatedRoute,
@@ -57,7 +74,9 @@ export class MyTodoComponent implements OnInit {
     private router: Router,
     private todoService: TodoService,
     private userService: UserService,
-    public getStatus:StatusService) { }
+    public getStatus:StatusService,
+    private formBuilder: FormBuilder,
+    public datepipe: DatePipe) { }
 
   ngOnInit(): void {
 
@@ -65,7 +84,6 @@ export class MyTodoComponent implements OnInit {
       data=>{
         this.userId = data.id;
       this.getData();
-      this.getAllData();
       }
     )
 
@@ -73,9 +91,12 @@ export class MyTodoComponent implements OnInit {
       des: new FormControl(''),
     });
 
+    this.makeSearchForm();
+
   }
 
   getData(){
+    if(this.isSearchAll){
     this.todoService.getTodoListOfUser(this.userId,this.thePageNumber-1,this.thePageSize).subscribe(
       data=>{
         this.todoList = data['content'];
@@ -89,19 +110,11 @@ export class MyTodoComponent implements OnInit {
         console.log(error.error.message);
       }
     );
+    }else{
+      this.onSearch();
+    }
   }
 
-  getAllData(){
-    this.todoService.getTodoListOfUserNoPageable(this.userId).subscribe(
-      data=>{
-        this.todoListAll = data;
-        console.log(this.todoListAll);
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    );
-  }
 
   openDetails(content: any, element){
     this.todoDetail = element;
@@ -119,6 +132,42 @@ export class MyTodoComponent implements OnInit {
       centered: true,
       size: 'lg',
     });
+  }
+
+  onSearch(){
+    this.isSearchAll = false;
+
+    let name = this.formSearch.value.name;
+    let status = this.formSearch.value.status;
+    let startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
+    startDate=startDate==null?'':startDate;
+    let endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
+    endDate = endDate==null?'':endDate;
+    let priority = this.formSearch.value.priority;
+    let  type = this.formSearch.value.type;
+    let  taskId = this.formSearch.value.taskId;
+    let  projectId = this.formSearch.value.projectId;
+
+    this.todoService.searchTodo(name, status, priority, type, this.userId,
+       startDate, endDate, taskId,projectId,this.thePageNumber - 1, this.thePageSize)
+       .subscribe(data=>{
+        this.todoList = data['content'];
+        // console.log(this.taskList);
+        console.log('searchList: ', this.todoList);
+
+        this.dataSource = new MatTableDataSource<Todo>(this.todoList);
+        this.thePageNumber = data.pageable.pageNumber + 1;
+        this.thePageSize = data.pageable.pageSize;
+        this.theTotalElements = data.totalElements;
+       })
+  }
+
+
+  getAllTodo(){
+    this.isSearchAll=true;
+    this.getData();
+    this.makeSearchForm();
+
   }
 
   openUpdate(content: any, element){
@@ -164,7 +213,6 @@ export class MyTodoComponent implements OnInit {
         console.log(data);
         this.modalService.dismissAll();
         this.getData();
-        this.getAllData();
         window.alert("update status success")
       },
       (error) => {
@@ -184,12 +232,4 @@ export class MyTodoComponent implements OnInit {
 
   }
 
-  applyFilter(filterValue: string) {
-    if(filterValue.trim()!==""){
-      this.dataSource = new MatTableDataSource<Todo>(this.todoListAll);
-    }else{
-      this.dataSource = new MatTableDataSource<Todo>(this.todoList);
-    }
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 }

@@ -72,13 +72,13 @@ export class TodoService {
   }
 
   searchTodo(name: String, status: String, priority: String, type: String,
-    assignedFor: number, startDate: String, endDate: String, taskId: number, thePage: number,
+    assignedFor: number, startDate: String, endDate: String, taskId: number,projectId: number, thePage: number,
     thePageSize: number): Observable<any> {
     const url = `${this.baseUrl}/searchTodo?page=${thePage}&size=${thePageSize}` +
       `&name=${name}&priority=${priority}&status=${status}&type=${type}&assignedFor=${assignedFor}` +
-      `&startDate=${startDate}&endDate=${endDate}&taskId=${taskId}`;
+      `&startDate=${startDate}&endDate=${endDate}&taskId=${taskId}&projectId=${projectId}`;
       console.log('url: ', url);
-      
+
     return this.httpClient.get<any>(url, this.httpOptions);
   }
 }

@@ -1,114 +1,5 @@
 
-    <!-- <main class="content-wrapper">
-        <div class="container p-30">
-            <div class="section-body">
-            <div class="row">
 
-                <div class="col-md-12 main-datatable">
-                    <div class="card_body">
-                        <div class="task-list">Your Todo</div>
-                        <div class="row d-flex">
-                            <div class=" col-sm-4 group-btn ">
-
-                            </div>
-
-                            <div class="col-sm-8 add_flex">
-                                <div class="form-group searchInput">
-                                    <label for="email">Search:</label>
-                                    <input type="search" class="form-control" id="filterbox" placeholder=" ">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="overflow-x">
-
-                            <table style="width:100%; " id="filtertable"
-                                class="table cust-datatable dataTable no-footer">
-                                <thead>
-                                    <tr>
-                                        <th style="min-width:20px; max-width: 50;">ID</th>
-                                        <th style="min-width:100px;">Name</th>
-                                        <th style="min-width:100px;">Project</th>
-                                        <th style="min-width:150px;">Task</th>
-                                        <th style="min-width:100px;">Priority</th>
-                                        <th style="min-width:100px;">Due to</th>
-                                        <th style="min-width:150px;">Status</th>
-                                        <th style="min-width:150px;">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>todo1</td>
-                                        <td>Project1</td>
-                                        <td>task1</td>
-                                        <td><span class="mode mode_high">High</span></td>
-
-                                        <td>17-Apr-2020</td>
-                                        <td><span class="mode mode_working">Working</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
-                                                Details
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>todo1</td>
-                                        <td>Project1</td>
-                                        <td>task1</td>
-                                        <td><span class="mode mode_normal">Normal</span></td>
-
-                                        <td>17-Apr-2020</td>
-                                        <td><span class="mode mode_done">Done</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
-                                                Details
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>todo1</td>
-                                        <td>Project1</td>
-                                        <td>task1</td>
-                                        <td><span class="mode mode_low">Low</span></td>
-
-                                        <td>17-Apr-2020</td>
-                                        <td><span class="mode mode_working">Working</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
-                                                Details
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>todo1</td>
-                                        <td>Project1</td>
-                                        <td>task1</td>
-                                        <td><span class="mode mode_high">High</span></td>
-
-                                        <td>17-Apr-2020</td>
-                                        <td><span class="mode mode_reviewing">Reviewing</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
-                                                Details
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </main> -->
 
 
     <main class="content-wrapper">
@@ -121,16 +12,70 @@
         <div class="row">
           <div class="search-input">
             <div class="row">
-              <div class="col-6">
-              </div>
+              <div class="col-12">
+                <form [formGroup]="formSearch">
+                  <mat-form-field appearance="fill">
+                      <mat-label>Name</mat-label>
+                      <input matInput formControlName='name'>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Status</mat-label>
+                      <mat-select formControlName='status' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="draft">Draft</mat-option>
+                        <mat-option value="pending">Pending</mat-option>
+                        <mat-option value="working">Working</mat-option>
+                        <mat-option value="reviewing">Reviewing</mat-option>
+                        <mat-option value="done">Done</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Priority</mat-label>
+                      <mat-select formControlName='priority' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="high">High</mat-option>
+                        <mat-option value="normal">Normal</mat-option>
+                        <mat-option value="low">Low</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Type</mat-label>
+                      <mat-select formControlName='type' >
+                        <mat-option value="" selected>All</mat-option>
+                        <mat-option value="feature">Feature</mat-option>
+                        <mat-option value="bug">Bug</mat-option>
+                      </mat-select>
+                    </mat-form-field>
 
-              <div class="col-6">
-                <div class="form-group searchInput">
-                  <label for="email">Search:</label>
-                  <input type="search" class="form-control" id="filterbox" placeholder="Search..."
-                    aria-describedby="basic-addon2" (keyup)="applyFilter($any($event.target).value)" autocomplete="off">
-                </div>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Task Id</mat-label>
+                      <input matInput formControlName='taskId'>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>Project Id</mat-label>
+                      <input matInput formControlName='projectId'>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>From</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName='startDate'>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>To</mat-label>
+                      <input matInput [matDatepicker]="picker2" formControlName='endDate'>
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                    <button class="btn btn-primary b-search"  (click)="onSearch()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
               </div>
+                <div class="col-6">
+                  <button class="btn btn-primary" style="margin:10px" (click)="getAllTodo()">All Todo</button>
+                </div>
             </div>
           </div>
           <div class="col-md-12 main-datatable">

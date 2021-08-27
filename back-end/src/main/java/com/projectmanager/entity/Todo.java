@@ -83,6 +83,10 @@ public class Todo implements Serializable {
     @Column(name = "assigned_user")
     private Integer assignedUser;
 
+    @NotNull
+    @Column(name = "priority")
+    private String priority;
+
     @OneToMany(mappedBy = "todoId", fetch = FetchType.LAZY)
     private List<TodoHistory> todoHistoryList;
 

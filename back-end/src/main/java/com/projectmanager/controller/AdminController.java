@@ -133,8 +133,11 @@ public class AdminController {
                                            @RequestParam String fullname,
                                            @RequestParam String email,
                                            @RequestParam String address,
-                                           @RequestParam String phone){
-        return ResponseEntity.ok(userService.searchUser(username, fullname, email, address, phone));
+                                           @RequestParam String phone,
+                                        @RequestParam(name = "page", defaultValue = "0") Integer page,
+                                        @RequestParam(name = "size", defaultValue = "100") Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(userService.searchUser(username, fullname, email, address, phone,pageable));
     }
 
     @GetMapping("/searchUsersNotInProject")

@@ -14,6 +14,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { TaskHistory } from 'src/app/data/schema/task-history';
 import { TodoService } from 'src/app/service/todo.service';
 import { DatePipe } from '@angular/common';
+import { ProjectEmployee } from 'src/app/data/schema/project-employee';
+import { ProjectService } from 'src/app/service/project.service';
 
 @Component({
   selector: 'app-list-task',
@@ -22,19 +24,20 @@ import { DatePipe } from '@angular/common';
 })
 export class ListTaskComponent implements OnInit {
   @Input() currentProjectId: number;
-  @Input() memberList: any[];
+  @Input() memberList: ProjectEmployee[];
   @Input() taskNum : number;
   @Output() taskNumChanged: EventEmitter<number> = new EventEmitter();
   increaseTaskNum() {
     this.taskNum++;
     this.taskNumChanged.emit(this.taskNum);
     console.log('increase task num');
-    
+
   }
 decreaseTaskNum() {
   this.taskNum--;
   this.taskNumChanged.emit(this.taskNum);
 }
+
 
   thePageNumber: number = 1;
   thePageSize: number = 5;
@@ -87,22 +90,10 @@ decreaseTaskNum() {
   isLeaderOfProject = false;
   isLeaderOfTask = false;
 
-  getLeaderList() {
-    this.memberList.forEach((data) => {
-      console.log('list mem list task', data);
-      if ((data.role == 'leader' || data.role == 'admin') && data.delete!=true) {
-        this.leaderList.push(data['user']);
-        if (data.user.id === this.myUserId) {
-          console.log(data.userId + ' ' + this.myUserId);
-          this.isLeaderOfProject = true;
-        }
-      }
-      console.log('list task leader: ', this.leaderList);
-      
-    });
+
     // console.log('member', this.memberList);
     // console.log('leader', this.leaderList);
-  }
+
 
   constructor(
     private taskService: TaskService,
@@ -112,8 +103,9 @@ decreaseTaskNum() {
     private jwt: JwtServiceService,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    public datepipe: DatePipe
-  ) {   
+    public datepipe: DatePipe,
+    private projectService: ProjectService
+  ) {
   }
 
   ngOnInit(): void {
@@ -131,14 +123,41 @@ decreaseTaskNum() {
       }
 
       this.userService.getUser(this.myUserName).subscribe((data) => {
+        console.log(data);
         this.curUser = data;
         this.myUserId = data.id;
         this.getLeaderList();
+      },
+      (error) => {
+        console.log(error.error.message);
       });
-      
+
     }
-    
-    this.getDataAll();
+  }
+
+  getLeaderList() {
+
+    this.projectService.findListEmployeeByProjectId(this.currentProjectId).subscribe(
+      data=>{
+        this.memberList = data;
+        console.log(data);
+        this.memberList.forEach(
+          (data) => {
+          // console.log('list mem list task', data);
+          if ((data.role === 'leader' || data.role === 'admin') && data.delete===false) {
+            this.leaderList.push(data.user);
+            if (data.user.id === this.myUserId) {
+              console.log(data.user.id + ' ' + this.myUserId);
+              this.isLeaderOfProject = true;
+            }
+          }
+          console.log('list task leader: ', this.leaderList);
+        })
+      },
+      (error) => {
+        console.log(error.error.message);
+      }
+    )
   }
 
   getData() {// get all tasks in project pageable
@@ -165,21 +184,21 @@ decreaseTaskNum() {
     }else{
         this.onSearch();
     }
-    
+
   }
 
 
-  getDataAll() {// get all task no pageable
-    this.taskService.getListTaskByProjectId(this.currentProjectId).subscribe(
-      (data) => {
-        this.taskListAll = data;
-        console.log(this.taskListAll);
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    );
-  }
+  // getDataAll() {// get all task no pageable
+  //   this.taskService.getListTaskByProjectId(this.currentProjectId).subscribe(
+  //     (data) => {
+  //       this.taskListAll = data;
+  //       console.log(this.taskListAll);
+  //     },
+  //     (error) => {
+  //       console.log(error.error.message);
+  //     }
+  //   );
+  // }
 
   onSearch(){
     this.isSearchAll = false;
@@ -203,7 +222,7 @@ decreaseTaskNum() {
         this.thePageSize = data.pageable.pageSize;
         this.theTotalElements = data.totalElements;
        })
-    
+
   }
   getAllTask(){
     this.isSearchAll = true;
@@ -213,6 +232,7 @@ decreaseTaskNum() {
   }
 
   open(content: any) {
+    this.isSearchAll = false;
     this.makeForm();
     this.modalService.open(content, {
       centered: true,
@@ -312,14 +332,14 @@ decreaseTaskNum() {
     this.getData();
   }
 
-  applyFilter(filterValue: string) {
-    if (filterValue.trim() !== '' || filterValue.trim() !== null) {
-      this.dataSource = new MatTableDataSource<Task>(this.taskListAll);
-    } else {
-      this.dataSource = new MatTableDataSource<Task>(this.taskList);
-    }
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  // applyFilter(filterValue: string) {
+  //   if (filterValue.trim() !== '' || filterValue.trim() !== null) {
+  //     this.dataSource = new MatTableDataSource<Task>(this.taskListAll);
+  //   } else {
+  //     this.dataSource = new MatTableDataSource<Task>(this.taskList);
+  //   }
+  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  // }
 
   // use for Form
   get name() {

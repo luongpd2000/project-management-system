@@ -74,4 +74,9 @@ export class ProjectService {
     return this.http.get<any>(projectUrl,this.httpOptions);
   }
 
+  findListEmployeeByProjectId(id: number){
+    const projectUrl = `${this.baseUrl}project_management/findListEmployeeByProjectId/${id}`;
+    return this.http.get<any>(projectUrl,this.httpOptions);
+  }
+
 }

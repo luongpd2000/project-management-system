@@ -9,6 +9,7 @@ import { FomatInputService } from 'src/app/data/service/fomat-input.service';
 import { StatusService } from 'src/app/data/service/status.service';
 
 import { JwtServiceService } from 'src/app/service/jwt-service.service';
+import { ProjectEmployee } from 'src/app/data/schema/project-employee';
 
 @Component({
   selector: 'app-project-details',
@@ -22,13 +23,13 @@ export class ProjectDetailsComponent implements OnInit {
   taskList = [];
   taskNum = 0;
   todoNum = 0;
- 
+
   d1: string;
   d2: string;
   dateCheck = true;
 
   currentProjectId: number;
-  memberList: any[] = [];
+  memberList: ProjectEmployee[] = [];
 
   isAdmin: boolean = true;
   role!: String;
@@ -78,8 +79,8 @@ export class ProjectDetailsComponent implements OnInit {
         }).length;
       // this.currentProjectId = this.currentProject.id;
         console.log('project id ',this.currentProjectId);
-       
-        
+
+
       this.currentProject.projectEmployeeList.forEach(pe=>{
         if(pe.delete!=true) this.memberList.push(pe);
       });
@@ -89,6 +90,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
   // open project Form
   openProjectForm(content: any) {
+    this.dateCheck = true;
     this.makeEditProjectForm();
     this.modalService.open(content, {
       centered: true,
@@ -105,7 +107,7 @@ export class ProjectDetailsComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        this.currentProject.endDate==null?null:this.fomat.toDatePicker(this.currentProject.endDate)
+        this.currentProject.endDate==null?'':this.fomat.toDatePicker(this.currentProject.endDate)
       ),
       status: new FormControl(this.currentProject.status, [
         Validators.required,
@@ -156,6 +158,7 @@ export class ProjectDetailsComponent implements OnInit {
       }
     } else {
       alert('DATA INVALID');
+      this.currentProject.endDate = null;
     }
   }
 
@@ -181,7 +184,7 @@ export class ProjectDetailsComponent implements OnInit {
   changedTodoNum(taskNumber:number){
     this.taskNum = taskNumber;
     console.log('todoNum: ', this.taskNum);
-    
+
   }
 
   get name() {

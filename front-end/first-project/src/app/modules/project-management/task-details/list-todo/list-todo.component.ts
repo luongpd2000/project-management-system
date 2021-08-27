@@ -89,9 +89,10 @@ export class ListTodoComponent implements OnInit {
   getMembers() {
     console.log('find member: ', this.curProjectId);
     this.memberList.forEach(data=>{
-      if (data.role === 'leader') {
+      console.log(data);
+      if ((data.role === 'leader' || data.role === 'admin') && data.delete===false) {
         this.leaderList.push(data.user);
-      } else if (data.role === 'dev') {
+      } else if (data.role === 'dev' && data.delete===false) {
         this.employeeList.push(data.user);
       }
     })

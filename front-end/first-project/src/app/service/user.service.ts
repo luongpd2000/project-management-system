@@ -129,12 +129,14 @@ export class UserService {
     fullname: String,
     email: String,
     address: String,
-    phone: String
+    phone: String,
+    thePage: number,
+    thePageSize: number
   ): Observable<any> {
-    const projectUrl = `${this.baseUrl}/admin/searchUser?username=${username}&fullname=${fullname}&email=${email}&address=${address}&phone=${phone}`;
+    const projectUrl = `${this.baseUrl}/admin/searchUser?username=${username}&fullname=${fullname}&email=${email}&address=${address}&phone=${phone}&page=${thePage}&size=${thePageSize}`;
 
     console.log('search: ', projectUrl);
-    
+
     return this.httpClient.get<any>(projectUrl, this.httpOptions);
   }
 

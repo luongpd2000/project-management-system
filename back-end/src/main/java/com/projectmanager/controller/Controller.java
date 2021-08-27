@@ -270,7 +270,7 @@ public class Controller {
                                         @RequestParam(defaultValue = "0") Integer leaderId,
                                         @RequestParam String startDate,
                                         @RequestParam String endDate,
-                                        @RequestParam Integer projectId){
+                                        @RequestParam(defaultValue = "0") Integer projectId){
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(taskService.searchTask(name, status, priority, type, leaderId, startDate, endDate, projectId, pageable));
     }

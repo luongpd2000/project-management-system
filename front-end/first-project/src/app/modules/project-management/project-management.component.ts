@@ -54,7 +54,7 @@ export class ProjectManagementComponent implements OnInit {
       endDate:['']
     });
   }
-   
+
   constructor(
     private projectService: ProjectService,
     private formBuilder: FormBuilder,
@@ -67,7 +67,7 @@ export class ProjectManagementComponent implements OnInit {
     public datepipe: DatePipe
   ) { }
 
-  
+
   ngOnInit(): void {
     if (!this.loginService.logIn) {
       this.projectList = null;
@@ -92,7 +92,7 @@ export class ProjectManagementComponent implements OnInit {
 
 
   }
-  
+
   onSearch(){// search project
     let name = this.formSearch.value.name;
     let status = this.formSearch.value.status;
@@ -104,7 +104,7 @@ export class ProjectManagementComponent implements OnInit {
       this.projectService.searchProject(name, status, startDate, endDate).subscribe(data=>{
         console.log('datasearch : ',data);
         this.projectList = data;
-        this.makeData();   
+        this.makeData();
       })
     }else{
       this.projectService.searchProjectWithUserId(name, status, startDate, endDate, this.userId).subscribe(data=>{
@@ -113,9 +113,9 @@ export class ProjectManagementComponent implements OnInit {
         this.makeData();
       })
     }
-    
-    console.log(name, status, startDate, endDate); 
-  
+
+    console.log(name, status, startDate, endDate);
+
   }
 
   getDetails() {//get all project for admin
@@ -195,6 +195,7 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   open(content: any) {//open a content modal
+    this.dateCheck = true;
     this.makeForm();
     this.modalService.open(content, {
       centered: true,

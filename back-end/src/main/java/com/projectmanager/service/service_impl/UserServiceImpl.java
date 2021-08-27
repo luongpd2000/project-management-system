@@ -111,8 +111,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> searchUser(String username, String fullName, String email, String address, String phone) {
-        return userRepository.searchUser(username, fullName, email, address, phone);
+    public Page<User> searchUser(String username, String fullName, String email, String address, String phone, Pageable pageable) {
+        return userRepository.searchUser(username, fullName, email, address, phone, pageable);
     }
 
     @Override

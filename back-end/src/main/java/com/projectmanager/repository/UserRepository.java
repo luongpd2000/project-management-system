@@ -26,10 +26,10 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
     Page<User> findAllByDeleteIsTrue(Pageable pageable);
 
-    @Query(value = "SELECT u.* FROM user u WHERE UPPER(u.user_name) LIKE CONCAT('%',UPPER(?1),'%') AND UPPER(u.full_name) LIKE CONCAT('%',UPPER(?2),'%')  " +
+    @Query(value = "SELECT * FROM user u WHERE UPPER(u.user_name) LIKE CONCAT('%',UPPER(?1),'%') AND UPPER(u.full_name) LIKE CONCAT('%',UPPER(?2),'%')  " +
                     "AND UPPER(u.email) LIKE CONCAT('%',UPPER(?3),'%') " +
             "AND UPPER(u.address) LIKE CONCAT('%',UPPER(?4),'%') AND u.phone LIKE %?5%" , nativeQuery = true)
-    List<User> searchUser(String username, String fullName, String email, String address, String phone);
+    Page<User> searchUser(String username, String fullName, String email, String address, String phone, Pageable pageable);
 
     @Query(value = "SELECT u.* FROM user u WHERE u.id NOT IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = false) " +
             "AND u.is_deleted = false", nativeQuery = true)

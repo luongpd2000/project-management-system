@@ -32,8 +32,8 @@ export class AppComponent {
   ngOnInit(): void{
 
     this.loginService.path = this.location.path();
-    console.log('appComponent: pathString...');
-    console.log(this.loginService.path);
+    // console.log('appComponent: pathString...');
+    // console.log(this.loginService.path);
 
     if(this.loginService.logIn === true){
 
@@ -43,28 +43,28 @@ export class AppComponent {
         data=>{
           this.loginService.userId = data.id;
         },error => {
-          console.log("có lỗi " + error.status.message)
-          console.log(error);
+          // console.log("có lỗi " + error.status.message)
+          // console.log(error);
         }
       )
     }else{
       this.loginService.isLoggedIn().subscribe(
         data =>{
-          console.log(data);
-          console.log(data.status);
+          // console.log(data);
+          // console.log(data.status);
           this.loginService.logIn = true;
           this.userService.getUser(this.jwtService.getUsername()).subscribe(
             data=>{
               this.loginService.userId = data.id;
             },error => {
-              console.log("có lỗi " + error.status.message)
-              console.log(error);
+              // console.log("có lỗi " + error.status.message)
+              // console.log(error);
             }
           )
           this.router.navigate([this.loginService.path==="/login"? "":this.loginService.path]);
         },error => {
-          console.log("có lỗi check isLogIn " + error.status)
-          console.log(error);
+          // console.log("có lỗi check isLogIn " + error.status)
+          // console.log(error);
         }
       )
     }

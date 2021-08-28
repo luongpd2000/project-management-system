@@ -95,7 +95,7 @@ export class MyTaskComponent implements OnInit {
         this.getData();
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     )
   }
@@ -106,14 +106,14 @@ export class MyTaskComponent implements OnInit {
       this.taskService.getTaskByUserPageable(this.userId,this.thePageNumber-1,this.thePageSize).subscribe(
         data=>{
           this.taskList = data['content']
-          console.log(this.taskList);
+          // console.log(this.taskList);
           this.dataSource = new MatTableDataSource<Task>(this.taskList);
           this.thePageNumber = data.pageable.pageNumber + 1;
           this.thePageSize = data.pageable.pageSize;
           this.theTotalElements = data.totalElements;
         },
         (error) => {
-          console.log(error.error.message);
+          // console.log(error.error.message);
         }
       )
     }else{
@@ -154,9 +154,9 @@ export class MyTaskComponent implements OnInit {
 
   openHistory(content: any, element){
     this.detailTask = element;
-    console.log(this.detailTask);
+    // console.log(this.detailTask);
     this.taskHisrotyList = this.detailTask.taskHistoryList;
-    console.log(this.taskHisrotyList);
+    // console.log(this.taskHisrotyList);
     this.modalService.open(content, {
       centered: true,
       size: 'lg',
@@ -177,9 +177,9 @@ export class MyTaskComponent implements OnInit {
   }
 
   onDelete() {
-    console.log(this.deleteTask);
+    // console.log(this.deleteTask);
     this.taskService.deleteTask(this.deleteTask).subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.getData();
     });
     this.modalService.dismissAll();

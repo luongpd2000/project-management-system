@@ -24,20 +24,6 @@ export class LoginComponent implements OnInit {
               private _cookieService: CookieService) { }
 
   ngOnInit(): void {
-
-    // this.loginService.isLoggedIn().subscribe(
-    //   data =>{
-    //     console.log(data);
-    //     console.log(data.status);
-    //     // this.loginService.logIn2.next(true);
-    //     this.loginService.logIn = true;
-    //     this.router.navigate(['']);
-    //   },error => {
-    //     console.log("có lỗi check isLogIn " + error.status)
-    //     console.log(error);
-    //   }
-    // )
-
     if(this.loginService.logIn){
       this.router.navigate([this.loginService.path]);
     }
@@ -45,7 +31,6 @@ export class LoginComponent implements OnInit {
     this.logIn = new FormGroup({
       username: new FormControl('',[
         Validators.maxLength(50)
-        // ProjectManagementSystemValidators.notOnlyWhitespace
       ]),
       password: new FormControl('',[
         Validators.minLength(8),
@@ -61,18 +46,15 @@ export class LoginComponent implements OnInit {
 
     if (this.logIn.invalid) {
       this.logIn.markAllAsTouched();
-      console.log("false " + this.logIn.status)
       return;
     }
 
     const u = this.logIn.controls['username'].value;
     const p = this.logIn.controls['password'].value;
 
-    console.log("ok " + u +" "+ p)
-
     this.loginService.login(u,p).subscribe(
       data =>{
-        console.log(data.status);
+        // console.log(data.status);
         this._cookieService.set("Authorization",data.Authorization)
         this.loginService.logIn = true;
         this.router.navigate([this.loginService.path==="/login"? "" : this.loginService.path]);
@@ -80,12 +62,13 @@ export class LoginComponent implements OnInit {
           data=>{
             this.loginService.userId = data.id;
           },error => {
-            console.log("có lỗi " + error.status.message)
-            console.log(error);
+            // console.log("có lỗi " + error.status.message)
+            // console.log(error);
           }
         )
       }, error =>{
-        console.log(error + " có lỗi login");
+        alert("Login fail: check username and password");
+        // console.log(error + " có lỗi login");
     })
 
 

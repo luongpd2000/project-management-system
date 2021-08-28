@@ -100,14 +100,14 @@ export class MyTodoComponent implements OnInit {
     this.todoService.getTodoListOfUser(this.userId,this.thePageNumber-1,this.thePageSize).subscribe(
       data=>{
         this.todoList = data['content'];
-        console.log(this.todoList)
+        // console.log(this.todoList)
         this.dataSource = new MatTableDataSource<Todo>(this.todoList);
         this.thePageNumber = data.pageable.pageNumber + 1;
         this.thePageSize = data.pageable.pageSize;
         this.theTotalElements = data.totalElements;
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     );
     }else{
@@ -126,8 +126,8 @@ export class MyTodoComponent implements OnInit {
 
   openHistory(content: any, element){
     this.todoHistory = element.todoHistoryList;
-    console.log(element);
-    console.log(this.todoHistory);
+    // console.log(element);
+    // console.log(this.todoHistory);
     this.modalService.open(content, {
       centered: true,
       size: 'lg',
@@ -153,7 +153,7 @@ export class MyTodoComponent implements OnInit {
        .subscribe(data=>{
         this.todoList = data['content'];
         // console.log(this.taskList);
-        console.log('searchList: ', this.todoList);
+        // console.log('searchList: ', this.todoList);
 
         this.dataSource = new MatTableDataSource<Todo>(this.todoList);
         this.thePageNumber = data.pageable.pageNumber + 1;
@@ -182,12 +182,12 @@ export class MyTodoComponent implements OnInit {
   selectStatus(event){
     this.select = true;
     this.statusUpdate = event.target.value;
-    console.log(this.statusUpdate)
-    console.log(event.target.value)
+    // console.log(this.statusUpdate)
+    // console.log(event.target.value)
   }
 
   updateStatus(){
-    console.log(this.statusUpdate)
+    // console.log(this.statusUpdate)
     this.updateTodoStatus.preStatus = this.todoDetail.status;
     this.updateTodoStatus.todoId = this.todoDetail.id;
     this.updateTodoStatus.updateUser = this.todoDetail.assignedUser;
@@ -196,15 +196,16 @@ export class MyTodoComponent implements OnInit {
 
     this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
     this.todoDetail.status = this.statusUpdate;
-    console.log(this.updateTodoStatus);
+    // console.log(this.updateTodoStatus);
 
     this.todoService.insertHistory(this.updateTodoStatus).subscribe(
       data=>{
-        console.log(data);
+        // console.log(data);
         this.modalService.dismissAll();
       },
       (error) => {
-        console.log(error.error.message);
+        // alert("Update fail")
+        // console.log(error.error.message);
       }
     )
 

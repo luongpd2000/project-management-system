@@ -96,16 +96,13 @@ export class UserManagementComponent implements OnInit {
       this.userForm = new FormGroup({
         username: new FormControl('', [
           Validators.required,
-          // Validators.minLength(8),
           Validators.maxLength(50),
           Validators.pattern('^[a-zA-Z0-9]+$'),
-          // ProjectManagementSystemValidators.notOnlyWhitespace
         ]),
         fullName: new FormControl('', [
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(50),
-          // ProjectManagementSystemValidators.notOnlyWhitespace
         ]),
         email: new FormControl('', [
           Validators.required,
@@ -140,9 +137,7 @@ export class UserManagementComponent implements OnInit {
       .getAllUsersPageable(this.thePageNumber - 1, this.thePageSize)
       .subscribe(
         (data) => {
-          console.log(data);
           this.userList = data['content'];
-          console.log(this.userList);
           this.statusDelete = false;
           this.dataSource = new MatTableDataSource<User>(this.userList);
           this.thePageNumber = data.pageable.pageNumber + 1;
@@ -160,12 +155,9 @@ export class UserManagementComponent implements OnInit {
       .getAllUsersActivePageable(this.thePageNumber - 1, this.thePageSize)
       .subscribe(
         (data) => {
-          console.log(data);
           this.userListActive = data['content'];
-          console.log(this.userList);
           this.statusDelete = false;
           this.dataSource = new MatTableDataSource<User>(this.userListActive);
-          //this.userList = data._embedded.users;
           this.thePageNumber = data.pageable.pageNumber + 1;
           this.thePageSize = data.pageable.pageSize;
           this.theTotalElements = data.totalElements;
@@ -181,18 +173,15 @@ export class UserManagementComponent implements OnInit {
       .getAllUsersDeletePageable(this.thePageNumber - 1, this.thePageSize)
       .subscribe(
         (data) => {
-          console.log(data);
           this.userListDeleted = data['content'];
-          console.log(this.userList);
           this.statusDelete = false;
           this.dataSource = new MatTableDataSource<User>(this.userListDeleted);
-          //this.userList = data._embedded.users;
           this.thePageNumber = data.pageable.pageNumber + 1;
           this.thePageSize = data.pageable.pageSize;
           this.theTotalElements = data.totalElements;
         },
         (error) => {
-          console.log(error.error.message);
+          // console.log(error.error.message);
         }
       );
   }
@@ -211,14 +200,11 @@ export class UserManagementComponent implements OnInit {
     this.thePageNumber = 1;
     this.thePageSize = 5;
 
-    console.log(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch);
-
     this.getDataSearch(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch);
 
   }
 
   getDataSearch(username: String, fullname: String, email: String, address: String, phone: String) {
-    console.log(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch);
     this.userService
       .searchUser(
         username,
@@ -230,10 +216,8 @@ export class UserManagementComponent implements OnInit {
         this.thePageSize
       )
       .subscribe((data) => {
-        console.log(data);
         this.userListSearch = data['content'];
-        console.log(this.userListSearch);
-        // this.statusDelete = false;
+        this.statusDelete = false;
         this.dataSource = new MatTableDataSource<User>(this.userListSearch);
         this.thePageNumber = data.pageable.pageNumber + 1;
         this.thePageSize = data.pageable.pageSize;
@@ -252,7 +236,7 @@ export class UserManagementComponent implements OnInit {
 
   updatePageSize(event) {
     this.thePageSize = event.target.value;
-    console.log(this.thePageSize);
+    // console.log(this.thePageSize);
     this.thePageNumber = 1;
     if (this.modeSearch === true) {
       this.getDataSearch(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch)
@@ -275,9 +259,9 @@ export class UserManagementComponent implements OnInit {
 
   openDetails(content: any, element) {
     this.checkAdd = false;
-    console.log(this.checkAdd);
+    // console.log(this.checkAdd);
     this.userDetails = element;
-    console.log(this.userDetails);
+    // console.log(this.userDetails);
     this.modalService.open(content, {
       centered: true,
       size: 'lg',
@@ -286,7 +270,7 @@ export class UserManagementComponent implements OnInit {
 
   openAddUser(content: any) {
     this.checkAdd = true;
-    console.log(this.checkAdd);
+    // console.log(this.checkAdd);
     this.modalService.open(content, {
       centered: true,
       size: 'lg',
@@ -294,11 +278,11 @@ export class UserManagementComponent implements OnInit {
   }
 
   createUser() {
-    console.log('createUser');
+    // console.log('createUser');
 
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
-      console.log('false ' + this.userForm.status);
+      // console.log('false ' + this.userForm.status);
       return;
     }
 
@@ -309,13 +293,14 @@ export class UserManagementComponent implements OnInit {
     this.newUser.address = this.userForm.controls['address'].value;
     this.newUser.password = this.userForm.controls['password'].value;
     this.newUser.createUser = 1;
-    console.log('true ' + this.userForm.status);
+    this.newUser.delete = false;
+    // console.log('true ' + this.userForm.status);
 
-    console.log(
-      this.newUser.password +
-      ' ' +
-      this.userForm.controls['confirmPassword'].value
-    );
+    // console.log(
+    //   this.newUser.password +
+    //   ' ' +
+    //   this.userForm.controls['confirmPassword'].value
+    // );
 
     if (
       this.newUser.password != this.userForm.controls['confirmPassword'].value
@@ -327,7 +312,7 @@ export class UserManagementComponent implements OnInit {
 
     this.userService.createUser(this.newUser).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         if (data != null) {
           this.modalService.dismissAll();
           window.alert('Update sucess');
@@ -355,7 +340,6 @@ export class UserManagementComponent implements OnInit {
   onDelete() {
     this.userService.deleteUser(this.userDetails.id).subscribe(
       (data) => {
-        console.log(data);
         this.getData();
         this.getDataDelete();
         this.modalService.dismissAll();
@@ -390,12 +374,10 @@ export class UserManagementComponent implements OnInit {
     this.pr.email = this.userForm.controls['email'].value;
     this.userService.passwordRecover(this.pr).subscribe(
       (data) => {
-        console.log(data + ' ' + data.status);
         this.passwordReset = data.status;
         if (this.passwordReset != 'Password Recover failure') {
           this.isPasswordReset = true;
         }
-        // this.modalService.dismissAll();
       },
       (error) => {
         console.log(error);
@@ -404,14 +386,6 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
-  // applyFilter(filterValue: string) {
-  //   if (filterValue.trim() !== '') {
-  //     this.dataSource = new MatTableDataSource<User>(this.allUsers);
-  //   } else {
-  //     this.dataSource = new MatTableDataSource<User>(this.userList);
-  //   }
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-  // }
 
   selectStatus(event) {
     console.log(event.target.value);

@@ -60,7 +60,7 @@ export class LoginService {
           'Authorization': this._cookieService.get('Authorization')
         })
     };
-    console.log(this._cookieService.get('Authorization'));
+    // console.log(this._cookieService.get('Authorization'));
     const url = `${this.baseUrl}/checkLogin`;
 
     return this.httpClient.get(url,headers);

@@ -46,82 +46,35 @@ export class MyaccountComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(50),
-        // ProjectManagementSystemValidators.notOnlyWhitespace
       ]),
       email: new FormControl('', [
         Validators.required,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
       ]),
       phone: new FormControl('', [
-        // Validators.maxLength(11),
-        // Validators.minLength(11),
         Validators.pattern('^(84|0[3|5|7|8|9])+([0-9]{8})$'),
       ]),
 
       address: new FormControl('', [Validators.maxLength(200)]),
 
-      currentPassword: new FormControl('', [
-        Validators.minLength(8),
-        Validators.maxLength(50),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
-        ),
-      ]),
-      newPassword: new FormControl('', [
-        Validators.minLength(8),
-        Validators.maxLength(50),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
-        ),
-      ]),
-      confirmPassword: new FormControl('', [
-        Validators.minLength(8),
-        Validators.maxLength(50),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
-        ),
-      ]),
+      currentPassword: new FormControl(),
+      newPassword: new FormControl(),
+      confirmPassword: new FormControl(),
     });
   }
 
   handleGetUser() {
     this.userService.getUser(this.jwt.getUsername()).subscribe(
-      //this.jwt.getUsername()    this.username
       (data) => {
         this.user = data;
-        console.log(data);
+        // console.log(data);
       }
     );
   }
 
   checkEdit() {
-    if (this.check == false) {
-      this.check = true;
-    } else {
-      this.check = false;
-      this.editOldPassword = '';
-      this.editNewPassword = '';
-      this.editConfirmPassword = '';
-    }
-    console.log(this.check);
-  }
-
-  checkEditAccount() {
-    this.checkEditInfor = true;
-  }
-
-  update() {
-    console.log('update');
-    const userUpdate = this.user;
-
     if (this.check === false) {
-      this.acountForm.controls['currentPassword'].clearValidators();
-      this.acountForm.controls['currentPassword'].updateValueAndValidity();
-      this.acountForm.controls['newPassword'].clearValidators();
-      this.acountForm.controls['newPassword'].updateValueAndValidity();
-      this.acountForm.controls['confirmPassword'].clearValidators();
-      this.acountForm.controls['confirmPassword'].updateValueAndValidity();
-    } else {
+      this.check = true;
       this.acountForm.controls['currentPassword'].setValidators([
         Validators.minLength(8),
         Validators.maxLength(50),
@@ -146,7 +99,29 @@ export class MyaccountComponent implements OnInit {
         ),
       ]);
       this.acountForm.controls['confirmPassword'].updateValueAndValidity();
+      // console.log(this.acountForm.controls['newPassword'].validator)
+    } else {
+      this.check = false;
+      this.editOldPassword = '';
+      this.editNewPassword = '';
+      this.editConfirmPassword = '';
+      this.acountForm.controls['currentPassword'].clearValidators();
+      this.acountForm.controls['currentPassword'].updateValueAndValidity();
+      this.acountForm.controls['newPassword'].clearValidators();
+      this.acountForm.controls['newPassword'].updateValueAndValidity();
+      this.acountForm.controls['confirmPassword'].clearValidators();
+      this.acountForm.controls['confirmPassword'].updateValueAndValidity();
     }
+    console.log(this.check);
+  }
+
+  checkEditAccount() {
+    this.checkEditInfor = true;
+  }
+
+  update() {
+    // console.log('update');
+    const userUpdate = this.user;
 
     if (this.acountForm.invalid) {
       this.acountForm.markAllAsTouched();
@@ -161,32 +136,29 @@ export class MyaccountComponent implements OnInit {
     userUpdate.password = this.acountForm.controls['currentPassword'].value;
     userUpdate.newPassword = this.acountForm.controls['newPassword'].value;
 
-    console.log('true ' + this.acountForm.status);
+    // console.log('true ' + this.acountForm.status);
 
-    console.log(
-      userUpdate.newPassword +
-        ' ' +
-        this.acountForm.controls['confirmPassword'].value
-    );
+    // console.log(
+    //   userUpdate.newPassword +
+    //     ' ' +
+    //     this.acountForm.controls['confirmPassword'].value
+    // );
 
     if (
       this.check === true &&
       userUpdate.newPassword !=
         this.acountForm.controls['confirmPassword'].value
     ) {
-      console.log('false pass compare');
+      // console.log('false pass compare');
       this.checkPass = false;
       return;
     }
 
-    console.log(JSON.stringify(userUpdate));
     this.userService.updateUser(userUpdate).subscribe(
       (data) => {
-        console.log(data);
         window.alert('Update sucess');
       },
       (error) => {
-        console.log(error);
         window.alert('Update failure');
       }
     );

@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/project_management/")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:9075"})
 // api chung mà cả admin lần user đều dùng được
 public class Controller {
 

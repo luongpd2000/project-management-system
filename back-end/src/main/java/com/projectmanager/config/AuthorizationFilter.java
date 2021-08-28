@@ -1,6 +1,5 @@
 package com.projectmanager.config;
 
-//import com.projectmanager.common.CustomUserDetails;
 import com.projectmanager.service.UserService;
 import com.projectmanager.service.service_impl.UserServiceImpl;
 import io.jsonwebtoken.Jwts;

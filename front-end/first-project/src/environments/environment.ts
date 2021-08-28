@@ -4,8 +4,11 @@
 
 export const environment = {
   production: false,
-  baseUrl :'http://localhost:8080/api/v1/project_management',
-  loginUrl : 'http://localhost:8080/auth/login'
+  // baseUrl :'http://localhost:8080/api/v1/project_management',
+  // loginUrl : 'http://localhost:8080/auth/login'
+
+  baseUrl :'http://localhost:9075/api/v1/project_management',
+  loginUrl : 'http://localhost:9075/auth/login'
 };
 
 

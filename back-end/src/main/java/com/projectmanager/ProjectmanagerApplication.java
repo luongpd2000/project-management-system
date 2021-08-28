@@ -40,9 +40,10 @@ public class ProjectmanagerApplication {
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
+			String[] url = {"http://localhost:4200","http://localhost:9075"};
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/auth/login").allowedOrigins("http://localhost:4200");
+				registry.addMapping("/auth/login").allowedOrigins(url);
 			}
 		};
 	}

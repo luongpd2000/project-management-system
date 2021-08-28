@@ -20,8 +20,6 @@ export class UserService {
     }),
   };
 
-  //userId: number = 1;
-
   constructor(
     private httpClient: HttpClient,
     private _cookieService: CookieService

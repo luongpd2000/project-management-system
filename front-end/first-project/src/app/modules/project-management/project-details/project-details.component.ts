@@ -184,9 +184,9 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
 
-  changedTodoNum(taskNumber:number){
+  changedTaskNum(taskNumber:number){
     this.taskNum = taskNumber;
-    console.log('todoNum: ', this.taskNum);
+    console.log('taskNum: ', this.taskNum);
 
   }
 

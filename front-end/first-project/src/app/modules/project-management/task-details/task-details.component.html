@@ -42,7 +42,7 @@
 
       <div class="row">
         <app-list-todo [curTaskId]="curTaskId" [curProjectId]="curProjectId" [isLeader]="isLeader" [isAdmin]="isAdmin"
-          [curUserId]="curUserId" [memberList]="memberList">
+          [curUserId]="curUserId" [memberList]="memberList"  [todoNum]="todoNum" (todoNumChanged)='changedTodoNum($event)'>
 
         </app-list-todo>
 

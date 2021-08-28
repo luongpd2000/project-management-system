@@ -43,7 +43,6 @@
                       <mat-label>Leader</mat-label>
                       <mat-select formControlName='leader' >
                         <mat-option value="" selected>All</mat-option>
-                        <!-- <option *ngFor="let leader of leaderList" value={{leader.id}}>{{leader.fullName}}</option> -->
                         <mat-option *ngFor="let leader of leaderList" value="{{leader.id}}" >{{leader.fullName}}</mat-option>
                       </mat-select>
                     </mat-form-field>

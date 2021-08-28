@@ -3,7 +3,7 @@
         <p style="    margin-bottom: 30px;" class="page-name">List Project</p>
         <div class="search-input row d-flex">
 
-            <div class="col-12">
+            <div class="col-12 search-group">
                 <form [formGroup]="formSearch">
                   <mat-form-field appearance="fill">
                       <mat-label>Name</mat-label>
@@ -59,7 +59,7 @@
                         <a class="link-detail" routerLink='/project-manager/p-details/{{p.id}}'>
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">{{p.name}}</h3>
+                                    <h3 class="card-title project-title">{{p.name}}</h3>
                                     <span class="badge" [ngStyle]="{'background':getStatus.getTheColor(p.status)}">{{p.status}}</span>
                                 </div>
                                 <div class="card-body">

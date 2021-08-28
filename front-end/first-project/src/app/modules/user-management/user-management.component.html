@@ -9,7 +9,7 @@
       <div class="search-input">
         <div class="row">
 
-          <div class="col-12">
+          <div class="col-12 search-group">
             <form [formGroup]="formSearch">
               <mat-form-field appearance="fill">
                   <mat-label>Username</mat-label>
@@ -36,23 +36,16 @@
             </form>
           </div>
 
-          <div class="col-6">
-            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#new-user"
+          <div class="col-12">
+            <button type="button" class="btn btn-success " 
               (click)="openAddUser(newuser)">New User</button>
-          </div>
-
-          <div class="col-6 row">
-            <div class="col-3" style="margin-left: auto;">
-              <button type="button" class="btn btn-primary mt-3" (click)=" getAllUser()">All
+              <button type="button" class="btn btn-primary " (click)=" getAllUser()">All
                 User</button>
-            </div>
-            <div class="col-3" style="margin-right: auto;">
-              <select class="custom-select mt-3" (change)="selectStatus($event)">
-                <option value="all" selected>All</option>
-                <option value="active">Active</option>
-                <option value="delete">Delete</option>
-              </select>
-            </div>
+                <select class="custom-select " (change)="selectStatus($event)" style="max-width: 100px;">
+                  <option value="all" selected>All</option>
+                  <option value="active">Active</option>
+                  <option value="delete">Delete</option>
+                </select>
           </div>
         </div>
       </div>

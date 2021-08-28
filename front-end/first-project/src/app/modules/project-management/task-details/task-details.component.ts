@@ -220,6 +220,11 @@ export class TaskDetailsComponent implements OnInit {
       alert('Input invalid!!!');
     }
   }
+  changedTodoNum(taskNumber:number){
+    this.todoNum = taskNumber;
+    console.log('todoNum: ', this.todoNum);
+
+  }
 
 
 

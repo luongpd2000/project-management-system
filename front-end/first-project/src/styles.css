@@ -11,6 +11,13 @@ body{    font-family: 'Raleway', sans-serif;    background: #343a40;}
     font-weight: 500;
 }
 
+.project-title{
+    font-size: 22px!important;
+    font-weight: 500!important;
+}
+
+
+
 button{
     margin-right: 5px;
 }
@@ -285,16 +292,13 @@ button{
     color: #ff0000;
 }
 
-
-
-
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.search-group .mat-form-field{
+    margin-right: 10px;
+  }
+   .b-search{
+    margin-bottom: 15px;
+  }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

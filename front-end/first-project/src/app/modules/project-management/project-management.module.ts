@@ -13,11 +13,6 @@ import { ListTaskComponent } from './project-details/list-task/list-task.compone
 import { ListTodoComponent } from './task-details/list-todo/list-todo.component';
 import {MatDatepicker, MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-// import { NgSelectModule } from '@ng-select/ng-select';
-//
-
-// import { FormsModule } from '@angular/forms';
-
 
 @NgModule({
   declarations: [
@@ -27,8 +22,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     AddUsersComponent,
     ListTaskComponent,
     ListTodoComponent
-
-
   ],
   imports: [
     CommonModule,

@@ -35,7 +35,7 @@ export class TaskDetailsComponent implements OnInit {
   isAdmin: boolean = false;
   todoNum: number;
   todoList: [];
-  taskHistory= new TaskHistory;
+  taskHistory = new TaskHistory;
   d1: string;
   d2: string;
   dateCheck = true;
@@ -44,7 +44,7 @@ export class TaskDetailsComponent implements OnInit {
     this.userService.getUsersInProject(this.curProjectId).subscribe((data) => {
       this.memberList = data;
       this.memberList.forEach((data) => {
-        if ((data.role == 'leader' && !data.delete) || (data.role == 'admin' && !data.delete) ) {
+        if ((data.role == 'leader' && !data.delete) || (data.role == 'admin' && !data.delete)) {
           this.leaderList.push(data.user);
         } else if (data.role === 'dev' && !data.delete) {
           this.employeeList.push(data.user);
@@ -85,8 +85,8 @@ export class TaskDetailsComponent implements OnInit {
       this.currentTask = data;
       console.log(data)
       console.log(this.currentTask)
-      this.userService.getUserById(this.currentTask.taskManagerId).subscribe(data=>{
-        this.currentTask.taskManagerDetails=data;
+      this.userService.getUserById(this.currentTask.taskManagerId).subscribe(data => {
+        this.currentTask.taskManagerDetails = data;
       })
       this.currentTask.taskManagerDetails
       this.curProjectId = <number>this.currentTask.projectId;
@@ -96,8 +96,6 @@ export class TaskDetailsComponent implements OnInit {
       if (this.currentTask.taskManagerId === this.curUserId) {
         this.isLeader = true;
       }
-      // console.log('pId',this.curProjectId);
-      // console.log('currentTask: ', this.currentTask);
     });
   }
 
@@ -116,6 +114,8 @@ export class TaskDetailsComponent implements OnInit {
 
   open(content: any) {
     this.makeForm();
+    console.log('endDate: ', this.currentTask.endDate, typeof (this.currentTask.endDate));
+
     this.modalService.open(content, {
       centered: true,
       size: 'lg',
@@ -134,7 +134,7 @@ export class TaskDetailsComponent implements OnInit {
       ),
       endDate: new FormControl(
         // this.fomatInput.toDatePicker(this.currentTask.endDate)
-             this.currentTask.endDate===null?null:this.fomatInput.toDatePicker(this.currentTask.endDate)
+        this.currentTask.endDate === null ? null : this.fomatInput.toDatePicker(this.currentTask.endDate)
       ),
       status: new FormControl(this.currentTask.status, [Validators.required]),
       taskType: new FormControl(this.currentTask.taskType, [
@@ -175,27 +175,27 @@ export class TaskDetailsComponent implements OnInit {
       this.d2 = this.currentTask.endDate.toString();
 
 
-      if((this.currentTask.endDate!==null && this.fomatInput.compare(this.d1,this.d2)) || this.currentTask.endDate==='' || this.currentTask.endDate===null){
+      if ((this.currentTask.endDate !== null && this.fomatInput.compare(this.d1, this.d2)) || this.currentTask.endDate === '' || this.currentTask.endDate === null) {
 
-        if(this.taskHistory.preStatus!==this.taskHistory.status){
+        if (this.taskHistory.preStatus !== this.taskHistory.status) {
           // console.log(this.taskHistory.preStatus + " " + this.taskHistory.status)
-        this.taskService.createTaskHistory(this.taskHistory).subscribe(
-          (data) => {
-            console.log(data + ' ok');
-            console.log('click save!!');
-            console.log(JSON.stringify(this.currentTask));
-            this.taskService.updateTask(this.currentTask).subscribe((data) => {
-              console.log('update', data);
-              alert('Edit Success');
-              this.modalService.dismissAll();
-              this.getTaskDetails();
-            });
-          },
-          (error) => {
-            console.log(error.error.message);
-          }
-        );
-        }else{
+          this.taskService.createTaskHistory(this.taskHistory).subscribe(
+            (data) => {
+              console.log(data + ' ok');
+              console.log('click save!!');
+              console.log(JSON.stringify(this.currentTask));
+              this.taskService.updateTask(this.currentTask).subscribe((data) => {
+                console.log('update', data);
+                alert('Edit Success');
+                this.modalService.dismissAll();
+                this.getTaskDetails();
+              });
+            },
+            (error) => {
+              console.log(error.error.message);
+            }
+          );
+        } else {
           // console.log(this.taskHistory.preStatus + " giống " + this.taskHistory.status)
           this.taskService.updateTask(this.currentTask).subscribe((data) => {
             console.log('update', data);
@@ -204,23 +204,16 @@ export class TaskDetailsComponent implements OnInit {
             this.getTaskDetails();
           });
         }
-      }else{
+      } else {
         this.dateCheck = false;
       }
-      //
-      //   console.log('click save!!');
-      //   console.log(JSON.stringify(this.currentTask));
-      //   this.taskService.updateTask(this.currentTask).subscribe((data) => {
-      //     console.log('update', data);
-      //     alert('Edit Success');
-      //     this.modalService.dismissAll();
-      //     this.getTaskDetails();
-      //   });
     } else {
+      console.log('invalid ', this.formTask.invalid.valueOf);
+
       alert('Input invalid!!!');
     }
   }
-  changedTodoNum(taskNumber:number){
+  changedTodoNum(taskNumber: number) {
     this.todoNum = taskNumber;
     console.log('todoNum: ', this.todoNum);
 

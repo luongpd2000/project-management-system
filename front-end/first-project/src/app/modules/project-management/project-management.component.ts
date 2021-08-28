@@ -18,7 +18,7 @@ import { User } from 'src/app/data/schema/user';
 import { LoginService } from 'src/app/service/login.service';
 import { idRole } from 'src/app/data/schema/id-role';
 import { FomatInputService } from 'src/app/data/service/fomat-input.service';
-import {Todo} from 'src/app/data/schema/todo';
+import { Todo } from 'src/app/data/schema/todo';
 
 
 
@@ -29,8 +29,8 @@ import {Todo} from 'src/app/data/schema/todo';
 })
 export class ProjectManagementComponent implements OnInit {
   projectList: ProjectDetails[] = [];
-  projectSearchList:ProjectDetails[]=[];
-  allProject:ProjectDetails[]=[];
+  projectSearchList: ProjectDetails[] = [];
+  allProject: ProjectDetails[] = [];
   newProject: Project = new Project(); //
   formProject!: FormGroup;
   username!: String;
@@ -45,15 +45,9 @@ export class ProjectManagementComponent implements OnInit {
   d2: string;
   progress: number = 0;
   dateCheck = true;
-  formSearch:FormGroup;
-  makeSearchForm(){
-    this.formSearch = this.formBuilder.group({
-      name:[''],
-      status:[''],
-      startDate:[''],
-      endDate:['']
-    });
-  }
+  formSearch: FormGroup;
+
+
 
   constructor(
     private projectService: ProjectService,
@@ -63,7 +57,7 @@ export class ProjectManagementComponent implements OnInit {
     private jwtService: JwtServiceService,
     private userService: UserService,
     private loginService: LoginService,
-    public fomat:FomatInputService,
+    public fomat: FomatInputService,
     public datepipe: DatePipe
   ) { }
 
@@ -89,25 +83,31 @@ export class ProjectManagementComponent implements OnInit {
         this.getDetailForUser();
       });
     }
-
-
+  }
+  makeSearchForm() {
+    this.formSearch = this.formBuilder.group({
+      name: [''],
+      status: [''],
+      startDate: [''],
+      endDate: ['']
+    });
   }
 
-  onSearch(){// search project
+  onSearch() {// search project
     let name = this.formSearch.value.name;
     let status = this.formSearch.value.status;
-    let startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
-    startDate=startDate==null?'':startDate;
-    let endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
-    endDate=endDate==null?'':endDate;
-    if(this.isAdmin){
-      this.projectService.searchProject(name, status, startDate, endDate).subscribe(data=>{
-        console.log('datasearch : ',data);
+    let startDate = this.datepipe.transform(this.formSearch.value.startDate, 'yyyy-MM-dd');
+    startDate = startDate == null ? '' : startDate;
+    let endDate = this.datepipe.transform(this.formSearch.value.endDate, 'yyyy-MM-dd');
+    endDate = endDate == null ? '' : endDate;
+    if (this.isAdmin) {
+      this.projectService.searchProject(name, status, startDate, endDate).subscribe(data => {
+        console.log('datasearch : ', data);
         this.projectList = data;
         this.makeData();
       })
-    }else{
-      this.projectService.searchProjectWithUserId(name, status, startDate, endDate, this.userId).subscribe(data=>{
+    } else {
+      this.projectService.searchProjectWithUserId(name, status, startDate, endDate, this.userId).subscribe(data => {
         console.log('data search: ', data);
         this.projectList = data;
         this.makeData();
@@ -133,7 +133,7 @@ export class ProjectManagementComponent implements OnInit {
     );
   }
 
-  getDetailForUser(){//get all project this user joined and joining
+  getDetailForUser() {//get all project this user joined and joining
     this.projectService.getListProjectOfUser(this.userId).subscribe(
       (data) => {
         this.projectList = data;
@@ -147,7 +147,7 @@ export class ProjectManagementComponent implements OnInit {
     );
   }
 
-  makeData(){// custom data like number of todo, task, teamsize...
+  makeData() {// custom data like number of todo, task, teamsize...
     this.projectList.forEach((data) => {
       let tasks: Array<any> = <Array<any>>data.taskList;
       let partners: Array<any> = <Array<any>>data.projectEmployeeList;
@@ -156,9 +156,9 @@ export class ProjectManagementComponent implements OnInit {
 
       data.taskNum = tasks.length;
       tasks.forEach((element) => {
-        element['todoList'].forEach((todo)=>{
-          if (todo.status === 'done'){
-            todoProgress ++;
+        element['todoList'].forEach((todo) => {
+          if (todo.status === 'done') {
+            todoProgress++;
           }
 
         })
@@ -170,10 +170,10 @@ export class ProjectManagementComponent implements OnInit {
       }).length;
       console.log(data.partnerNum);
       data.todoNum = todo;
-      if (todo == 0){
+      if (todo == 0) {
         data.progress = 0;
       } else {
-        data.progress = Math.round(todoProgress/todo * 100);
+        data.progress = Math.round(todoProgress / todo * 100);
       }
 
     });
@@ -189,8 +189,8 @@ export class ProjectManagementComponent implements OnInit {
     });
   }
 
-  getAllProject(){
-    this.projectList=this.allProject;
+  getAllProject() {
+    this.projectList = this.allProject;
     this.makeSearchForm();
   }
 
@@ -214,7 +214,6 @@ export class ProjectManagementComponent implements OnInit {
       );
       this.newProject.endDate = this.fomat.fomatDate(this.formProject.value.endDate);
       this.newProject.status = this.formProject.value.status;
-      // this.newProject.creater = 1;
 
       console.log(
         this.fomat.fomatDate(this.newProject.startDate),
@@ -223,7 +222,7 @@ export class ProjectManagementComponent implements OnInit {
 
       this.d1 = this.newProject.startDate.toString();
       this.d2 = this.newProject.endDate.toString();
-      if((this.newProject.endDate!=='' && this.fomat.compare(this.d1,this.d2)) || this.newProject.endDate===''){
+      if ((this.newProject.endDate !== '' && this.fomat.compare(this.d1, this.d2)) || this.newProject.endDate === '') {
 
         this.projectService.postProject(this.newProject).subscribe((data) => {
           this.project = data;
@@ -237,7 +236,7 @@ export class ProjectManagementComponent implements OnInit {
         this.modalService.dismissAll();
         this.makeForm();
 
-      }else{
+      } else {
         this.dateCheck = false;
       }
     } else {

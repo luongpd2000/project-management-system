@@ -23,18 +23,15 @@ export class ProjectDetailsComponent implements OnInit {
   taskList = [];
   taskNum = 0;
   todoNum = 0;
-
   d1: string;
   d2: string;
   dateCheck = true;
-
   currentProjectId: number;
   memberList: ProjectEmployee[] = [];
-
   isAdmin: boolean = true;
   role!: String;
-
   alert: boolean = false;
+
   closeAlert() {
     this.alert = false;
   }
@@ -47,7 +44,7 @@ export class ProjectDetailsComponent implements OnInit {
     private router: Router,
     public getStatus: StatusService,
     private jwtService: JwtServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.role = this.jwtService.getRole();
@@ -59,16 +56,14 @@ export class ProjectDetailsComponent implements OnInit {
 
   loadDetails() {
     this.id = this.route.snapshot.params['id'];
-    this.currentProjectId  = this.id;
+    this.currentProjectId = this.id;
     console.log('You clicked: ' + this.id);
     this.projectService.getProjectById(this.id).subscribe((data) => {
       this.currentProject = data;
       this.taskList = this.currentProject.taskList;
       console.log('todo');
       this.todoNum = 0;
-
       this.taskList.forEach((task) => {
-
         this.todoNum += (<Array<any>>task['todoList']).length;
         if (task.deleted == false) this.taskNum++;
       });
@@ -78,11 +73,9 @@ export class ProjectDetailsComponent implements OnInit {
           return !item.delete;
         }).length;
       // this.currentProjectId = this.currentProject.id;
-        console.log('project id ',this.currentProjectId);
-
-
-      this.currentProject.projectEmployeeList.forEach(pe=>{
-        if(pe.delete!=true) this.memberList.push(pe);
+      console.log('project id ', this.currentProjectId);
+      this.currentProject.projectEmployeeList.forEach(pe => {
+        if (pe.delete != true) this.memberList.push(pe);
       });
       console.log('parents mem list: ', this.memberList);
     })
@@ -107,8 +100,7 @@ export class ProjectDetailsComponent implements OnInit {
         [Validators.required]
       ),
       endDate: new FormControl(
-        // this.fomat.toDatePicker(this.currentProject.endDate)
-        this.currentProject.endDate==null?null:this.fomat.toDatePicker(this.currentProject.endDate)
+        this.currentProject.endDate == null ? null : this.fomat.toDatePicker(this.currentProject.endDate)
       ),
       status: new FormControl(this.currentProject.status, [
         Validators.required,
@@ -119,7 +111,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   saveProject() {
-    this.dateCheck = true;this.currentProject.name = this.formProject.value.name;
+    this.dateCheck = true; this.currentProject.name = this.formProject.value.name;
     this.currentProject.des = this.formProject.value.des;
     this.currentProject.startDate = this.fomat.fomatDate(
       this.formProject.value.startDate
@@ -141,7 +133,7 @@ export class ProjectDetailsComponent implements OnInit {
           this.fomat.compare(this.d1, this.d2)) ||
         this.currentProject.endDate === null || this.currentProject.endDate === ''
       ) {
-          this.projectService
+        this.projectService
           .putProject(this.currentProject)
           .subscribe((data) => {
             this.projectService.getAllProjects().subscribe(
@@ -184,7 +176,7 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
 
-  changedTaskNum(taskNumber:number){
+  changedTaskNum(taskNumber: number) {
     this.taskNum = taskNumber;
     console.log('taskNum: ', this.taskNum);
 

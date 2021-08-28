@@ -51,8 +51,6 @@ export class UserManagementComponent implements OnInit {
   addressSearch: String;
   phoneSearch: String;
 
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   makeSearchForm() {
     this.formSearch = this.formBuilder.group({
       username: [''],
@@ -85,7 +83,7 @@ export class UserManagementComponent implements OnInit {
     private router: Router,
     public getStatus: StatusService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.jwt.getRole() === '[ROLE_USER]') {
@@ -213,34 +211,34 @@ export class UserManagementComponent implements OnInit {
     this.thePageNumber = 1;
     this.thePageSize = 5;
 
-    console.log(this.usernameSearch,this.fullnameSearch,this.emailSearch,this.addressSearch,this.phoneSearch);
+    console.log(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch);
 
-    this.getDataSearch(this.usernameSearch,this.fullnameSearch,this.emailSearch,this.addressSearch,this.phoneSearch);
+    this.getDataSearch(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch);
 
   }
 
-  getDataSearch(username: String,fullname: String,email: String,address: String,phone: String){
-    console.log(this.usernameSearch,this.fullnameSearch,this.emailSearch,this.addressSearch,this.phoneSearch);
+  getDataSearch(username: String, fullname: String, email: String, address: String, phone: String) {
+    console.log(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch);
     this.userService
-    .searchUser(
-      username,
-      fullname,
-      email,
-      address,
-      phone,
-      this.thePageNumber - 1,
-      this.thePageSize
-    )
-    .subscribe((data) => {
-      console.log(data);
-      this.userListSearch = data['content'];
-      console.log(this.userListSearch);
-      // this.statusDelete = false;
-      this.dataSource = new MatTableDataSource<User>(this.userListSearch);
-      this.thePageNumber = data.pageable.pageNumber + 1;
-          this.thePageSize = data.pageable.pageSize;
-          this.theTotalElements = data.totalElements;
-    });
+      .searchUser(
+        username,
+        fullname,
+        email,
+        address,
+        phone,
+        this.thePageNumber - 1,
+        this.thePageSize
+      )
+      .subscribe((data) => {
+        console.log(data);
+        this.userListSearch = data['content'];
+        console.log(this.userListSearch);
+        // this.statusDelete = false;
+        this.dataSource = new MatTableDataSource<User>(this.userListSearch);
+        this.thePageNumber = data.pageable.pageNumber + 1;
+        this.thePageSize = data.pageable.pageSize;
+        this.theTotalElements = data.totalElements;
+      });
   }
 
   getAllUser() {
@@ -256,9 +254,9 @@ export class UserManagementComponent implements OnInit {
     this.thePageSize = event.target.value;
     console.log(this.thePageSize);
     this.thePageNumber = 1;
-    if(this.modeSearch === true){
-      this.getDataSearch(this.usernameSearch,this.fullnameSearch,this.emailSearch,this.addressSearch,this.phoneSearch)
-    }else{
+    if (this.modeSearch === true) {
+      this.getDataSearch(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch)
+    } else {
       if (this.filter === 'all') this.getData();
       if (this.filter === 'active') this.getDataActive();
       if (this.filter === 'delete') this.getDataDelete();
@@ -266,9 +264,9 @@ export class UserManagementComponent implements OnInit {
   }
 
   changePage() {
-    if(this.modeSearch === true){
-      this.getDataSearch(this.usernameSearch,this.fullnameSearch,this.emailSearch,this.addressSearch,this.phoneSearch)
-    }else{
+    if (this.modeSearch === true) {
+      this.getDataSearch(this.usernameSearch, this.fullnameSearch, this.emailSearch, this.addressSearch, this.phoneSearch)
+    } else {
       if (this.filter === 'all') this.getData();
       if (this.filter === 'active') this.getDataActive();
       if (this.filter === 'delete') this.getDataDelete();
@@ -315,8 +313,8 @@ export class UserManagementComponent implements OnInit {
 
     console.log(
       this.newUser.password +
-        ' ' +
-        this.userForm.controls['confirmPassword'].value
+      ' ' +
+      this.userForm.controls['confirmPassword'].value
     );
 
     if (

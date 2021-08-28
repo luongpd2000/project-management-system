@@ -27,7 +27,7 @@ export class ListTodoComponent implements OnInit {
   @Input() isLeader: boolean;
   @Input() isAdmin: boolean;
   @Input() curUserId: number;
-  @Input() memberList:ProjectEmployee[];
+  @Input() memberList: ProjectEmployee[];
   @Input() todoNum: number;
   @Output() todoNumChanged: EventEmitter<number> = new EventEmitter();
   increaseTodoNum() {
@@ -36,10 +36,10 @@ export class ListTodoComponent implements OnInit {
     console.log('increase task num');
 
   }
-decreaseTodoNum() {
-  this.todoNum--;
-  this.todoNumChanged.emit(this.todoNum);
-}
+  decreaseTodoNum() {
+    this.todoNum--;
+    this.todoNumChanged.emit(this.todoNum);
+  }
   //form nay cho admin, leader
   todoForm!: FormGroup;
   todoList: Todo[] = [];
@@ -67,17 +67,47 @@ decreaseTodoNum() {
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
-  formSearch:FormGroup;
-  isSearchAll=true;
-  makeSearchForm(){
+  formSearch: FormGroup;
+  isSearchAll = true;
+
+  constructor(
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
+    private jwt: JwtServiceService,
+    private router: Router,
+    private todoService: TodoService,
+    private userService: UserService,
+    public getStatus: StatusService,
+    public fomatInput: FomatInputService,
+    private formBuilder: FormBuilder,
+    public datepipe: DatePipe
+  ) { }
+
+  ngOnInit(): void {
+    this.getData();
+    console.log('init todo-list');
+    this.userService.getUser(this.jwt.getUsername()).subscribe((data) => {
+      this.myAccount = data;
+      console.log('myAcc', data);
+
+    });
+    this.getMembers();
+    this.updateform = new FormGroup({
+      des: new FormControl(''),
+    });
+    this.makeSearchForm();
+    console.log('myAccountId: ', this.myAccount.id);
+
+  }
+  makeSearchForm() {
     this.formSearch = this.formBuilder.group({
-      name:[''],
-      status:[''],
-      priority:[''],
-      type:[''],
-      assgined_for:[0],
-      startDate:[''],
-      endDate:['']
+      name: [''],
+      status: [''],
+      priority: [''],
+      type: [''],
+      assgined_for: [0],
+      startDate: [''],
+      endDate: ['']
     });
   }
 
@@ -99,125 +129,81 @@ decreaseTodoNum() {
 
   getMembers() {
     console.log('find member: ', this.curProjectId);
-    this.memberList.forEach(data=>{
+    this.memberList.forEach(data => {
       console.log(data);
-      if ((data.role === 'leader' || data.role === 'admin') && data.delete===false) {
+      if ((data.role === 'leader' || data.role === 'admin') && data.delete === false) {
         this.leaderList.push(data.user);
-      } else if (data.role === 'dev' && data.delete===false) {
+      } else if (data.role === 'dev' && data.delete === false) {
         this.employeeList.push(data.user);
       }
     })
   }
 
-  constructor(
-    private route: ActivatedRoute,
-    private modalService: NgbModal,
-    private jwt: JwtServiceService,
-    private router: Router,
-    private todoService: TodoService,
-    private userService: UserService,
-    public getStatus: StatusService,
-    public fomatInput: FomatInputService,
-    private formBuilder: FormBuilder,
-    public datepipe: DatePipe
-  ) {}
-
-  ngOnInit(): void {
-    this.getData();
-    console.log('init todo-list');
-    this.getAllData();
-    // console.log('userId:',this.curUserId);
-    this.userService.getUser(this.jwt.getUsername()).subscribe((data) => {
-      this.myAccount = data;
-    });
-    this.getMembers();
-    this.updateform = new FormGroup({
-      des: new FormControl(''),
-    });
-    this.makeSearchForm();
-  }
 
   getData() {
-    if(this.isSearchAll){
+    if (this.isSearchAll) {
       this.todoService
-      .getTodoListByTask(
-        this.curTaskId,
-        this.thePageNumber - 1,
-        this.thePageSize
-      )
-      .subscribe(
-        (data) => {
-          this.todoList = data['content'];
-          // this.todoListAll = this.todoList;
-          this.todoList.forEach((data) => {
-            this.userService
-              .getUserById(data.assignedUser)
-              .subscribe((item) => {
-                data.assignedUserDetails = item;
-              });
-          });
-          console.log(this.todoList);
-          console.log(this.todoList[0]);
-          // if(this.todoList[0].assignedUser===this.curUserId){
-          //   this.isLeader = true;
-          // }else{
-          //   this.isLeader = false;
-          // }
-          this.dataSource = new MatTableDataSource<Todo>(this.todoList);
-          this.thePageNumber = data.pageable.pageNumber + 1;
-          this.thePageSize = data.pageable.pageSize;
-          this.theTotalElements = data.totalElements;
-        },
-        (error) => {
-          console.log(error.error.message);
-        }
-      );
-    } else{
+        .getTodoListByTask(
+          this.curTaskId,
+          this.thePageNumber - 1,
+          this.thePageSize
+        )
+        .subscribe(
+          (data) => {
+            this.todoList = data['content'];
+            // this.todoListAll = this.todoList;
+            this.todoList.forEach((data) => {
+              this.userService
+                .getUserById(data.assignedUser)
+                .subscribe((item) => {
+                  data.assignedUserDetails = item;
+                });
+            });
+            console.log(this.todoList);
+            console.log(this.todoList[0]);
+            this.dataSource = new MatTableDataSource<Todo>(this.todoList);
+            this.thePageNumber = data.pageable.pageNumber + 1;
+            this.thePageSize = data.pageable.pageSize;
+            this.theTotalElements = data.totalElements;
+          },
+          (error) => {
+            console.log(error.error.message);
+          }
+        );
+    } else {
       this.onSearch();
     }
 
   }
-  getAllData() {
-    this.todoService.getTodoListByTasNoPageable(this.curTaskId).subscribe(
-      (data) => {
-        this.todoListAll = data;
-        console.log(this.todoListAll);
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    );
-  }
 
-  onSearch(){
+  onSearch() {
     this.isSearchAll = false;
 
     let name = this.formSearch.value.name;
     let status = this.formSearch.value.status;
-    let startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
-    startDate=startDate==null?'':startDate;
-    let endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
-    endDate = endDate==null?'':endDate;
+    let startDate = this.datepipe.transform(this.formSearch.value.startDate, 'yyyy-MM-dd');
+    startDate = startDate == null ? '' : startDate;
+    let endDate = this.datepipe.transform(this.formSearch.value.endDate, 'yyyy-MM-dd');
+    endDate = endDate == null ? '' : endDate;
     let priority = this.formSearch.value.priority;
-    let  type=this.formSearch.value.type;
-    let  assignedFor = this.formSearch.value.assgined_for;
+    let type = this.formSearch.value.type;
+    let assignedFor = this.formSearch.value.assgined_for;
 
     this.todoService.searchTodo(name, status, priority, type, assignedFor,
-       startDate, endDate, this.curTaskId,this.curProjectId,this.thePageNumber - 1, this.thePageSize)
-       .subscribe(data=>{
+      startDate, endDate, this.curTaskId, this.curProjectId, this.thePageNumber - 1, this.thePageSize)
+      .subscribe(data => {
         this.todoList = data['content'];
-        // console.log(this.taskList);
         console.log('searchList: ', this.todoList);
 
         this.dataSource = new MatTableDataSource<Todo>(this.todoList);
         this.thePageNumber = data.pageable.pageNumber + 1;
         this.thePageSize = data.pageable.pageSize;
         this.theTotalElements = data.totalElements;
-       })
+      })
   }
 
-  getAllTodo(){
-    this.isSearchAll=true;
+  getAllTodo() {
+    this.isSearchAll = true;
     this.getData();
     this.makeSearchForm();
 
@@ -239,12 +225,11 @@ decreaseTodoNum() {
     this.todoForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
       des: new FormControl('', [Validators.required]),
-      // "priority":new FormControl('high',[Validators.required]),
       startDate: new FormControl([Validators.required]),
       endDate: new FormControl(),
       status: new FormControl('draft', [Validators.required]),
       todoType: new FormControl('feature', [Validators.required]),
-      priority: new FormControl('high',[Validators.required]),
+      priority: new FormControl('high', [Validators.required]),
       assignfor: new FormControl(this.myAccount.id, [Validators.required]),
     });
   }
@@ -252,13 +237,12 @@ decreaseTodoNum() {
     this.todoForm = new FormGroup({
       name: new FormControl(this.todoDetail.name, [Validators.required]),
       des: new FormControl(this.todoDetail.des, [Validators.required]),
-      // "priority":new FormControl(this.curTodo.priority,[Validators.required]),
       startDate: new FormControl(
         this.fomatInput.toDatePicker(this.todoDetail.startDate),
         [Validators.required]
       ),
       endDate: new FormControl(
-        this.todoDetail.endDate==null?null:this.fomatInput.toDatePicker(this.todoDetail.endDate)
+        this.todoDetail.endDate == null ? null : this.fomatInput.toDatePicker(this.todoDetail.endDate)
       ),
       status: new FormControl(this.todoDetail.status, [Validators.required]),
       todoType: new FormControl(this.todoDetail.todoType, [
@@ -308,7 +292,6 @@ decreaseTodoNum() {
           this.increaseTodoNum();
           this.getData();
           this.modalService.dismissAll();
-          // this.ngOnInit();
         });
       } else {
         this.dateCheck = false;
@@ -372,10 +355,6 @@ decreaseTodoNum() {
       } else {
         this.dateCheck = false;
       }
-      //
-      // this.curTodo.taskId=this.curTaskId;
-      // this.curTodo.projectId=this.curProjectId;
-      // this.curTodo.createUser=this.myAccount.id;
     } else {
       alert('Input invalid!!!');
     }
@@ -443,12 +422,12 @@ decreaseTodoNum() {
     }
     console.log(
       this.isAdmin +
-        ' ' +
-        this.isEmployeeOfTodo +
-        ' ' +
-        this.isLeader +
-        ' ' +
-        this.curTaskId
+      ' ' +
+      this.isEmployeeOfTodo +
+      ' ' +
+      this.isLeader +
+      ' ' +
+      this.curTaskId
     );
     this.makeUpdateForm();
     this.openModal(content);
@@ -460,7 +439,6 @@ decreaseTodoNum() {
   }
   onDelete() {
     this.todoService.deleteTodo(this.idDelete).subscribe((data) => {
-      // console.log('delete:', data,typeof(data));
       this.modalService.dismissAll();
       if (data) {
         this.getData();

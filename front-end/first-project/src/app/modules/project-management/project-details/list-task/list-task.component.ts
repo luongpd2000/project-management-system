@@ -25,56 +25,16 @@ import { ProjectService } from 'src/app/service/project.service';
 export class ListTaskComponent implements OnInit {
   @Input() currentProjectId: number;
   @Input() memberList: ProjectEmployee[];
-  @Input() taskNum : number;
+  @Input() taskNum: number;
   @Output() taskNumChanged: EventEmitter<number> = new EventEmitter();
-  increaseTaskNum() {
-    this.taskNum++;
-    this.taskNumChanged.emit(this.taskNum);
-    console.log('increase task num');
-
-  }
-decreaseTaskNum() {
-  this.taskNum--;
-  this.taskNumChanged.emit(this.taskNum);
-}
-
-
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
   d1: string;
   d2: string;
   dateCheck = true;
-  formSearch:FormGroup;
+  formSearch: FormGroup;
   isSearchAll = true;
-  makeSearchForm(){
-    this.formSearch = this.formBuilder.group({
-      name:[''],
-      status:[''],
-      priority:[''],
-      type:[''],
-      leader:[''],
-      startDate:[''],
-      endDate:['']
-    });
-  }
-
-  dataSource!: MatTableDataSource<Task>;
-  displayedColumns: string[] = [
-    'No.',
-    'ID',
-    'Name',
-    'Priority',
-    'Type',
-    'Manager',
-    'StartDate',
-    'Due to',
-    'Status',
-    'Action',
-  ];
-
-  selection = new SelectionModel<Task>(true, []);
-
   myUserName!: String;
   myUserId: number;
   deleteTask: Task;
@@ -89,11 +49,6 @@ decreaseTaskNum() {
   newTask = new Task();
   isLeaderOfProject = false;
   isLeaderOfTask = false;
-
-
-    // console.log('member', this.memberList);
-    // console.log('leader', this.leaderList);
-
 
   constructor(
     private taskService: TaskService,
@@ -128,31 +83,69 @@ decreaseTaskNum() {
         this.myUserId = data.id;
         this.getLeaderList();
       },
-      (error) => {
-        console.log(error.error.message);
-      });
+        (error) => {
+          console.log(error.error.message);
+        });
 
     }
   }
+  increaseTaskNum() {
+    this.taskNum++;
+    this.taskNumChanged.emit(this.taskNum);
+    console.log('increase task num');
+
+  }
+  decreaseTaskNum() {
+    this.taskNum--;
+    this.taskNumChanged.emit(this.taskNum);
+  }
+
+  makeSearchForm() {
+    this.formSearch = this.formBuilder.group({
+      name: [''],
+      status: [''],
+      priority: [''],
+      type: [''],
+      leader: [''],
+      startDate: [''],
+      endDate: ['']
+    });
+  }
+
+  dataSource!: MatTableDataSource<Task>;
+  displayedColumns: string[] = [
+    'No.',
+    'ID',
+    'Name',
+    'Priority',
+    'Type',
+    'Manager',
+    'StartDate',
+    'Due to',
+    'Status',
+    'Action',
+  ];
+
+  selection = new SelectionModel<Task>(true, []);
 
   getLeaderList() {
 
     this.projectService.findListEmployeeByProjectId(this.currentProjectId).subscribe(
-      data=>{
+      data => {
         this.memberList = data;
         console.log(data);
         this.memberList.forEach(
           (data) => {
-          // console.log('list mem list task', data);
-          if ((data.role === 'leader' || data.role === 'admin') && data.delete===false) {
-            this.leaderList.push(data.user);
-            if (data.user.id === this.myUserId) {
-              console.log(data.user.id + ' ' + this.myUserId);
-              this.isLeaderOfProject = true;
+            // console.log('list mem list task', data);
+            if ((data.role === 'leader' || data.role === 'admin') && data.delete === false) {
+              this.leaderList.push(data.user);
+              if (data.user.id === this.myUserId) {
+                console.log(data.user.id + ' ' + this.myUserId);
+                this.isLeaderOfProject = true;
+              }
             }
-          }
-          console.log('list task leader: ', this.leaderList);
-        })
+            console.log('list task leader: ', this.leaderList);
+          })
       },
       (error) => {
         console.log(error.error.message);
@@ -161,74 +154,61 @@ decreaseTaskNum() {
   }
 
   getData() {// get all tasks in project pageable
-    if(this.isSearchAll){
+    if (this.isSearchAll) {
       this.taskService
-      .getListTaskByProjectIdPageable(
-        this.currentProjectId,
-        this.thePageNumber - 1,
-        this.thePageSize
-      )
-      .subscribe(
-        (data) => {
-          this.taskList = data['content'];
-          console.log(this.taskList);
-          this.dataSource = new MatTableDataSource<Task>(this.taskList);
-          this.thePageNumber = data.pageable.pageNumber + 1;
-          this.thePageSize = data.pageable.pageSize;
-          this.theTotalElements = data.totalElements;
-        },
-        (error) => {
-          console.log(error.error.message);
-        }
-      );
-    }else{
-        this.onSearch();
+        .getListTaskByProjectIdPageable(
+          this.currentProjectId,
+          this.thePageNumber - 1,
+          this.thePageSize
+        )
+        .subscribe(
+          (data) => {
+            this.taskList = data['content'];
+            console.log(this.taskList);
+            this.dataSource = new MatTableDataSource<Task>(this.taskList);
+            this.thePageNumber = data.pageable.pageNumber + 1;
+            this.thePageSize = data.pageable.pageSize;
+            this.theTotalElements = data.totalElements;
+          },
+          (error) => {
+            console.log(error.error.message);
+          }
+        );
+    } else {
+      this.onSearch();
     }
 
   }
 
-
-  // getDataAll() {// get all task no pageable
-  //   this.taskService.getListTaskByProjectId(this.currentProjectId).subscribe(
-  //     (data) => {
-  //       this.taskListAll = data;
-  //       console.log(this.taskListAll);
-  //     },
-  //     (error) => {
-  //       console.log(error.error.message);
-  //     }
-  //   );
-  // }
-
-  onSearch(){
+  onSearch() {
     this.isSearchAll = false;
 
     let name = this.formSearch.value.name;
     let status = this.formSearch.value.status;
-    let startDate = this.datepipe.transform(this.formSearch.value.startDate,'yyyy-MM-dd');
-    startDate=startDate==null?'':startDate;
-    let endDate = this.datepipe.transform(this.formSearch.value.endDate,'yyyy-MM-dd');
-    endDate = endDate==null?'':endDate;
+    let startDate = this.datepipe.transform(this.formSearch.value.startDate, 'yyyy-MM-dd');
+    startDate = startDate == null ? '' : startDate;
+    let endDate = this.datepipe.transform(this.formSearch.value.endDate, 'yyyy-MM-dd');
+    endDate = endDate == null ? '' : endDate;
     let priority = this.formSearch.value.priority;
-    let  type=this.formSearch.value.type;
-    let  leader = this.formSearch.value.leader;
+    let type = this.formSearch.value.type;
+    let leader = this.formSearch.value.leader;
     this.taskService.searchTask(name, status, priority, type, leader,
-       startDate, endDate, this.currentProjectId,this.thePageNumber - 1, this.thePageSize)
-       .subscribe(data=>{
+      startDate, endDate, this.currentProjectId, this.thePageNumber - 1, this.thePageSize)
+      .subscribe(data => {
         this.taskList = data['content'];
         // console.log(this.taskList);
         this.dataSource = new MatTableDataSource<Task>(this.taskList);
         this.thePageNumber = data.pageable.pageNumber + 1;
         this.thePageSize = data.pageable.pageSize;
         this.theTotalElements = data.totalElements;
-       })
+      })
 
   }
-  getAllTask(){
+  getAllTask() {
     this.isSearchAll = true;
     this.getData();
     this.makeSearchForm();
-    
+
   }
 
   open(content: any) {
@@ -278,8 +258,7 @@ decreaseTaskNum() {
           this.fomatInput.compare(this.d1, this.d2)) ||
         this.newTask.endDate === ''
       ) {
-        // console.log('click save!!');
-        // console.log(JSON.stringify(this.newTask));
+
         this.taskService.createTask(this.newTask).subscribe((data) => {
           console.log('new', data);
           this.modalService.dismissAll();
@@ -331,15 +310,6 @@ decreaseTaskNum() {
     this.thePageNumber = 1;
     this.getData();
   }
-
-  // applyFilter(filterValue: string) {
-  //   if (filterValue.trim() !== '' || filterValue.trim() !== null) {
-  //     this.dataSource = new MatTableDataSource<Task>(this.taskListAll);
-  //   } else {
-  //     this.dataSource = new MatTableDataSource<Task>(this.taskList);
-  //   }
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-  // }
 
   // use for Form
   get name() {

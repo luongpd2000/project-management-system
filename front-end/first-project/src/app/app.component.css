@@ -1,7 +1,3 @@
-/* body{
-    font-family: 'Raleway', sans-serif;
-    background: #f9f9f9;
-} */
 
 .p-30{
     padding:30px;
@@ -212,12 +208,6 @@
 }
 .mode_low{
     background-color:rgb(90, 87, 87)
-}
-.mode_draft{
-
-}
-.mode_pending{
-
 }
 
 /* .mode_done{

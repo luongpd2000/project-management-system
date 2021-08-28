@@ -276,7 +276,7 @@
           <div class="col-md-7">
             <select class="custom-select mr-sm-2" id="" formControlName='assignfor'>
               <!-- <option [(ngModel)]="todoDetail.endDate"></option> -->
-              <option value={{myAccount?.id}}>For Me </option>
+              <option value={{myAccount.id}}>For Me</option>
               <option *ngFor="let member of memberList" value={{member.user.id}}>{{member.user.fullName}}</option>
             </select>
           </div>

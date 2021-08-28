@@ -3,7 +3,6 @@ package com.projectmanager.service.service_impl;
 import com.projectmanager.entity.TaskHistory;
 import com.projectmanager.repository.TaskHistoryRepository;
 import com.projectmanager.service.TaskHistoryService;
-import com.projectmanager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

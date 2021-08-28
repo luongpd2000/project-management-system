@@ -50,13 +50,6 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
             "AND UPPER(u.full_name) LIKE CONCAT('%',UPPER(?3),'%') AND UPPER(u.email) LIKE CONCAT('%',UPPER(?4),'%')  AND u.phone like %?5%", nativeQuery = true)
     Optional<List<User>> searchUsersInProject(Integer idP,String username, String fullName, String email, String phone);
 
-
-    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = false) ", nativeQuery = true)
-    Optional<List<User>> findAllUsersActiveInProject(Integer id);
-
-    @Query(value = "SELECT u.* FROM user u WHERE u.id IN (SELECT pe.user_id FROM project_employee pe WHERE pe.project_id = ?1 AND pe.is_deleted = true ) ", nativeQuery = true)
-    Optional<List<User>> findAllUsersDeleteInProject(Integer id);
-
     @Transactional
     @Modifying
     @Query(value = "UPDATE todo  SET assigned_user = 1 WHERE assigned_user = ?1",nativeQuery = true)

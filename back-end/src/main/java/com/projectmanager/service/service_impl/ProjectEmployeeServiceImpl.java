@@ -98,11 +98,6 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
     }
 
     @Override
-    public Optional<ProjectEmployee> findByProjectIdAndUserIdAndDeleteIsFalse(Integer projectId, Integer userId) {
-        return projectEmployeeRepository.findByProjectIdAndUserIdAndDeleteIsFalse(projectId, userId);
-    }
-
-    @Override
     public Page<ProjectEmployee> findByUserIdAndDeleteIsFalse(Integer userId, Pageable pageable) {
         return projectEmployeeRepository.findByUserIdAndDeleteIsFalse(userId,pageable);
     }
@@ -133,10 +128,6 @@ public class ProjectEmployeeServiceImpl implements ProjectEmployeeService {
         }
     }
 
-    @Override
-    public Optional<ProjectEmployee> findByProjectIdAndUser(Integer projectId, User user) {
-        return projectEmployeeRepository.findByProjectIdAndUser(projectId,user);
-    }
 
     @Override
     public Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId) {

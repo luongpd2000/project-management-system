@@ -16,11 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProjectRepository extends JpaRepository<Project, Integer>, JpaSpecificationExecutor<Project> {
-    // tìm list project của user
-//    @Query("")
-//    Page<Project> findProjectsByUser(Integer id, Pageable pageable)
 
-//    Page<Project> findAllByIdAndAndDeletedIsFalse(Integer idCreateUser, Pageable pageable);
 
     Page<Project> getAllByDeletedIsFalse(Pageable pageable);
 

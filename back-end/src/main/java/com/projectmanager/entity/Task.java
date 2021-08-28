@@ -46,12 +46,6 @@ public class Task implements Serializable {
     @Column(name = "status")
     private String status;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "project_id",referencedColumnName = "id")
-//    @Nullable
-//    private Project project_task;
-
     @NotNull
     @Column(name = "project_id")
     private Integer projectId;
@@ -66,20 +60,9 @@ public class Task implements Serializable {
     @Column(name = "update_date")
     private Date updateDate;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "create_user",referencedColumnName = "id")
-//    @Nullable
-//    private User createUser;
-
     @NotNull
     @Column(name = "create_user")
     private Integer createUser;
-
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "task_manager_id",referencedColumnName = "id")
-//    private User taskManager;
 
     @NotNull
     @Column(name = "task_manager_id")

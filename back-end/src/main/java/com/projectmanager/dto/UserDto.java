@@ -41,6 +41,5 @@ public class UserDto {
 
     private Integer createUser;
 
-    //private String encryptedPassword;
 
 }

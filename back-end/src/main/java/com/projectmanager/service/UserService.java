@@ -14,16 +14,9 @@ public interface UserService extends UserDetailsService, GeneralService<User> {
 
     Optional<User> findByUsername(String username);
 
-    Page<User> findByCreateUser(Integer id, Pageable pageable);
-
     Optional<List<User>> findAllUsersNotInProject(Integer id);
 
     Optional<List<User>> findAllUsersInProject(Integer id);
-
-    Optional<List<User>> findAllUsersActiveInProject(Integer id);
-
-    Optional<List<User>> findAllUsersDeleteInProject(Integer id);
-
 
     Page<User> findAllByDeleteIsFalse(Pageable pageable);
 
@@ -32,15 +25,11 @@ public interface UserService extends UserDetailsService, GeneralService<User> {
 
     List<User> findAll();
 
-//    List<User> searchUser(String username, String fullName, String email, String address, String phone);
     Page<User> searchUser(String username, String fullName, String email, String address, String phone, Pageable pageable);
 
     Optional<List<User>> searchUsersNotInProject(Integer idP,String username, String fullName, String email, String phone);
 
     Optional<List<User>> searchUsersInProject(Integer idP,String username, String fullName, String email, String phone);
-
-
-
 
     String passwordRecover(PasswordRecover pr);
 }

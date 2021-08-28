@@ -17,14 +17,9 @@ public interface ProjectEmployeeService extends GeneralService<ProjectEmployee>{
 
     List<ProjectEmployee> findByProjectIdAndDeleteIsTrue(Integer id);
 
-
-    Optional<ProjectEmployee> findByProjectIdAndUserIdAndDeleteIsFalse(Integer projectId, Integer userId);
-
     Page<ProjectEmployee> findByUserIdAndDeleteIsFalse(Integer userId,Pageable pageable);
 
     Boolean addPartner(ArrayList<ProjectEmployee> list);
-
-    Optional<ProjectEmployee> findByProjectIdAndUser(Integer projectId, User user);
 
     Optional<ProjectEmployee> findByProjectIdAndUserId(Integer projectId, Integer userId);
 

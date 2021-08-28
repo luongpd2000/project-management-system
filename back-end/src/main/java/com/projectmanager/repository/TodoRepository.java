@@ -1,14 +1,11 @@
 package com.projectmanager.repository;
 
-import com.projectmanager.entity.Task;
 import com.projectmanager.entity.Todo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,11 +25,6 @@ public interface TodoRepository extends JpaRepository<Todo, Integer>, JpaSpecifi
     Page<Todo>findByTaskIdAndDeletedIsFalse(Integer id, Pageable pageable);
 
     List<Todo>findByTaskIdAndDeletedIsFalse(Integer id);
-
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE todo  SET assigned_user = 1 WHERE user_id = ?1",nativeQuery = true)
-    Integer moveToAdminTodoByUserId(Integer uId);
 
     @Query(value="SELECT * FROM todo t where t.is_deleted = false  AND (?8 = 0 OR t.task_id = ?8) AND UPPER(t.name) LIKE CONCAT('%',UPPER(?1),'%') " +
             "AND (?2 = '' OR t.status = ?2)"  +

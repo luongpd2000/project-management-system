@@ -18,8 +18,6 @@ public interface ProjectEmployeeRepository extends JpaRepository<ProjectEmployee
     // tìm để xem quyền của 1 người
     Optional<ProjectEmployee> findByProjectIdAndUserIdAndDeleteIsFalse (Integer projectId, Integer userId);
 
-    Optional<ProjectEmployee> findByProjectIdAndUser(Integer projectId, User user);
-
 
     @Query( value = "SELECT pe.* FROM project_employee AS pe " +
             "WHERE pe.project_id = ?1 AND pe.user_id = ?2 ",nativeQuery = true)

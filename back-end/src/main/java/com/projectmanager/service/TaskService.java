@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface TaskService extends GeneralService<Task>{
 
-    Optional<Task> findByName(String name);
-
     List<Task> findByUser(Integer id);
 
     Page<Task> findByUserPageable(Integer id,Pageable pageable);

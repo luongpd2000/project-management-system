@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -37,9 +36,11 @@ public class Project implements Serializable {
     @Column(name = "end_date")
     private Date endDate;
 
+    @NotNull
     @Column(name = "is_deleted")
     private Boolean deleted;
 
+    @NotNull
     @Column(name = "status")
     private String status;
 
@@ -49,20 +50,9 @@ public class Project implements Serializable {
     @Column(name = "update_date")
     private Date updateDate;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "create_user",referencedColumnName = "id")
-//    @Nullable
-//    private User createUser;
-
 //    @NotNull
     @Column(name = "create_user")
     private Integer createUser;
-
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "update_user",referencedColumnName = "id")
-//    private User updateUser;
 
     @Column(name = "update_user")
     private Integer updateUser;

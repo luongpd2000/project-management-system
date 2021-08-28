@@ -34,15 +34,13 @@ public class User implements Serializable {
     @Column(name = "full_name")
     private String fullName;
 
-    //@JsonIgnore
-//    @NotBlank
     @Transient
     private String password;
 
     @Column(name = "is_admin")
     private Boolean admin;
 
-    //@NotNull
+    @NotNull
     @Column(name = "is_deleted")
     private Boolean delete;
 
@@ -69,28 +67,5 @@ public class User implements Serializable {
     @JsonIgnore
     @Column(name = "encrypted_password")
     private String encryptedPassword;
-
-    @Transient
-    private MultipartFile file;
-
-    
-
-//    @OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
-//    private List<Project> projectCreatedList;
-
-//    @OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
-//    private List<Task> taskCreatedList;
-
-//    @OneToMany(mappedBy = "taskManagerId", fetch = FetchType.LAZY)
-//    private List<Task> taskManagementList;
-//
-//    @OneToMany(mappedBy = "assignedUser", fetch = FetchType.LAZY)
-//    private List<Todo> todoList;
-//
-//    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
-//    private List<ProjectEmployee> projectList;
-
-    //private Set<>
-
 
 }

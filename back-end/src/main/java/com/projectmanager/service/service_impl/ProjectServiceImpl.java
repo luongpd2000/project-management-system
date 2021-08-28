@@ -34,8 +34,8 @@ public class ProjectServiceImpl implements ProjectService {
     UserRepository userRepository;
 
     // nhớ check delete nhé
-    @Override
-    public Page<Project> FindAllNotDelete(Integer userId, Pageable pageable){return null;}
+//    @Override
+//    public Page<Project> FindAllNotDelete(Integer userId, Pageable pageable){return null;}
 
     @Override
     public List<Project> findProjectByUserId(Integer userId) {
@@ -79,18 +79,6 @@ public class ProjectServiceImpl implements ProjectService {
             project.setCreateDate(Date.valueOf(LocalDate.now()));
             project.setDeleted(false);
             project.setCreateUser(1);
-//            User admin = userRepository.getById(1);
-//            System.out.println(admin);
-//            ProjectEmployee pm = new ProjectEmployee();
-//            pm.setRole("admin");
-//            pm.setUser(admin);
-//            pm.setProjectId(project.getId());
-//            pm.setDelete(false);
-//            System.out.println(pm);
-//            List<ProjectEmployee>
-//            project.setProjectEmployeeList();
-
-//            projectEmployeeRepository.save(pm);
             return projectRepository.save(project);
         }
         return null;
@@ -100,7 +88,6 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean update(Project project) {
         Optional<Project> p = projectRepository.findById(project.getId());
         if(p.isPresent()){
-            //chỗ này phải map thế nào?
             p.get().setName(project.getName());
             p.get().setDes(project.getDes());
             p.get().setStartDate(project.getStartDate());

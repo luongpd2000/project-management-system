@@ -34,9 +34,6 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Todo create(Todo todo) {
         Optional<Todo> t = todoRepository.findByNameAndDeletedIsFalse(todo.getName());
-//        if(todo.getTaskId()== t.get().getTaskId() && todo.getTodoType()==t.get().getTodoType()){
-//            return null;
-//        }
         if(!t.isPresent()) {
             todo.setDeleted(false);
             todo.setCreateDate(Date.valueOf(LocalDate.now()));
@@ -72,11 +69,6 @@ public class TodoServiceImpl implements TodoService {
             return true;
         }
 
-    }
-
-    @Override
-    public Optional<Todo> findByName(String name){
-        return todoRepository.findByNameAndDeletedIsFalse(name);
     }
 
     @Override

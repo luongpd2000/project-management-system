@@ -36,17 +36,6 @@ public class TodoHistory implements Serializable {
     @Column(name = "update_date")
     private Date updateDate;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "update_user",referencedColumnName = "id")
-//    @Nullable
-//    private User updateUser;
-//
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "todo_id",referencedColumnName = "id")
-//    @Nullable
-//    private Todo todo;
     @NotNull
     @Column(name = "update_user")
     private Integer updateUser;

@@ -21,10 +21,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer>, JpaSpecifi
 
     Page<Task> findAllByDeletedIsFalse(Pageable pageable);
 
-    List<Task> findByCreateUserAndDeletedIsFalse(Integer id);
-
-    Page<Task> findByCreateUserAndDeletedIsFalse(Integer id,Pageable pageable);
-
     List<Task> findByTaskManagerIdAndDeletedIsFalse(Integer id);
 
     Page<Task> findByTaskManagerIdAndDeletedIsFalse(Integer id,Pageable pageable);
@@ -44,11 +40,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer>, JpaSpecifi
             "ORDER BY t.id  ", nativeQuery = true)
     Page<Task> searchTask(String name, String status, String priority, String type,
                           Integer leaderId, String startDate, String endDate, Integer projectId, Pageable pageable);
-
-
-
-
-//    Page <Task> search()
 
 
 }

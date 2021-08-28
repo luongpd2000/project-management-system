@@ -51,11 +51,6 @@ public class Todo implements Serializable {
     @Column(name = "status")
     private String status;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "task_id",referencedColumnName = "id")
-//    @Nullable
-//    private Task task;
     @NotNull
     @Column(name = "task_id")
     private Integer taskId;
@@ -66,19 +61,10 @@ public class Todo implements Serializable {
     @Column(name = "update_date")
     private Date updateDate;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "create_user",referencedColumnName = "id")
-//    @Nullable
-//    private User createUser;
     @NotNull
     @Column(name = "create_user")
     private Integer createUser;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "assigned_user",referencedColumnName = "id")
-//    private User assignedUser;
     @NotNull
     @Column(name = "assigned_user")
     private Integer assignedUser;

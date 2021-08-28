@@ -1,6 +1,5 @@
 package com.projectmanager.service.service_impl;
 
-//import com.projectmanager.common.CustomUserDetails;
 import com.projectmanager.dto.PasswordRecover;
 import com.projectmanager.entity.User;
 import com.projectmanager.repository.UserRepository;
@@ -69,10 +68,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsernameAndDeleteIsFalse(username);
     }
 
-    @Override
-    public Page<User> findByCreateUser(Integer id, Pageable pageable) {
-        return userRepository.findByCreateUserAndDeleteIsFalse(id, pageable);
-    }
 
     @Override
     public Optional<List<User>> findAllUsersNotInProject(Integer id) {
@@ -82,16 +77,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<List<User>> findAllUsersInProject(Integer id) {
         return userRepository.findAllUsersInProject(id);
-    }
-
-    @Override
-    public Optional<List<User>> findAllUsersActiveInProject(Integer id) {
-        return userRepository.findAllUsersActiveInProject(id);
-    }
-
-    @Override
-    public Optional<List<User>> findAllUsersDeleteInProject(Integer id) {
-        return userRepository.findAllUsersDeleteInProject(id);
     }
 
     @Override
@@ -153,15 +138,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(User u) {
-//        Optional<User> user = userRepository.findByUsernameAndDeleteIsFalse(u.getUsername());
-//        if(!user.isPresent()) {
-//            return false;
-//        }
-//        else {
-//            user.get().setAddress(u.getAddress());
-//            user.get().setEmail(u.getEmail());
-//            user.get().setPhone(u.getPhone());
-//        }
         try {
             userRepository.save(u);
             return true;

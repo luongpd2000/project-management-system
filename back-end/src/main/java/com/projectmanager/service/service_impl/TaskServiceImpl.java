@@ -38,8 +38,6 @@ public class TaskServiceImpl implements TaskService {
         Optional<Task> t = taskRepository.findByNameAndDeletedIsFalse(task.getName());
 
         if(!t.isPresent()) {
-
-////            task.setAdmin(false);
             task.setDeleted(false);
             task.setCreateDate(Date.valueOf(LocalDate.now()));
             return taskRepository.save(task);
@@ -75,10 +73,6 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    @Override
-    public Optional<Task> findByName(String name) {
-        return taskRepository.findByNameAndDeletedIsFalse(name);
-    }
 
     @Override
     public List<Task> findByUser(Integer id){

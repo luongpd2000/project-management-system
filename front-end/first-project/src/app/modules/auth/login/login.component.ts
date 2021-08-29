@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
 
   login(){
-    console.log("login");
+    // console.log("login");
 
     if (this.logIn.invalid) {
       this.logIn.markAllAsTouched();

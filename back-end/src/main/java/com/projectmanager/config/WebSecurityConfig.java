@@ -38,8 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().and()
             .authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
-                .antMatchers("/favicon.ico").permitAll()
-//                .antMatchers("/api/v1/project_management").authenticated()
                 .anyRequest().authenticated()
                 .and().addFilter(getAuthenticationFilter())
                 .addFilter(new AuthorizationFilter(authenticationManager(), getApplicationContext()))

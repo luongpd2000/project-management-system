@@ -273,7 +273,9 @@
         <div class="col-md-7">
           <select class="custom-select mr-sm-2" id="" formControlName='manager'>
             <option value={{myUserId}}>For Me </option>
-            <option *ngFor="let leader of leaderList" value={{leader.id}}>{{leader.fullName}}</option>
+            <!-- <span *ngIf="!isAdmin"> -->
+            <option  *ngFor="let leader of leaderList" value={{leader.id}}>{{leader.fullName}}</option>
+            <!-- </span> -->
           </select>
         </div>
       </div>

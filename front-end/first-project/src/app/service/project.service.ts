@@ -27,28 +27,28 @@ export class ProjectService {
   }
 
   postProject(p:Project):Observable<any>{
-    console.log(p);
+    // console.log(p);
     return this.http.post<any>(this.baseUrl+'/admin/insertProject',p,this.httpOptions);
   }
 
   putProject(p:Project):Observable<any>{
-    console.log(p);
+    // console.log(p);
     return this.http.put<any>(this.baseUrl+'/admin/updateProject',p,this.httpOptions);
 
   }
 
   getProjectById(id:number):Observable<any>{
-    console.log("find project by id:"+id);
+    // console.log("find project by id:"+id);
     return this.http.get<any>(this.baseUrl+'/getProjectById/'+id,this.httpOptions);
   }
 
   deleteProject(id:number):Observable<any>{
-    console.log("delete this project:"+id);
+    // console.log("delete this project:"+id);
     return this.http.delete(this.baseUrl+'/admin/deleteProject/'+id,this.httpOptions);
   }
 
   postRole(listRole:Array<idRole>):Observable<any>{
-    console.log('addUser to project');
+    // console.log('addUser to project');
     return this.http.post(this.baseUrl+"/admin/addUser",listRole,this.httpOptions);
   }
 

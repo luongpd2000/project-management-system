@@ -73,20 +73,20 @@ export class UserService {
 
   getNonPartner(pId: number) {
     const userUrl = `${this.baseUrl}/userNotInProject/${pId}`;
-    console.log(userUrl);
+    // console.log(userUrl);
 
     return this.httpClient.get<User[]>(userUrl, this.httpOptions);
   }
 
   getPartner(pId: number) {
     const userUrl = `${this.baseUrl}/admin/userInProject/${pId}`;
-    console.log(userUrl);
+    // console.log(userUrl);
     return this.httpClient.get<User[]>(userUrl, this.httpOptions);
   }
 
   getUsersInProject(id: number): Observable<any> {
     const url = `${this.baseUrl}/findListEmployeeByProjectId/${id}`;
-    console.log('url ', url);
+    // console.log('url ', url);
     return this.httpClient.get<any>(url, this.httpOptions);
   }
 
@@ -134,7 +134,7 @@ export class UserService {
   ): Observable<any> {
     const projectUrl = `${this.baseUrl}/admin/searchUser?username=${username}&fullname=${fullname}&email=${email}&address=${address}&phone=${phone}&page=${thePage}&size=${thePageSize}`;
 
-    console.log('search: ', projectUrl);
+    // console.log('search: ', projectUrl);
 
     return this.httpClient.get<any>(projectUrl, this.httpOptions);
   }
@@ -158,7 +158,7 @@ export class UserService {
     phone: String,
     role: String
   ): Observable<any> {
-    const projectUrl = `${this.baseUrl}/admin/searchUsersInProject?idP=${idP}&username=${username}&fullname=${fullname}&email=${email}&phone=${phone}&role=${role}`;
+    const projectUrl = `${this.baseUrl}/searchUsersInProject?idP=${idP}&username=${username}&fullname=${fullname}&email=${email}&phone=${phone}&role=${role}`;
     return this.httpClient.get<any>(projectUrl, this.httpOptions);
   }
 }

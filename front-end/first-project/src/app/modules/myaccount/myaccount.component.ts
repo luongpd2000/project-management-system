@@ -57,9 +57,9 @@ export class MyaccountComponent implements OnInit {
 
       address: new FormControl('', [Validators.maxLength(200)]),
 
-      currentPassword: new FormControl(),
-      newPassword: new FormControl(),
-      confirmPassword: new FormControl(),
+      currentPassword: new FormControl(''),
+      newPassword: new FormControl(''),
+      confirmPassword: new FormControl(''),
     });
   }
 
@@ -125,7 +125,7 @@ export class MyaccountComponent implements OnInit {
 
     if (this.acountForm.invalid) {
       this.acountForm.markAllAsTouched();
-      console.log('false ' + this.acountForm.status);
+      // console.log('false ' + this.acountForm.status);
       return;
     }
 
@@ -156,9 +156,11 @@ export class MyaccountComponent implements OnInit {
 
     this.userService.updateUser(userUpdate).subscribe(
       (data) => {
+        // console.log(data);
         window.alert('Update sucess');
       },
       (error) => {
+        console.log(error);
         window.alert('Update failure');
       }
     );

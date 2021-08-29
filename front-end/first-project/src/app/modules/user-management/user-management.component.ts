@@ -181,7 +181,7 @@ export class UserManagementComponent implements OnInit {
           this.theTotalElements = data.totalElements;
         },
         (error) => {
-          // console.log(error.error.message);
+          console.log(error.error.message);
         }
       );
   }
@@ -340,8 +340,8 @@ export class UserManagementComponent implements OnInit {
   onDelete() {
     this.userService.deleteUser(this.userDetails.id).subscribe(
       (data) => {
-        this.getData();
         this.getDataDelete();
+        this.getData();
         this.modalService.dismissAll();
         this.statusDelete = true;
       },

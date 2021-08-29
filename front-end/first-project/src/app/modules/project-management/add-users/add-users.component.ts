@@ -92,7 +92,7 @@ export class AddUsersComponent implements OnInit {
     let email = this.formSearch.value.enail;
     let phone = this.formSearch.value.phone;
 
-    console.log(this.projectId,username, fullname, email, phone);
+    // console.log(this.projectId,username, fullname, email, phone);
 
     this.userService
       .searchUsersNotInProject(
@@ -104,7 +104,7 @@ export class AddUsersComponent implements OnInit {
       )
       .subscribe((data) => {
         this.listUsersSearch = data;
-        console.log(data);
+        // console.log(data);
         this.listUsersSearch.forEach(data => { data.pRole = 'dev' })
         // this.statusDelete = false;
         this.dataSource = new MatTableDataSource<User>(this.listUsersSearch);
@@ -141,7 +141,7 @@ export class AddUsersComponent implements OnInit {
 
   logSelection() {
     this.selection.selected.forEach(s => {
-      console.log(s.id, s.pRole);
+      // console.log(s.id, s.pRole);
       this.arr2.push({ user: s, role: s.pRole, projectId: this.projectId });
     });
     this.saveRole(this.arr2);
@@ -150,7 +150,7 @@ export class AddUsersComponent implements OnInit {
 
   saveRole(list: Array<any>) {
     this.projectService.postRole(list).subscribe(data => {
-      console.log('ADD User seccess');
+      // console.log('ADD User seccess');
       this.alert = true;
       this.arr2 = [];
       this.ngOnInit()
@@ -160,8 +160,7 @@ export class AddUsersComponent implements OnInit {
 
 
   openDetails(element: any) {
-    console.log(element);
-
+    // console.log(element);
   }
 
   openDialog(element: any): void {
@@ -174,7 +173,7 @@ export class AddUsersComponent implements OnInit {
 
   }
   openCofirm(content: any) {
-    console.log('confirm');
+    // console.log('confirm');
     this.modalService.open(content, {
       centered: true,
     });

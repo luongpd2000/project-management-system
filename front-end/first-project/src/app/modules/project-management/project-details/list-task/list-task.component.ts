@@ -64,8 +64,8 @@ export class ListTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.currentProjectId);
-    console.log('mem list: ', this.memberList);
+    // console.log(this.currentProjectId);
+    // console.log('mem list: ', this.memberList);
     this.getData();
     this.myUserName = this.jwt.getUsername();
     this.makeSearchForm();
@@ -78,13 +78,13 @@ export class ListTaskComponent implements OnInit {
       }
 
       this.userService.getUser(this.myUserName).subscribe((data) => {
-        console.log(data);
+        // console.log(data);
         this.curUser = data;
         this.myUserId = data.id;
         this.getLeaderList();
       },
         (error) => {
-          console.log(error.error.message);
+          // console.log(error.error.message);
         });
 
     }
@@ -92,7 +92,7 @@ export class ListTaskComponent implements OnInit {
   increaseTaskNum() {
     this.taskNum++;
     this.taskNumChanged.emit(this.taskNum);
-    console.log('increase task num');
+    // console.log('increase task num');
 
   }
   decreaseTaskNum() {
@@ -133,22 +133,22 @@ export class ListTaskComponent implements OnInit {
     this.projectService.findListEmployeeByProjectId(this.currentProjectId).subscribe(
       data => {
         this.memberList = data;
-        console.log(data);
+        // console.log(data);
         this.memberList.forEach(
           (data) => {
             // console.log('list mem list task', data);
             if ((data.role === 'leader' || data.role === 'admin') && data.delete === false) {
               this.leaderList.push(data.user);
               if (data.user.id === this.myUserId) {
-                console.log(data.user.id + ' ' + this.myUserId);
+                // console.log(data.user.id + ' ' + this.myUserId);
                 this.isLeaderOfProject = true;
               }
             }
-            console.log('list task leader: ', this.leaderList);
+            // console.log('list task leader: ', this.leaderList);
           })
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     )
   }
@@ -164,14 +164,14 @@ export class ListTaskComponent implements OnInit {
         .subscribe(
           (data) => {
             this.taskList = data['content'];
-            console.log(this.taskList);
+            // console.log(this.taskList);
             this.dataSource = new MatTableDataSource<Task>(this.taskList);
             this.thePageNumber = data.pageable.pageNumber + 1;
             this.thePageSize = data.pageable.pageSize;
             this.theTotalElements = data.totalElements;
           },
           (error) => {
-            console.log(error.error.message);
+            // console.log(error.error.message);
           }
         );
     } else {
@@ -260,7 +260,7 @@ export class ListTaskComponent implements OnInit {
       ) {
 
         this.taskService.createTask(this.newTask).subscribe((data) => {
-          console.log('new', data);
+          // console.log('new', data);
           this.modalService.dismissAll();
           this.getData();
           this.increaseTaskNum();
@@ -284,9 +284,9 @@ export class ListTaskComponent implements OnInit {
     });
   }
   onDelete() {
-    console.log(this.deleteTask);
+    // console.log(this.deleteTask);
     this.taskService.deleteTask(this.deleteTask).subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.getData();
       this.decreaseTaskNum();
     });
@@ -295,9 +295,9 @@ export class ListTaskComponent implements OnInit {
 
   openHistory(content: any, element) {
     this.detailTask = element;
-    console.log(this.detailTask);
+    // console.log(this.detailTask);
     this.taskHisrotyList = this.detailTask.taskHistoryList;
-    console.log(this.taskHisrotyList);
+    // console.log(this.taskHisrotyList);
     this.modalService.open(content, {
       centered: true,
       size: 'lg',
@@ -306,7 +306,7 @@ export class ListTaskComponent implements OnInit {
 
   updatePageSize(event) {
     this.thePageSize = event.target.value;
-    console.log(this.thePageSize);
+    // console.log(this.thePageSize);
     this.thePageNumber = 1;
     this.getData();
   }

@@ -31,7 +31,7 @@ export class MembersInProjectComponent implements OnInit {
   role!: String;
   filter: String = 'all';
   formSearch: FormGroup;
-  
+
   dataSource!: MatTableDataSource<ProjectEmployee>;
   displayedColumns: string[] = ['stt', 'id', 'fullName', 'email', 'role', 'status', 'action'];
   selection = new SelectionModel<ProjectEmployee>(true, []);
@@ -75,7 +75,7 @@ export class MembersInProjectComponent implements OnInit {
     this.userService.getUsersInProject(this.projectId).subscribe(
       data => {
         this.listUsers = data;
-        console.log('member: ', this.listUsers);
+        // console.log('member: ', this.listUsers);
         this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
         this.dataSource.paginator = this.paginator;
       }
@@ -86,7 +86,7 @@ export class MembersInProjectComponent implements OnInit {
     this.userService.getUsersActiveInProject(this.projectId).subscribe(
       data => {
         this.listUsers = data;
-        console.log('member: ', this.listUsers);
+        // console.log('member: ', this.listUsers);
 
         this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
         this.dataSource.paginator = this.paginator;
@@ -98,7 +98,7 @@ export class MembersInProjectComponent implements OnInit {
     this.userService.getUsersDeletedInProject(this.projectId).subscribe(
       data => {
         this.listUsers = data;
-        console.log('member: ', this.listUsers);
+        // console.log('member: ', this.listUsers);
         this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
         this.dataSource.paginator = this.paginator;
       }
@@ -113,7 +113,7 @@ export class MembersInProjectComponent implements OnInit {
     let phone = this.formSearch.value.phone;
     let role = this.formSearch.value.role;
 
-    console.log(this.projectId, username, fullname, email, phone, role);
+    // console.log(this.projectId, username, fullname, email, phone, role);
 
     this.userService
       .searchUsersInProject(
@@ -126,7 +126,7 @@ export class MembersInProjectComponent implements OnInit {
       )
       .subscribe((data) => {
         this.listUsers = data;
-        console.log(data);
+        // console.log(data);
         this.dataSource = new MatTableDataSource<ProjectEmployee>(this.listUsers);
         this.dataSource.paginator = this.paginator;
       });
@@ -154,22 +154,20 @@ export class MembersInProjectComponent implements OnInit {
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+
 
   deleteMember() {
     this.projectService.deleteUserInProject(this.pe.id).subscribe(
       data => {
-        console.log(data);
+        // console.log(data);
         this.getData();
         this.modalService.dismissAll();
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       }
     )
-    console.log('delete');
+    // console.log('delete');
 
   }
 
@@ -185,7 +183,7 @@ export class MembersInProjectComponent implements OnInit {
   }
   openCofirm(content: any, element) {
     this.pe = element;
-    console.log('confirm');
+    // console.log('confirm');
     this.modalService.open(content, {
       centered: true,
     });
@@ -193,7 +191,7 @@ export class MembersInProjectComponent implements OnInit {
 
   openCofirmUpdate(content, element) {
     this.pe = element;
-    console.log('confirm update', element);
+    // console.log('confirm update', element);
     this.modalService.open(content, {
       centered: true,
     });
@@ -201,7 +199,7 @@ export class MembersInProjectComponent implements OnInit {
   }
 
   selectStatus(event) {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.filter = event.target.value;
     if (this.filter === 'all') this.getData();
     if (this.filter === 'active') this.getDataActive();
@@ -211,7 +209,7 @@ export class MembersInProjectComponent implements OnInit {
 
   updateRole() {
     this.userService.updateProjectEmployee(this.pe).subscribe(data => {
-      console.log('update', data);
+      // console.log('update', data);
       this.getData();
       this.modalService.dismissAll();
     })

@@ -50,8 +50,8 @@ export class TaskDetailsComponent implements OnInit {
           this.employeeList.push(data.user);
         }
       });
-      console.log('leader', this.leaderList);
-      console.log('dev', this.employeeList);
+      // console.log('leader', this.leaderList);
+      // console.log('dev', this.employeeList);
     });
   }
 
@@ -83,14 +83,14 @@ export class TaskDetailsComponent implements OnInit {
   getTaskDetails() {
     this.taskService.getTask(this.curTaskId).subscribe((data) => {
       this.currentTask = data;
-      console.log(data)
-      console.log(this.currentTask)
+      // console.log(data)
+      // console.log(this.currentTask)
       this.userService.getUserById(this.currentTask.taskManagerId).subscribe(data => {
         this.currentTask.taskManagerDetails = data;
       })
       this.currentTask.taskManagerDetails
       this.curProjectId = <number>this.currentTask.projectId;
-      console.log('projectId', this.curProjectId);
+      // console.log('projectId', this.curProjectId);
 
       this.getMembers();
       if (this.currentTask.taskManagerId === this.curUserId) {
@@ -104,17 +104,17 @@ export class TaskDetailsComponent implements OnInit {
       (data) => {
         this.todoList = data;
         this.todoNum = this.todoList.length;
-        console.log(this.todoList.length);
+        // console.log(this.todoList.length);
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     );
   }
 
   open(content: any) {
     this.makeForm();
-    console.log('endDate: ', this.currentTask.endDate, typeof (this.currentTask.endDate));
+    // console.log('endDate: ', this.currentTask.endDate, typeof (this.currentTask.endDate));
 
     this.modalService.open(content, {
       centered: true,
@@ -170,7 +170,7 @@ export class TaskDetailsComponent implements OnInit {
       this.taskHistory.updateUser = this.curUserId;
       this.currentTask.status = this.formTask.value.status;
 
-      console.log(this.taskHistory)
+      // console.log(this.taskHistory)
       this.d1 = this.currentTask.startDate.toString();
       this.d2 = this.currentTask.endDate.toString();
 
@@ -181,24 +181,24 @@ export class TaskDetailsComponent implements OnInit {
           // console.log(this.taskHistory.preStatus + " " + this.taskHistory.status)
           this.taskService.createTaskHistory(this.taskHistory).subscribe(
             (data) => {
-              console.log(data + ' ok');
-              console.log('click save!!');
-              console.log(JSON.stringify(this.currentTask));
+              // console.log(data + ' ok');
+              // console.log('click save!!');
+              // console.log(JSON.stringify(this.currentTask));
               this.taskService.updateTask(this.currentTask).subscribe((data) => {
-                console.log('update', data);
+                // console.log('update', data);
                 alert('Edit Success');
                 this.modalService.dismissAll();
                 this.getTaskDetails();
               });
             },
             (error) => {
-              console.log(error.error.message);
+              // console.log(error.error.message);
             }
           );
         } else {
           // console.log(this.taskHistory.preStatus + " giống " + this.taskHistory.status)
           this.taskService.updateTask(this.currentTask).subscribe((data) => {
-            console.log('update', data);
+            // console.log('update', data);
             alert('Edit Success');
             this.modalService.dismissAll();
             this.getTaskDetails();
@@ -208,14 +208,14 @@ export class TaskDetailsComponent implements OnInit {
         this.dateCheck = false;
       }
     } else {
-      console.log('invalid ', this.formTask.invalid.valueOf);
+      // console.log('invalid ', this.formTask.invalid.valueOf);
 
       alert('Input invalid!!!');
     }
   }
   changedTodoNum(taskNumber: number) {
     this.todoNum = taskNumber;
-    console.log('todoNum: ', this.todoNum);
+    // console.log('todoNum: ', this.todoNum);
 
   }
 

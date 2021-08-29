@@ -57,27 +57,27 @@ export class ProjectDetailsComponent implements OnInit {
   loadDetails() {
     this.id = this.route.snapshot.params['id'];
     this.currentProjectId = this.id;
-    console.log('You clicked: ' + this.id);
+    // console.log('You clicked: ' + this.id);
     this.projectService.getProjectById(this.id).subscribe((data) => {
       this.currentProject = data;
       this.taskList = this.currentProject.taskList;
-      console.log('todo');
+      // console.log('todo');
       this.todoNum = 0;
       this.taskList.forEach((task) => {
         this.todoNum += (<Array<any>>task['todoList']).length;
         if (task.deleted == false) this.taskNum++;
       });
-      console.log(this.todoNum);
+      // console.log(this.todoNum);
       this.currentProject.partnerNum =
         this.currentProject.projectEmployeeList.filter((item) => {
           return !item.delete;
         }).length;
       // this.currentProjectId = this.currentProject.id;
-      console.log('project id ', this.currentProjectId);
+      // console.log('project id ', this.currentProjectId);
       this.currentProject.projectEmployeeList.forEach(pe => {
         if (pe.delete != true) this.memberList.push(pe);
       });
-      console.log('parents mem list: ', this.memberList);
+      // console.log('parents mem list: ', this.memberList);
     })
 
   }
@@ -106,8 +106,8 @@ export class ProjectDetailsComponent implements OnInit {
         Validators.required,
       ]),
     });
-    console.log('start date:', this.currentProject.startDate);
-    console.log('end date:', this.currentProject.endDate);
+    // console.log('start date:', this.currentProject.startDate);
+    // console.log('end date:', this.currentProject.endDate);
   }
 
   saveProject() {
@@ -121,9 +121,9 @@ export class ProjectDetailsComponent implements OnInit {
     );
     this.currentProject.status = this.formProject.value.status;
 
-    console.log(this.currentProject)
+    // console.log(this.currentProject)
     if (this.formProject.valid) {
-      console.log('click save!!!');
+      // console.log('click save!!!');
 
 
       this.d1 = this.currentProject.startDate.toString();
@@ -143,7 +143,7 @@ export class ProjectDetailsComponent implements OnInit {
                 this.alert = true;
               },
               (error) => {
-                console.log(error.error.message);
+                // console.log(error.error.message);
               }
             );
           });
@@ -166,19 +166,19 @@ export class ProjectDetailsComponent implements OnInit {
   onDelete() {
     this.projectService.deleteProject(this.currentProject.id).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         this.modalService.dismissAll();
         this.router.navigateByUrl('/project-manager');
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     );
   }
 
   changedTaskNum(taskNumber: number) {
     this.taskNum = taskNumber;
-    console.log('taskNum: ', this.taskNum);
+    // console.log('taskNum: ', this.taskNum);
 
   }
 

@@ -85,10 +85,10 @@ export class ListTodoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
-    console.log('init todo-list');
+    // console.log('init todo-list');
     this.userService.getUser(this.jwt.getUsername()).subscribe((data) => {
       this.myAccount = data;
-      console.log('myAcc', data);
+      // console.log('myAcc', data);
 
     });
     this.getMembers();
@@ -96,7 +96,7 @@ export class ListTodoComponent implements OnInit {
       des: new FormControl(''),
     });
     this.makeSearchForm();
-    console.log('myAccountId: ', this.myAccount.id);
+    // console.log('myAccountId: ', this.myAccount.id);
 
   }
   makeSearchForm() {
@@ -128,9 +128,9 @@ export class ListTodoComponent implements OnInit {
   selection = new SelectionModel<Todo>(true, []);
 
   getMembers() {
-    console.log('find member: ', this.curProjectId);
+    // console.log('find member: ', this.curProjectId);
     this.memberList.forEach(data => {
-      console.log(data);
+      // console.log(data);
       if ((data.role === 'leader' || data.role === 'admin') && data.delete === false) {
         this.leaderList.push(data.user);
       } else if (data.role === 'dev' && data.delete === false) {
@@ -159,15 +159,15 @@ export class ListTodoComponent implements OnInit {
                   data.assignedUserDetails = item;
                 });
             });
-            console.log(this.todoList);
-            console.log(this.todoList[0]);
+            // console.log(this.todoList);
+            // console.log(this.todoList[0]);
             this.dataSource = new MatTableDataSource<Todo>(this.todoList);
             this.thePageNumber = data.pageable.pageNumber + 1;
             this.thePageSize = data.pageable.pageSize;
             this.theTotalElements = data.totalElements;
           },
           (error) => {
-            console.log(error.error.message);
+            // console.log(error.error.message);
           }
         );
     } else {
@@ -193,7 +193,7 @@ export class ListTodoComponent implements OnInit {
       startDate, endDate, this.curTaskId, this.curProjectId, this.thePageNumber - 1, this.thePageSize)
       .subscribe(data => {
         this.todoList = data['content'];
-        console.log('searchList: ', this.todoList);
+        // console.log('searchList: ', this.todoList);
 
         this.dataSource = new MatTableDataSource<Todo>(this.todoList);
         this.thePageNumber = data.pageable.pageNumber + 1;
@@ -278,16 +278,16 @@ export class ListTodoComponent implements OnInit {
 
       this.d1 = this.curTodo.startDate.toString();
       this.d2 = this.curTodo.endDate.toString();
-      console.log(this.d1 + this.d2)
+      // console.log(this.d1 + this.d2)
       if (
         (this.curTodo.endDate !== '' &&
           this.fomatInput.compare(this.d1, this.d2)) ||
         this.curTodo.endDate === ''
       ) {
-        console.log('click save!!');
-        console.log(JSON.stringify(this.curTodo));
+        // console.log('click save!!');
+        // console.log(JSON.stringify(this.curTodo));
         this.todoService.createTodo(this.curTodo).subscribe((data) => {
-          console.log('create', data);
+          // console.log('create', data);
           alert('Create success!!');
           this.increaseTodoNum();
           this.getData();
@@ -298,7 +298,7 @@ export class ListTodoComponent implements OnInit {
       }
     } else {
       alert('Input invalid!!!');
-      console.log(this.todoForm)
+      // console.log(this.todoForm)
     }
   }
   saveUpdateTodo() {
@@ -324,8 +324,8 @@ export class ListTodoComponent implements OnInit {
 
       this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
       // this.curTodo.status = this.statusUpdate;
-      console.log(this.updateTodoStatus);
-      console.log(this.todoDetail);
+      // console.log(this.updateTodoStatus);
+      // console.log(this.todoDetail);
       this.d1 = this.todoDetail.startDate.toString();
       this.d2 = this.todoDetail.endDate.toString();
       if (
@@ -335,12 +335,12 @@ export class ListTodoComponent implements OnInit {
       ) {
         this.todoService.insertHistory(this.updateTodoStatus).subscribe(
           (data) => {
-            console.log(data);
-            console.log('click save!!');
-            console.log(JSON.stringify(this.todoDetail));
+            // console.log(data);
+            // console.log('click save!!');
+            // console.log(JSON.stringify(this.todoDetail));
             // this.modalService.dismissAll();
             this.todoService.updateStatus(this.todoDetail).subscribe((data) => {
-              console.log('create', data);
+              // console.log('create', data);
               alert('update success!!');
               this.getData();
               this.modalService.dismissAll();
@@ -349,7 +349,7 @@ export class ListTodoComponent implements OnInit {
             this.modalService.dismissAll();
           },
           (error) => {
-            console.log(error.error.message);
+            // console.log(error.error.message);
           }
         );
       } else {
@@ -361,7 +361,7 @@ export class ListTodoComponent implements OnInit {
   }
 
   updateStatus() {
-    console.log(this.statusUpdate);
+    // console.log(this.statusUpdate);
     this.updateTodoStatus.preStatus = this.todoDetail.status;
     this.updateTodoStatus.todoId = this.todoDetail.id;
     this.updateTodoStatus.updateUser = this.todoDetail.assignedUser;
@@ -370,27 +370,27 @@ export class ListTodoComponent implements OnInit {
     this.todoDetail.todoHistoryList.push(this.updateTodoStatus);
     this.todoDetail.status = this.statusUpdate;
 
-    console.log(this.updateTodoStatus);
+    // console.log(this.updateTodoStatus);
 
     this.todoService.insertHistory(this.updateTodoStatus).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         this.modalService.dismissAll();
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     );
 
     this.todoService.updateStatus(this.todoDetail).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         this.modalService.dismissAll();
         this.getData();
         window.alert('update status success');
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
         window.alert('update status false');
       }
     );
@@ -403,8 +403,8 @@ export class ListTodoComponent implements OnInit {
 
   openHistory(content: any, element) {
     this.todoHistory = element.todoHistoryList;
-    console.log(element);
-    console.log(this.todoHistory);
+    // console.log(element);
+    // console.log(this.todoHistory);
     this.openModal(content);
   }
 
@@ -420,15 +420,15 @@ export class ListTodoComponent implements OnInit {
     if (this.todoDetail.assignedUser === this.curUserId) {
       this.isEmployeeOfTodo = true;
     }
-    console.log(
-      this.isAdmin +
-      ' ' +
-      this.isEmployeeOfTodo +
-      ' ' +
-      this.isLeader +
-      ' ' +
-      this.curTaskId
-    );
+    // console.log(
+    //   this.isAdmin +
+    //   ' ' +
+    //   this.isEmployeeOfTodo +
+    //   ' ' +
+    //   this.isLeader +
+    //   ' ' +
+    //   this.curTaskId
+    // );
     this.makeUpdateForm();
     this.openModal(content);
   }
@@ -451,15 +451,15 @@ export class ListTodoComponent implements OnInit {
   selectStatus(event) {
     this.select = true;
     this.statusUpdate = event.target.value;
-    console.log(this.statusUpdate);
-    console.log(event.target.value);
+    // console.log(this.statusUpdate);
+    // console.log(event.target.value);
   }
 
   //End - update status for employee
 
   updatePageSize(event) {
     this.thePageSize = event.target.value;
-    console.log(this.thePageSize);
+    // console.log(this.thePageSize);
     this.thePageNumber = 1;
     this.getData();
   }

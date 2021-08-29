@@ -78,7 +78,7 @@ export class ProjectManagementComponent implements OnInit {
 
       this.userService.getUser(this.username).subscribe((data) => {
         this.user = data;
-        console.log(data);
+        // console.log(data);
         this.userId = this.user.id;
         this.getDetailForUser();
       });
@@ -102,33 +102,33 @@ export class ProjectManagementComponent implements OnInit {
     endDate = endDate == null ? '' : endDate;
     if (this.isAdmin) {
       this.projectService.searchProject(name, status, startDate, endDate).subscribe(data => {
-        console.log('datasearch : ', data);
+        // console.log('datasearch : ', data);
         this.projectList = data;
         this.makeData();
       })
     } else {
       this.projectService.searchProjectWithUserId(name, status, startDate, endDate, this.userId).subscribe(data => {
-        console.log('data search: ', data);
+        // console.log('data search: ', data);
         this.projectList = data;
         this.makeData();
       })
     }
 
-    console.log(name, status, startDate, endDate);
+    // console.log(name, status, startDate, endDate);
 
   }
 
   getDetails() {//get all project for admin
     this.projectService.getAllProjects().subscribe(
       (data) => {
-        console.log(data)
+        // console.log(data)
         this.projectList = data;
         this.allProject = this.projectList;
         this.makeData();
-        console.log(this.projectList);
+        // console.log(this.projectList);
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     );
   }
@@ -139,10 +139,10 @@ export class ProjectManagementComponent implements OnInit {
         this.projectList = data;
         this.allProject = this.projectList;
         this.makeData();
-        console.log(this.projectList);
+        // console.log(this.projectList);
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     );
   }
@@ -168,7 +168,7 @@ export class ProjectManagementComponent implements OnInit {
       data.partnerNum = partners.filter(function (item) {
         return !item.delete;
       }).length;
-      console.log(data.partnerNum);
+      // console.log(data.partnerNum);
       data.todoNum = todo;
       if (todo == 0) {
         data.progress = 0;
@@ -206,7 +206,7 @@ export class ProjectManagementComponent implements OnInit {
   saveProject() {
     this.dateCheck = true;
     if (this.formProject.valid) {
-      console.log('click save!!!');
+      // console.log('click save!!!');
       this.newProject.name = this.formProject.value.name;
       this.newProject.des = this.formProject.value.des;
       this.newProject.startDate = this.fomat.fomatDate(
@@ -215,10 +215,10 @@ export class ProjectManagementComponent implements OnInit {
       this.newProject.endDate = this.fomat.fomatDate(this.formProject.value.endDate);
       this.newProject.status = this.formProject.value.status;
 
-      console.log(
-        this.fomat.fomatDate(this.newProject.startDate),
-        this.fomat.fomatDate(this.formProject.value.endDate)
-      );
+      // console.log(
+      //   this.fomat.fomatDate(this.newProject.startDate),
+      //   this.fomat.fomatDate(this.formProject.value.endDate)
+      // );
 
       this.d1 = this.newProject.startDate.toString();
       this.d2 = this.newProject.endDate.toString();
@@ -226,9 +226,9 @@ export class ProjectManagementComponent implements OnInit {
 
         this.projectService.postProject(this.newProject).subscribe((data) => {
           this.project = data;
-          console.log(data);
-          console.log(this.project);
-          console.log(this.user);
+          // console.log(data);
+          // console.log(this.project);
+          // console.log(this.user);
           this.addAmin();
           this.getDetails();
         });
@@ -248,24 +248,24 @@ export class ProjectManagementComponent implements OnInit {
     this.userService.getUser(this.jwtService.getUsername()).subscribe(
       (data) => {
         this.admin = data;
-        console.log(data)
+        // console.log(data)
         this.arrPE.push({
           user: this.admin,
           role: 'admin',
           projectId: this.project.id,
         });
-        console.log(this.arrPE);
+        // console.log(this.arrPE);
         this.projectService.postRole(this.arrPE).subscribe(
           (data) => {
-            console.log(data + 'add success');
+            // console.log(data + 'add success');
           },
           (error) => {
-            console.log(error.error.message);
+            // console.log(error.error.message);
           }
         );
       },
       (error) => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       }
     );
   }

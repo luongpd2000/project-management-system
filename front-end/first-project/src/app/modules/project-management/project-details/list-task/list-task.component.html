@@ -235,7 +235,7 @@
         <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Type<span
             class="text-danger">*</span></label>
         <div class="col-sm-7">
-          <select class="custom-select  mr-sm-2" id="" formControlName='taskType'>
+          <select class="custom-select  mr-sm-2"     formControlName='taskType'>
             <option value="feature">Feature</option>
             <option value="bug">Bug</option>
             <!-- <option value="other">Other</option> -->
@@ -248,7 +248,7 @@
         <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Priority<span
             class="text-danger">*</span></label>
         <div class="col-sm-7">
-          <select class="custom-select  mr-sm-2" id="" formControlName='priority'>
+          <select class="custom-select  mr-sm-2"     formControlName='priority'>
             <option value="high">High</option>
             <option value="normal">Normal</option>
             <option value="low">Low</option>
@@ -271,11 +271,15 @@
           Assign for<span class="text-danger">*</span></label>
 
         <div class="col-md-7">
-          <select class="custom-select mr-sm-2" id="" formControlName='manager'>
-            <option value={{myUserId}}>For Me </option>
-            <!-- <span *ngIf="!isAdmin"> -->
-            <option  *ngFor="let leader of leaderList" value={{leader.id}}>{{leader.fullName}}</option>
-            <!-- </span> -->
+
+          <select class="custom-select mr-sm-2"     formControlName='manager'>
+            <!-- <option value={{myUserId}}>For Me </option>
+            <option *ngFor="let leader of leaderList" value={{leader.id}}>{{leader.fullName}}</option> -->
+
+              <option value={{myUserId}}>For Me</option>
+            <ng-template [ngIf]="isAdmin">
+              <option *ngFor="let leader of leaderList" value={{leader.id}}>{{leader.fullName}}</option>
+              </ng-template>
           </select>
         </div>
       </div>
@@ -283,7 +287,7 @@
         <label class="col-md-3 col-form-label">
           Status<span class="text-danger">*</span></label>
         <div class="col-md-7">
-          <select class="custom-select mr-sm-2" id="" formControlName='status'>
+          <select class="custom-select mr-sm-2"     formControlName='status'>
             <option value="draft" selected>Draft</option>
             <option value="pending">Pending</option>
             <option value="working">Working</option>

@@ -6,5 +6,6 @@ export class Project {
     public startDate!: String;
     public endDate!: String;
     public status: String='';
-    public creater: number=1
+    public creater: number=1;
+    public deleted: boolean;
 }

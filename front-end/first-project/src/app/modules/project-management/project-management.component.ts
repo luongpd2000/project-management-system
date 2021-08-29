@@ -206,7 +206,7 @@ export class ProjectManagementComponent implements OnInit {
   saveProject() {
     this.dateCheck = true;
     if (this.formProject.valid) {
-      // console.log('click save!!!');
+      console.log('click save!!!');
       this.newProject.name = this.formProject.value.name;
       this.newProject.des = this.formProject.value.des;
       this.newProject.startDate = this.fomat.fomatDate(
@@ -214,7 +214,7 @@ export class ProjectManagementComponent implements OnInit {
       );
       this.newProject.endDate = this.fomat.fomatDate(this.formProject.value.endDate);
       this.newProject.status = this.formProject.value.status;
-
+      this.newProject.deleted = false;
       // console.log(
       //   this.fomat.fomatDate(this.newProject.startDate),
       //   this.fomat.fomatDate(this.formProject.value.endDate)
